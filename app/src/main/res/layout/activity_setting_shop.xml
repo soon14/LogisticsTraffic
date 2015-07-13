@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/editpage_bg_color"
+    android:orientation="vertical"
+    tools:context=".activity.SettingShopActivity">
+
+    <include layout="@layout/page_top" />
+
+    <TextView
+        style="@style/tx_black_df_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="公司介绍" />
+
+    <EditText
+        style="@style/edit_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="4" />
+
+    <TextView
+        style="@style/tx_black_df_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="常发线路" />
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:stretchColumns="*">
+
+        <TableRow android:layout_marginTop="5dp">
+
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="始发地" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10px"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/black" />
+
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="目的地" />
+        </TableRow>
+
+        <TableRow android:layout_marginTop="5dp">
+
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="始发地" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10px"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/black" />
+
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="目的地" />
+        </TableRow>
+
+        <TableRow android:layout_marginTop="5dp">
+
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="始发地" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10px"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/black" />
+
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="目的地" />
+        </TableRow>
+
+        <TableRow android:layout_marginTop="5dp">
+
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="始发地" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10px"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/black" />
+
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="目的地" />
+        </TableRow>
+
+        <TableRow android:layout_marginTop="5dp">
+
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="始发地" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10px"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/black" />
+
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="目的地" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        style="@style/tx_black_df_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="企业推广" />
+
+    <EditText
+        style="@style/edit_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="4" />
+
+</LinearLayout>

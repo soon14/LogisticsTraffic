@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/editpage_bg_color"
+    android:orientation="vertical"
+    tools:context=".activity.SettingShareActivity">
+    <!-- 分享设置 -->
+
+    <include layout="@layout/page_top" />
+
+    <Switch
+        style="@style/tx_black_df_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/white"
+        android:padding="5dp"
+        android:text="接收推送" />
+
+    <Switch
+        style="@style/tx_black_df_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/white"
+        android:padding="5dp"
+        android:text="每日精选" />
+
+    <Switch
+        style="@style/tx_black_df_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/white"
+        android:padding="5dp"
+        android:text="门企更新" />
+
+    <Switch
+        style="@style/tx_black_df_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/white"
+        android:padding="5dp"
+        android:text="声音" />
+
+    <Switch
+        style="@style/tx_black_df_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/white"
+        android:padding="5dp"
+        android:text="震动" />
+
+    <TextView
+        style="@style/tx_black_df_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/white"
+        android:padding="5dp"
+        android:text="安静时段" />
+
+</LinearLayout>

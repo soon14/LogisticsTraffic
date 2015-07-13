@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:id="@+id/orderlist_item_ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:stretchColumns="1">
+
+        <TableRow>
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:text="交易定单号" />
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:gravity="right"
+                android:text="2015-06-20-064-253" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:text="戴尔科技" />
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:gravity="right"
+                android:text="包头-北京" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:text="德邦物流" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:text="货运司机" />
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:gravity="right"
+                android:text="18600280340" />
+        </TableRow>
+    </TableLayout>
+
+    <ImageView
+        android:id="@+id/orderlist_item_blankout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignBottom="@id/orderlist_item_ly"
+        android:layout_alignRight="@id/orderlist_item_ly"
+        android:src="@drawable/blankout"/>
+
+</RelativeLayout>

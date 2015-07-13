@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical"
+    tools:context=".activity.LocationActivity">
+
+    <TextView
+        android:id="@+id/location_info"
+        style="@style/title_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="GPS定位城市中..." />
+
+    <Button
+        android:id="@+id/location_city_name_btn"
+        style="@style/button_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:onClick="onClick_OpenCityList"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="选择城市" />
+
+    <!-- <LinearLayout
+         android:id="@+id/location_list_ly"
+         android:layout_width="wrap_content"
+         android:layout_height="match_parent"
+         android:layout_alignParentRight="true"
+         android:orientation="vertical">
+
+     </LinearLayout>-->
+
+  <!--  <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick_JumpToHome"
+        android:text="跳转到主页" />-->
+
+    <LinearLayout
+        android:layout_width="230dp"
+        android:layout_height="280dp"
+        android:layout_centerInParent="true"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@color/main_bg_color" />
+
+        <TextView
+            style="@style/location_info_title_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="包头" />
+
+        <TextView
+            style="@style/location_info_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重工业城市\n矿业货物多\n全市信息部123家\n高速公路：呼包高速" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,2 @@
+include ':app', ':baidusdk'
+include ':cityList'

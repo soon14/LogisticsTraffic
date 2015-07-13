@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
+    android:padding="20dp">
+    <Button
+        android:id="@+id/dialog_call_me_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/home_button_style"
+        android:text="呼叫我的车队"/>
+
+    <Button
+        android:id="@+id/dialog_call_all_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        style="@style/home_button_style"
+        android:text="Call车"/>
+
+</LinearLayout>

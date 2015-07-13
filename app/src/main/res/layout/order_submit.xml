@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_color"
+    android:orientation="vertical"
+    tools:context=".activity.OrderActivity">
+    <!--提交订单-->
+    <include layout="@layout/page_top" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tx_black_df_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收货电话" />
+
+        <EditText
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入收货电话" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tx_black_df_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="货物类型" />
+
+        <TextView
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:hint="请选择货物类型"
+            android:onClick="onClick_ChangeType" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tx_black_df_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重量体积" />
+
+        <TextView
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onClick_ChangeWeight"
+            android:hint="请选择货物重量/体积" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tx_black_df_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="车型" />
+
+        <TextView
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onClick_ChangeTruckType"
+            android:hint="请选择需要的车型" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/tx_black_df_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="车长" />
+
+        <TextView
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onClick_ChangeTruckLength"
+            android:hint="请选择需要的车长" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/order_detail_phone"
+            style="@style/tx_black_df_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:hint="货运司机电话"
+            android:padding="5dp" />
+
+        <Button
+            style="@style/tx_black_df_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:drawableLeft="@drawable/location_icon"
+            android:onClick="onClick_gotoMap"
+            android:text="定位" />
+    </LinearLayout>
+
+    <Button
+        style="@style/orange_btn_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginTop="30dp"
+        android:onClick="onClick_OrderSubmit"
+        android:text="提交完成" />
+
+
+</LinearLayout>

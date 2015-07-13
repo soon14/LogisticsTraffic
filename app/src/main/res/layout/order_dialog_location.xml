@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/orange_tx_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="选择城市" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3px"
+        android:background="@color/main_bg_color" />
+
+    <TableLayout
+        android:id="@+id/order_dialog_location_ly"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:gravity="center_horizontal">
+
+        <TableRow android:gravity="center_horizontal">
+
+            <TextView
+                style="@style/orange_tx_style"
+                android:layout_marginEnd="10dp"
+                android:text="省/直辖市" />
+
+            <TextView
+                style="@style/orange_tx_style"
+                android:layout_marginStart="10dp"
+                android:text="市/区" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal">
+
+            <TextView
+                style="@style/black_tx_18_style"
+                android:text="北京市" />
+
+            <TextView
+                style="@style/black_tx_18_style"
+                android:background="@color/mask_black"
+                android:text="呼和浩特" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal">
+
+            <TextView
+                style="@style/black_tx_18_style"
+                android:text="上海市" />
+
+            <TextView
+                style="@style/black_tx_18_style"
+                android:background="@color/mask_black"
+                android:text="赤峰" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal">
+
+            <TextView
+                style="@style/black_tx_18_style"
+                android:background="@color/mask_black"
+                android:text="内蒙古" />
+
+            <TextView
+                style="@style/black_tx_18_style"
+                android:background="@color/mask_black"
+                android:text="包头" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

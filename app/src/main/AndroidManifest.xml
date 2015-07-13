@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bt.zhangzy.logisticstraffic">
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="15" />
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--<uses-permission android:name="android.permission.RESTART_PACKAGES"/>-->
+
+    <application
+        android:name=".app.LogisticsTrafficApplication"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activity.WelcomeActivity" />
+        <activity android:name=".activity.LocationActivity" />
+        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.LogoActivity" />
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.DetailCompany" />
+        <activity android:name=".activity.FleetActivity" />
+        <activity android:name=".activity.SettingShareActivity" />
+        <activity android:name=".activity.SettingShopActivity" />
+        <activity android:name=".activity.OrderListActivity" />
+        <activity android:name=".activity.OrderDetailActivity" />
+        <activity android:name=".activity.HistoryActivity" />
+        <activity android:name=".activity.DetailPhotoActivity" />
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.CollectActivity" />
+        <activity android:name=".activity.EvaluationActivity" />
+        <activity android:name=".activity.EvaluationListActivity" />
+        <activity android:name=".activity.PictureActivity"/>
+        <activity android:name=".activity.OrderActivity"/>
+        <activity android:name=".activity.LocationListActivity"/>
+
+        <activity android:name="com.city.list.main.CityList" />
+
+
+    </application>
+
+</manifest>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.RegisterActivity"
+    android:background="@color/main_bg_color">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/title_style"
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所在城市"
+            android:layout_margin="5dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            style="@style/home_button_style"
+            android:id="@+id/editText"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="包头" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/user_bg"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/title_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="注册类型"
+        android:layout_margin="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/button"
+        style="@style/register_button_style"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:onClick="onClick_RegisterCompany"
+        android:text="企      业" />
+
+    <Button
+        android:id="@+id/button2"
+        style="@style/register_button_style"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:onClick="onClick_RegisterDepartment"
+        android:layout_gravity="center_horizontal"
+        android:text="物流门企" />
+</LinearLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tab_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/tx_black_df_style"
+        android:layout_margin="5dp"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:textColor="@color/tab_color_selector"
+        android:textSize="12sp"
+        android:text="tab1"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="4px"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/tab_color_baseline_selector"/>
+
+</LinearLayout>

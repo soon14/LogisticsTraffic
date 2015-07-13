@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="afterDescendants"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/home_list_item_ly"
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+
+            android:id="@+id/home_list_item_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/fake_1" />
+
+        <ImageButton
+            android:id="@+id/home_list_item_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/transparent"
+            android:padding="10dp"
+            android:src="@drawable/phone_icon" />
+
+        <TextView
+            style="@style/tx_gray_12sp_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:text="580" />
+
+        <View
+            android:layout_width="3px"
+            android:layout_height="150px"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/home_list_item_phone"
+            android:background="@color/main_bg_color" />
+
+        <TextView
+            style="@style/tx_gray_12sp_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/home_list_item_phone"
+            android:text="已被浏览：1850次" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_toLeftOf="@id/home_list_item_phone"
+            android:layout_toRightOf="@id/home_list_item_img"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/home_list_item_tx"
+                    style="@style/tx_black_df_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="10"
+                    android:text="德邦物流"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/vip_icon" />
+
+                <RatingBar
+                    style="@style/RatingBar_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:numStars="5"
+                    android:rating="3.5" />
+            </LinearLayout>
+
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="10"
+                android:text="包头--呼和浩特"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>

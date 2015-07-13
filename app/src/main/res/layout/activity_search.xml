@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.SearchActivity">
+
+    <include layout="@layout/page_top" />
+
+    <LinearLayout
+        android:id="@+id/search_type_ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f3a670"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+        <Button
+            android:id="@+id/search_keyword_btn"
+            style="@style/orange_btn_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick_ChangeType"
+            android:text="关键词搜索" />
+
+        <Button
+            android:id="@+id/search_line_btn"
+            style="@style/orange_btn_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick_ChangeType"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="线路搜索" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f3a670"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:id="@+id/search_type_keyword_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/search_keyword_ed"
+                style="@style/edit_style"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:hint="请输入关键字" />
+
+            <Button
+                android:id="@+id/search_keyword_search_btn"
+                style="@style/home_button_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:onClick="onClick_Search"
+                android:text="搜索" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/search_type_line_ly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible">
+
+
+            <EditText
+                android:id="@+id/search_start_ed"
+                style="@style/edit_style"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:hint="出发城市 " />
+
+            <EditText
+                android:id="@+id/search_end_ed"
+                style="@style/edit_style"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/search_start_ed"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:hint="出发城市 " />
+
+            <Button
+                style="@style/home_button_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/search_start_ed"
+                android:onClick="onClick_Search"
+                android:text="搜索\n线路" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/search_start_ed"
+                android:background="@color/transparent"
+                android:src="@drawable/change_icon" />
+
+        </RelativeLayout>
+    </FrameLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*">
+
+        <TableRow android:gravity="center">
+
+            <Button
+                android:onClick="onClick_Shop"
+                android:text="店铺一" />
+
+            <Button
+                android:onClick="onClick_Shop"
+                android:text="店铺二" />
+
+            <Button
+                android:onClick="onClick_Shop"
+                android:text="店铺三" />
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:onClick="onClick_Shop"
+                android:text="店铺四" />
+
+            <Button
+                android:onClick="onClick_Shop"
+                android:text="店铺五" />
+
+            <Button
+                android:onClick="onClick_Shop"
+                android:text="店铺六" />
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:onClick="onClick_Shop"
+                android:text="店铺七" />
+
+            <Button
+                android:onClick="onClick_Shop"
+                android:text="店铺八" />
+
+            <Button
+                android:onClick="onClick_Shop"
+                android:text="店铺九" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <ListView
+        android:id="@+id/search_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+    </ListView>
+
+</LinearLayout>

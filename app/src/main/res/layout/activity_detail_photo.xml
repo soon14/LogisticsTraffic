@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/page_top" />
+
+    <EditText
+        style="@style/edit_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:hint="门企地址" />
+
+    <EditText
+        style="@style/edit_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="联系电话" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/home_bottom_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="营业执照" />
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="拍照上传" />
+
+            <TextView
+                style="@style/home_bottom_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="门头照片" />
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="拍照上传" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/home_bottom_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="税务登记证" />
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="拍照上传" />
+
+            <TextView
+                style="@style/home_bottom_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="法人身份证正面照片" />
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="拍照上传" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        style="@style/home_bottom_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:onClick="onClick_Submit"
+        android:text="验证/审核" />
+
+</LinearLayout>

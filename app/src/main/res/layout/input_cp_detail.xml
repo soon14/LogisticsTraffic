@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="详细信息"
+        android:id="@+id/textView16" />
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText11"
+                android:layout_column="0"
+                android:layout_span="2"
+                android:hint="企业名称"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="法人"
+                />
+            <TableLayout>
+                <TableRow>
+                    <EditText
+                        android:hint="联系电话"/>
+                </TableRow>
+                <TableRow>
+                    <EditText
+                        android:hint="座机"/>
+                </TableRow>
+
+            </TableLayout>
+        </TableRow>
+    </TableLayout>
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+        <TableRow>
+            <Button
+                android:text="法人照片\n拍照/上传"/>
+            <Button
+                android:text="法人身份证\n拍照/上传"/>
+        </TableRow>
+        <TableRow>
+            <Button
+                android:text="营业执照\n拍照/上传"/>
+            <Button
+                android:text="门头照片\n拍照/上传"/>
+        </TableRow>
+    </TableLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="银行卡信息"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="验证/审核"/>
+</LinearLayout>
