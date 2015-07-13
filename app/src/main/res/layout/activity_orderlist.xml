@@ -10,8 +10,14 @@
     <include
         layout="@layout/page_top"/>
 
+    <TabWidget
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TabHost
+    </TabWidget>
+
+
+    <!--<TabHost
         android:id="@+id/orderlist_tabHost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,68 +71,7 @@
                 </ListView>
             </FrameLayout>
         </LinearLayout>
-    </TabHost>
+    </TabHost>-->
 
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp">
 
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="进行中订单" />
-
-        <View
-            android:layout_width="2px"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp"
-            android:background="@color/black" />
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="已提交订单" />
-
-        <View
-            android:layout_width="2px"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp"
-            android:background="@color/black" />
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="已完成订单" />
-
-        <View
-            android:layout_width="2px"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp"
-            android:background="@color/black" />
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="作废订单" />
-
-    </LinearLayout>-->
 </LinearLayout>
