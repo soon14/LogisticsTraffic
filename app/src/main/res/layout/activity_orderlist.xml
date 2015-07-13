@@ -7,17 +7,43 @@
     android:orientation="vertical"
     tools:context=".activity.OrderListActivity">
 
-    <include
-        layout="@layout/page_top"/>
+    <include layout="@layout/page_top" />
 
-    <TabWidget
+    <!--<TabWidget
+        android:id="@android:id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <Button
+            style="@style/while_orange_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="未确认" />
+
+        <Button
+            style="@style/while_orange_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="交易中" />
+
+        <Button
+            style="@style/while_orange_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="已完成" />
     </TabWidget>
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/orderlist_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!--<TabHost
+    </android.support.v4.view.ViewPager>-->
+
+    <TabHost
         android:id="@+id/orderlist_tabHost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,16 +88,9 @@
 
                 </ListView>
 
-
-                <ListView
-                    android:id="@+id/orderlist_tab_list4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </ListView>
             </FrameLayout>
         </LinearLayout>
-    </TabHost>-->
+    </TabHost>
 
 
 </LinearLayout>
