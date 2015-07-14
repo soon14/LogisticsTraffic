@@ -2,6 +2,8 @@ package com.bt.zhangzy.logisticstraffic.app;
 
 import android.app.AlertDialog;
 import android.app.Application;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -22,6 +25,8 @@ import com.bt.zhangzy.logisticstraffic.adapter.LocationListAdapter;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.zhangzy.baidusdk.BaiduSDK;
+
+import java.util.Calendar;
 
 /**
  * Created by ZhangZy on 2015/6/10.
@@ -178,6 +183,33 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
         } else {
             ContextTools.CallPhone(currentAct, phoneNumber);
         }
+    }
+
+
+    /**
+     * 显示 设置日期 对话框
+     *
+     * @param listener
+     */
+    public final void showDataPickerDialog(DatePickerDialog.OnDateSetListener listener) {
+        Calendar calendar = Calendar.getInstance();
+        // 直接创建一个DatePickerDialog对话框实例，并将它显示出来
+        new DatePickerDialog(currentAct,
+                // 绑定监听器
+                listener
+                // 设置初始日期
+                , calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar
+                .get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    /**
+     * 显示 设置时间 对话框
+     *
+     * @param callback
+     */
+    public final void showTimeDialog(TimePickerDialog.OnTimeSetListener callback) {
+        Calendar calendar = Calendar.getInstance();
+        new TimePickerDialog(currentAct, callback, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
     }
 
     public interface LocationCallback {
