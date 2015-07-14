@@ -1,7 +1,9 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +13,8 @@ import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.app.Constant;
+import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 
@@ -31,19 +35,19 @@ public class OrderDetailActivity extends BaseActivity {
 
         setContentView(R.layout.activity_order_detail);
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null && bundle.containsKey("type")){
+        if (bundle != null && bundle.containsKey("type")) {
             int type = bundle.getInt("type");
-            if(type == 1){
+            if (type == 1) {
                 currentMode = MODE_FINISH;
             }
-        }else {
-            if(User.getInstance().getUserType() == Type.DriverType){
+        } else {
+            if (User.getInstance().getUserType() == Type.DriverType) {
                 currentMode = MODE_DEVICES;
                 Toast.makeText(this, "司机模式", Toast.LENGTH_LONG).show();
-            }else if(User.getInstance().getUserType() == Type.EnterpriseType){
+            } else if (User.getInstance().getUserType() == Type.EnterpriseType) {
                 currentMode = MODE_CP;
                 Toast.makeText(this, "企业模式", Toast.LENGTH_LONG).show();
-            }else if(User.getInstance().getUserType() == Type.InformationType){
+            } else if (User.getInstance().getUserType() == Type.InformationType) {
                 currentMode = MODE_DP;
                 Toast.makeText(this, "信息部模式", Toast.LENGTH_LONG).show();
             }
@@ -51,6 +55,24 @@ public class OrderDetailActivity extends BaseActivity {
         }
 
         initView();
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == Constant.RESULT_CODE_SELECT_DEVICES) {
+            //车队选择返回
+            if (getIntent() != null) {
+                People people = data.getParcelableExtra(Constant.RESULT_CODE_KEY);
+                Log.d(TAG, ">>>>>>>>>>>>>>>>" + people.getPhoneNumber() + "," + people.getName());
+//                Toast.makeText(this,people.getPhoneNumber(),Toast.LENGTH_SHORT).show();
+                EditText edit = (EditText) findViewById(R.id.order_detail_phone);
+                edit.setText(people.getPhoneNumber());
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
 
     }
 
@@ -62,7 +84,7 @@ public class OrderDetailActivity extends BaseActivity {
         EditText editText;
         Button button;
         switch (currentMode) {
-            case MODE_CP:
+            case MODE_CP://企业模式
                 findViewById(R.id.order_detail_no).setVisibility(View.GONE);
                 button = (Button) findViewById(R.id.order_detail_yes);
                 button.setText("下单");
@@ -82,7 +104,7 @@ public class OrderDetailActivity extends BaseActivity {
                     }
                 }
                 break;
-            case MODE_DP:
+            case MODE_DP://信息部模式
                 findViewById(R.id.order_detail_no).setVisibility(View.GONE);
                 button = (Button) findViewById(R.id.order_detail_yes);
                 button.setText("提交订单");
@@ -92,8 +114,19 @@ public class OrderDetailActivity extends BaseActivity {
                         showChooseCallDialog();
                     }
                 });
+                button = (Button) findViewById(R.id.order_detail_phone_btn);
+                button.setText("车队");
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        startActivity(FleetActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(Constant.RESULT_CODE_KEY, Constant.RESULT_CODE_SELECT_DEVICES);
+                        startActivityForResult(FleetActivity.class, bundle, Constant.RESULT_CODE_SELECT_DEVICES);
+                    }
+                });
                 break;
-            case MODE_DEVICES:
+            case MODE_DEVICES://司机
                 findViewById(R.id.order_detail_no).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_yes).setVisibility(View.GONE);
                 for (int id : edit_ids) {
@@ -115,15 +148,15 @@ public class OrderDetailActivity extends BaseActivity {
 //        new AlertDialog.Builder(this).setNegativeButton("呼叫车队",null)
 //                .setPositiveButton("Call车",null).show();
 
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_call,null);
-        final AlertDialog dialog =  new AlertDialog.Builder(this).setView(view).create();
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_call, null);
+        final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).create();
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.cancel();
-                if(v.getId() == R.id.dialog_call_me_btn){
+                if (v.getId() == R.id.dialog_call_me_btn) {
                     gotoFleet();
-                }else{
+                } else {
                     finish();
                 }
             }

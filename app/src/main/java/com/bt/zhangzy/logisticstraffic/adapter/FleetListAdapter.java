@@ -21,6 +21,13 @@ public class FleetListAdapter extends BaseAdapter {
 
     private ArrayList<People> list = new ArrayList<People>();
     private DelBtnListener delBtnListener;
+    boolean isSelect;
+
+    public FleetListAdapter(boolean isSelect){
+        this.isSelect = isSelect;
+    }
+
+
 
     public ArrayList<People> getList() {
         return list;
@@ -72,7 +79,11 @@ public class FleetListAdapter extends BaseAdapter {
             holder.name = (TextView) convertView.findViewById(R.id.fleet_it_name_tx);
             holder.phone = (TextView) convertView.findViewById(R.id.fleet_it_phone_tx);
             holder.del = (ImageButton) convertView.findViewById(R.id.fleet_it_del_btn);
-            holder.del.setOnClickListener(holder);
+            if(isSelect){
+                holder.del.setVisibility(View.GONE);
+            }else {
+                holder.del.setOnClickListener(holder);
+            }
             convertView.setTag(holder);
         } else if (convertView.getTag() != null) {
             holder = (Holder) convertView.getTag();

@@ -69,6 +69,23 @@ public class BaseActivity extends FragmentActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
+    /**
+     *跳转封装
+     * @param cls 跳转目标
+     * @param bundle 请求参数
+     * @param requestCode  请求码
+     */
+    public void startActivityForResult(Class<?> cls, Bundle bundle, int requestCode){
+        Intent intent = new Intent(this, cls);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivityForResult(intent,requestCode);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+
     public void finish() {
         super.finish();
 //        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
