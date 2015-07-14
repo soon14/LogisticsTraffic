@@ -137,6 +137,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/send_icon"
                 android:drawablePadding="5dp"
+                android:onClick="onClick_SendFriend"
                 android:drawableRight="@drawable/right_icon"
                 android:text="推荐给好友" />
 

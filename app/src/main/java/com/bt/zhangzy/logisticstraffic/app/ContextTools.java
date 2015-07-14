@@ -5,11 +5,14 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AppOpsManager;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
+import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.util.Log;
 
@@ -69,6 +72,59 @@ public class ContextTools {
 
 
     /**
+     * 显示手机通讯录
+     *
+     * @param act
+     * @param requestCode
+     */
+    public static void showContacts(Activity act, int requestCode) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_PICK);
+        intent.setData(ContactsContract.Contacts.CONTENT_URI);
+        act.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 用于从手机通讯录返回数据处理  配合跳转使用
+     * @param act
+     * @param data
+     * @return
+     */
+    public static  String[] OnActivityRsultForContacts(Activity act, Intent data) {
+        Uri uri = data.getData();
+        String[] contact = new String[2];
+        //得到ContentResolver对象
+        ContentResolver cr = act.getContentResolver();
+        //取得电话本中开始一项的光标
+        Cursor cursor = cr.query(uri, null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            //取得联系人名字
+            int nameFieldColumnIndex = cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME);
+            contact[0] = cursor.getString(nameFieldColumnIndex);
+
+            //取得电话号码
+            String ContactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+            Cursor phone = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + ContactId, null, null);
+
+            if (phone != null) {
+                phone.moveToFirst();
+                contact[1] = phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+            }
+
+            phone.close();
+            cursor.close();
+        } else {
+            Log.w(TAG, "get Contacts is fail");
+        }
+
+        return contact;
+    }
+
+
+    /**
      * 使用系统的图片浏览器
      */
     public static void OpenPicture(Activity context, Uri uri) {
@@ -87,6 +143,30 @@ public class ContextTools {
         List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
         ComponentName componentName = taskInfo.get(0).topActivity;
         return componentName;
+    }
+
+
+  /*  public void sendMessage(String content){
+        //直接调用短信接口发短信
+        SmsManager smsManager = SmsManager.getDefault();
+        List<String> divideContents = smsManager.divideMessage(content);
+        for (String text : divideContents) {
+            smsManager.sendTextMessage("150xxxxxxxx", null, text, sentPI, deliverPI);
+        }
+    }*/
+
+    /**
+     * 显示发送短信界面
+     *
+     * @param act
+     * @param phoneNum
+     * @param msg
+     */
+    public void showMsg(Activity act, String phoneNum, String msg) {
+        Uri uri = Uri.parse("smsto:" + phoneNum);
+        Intent it = new Intent(Intent.ACTION_SENDTO, uri);
+        it.putExtra("sms_body", msg);
+        act.startActivity(it);
     }
 
     /**

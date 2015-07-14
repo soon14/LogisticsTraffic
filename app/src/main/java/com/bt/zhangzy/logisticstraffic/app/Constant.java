@@ -12,4 +12,10 @@ public final class Constant {
      * 订单页面选择车队司机时的请求码
      */
     public static final int RESULT_CODE_SELECT_DEVICES = 0x001;//订单页面选择车队司机时的请求码
+
+    /**
+     * 跳转到通讯录时的请求码
+     */
+    public static final int REQUEST_CODE_CONTACT = 0x010;//跳转到通讯录时的请求码
+    public static final String REQUEST_BUNDLE_CONTACT_KEY = "REQUEST_BUNDLE_CONTACT_KEY";
 }
