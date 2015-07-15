@@ -13,6 +13,7 @@ import com.bt.zhangzy.logisticstraffic.adapter.OrderListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 
 /**
+ * TODO: 滑动切换功能
  * Created by ZhangZy on 2015/6/19.
  */
 public class OrderListActivity extends BaseActivity {

@@ -83,6 +83,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <!-- todo 键盘遮挡问题-->
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

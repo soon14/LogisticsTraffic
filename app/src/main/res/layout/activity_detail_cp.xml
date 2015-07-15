@@ -83,6 +83,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
         android:layout_marginLeft="10dp"
         android:orientation="horizontal">
 
@@ -170,6 +172,7 @@
             android:text="距离1.5km" />
     </RelativeLayout>
 
+    <!-- TODO 表格换成黑色 需要美术设计 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

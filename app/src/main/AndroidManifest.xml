@@ -31,7 +31,8 @@
 
         <activity android:name=".activity.WelcomeActivity" />
         <activity android:name=".activity.LocationActivity" />
-        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.HomeActivity"
+            />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.LogoActivity" />
         <activity android:name=".activity.LoginActivity" />

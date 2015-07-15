@@ -57,6 +57,14 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //避免弹出的键盘遮挡输入框的问题
+        //这样会让屏幕整体上移。如果加上的 是 android:windowSoftInputMode="adjustPan"这样键盘就会覆盖屏幕。
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        /*关于android:windowSoftInputMode
+    　　activity主窗口与软键盘的交互模式，可以用来避免输入法面板遮挡问题，Android1.5后的一个新特性。
+    　　这个属性能影响两件事情：
+　　　　【一】当有焦点产生时，软键盘是隐藏还是显示
+　　　　【二】是否减少活动主窗口大小以便腾出空间放软键盘*/
 
         setContentView(R.layout.activity_home);
 
@@ -118,6 +126,7 @@ public class HomeActivity extends BaseActivity {
      * 浮窗 创建
      */
     private void createView() {
+        //TODO 浮窗音效 小汽车下单加入音效
         if (!User.getInstance().getLogin() || User.getInstance().getUserType() != Type.InformationType) {
             Log.i(Tag, "用户 不符合浮窗创建条件");
             floatView = null;
@@ -345,6 +354,7 @@ public class HomeActivity extends BaseActivity {
 
     /**
      * 推荐给好友
+     *
      * @param view
      */
     public void onClick_SendFriend(View view) {
@@ -353,9 +363,9 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == Constant.REQUEST_CODE_CONTACT){
-            String[] str = ContextTools.OnActivityRsultForContacts(this,data);
-            if(!TextUtils.isEmpty(str[1])) {
+        if (requestCode == Constant.REQUEST_CODE_CONTACT) {
+            String[] str = ContextTools.OnActivityRsultForContacts(this, data);
+            if (!TextUtils.isEmpty(str[1])) {
                 //给拿到的电话发送短信
                 ContextTools.SendSMS(this, str[1], "测试短信：推荐内容   快来使用易运通吧！！");
             }
