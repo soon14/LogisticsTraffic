@@ -3,13 +3,17 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.app.ContextTools;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 
@@ -25,7 +29,9 @@ public class SearchActivity extends BaseActivity {
     private View keywordBtn;
     private View lineTypeLy;
     private View keywordTypeLy;
+    private View shopListLy;
     private ListView listView;
+    private AutoCompleteTextView searchKeyWord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,11 @@ public class SearchActivity extends BaseActivity {
             lineTypeLy = findViewById(R.id.search_type_line_ly);
         if (keywordTypeLy == null)
             keywordTypeLy = findViewById(R.id.search_type_keyword_ly);
+        if (shopListLy == null)
+            shopListLy = findViewById(R.id.search_shop_ly);
+        shopListLy.setVisibility(View.VISIBLE);
+        if (searchKeyWord == null)
+            searchKeyWord = (AutoCompleteTextView) keywordTypeLy.findViewById(R.id.search_keyword_ed);
 
         if (isKeyWord) {
             //关键词搜索模式
@@ -66,6 +77,32 @@ public class SearchActivity extends BaseActivity {
             keywordBtn.setSelected(true);
             lineTypeLy.setVisibility(View.INVISIBLE);
             keywordTypeLy.setVisibility(View.VISIBLE);
+
+           /* if (searchKeyWord.getAdapter() == null)*/
+            {
+                //android.R.layout.simple_dropdown_item_1line
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.autocomplete_adapter_item, User.getInstance().getSearchKeyWordList());
+                searchKeyWord.setAdapter(adapter);
+                searchKeyWord.setDropDownBackgroundResource(R.color.white);
+                searchKeyWord.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        AutoCompleteTextView view = (AutoCompleteTextView) v;
+                        if (hasFocus) {
+                            view.showDropDown();
+                        }
+                    }
+                });
+                searchKeyWord.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        AutoCompleteTextView view = (AutoCompleteTextView) v;
+                        view.showDropDown();
+                        return false;
+                    }
+                });
+            }
+
         } else {
             //线路模式
             lineBtn.setSelected(true);
@@ -86,8 +123,13 @@ public class SearchActivity extends BaseActivity {
 
     //点击了搜索按钮
     public void onClick_Search(View view) {
+        if (shopListLy != null)
+            shopListLy.setVisibility(View.GONE);
+        ContextTools.HideKeyboard(searchKeyWord);
         if (isKeyWordType) {
-
+            searchKeyWord.clearFocus();
+            String keyWord = searchKeyWord.getText().toString();
+            User.getInstance().addSearchKeyWord(keyWord);
         } else {
 
         }
@@ -96,6 +138,7 @@ public class SearchActivity extends BaseActivity {
             listView = (ListView) findViewById(R.id.search_listView);
         HomeListAdapter adapter = new HomeListAdapter();
         listView.setAdapter(adapter);
+        listView.requestFocus();
 
     }
 

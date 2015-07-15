@@ -1,5 +1,7 @@
 package com.bt.zhangzy.logisticstraffic.data;
 
+import android.text.TextUtils;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 public class User {
 
     private static User instance = new User();
+
     public static User getInstance() {
         return instance;
     }
@@ -19,10 +22,18 @@ public class User {
     private String phoneNum;
     private String address;
     private Location location;//保存用户的定位信息
-    /**司机列表*/
+    /**
+     * 司机列表
+     */
     private ArrayList<People> driverList;
-    /** 浏览历史 */
+    /**
+     * 浏览历史
+     */
     private ArrayList<Product> historyList = new ArrayList<Product>();
+    /**
+     * 搜索关键字历史
+     */
+    private ArrayList<String> searchKeyWordList = new ArrayList<String>();
 
     private User() {
         //test data
@@ -33,8 +44,28 @@ public class User {
         driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
         driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
 
+        searchKeyWordList.add("测试测试");
+        searchKeyWordList.add("测试1");
+
     }
 
+
+    public ArrayList<String> getSearchKeyWordList() {
+        return searchKeyWordList;
+    }
+
+    /**
+     * 添加搜索记录
+     * @param keyStr
+     */
+    public void addSearchKeyWord(String keyStr) {
+        if (TextUtils.isEmpty(keyStr))
+            return;
+        searchKeyWordList.add(keyStr);
+        if (searchKeyWordList.size() > 5) {
+            searchKeyWordList.remove(0);
+        }
+    }
 
     public Location getLocation() {
         return location;

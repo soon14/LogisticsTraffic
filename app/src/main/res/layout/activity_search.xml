@@ -49,7 +49,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/search_keyword_ed"
                 style="@style/edit_style"
                 android:layout_width="150dp"
@@ -110,14 +110,15 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@id/search_start_ed"
-                android:onClick="onClick_SWOP"
                 android:background="@color/transparent"
+                android:onClick="onClick_SWOP"
                 android:src="@drawable/change_icon" />
 
         </RelativeLayout>
     </FrameLayout>
 
     <TableLayout
+        android:id="@+id/search_shop_ly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:stretchColumns="*">
