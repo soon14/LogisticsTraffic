@@ -10,9 +10,11 @@ import android.widget.ListView;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 
 /**
+ * TODO 1、搜索记录弹窗；2、点击搜索按钮后隐藏推荐店铺
  * Created by ZhangZy on 2015/6/16.
  */
 public class SearchActivity extends BaseActivity {
@@ -71,10 +73,13 @@ public class SearchActivity extends BaseActivity {
             lineTypeLy.setVisibility(View.VISIBLE);
             keywordTypeLy.setVisibility(View.INVISIBLE);
 
-            String cityName = User.getInstance().getLocation().getCityName();
-            if (!TextUtils.isEmpty(cityName)) {
-                EditText ed = (EditText) lineTypeLy.findViewById(R.id.search_start_ed);
-                ed.setText(cityName);
+            Location location = User.getInstance().getLocation();
+            if (location != null) {
+                String cityName = location.getCityName();
+                if (!TextUtils.isEmpty(cityName)) {
+                    EditText ed = (EditText) lineTypeLy.findViewById(R.id.search_start_ed);
+                    ed.setText(cityName);
+                }
             }
         }
     }
