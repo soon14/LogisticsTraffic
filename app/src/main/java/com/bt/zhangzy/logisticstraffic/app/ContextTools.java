@@ -3,20 +3,19 @@ package com.bt.zhangzy.logisticstraffic.app;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.AppOpsManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Binder;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -25,6 +24,26 @@ import java.util.List;
 public class ContextTools {
 
     private static final String TAG = ContextTools.class.getSimpleName();
+
+    /**
+     * 隐藏输入法键盘
+     *
+     * @param v 任意界面中的view
+     */
+    //隐藏虚拟键盘
+    public static void HideKeyboard(View v) {
+        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive()) {
+            imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+        }
+    }
+
+    //显示虚拟键盘
+    public static void ShowKeyboard(View v) {
+        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(v, InputMethodManager.SHOW_FORCED);
+
+    }
 
     /**
      * 打电话
@@ -86,11 +105,12 @@ public class ContextTools {
 
     /**
      * 用于从手机通讯录返回数据处理  配合跳转使用
+     *
      * @param act
      * @param data
      * @return
      */
-    public static  String[] OnActivityRsultForContacts(Activity act, Intent data) {
+    public static String[] OnActivityRsultForContacts(Activity act, Intent data) {
         Uri uri = data.getData();
         String[] contact = new String[2];
         //得到ContentResolver对象
