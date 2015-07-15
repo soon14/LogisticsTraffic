@@ -85,7 +85,7 @@
                     android:src="@drawable/vip_icon" />
 
                 <RatingBar
-                    style="@style/RatingBar_style"
+                    style="@style/RatingBar_small_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

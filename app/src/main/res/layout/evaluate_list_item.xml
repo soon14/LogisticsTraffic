@@ -31,7 +31,7 @@
             android:text="小李子" />
 
         <RatingBar
-            style="@style/RatingBar_style"
+            style="@style/RatingBar_small_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -40,6 +40,7 @@
         <TextView
             android:layout_marginLeft="10dp"
             android:text="2015.07.07"
+            android:textColor="@color/mask_black"
             android:textSize="11sp" />
     </TableRow>
 
