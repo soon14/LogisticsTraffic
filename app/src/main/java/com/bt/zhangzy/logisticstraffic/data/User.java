@@ -9,6 +9,20 @@ import java.util.ArrayList;
 public class User {
 
     private static User instance = new User();
+    public static User getInstance() {
+        return instance;
+    }
+
+    private boolean isLogin = false;
+    private Type userType = Type.EmptyType;
+    private String userName;
+    private String phoneNum;
+    private String address;
+    private Location location;//保存用户的定位信息
+    /**司机列表*/
+    private ArrayList<People> driverList;
+    /** 浏览历史 */
+    private ArrayList<Product> historyList = new ArrayList<Product>();
 
     private User() {
         //test data
@@ -21,19 +35,14 @@ public class User {
 
     }
 
-    public static User getInstance() {
-        return instance;
+
+    public Location getLocation() {
+        return location;
     }
 
-    private boolean isLogin = false;
-    private Type userType = Type.EmptyType;
-    private String userName;
-    private String phoneNum;
-    private String address;
-    /**司机列表*/
-    private ArrayList<People> driverList;
-    /** 浏览历史 */
-    private ArrayList<Product> historyList = new ArrayList<Product>();
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
     public ArrayList<People> getDriverList() {
         return driverList;

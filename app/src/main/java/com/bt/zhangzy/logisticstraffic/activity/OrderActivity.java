@@ -20,8 +20,9 @@ public class OrderActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (User.getInstance().getLogin()) {
-            startActivity(RegisterActivity.class);
+        if (!User.getInstance().getLogin()) {
+            //用户未登陆时自动跳转到登陆页面
+            startActivity(LoginActivity.class);
             finish();
             return;
         }

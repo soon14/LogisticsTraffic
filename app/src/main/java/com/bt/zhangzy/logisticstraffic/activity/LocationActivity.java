@@ -10,6 +10,7 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.app.LogisticsTrafficApplication;
+import com.bt.zhangzy.logisticstraffic.data.User;
 
 /**
  * Created by ZhangZy on 2015/6/12.
@@ -30,11 +31,13 @@ public class LocationActivity extends BaseActivity {
         getApp().requestLocation(new LogisticsTrafficApplication.LocationCallback() {
             @Override
             public void networkLocation(Location location) {
+                User.getInstance().setLocation(location);
                 setCityName(location.getCityName());
             }
 
             @Override
             public void chooseLocation(Location location) {
+                User.getInstance().setLocation(location);
                 setCityName(location.getCityName());
             }
         });

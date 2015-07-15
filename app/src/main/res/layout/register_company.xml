@@ -84,6 +84,8 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:text="已阅读并同意法律申明"
         android:textSize="11sp"/>
 

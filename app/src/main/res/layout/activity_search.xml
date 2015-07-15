@@ -91,7 +91,7 @@
                 android:layout_below="@id/search_start_ed"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:hint="出发城市 " />
+                android:hint="到达城市 " />
 
             <Button
                 style="@style/home_button_style"
@@ -104,11 +104,13 @@
                 android:text="搜索\n线路" />
 
             <ImageButton
+                android:id="@+id/search_swop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@id/search_start_ed"
+                android:onClick="onClick_SWOP"
                 android:background="@color/transparent"
                 android:src="@drawable/change_icon" />
 

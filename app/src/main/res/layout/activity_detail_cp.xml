@@ -90,6 +90,7 @@
             style="@style/tx_black_df_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="联邦物流" />
 
         <RatingBar
@@ -146,7 +147,7 @@
         android:id="@+id/detail_cp_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:background="@color/white"
         android:onClick="onClick_gotoMap">
 
@@ -172,7 +173,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingBottom="5dp">

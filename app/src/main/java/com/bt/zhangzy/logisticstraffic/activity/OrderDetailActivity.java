@@ -63,12 +63,14 @@ public class OrderDetailActivity extends BaseActivity {
 
         if (requestCode == Constant.RESULT_CODE_SELECT_DEVICES) {
             //车队选择返回
-            if (getIntent() != null) {
+            if (data != null) {
                 People people = data.getParcelableExtra(Constant.RESULT_CODE_KEY);
-                Log.d(TAG, ">>>>>>>>>>>>>>>>" + people.getPhoneNumber() + "," + people.getName());
+                if (people != null) {
+                    Log.d(TAG, ">>>>>>>>>>>>>>>>" + people.getPhoneNumber() + "," + people.getName());
 //                Toast.makeText(this,people.getPhoneNumber(),Toast.LENGTH_SHORT).show();
-                EditText edit = (EditText) findViewById(R.id.order_detail_phone);
-                edit.setText(people.getPhoneNumber());
+                    EditText edit = (EditText) findViewById(R.id.order_detail_phone);
+                    edit.setText(people.getPhoneNumber());
+                }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
