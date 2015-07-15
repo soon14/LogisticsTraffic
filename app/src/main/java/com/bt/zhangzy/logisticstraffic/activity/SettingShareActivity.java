@@ -20,7 +20,7 @@ public class SettingShareActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_setting_share);
-        setPageName("推送设置");
+        setPageName("设置");
     }
 
     public void onClick_QuietTime(View view) {

@@ -1,24 +1,18 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.CollectListAdapter;
-import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.view.FloatView;
 
 /**
  * Created by ZhangZy on 2015/7/7.
  */
-public class CollectActivity extends BaseActivity {
+public class CollectActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     private static final String TAG = CollectActivity.class.getSimpleName();
     private final boolean MY_COLLECT = true;
@@ -50,6 +44,7 @@ public class CollectActivity extends BaseActivity {
         if (listView == null)
             listView = (ListView) findViewById(R.id.collect_list);
         listView.setAdapter(null);
+        listView.setOnItemClickListener(this);
 
         if (pageState == MY_COLLECT) {
             myCollectType.setSelected(true);
@@ -67,5 +62,10 @@ public class CollectActivity extends BaseActivity {
         if (view != null) {
             setPageState(view.getId() == R.id.collect_me_type);
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        startActivity(DetailCompany.class);
     }
 }
