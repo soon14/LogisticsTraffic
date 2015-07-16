@@ -109,6 +109,12 @@
         <item name="android:padding">1dp</item>
         <item name="android:textColor">@color/black_while_color_selector</item>
     </style>
+    <style name="while_orange_tab_style">
+        <item name="android:background">@drawable/bottom_black_tab_selector</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">@color/tab_color_selector</item>
+    </style>
 
     <style name="register_button_style" parent="button_style">
         <item name="android:textColor">@color/main_bg_color</item>

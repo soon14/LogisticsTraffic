@@ -23,6 +23,16 @@ import java.util.List;
  */
 public class ContextTools {
 
+    /**
+     *    //显示虚拟键盘
+     * @param v
+     */
+    public static void ShowKeyboard(View v) {
+        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(v, InputMethodManager.SHOW_FORCED);
+
+    }
+
     private static final String TAG = ContextTools.class.getSimpleName();
 
     /**
@@ -36,13 +46,6 @@ public class ContextTools {
         if (imm.isActive()) {
             imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
         }
-    }
-
-    //显示虚拟键盘
-    public static void ShowKeyboard(View v) {
-        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(v, InputMethodManager.SHOW_FORCED);
-
     }
 
     /**

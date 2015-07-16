@@ -9,88 +9,47 @@
 
     <include layout="@layout/page_top" />
 
-    <!--<TabWidget
+    <LinearLayout
         android:id="@android:id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Button
-            style="@style/while_orange_btn_style"
+            android:id="@+id/orderlist_tab_untreated"
+            style="@style/while_orange_tab_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onClick_SelectBtn"
             android:text="未确认" />
 
         <Button
-            style="@style/while_orange_btn_style"
+            android:id="@+id/orderlist_tab_submitted"
+            style="@style/while_orange_tab_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onClick_SelectBtn"
             android:text="交易中" />
 
         <Button
-            style="@style/while_orange_btn_style"
+            android:id="@+id/orderlist_tab_completed"
+            style="@style/while_orange_tab_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onClick_SelectBtn"
             android:text="已完成" />
-    </TabWidget>
+    </LinearLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/orderlist_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="2">
 
-    </android.support.v4.view.ViewPager>-->
-
-    <TabHost
-        android:id="@+id/orderlist_tabHost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TabWidget>
-
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-
-                <ListView
-                    android:id="@+id/orderlist_tab_list1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </ListView>
-
-
-                <ListView
-                    android:id="@+id/orderlist_tab_list2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </ListView>
-
-
-                <ListView
-                    android:id="@+id/orderlist_tab_list3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </ListView>
-
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
+    </android.support.v4.view.ViewPager>
 
 
 </LinearLayout>

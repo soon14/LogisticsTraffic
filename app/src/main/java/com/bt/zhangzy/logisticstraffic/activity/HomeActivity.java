@@ -239,6 +239,8 @@ public class HomeActivity extends BaseActivity {
     private void setSelectBtn(View view) {
         if (view == null)
             return;
+        if (lastSelectBtn != null && lastSelectBtn.getId() == view.getId())
+            return;
         view.setSelected(true);
         if (lastSelectBtn != null) {
             lastSelectBtn.setSelected(false);

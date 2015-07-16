@@ -1,24 +1,29 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TabHost;
-import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
-import com.bt.zhangzy.logisticstraffic.adapter.OrderListAdapter;
+import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.fragment.OrderCompletedFragment;
+import com.bt.zhangzy.logisticstraffic.fragment.OrderListFragment;
+
+import java.util.ArrayList;
 
 /**
  * TODO: 滑动切换功能
  * Created by ZhangZy on 2015/6/19.
  */
 public class OrderListActivity extends BaseActivity {
+    public static final int PAGE_UNTREATED = 0;
+    public static final int PAGE_SUBMITTED = 1;
+    public static final int PAGE_COMPLETED = 2;
 
-    private TabHost tabHost;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,75 +31,80 @@ public class OrderListActivity extends BaseActivity {
 
         setContentView(R.layout.activity_orderlist);
         setPageName("我的订单");
-        initTabHost();
+//        initTabHost();
+        initViewPager();
     }
 
-    private void initTabHost() {
-        tabHost = (TabHost) findViewById(R.id.orderlist_tabHost);
-        tabHost.setup();
+    private void initViewPager() {
+        viewPager = (ViewPager) findViewById(R.id.orderlist_viewpager);
 
-        TabHost.TabSpec tab1 = tabHost.newTabSpec("tab1");
-        tab1.setContent(R.id.orderlist_tab_list1);
-        tab1.setIndicator(getTabView("未确认"));
-        tabHost.addTab(tab1);
-        tabHost.addTab(tabHost.newTabSpec("tab2")
-                .setContent(R.id.orderlist_tab_list2).setIndicator(getTabView("交易中")));
-        tabHost.addTab(tabHost.newTabSpec("tab3")
-                .setContent(R.id.orderlist_tab_list3).setIndicator(getTabView("已完成")));
-        tabHost.setCurrentTab(0);
+        ArrayList<Fragment> fragments = new ArrayList<Fragment>();
+        fragments.add(new OrderListFragment(PAGE_UNTREATED));
+        fragments.add(new OrderListFragment(PAGE_SUBMITTED));
+        fragments.add(new OrderListFragment(PAGE_COMPLETED));
+        FragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), fragments);
+        viewPager.setAdapter(adapter);
+        onClick_SelectBtn(findViewById(R.id.orderlist_tab_untreated));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        View view = tabHost.getTabContentView().findViewById(R.id.orderlist_tab_list1);
-        if(view != null){
-            ListView list = (ListView) view;
-            list.setAdapter(new OrderListAdapter(false));
-            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    startActivity(OrderDetailActivity.class);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case PAGE_UNTREATED:
+                        onClick_SelectBtn(findViewById(R.id.orderlist_tab_untreated));
+                        break;
+                    case PAGE_SUBMITTED:
+                        onClick_SelectBtn(findViewById(R.id.orderlist_tab_submitted));
+                        break;
+                    case PAGE_COMPLETED:
+                        onClick_SelectBtn(findViewById(R.id.orderlist_tab_completed));
+                        break;
                 }
-            });
-        }
+            }
 
-        view = tabHost.getTabContentView().findViewById(R.id.orderlist_tab_list2);
-        if(view != null){
-            ListView list = (ListView) view;
-            list.setAdapter(new OrderListAdapter(false));
-            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("type",1);
-                    startActivity(OrderDetailActivity.class,bundle);
-                }
-            });
-        }
-        view = tabHost.getTabContentView().findViewById(R.id.orderlist_tab_list3);
-        if(view != null){
-            ListView list = (ListView) view;
-            list.setAdapter(new OrderListAdapter(false));
-            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    startActivity(EvaluationActivity.class);
-                }
-            });
-        }
-//        view = tabHost.getTabContentView().findViewById(R.id.orderlist_tab_list4);
-//        if(view != null){
-//            ListView list = (ListView) view;
-//            list.setAdapter(new OrderListAdapter(true));
-//        }
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
+            }
+        });
     }
 
-    private View getTabView(String name) {
-        View view = LayoutInflater.from(this).inflate(R.layout.orderlist_tab,null);
-        TextView textView = (TextView) view.findViewById(R.id.tab_name);
-        textView.setText(name);
-        return  view;
+
+    private View lastSelectBtn;//记录上一次选中的按钮
+
+    public void onClick_SelectBtn(View view) {
+        if (view == null)
+            return;
+        if (lastSelectBtn != null && lastSelectBtn.getId() == view.getId())
+            return;
+        view.setSelected(true);
+        if (lastSelectBtn != null) {
+            lastSelectBtn.setSelected(false);
+        }
+        lastSelectBtn = view;
+        setPageCurrentItem(view.getId());
     }
 
-//    public void onClick_Back(View view ){
-//        finish();
-//    }
+    private void setPageCurrentItem(int viewID) {
+        int currentPage = -1;
+        switch (viewID) {
+            case R.id.orderlist_tab_untreated:
+                currentPage = PAGE_UNTREATED;
+                break;
+            case R.id.orderlist_tab_submitted:
+                currentPage = PAGE_SUBMITTED;
+                break;
+            case R.id.orderlist_tab_completed:
+                currentPage = PAGE_COMPLETED;
+                break;
+        }
+        if (currentPage > 0 && viewPager != null) {
+            if (viewPager.getCurrentItem() != currentPage)
+                viewPager.setCurrentItem(currentPage);
+        }
+    }
 }

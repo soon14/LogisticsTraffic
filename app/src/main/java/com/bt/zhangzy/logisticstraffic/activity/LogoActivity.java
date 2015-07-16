@@ -1,6 +1,5 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
