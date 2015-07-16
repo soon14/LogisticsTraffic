@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
+import com.zhangzy.baidusdk.BaiduMapActivity;
 
 /**
  * Created by ZhangZy on 2015/6/18.
@@ -70,18 +71,19 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
-     *跳转封装
-     * @param cls 跳转目标
-     * @param bundle 请求参数
-     * @param requestCode  请求码
+     * 跳转封装
+     *
+     * @param cls         跳转目标
+     * @param bundle      请求参数
+     * @param requestCode 请求码
      */
-    public void startActivityForResult(Class<?> cls, Bundle bundle, int requestCode){
+    public void startActivityForResult(Class<?> cls, Bundle bundle, int requestCode) {
         Intent intent = new Intent(this, cls);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
-        startActivityForResult(intent,requestCode);
+        startActivityForResult(intent, requestCode);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
@@ -109,5 +111,9 @@ public class BaseActivity extends FragmentActivity {
     public void replace(int containerViewId, Fragment fragment, String tag) {
 //        getFragmentManager().beginTransaction().replace(containerViewId,fragment,tag).addToBackStack(tag).commit();
         getSupportFragmentManager().beginTransaction().replace(containerViewId, fragment, tag).addToBackStack(tag).commit();
+    }
+
+    public void onClick_gotoMap(View view) {
+        startActivity(BaiduMapActivity.class);
     }
 }

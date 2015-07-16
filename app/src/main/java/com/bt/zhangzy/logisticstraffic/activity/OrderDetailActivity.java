@@ -14,48 +14,60 @@ import android.widget.Toast;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.Constant;
+import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+
+import static com.bt.zhangzy.logisticstraffic.data.OrderDetailMode.EnterpriseMode;
 
 /**
  * Created by ZhangZy on 2015/6/23.
  */
 public class OrderDetailActivity extends BaseActivity {
 
-    public static final byte MODE_CP = 0x2;
-    public static final byte MODE_DP = 0X4;
-    public static final byte MODE_DEVICES = 0x8;
-    public static final byte MODE_FINISH = 0x16;
-    static byte currentMode;
+
+    OrderDetailMode currentMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_order_detail);
+        setPageName("订单详情");
+
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.containsKey("type")) {
-            int type = bundle.getInt("type");
-            if (type == 1) {
-                currentMode = MODE_FINISH;
+        if (bundle != null && bundle.containsKey(Constant.ORDER_DETAIL_KEY_TYPE)) {
+            //根据传入的参数判断显示模式
+            int type = bundle.getInt(Constant.ORDER_DETAIL_KEY_TYPE);
+            OrderDetailMode[] values = OrderDetailMode.values();
+            currentMode = values[Math.max(0, Math.min(values.length - 1, type))];
+            if (currentMode == OrderDetailMode.UntreatedMode) {
+                setCurrentModeForUser();
             }
         } else {
-            if (User.getInstance().getUserType() == Type.DriverType) {
-                currentMode = MODE_DEVICES;
-                Toast.makeText(this, "司机模式", Toast.LENGTH_LONG).show();
-            } else if (User.getInstance().getUserType() == Type.EnterpriseType) {
-                currentMode = MODE_CP;
-                Toast.makeText(this, "企业模式", Toast.LENGTH_LONG).show();
-            } else if (User.getInstance().getUserType() == Type.InformationType) {
-                currentMode = MODE_DP;
-                Toast.makeText(this, "信息部模式", Toast.LENGTH_LONG).show();
-            }
-
+            setCurrentModeForUser();
         }
 
         initView();
 
+    }
+
+    /**
+     * 根据当前用户的登陆状态判断显示模式
+     */
+    private void setCurrentModeForUser() {
+        //根据当前用户的登陆状态判断显示模式
+        if (User.getInstance().getUserType() == Type.DriverType) {
+            currentMode = OrderDetailMode.DriverMode;
+            Toast.makeText(this, "司机模式", Toast.LENGTH_LONG).show();
+        } else if (User.getInstance().getUserType() == Type.EnterpriseType) {
+            currentMode = EnterpriseMode;
+            Toast.makeText(this, "企业模式", Toast.LENGTH_LONG).show();
+        } else if (User.getInstance().getUserType() == Type.InformationType) {
+            currentMode = OrderDetailMode.InformationMode;
+            Toast.makeText(this, "信息部模式", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -86,14 +98,14 @@ public class OrderDetailActivity extends BaseActivity {
         EditText editText;
         Button button;
         switch (currentMode) {
-            case MODE_CP://企业模式
+            case EnterpriseMode://企业模式
                 findViewById(R.id.order_detail_no).setVisibility(View.GONE);
                 button = (Button) findViewById(R.id.order_detail_yes);
                 button.setText("下单");
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        finish();
+                        onClick_Back(v);
                     }
                 });
                 for (int id : edit_ids) {
@@ -106,7 +118,7 @@ public class OrderDetailActivity extends BaseActivity {
                     }
                 }
                 break;
-            case MODE_DP://信息部模式
+            case InformationMode://信息部模式
                 findViewById(R.id.order_detail_no).setVisibility(View.GONE);
                 button = (Button) findViewById(R.id.order_detail_yes);
                 button.setText("提交订单");
@@ -128,7 +140,7 @@ public class OrderDetailActivity extends BaseActivity {
                     }
                 });
                 break;
-            case MODE_DEVICES://司机
+            case DriverMode://司机
                 findViewById(R.id.order_detail_no).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_yes).setVisibility(View.GONE);
                 for (int id : edit_ids) {
@@ -137,11 +149,16 @@ public class OrderDetailActivity extends BaseActivity {
                     editText.setBackgroundColor(getResources().getColor(R.color.mask_black));
                 }
                 break;
-            case MODE_FINISH:
+            case CompletedMode:
+                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_phone_btn).setVisibility(View.GONE);
+                textView = (TextView) findViewById(R.id.order_detail_yes);
+                textView.setText("订单已完成");
+                break;
+            case SubmittedMode:
                 findViewById(R.id.order_detail_no).setVisibility(View.GONE);
                 textView = (TextView) findViewById(R.id.order_detail_yes);
-                textView.setText("订单成功");
-
+                textView.setText("订单已提交");
                 break;
         }
     }

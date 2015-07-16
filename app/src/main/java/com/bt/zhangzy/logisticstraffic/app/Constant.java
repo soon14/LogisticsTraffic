@@ -18,4 +18,10 @@ public final class Constant {
      */
     public static final int REQUEST_CODE_CONTACT = 0x010;//跳转到通讯录时的请求码
     public static final String REQUEST_BUNDLE_CONTACT_KEY = "REQUEST_BUNDLE_CONTACT_KEY";
+
+    /**
+     * 跳转到订单详情页 请求码
+     * */
+    public static final String ORDER_DETAIL_KEY_TYPE = "ORDER_DETAIL_KEY_TYPE";
+
 }

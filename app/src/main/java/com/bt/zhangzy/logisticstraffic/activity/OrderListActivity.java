@@ -9,13 +9,12 @@ import android.view.View;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.fragment.OrderCompletedFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.OrderListFragment;
 
 import java.util.ArrayList;
 
 /**
- * TODO: 滑动切换功能
+ * 我的订单页面 滑动切换功能
  * Created by ZhangZy on 2015/6/19.
  */
 public class OrderListActivity extends BaseActivity {

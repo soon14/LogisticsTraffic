@@ -64,9 +64,7 @@ public class DetailCompany extends BaseActivity {
     }
 
 
-    public void onClick_gotoMap(View view) {
-        startActivity(BaiduMapActivity.class);
-    }
+
 
 
     public void onClick_Evaluation(View view) {

@@ -12,8 +12,11 @@ import android.widget.ListView;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.activity.OrderDetailActivity;
+import com.bt.zhangzy.logisticstraffic.activity.OrderListActivity;
 import com.bt.zhangzy.logisticstraffic.adapter.OrderListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.app.Constant;
+import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 
 /**
  * 未提交订单， 已提交订单，已完成订单
@@ -48,14 +51,28 @@ public class OrderListFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(OrderDetailActivity.class);
+
+                int ordinal = -1;
+                switch (TAG_INDEX){
+                    case OrderListActivity.PAGE_UNTREATED:
+                        ordinal =  OrderDetailMode.UntreatedMode.ordinal();
+                        break;
+                    case OrderListActivity.PAGE_SUBMITTED:
+                        ordinal = OrderDetailMode.SubmittedMode.ordinal();
+                        break;
+                    case OrderListActivity.PAGE_COMPLETED:
+                        ordinal = OrderDetailMode.CompletedMode.ordinal();
+                        break;
+                }
+                if(ordinal >0) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constant.ORDER_DETAIL_KEY_TYPE, ordinal);
+                    getBaseActivity().startActivity(OrderDetailActivity.class,bundle);
+                }
             }
         });
     }
 
-    void startActivity(Class<?> cls) {
-        getBaseActivity().startActivity(cls);
-    }
 
     private BaseActivity getBaseActivity() {
         return (BaseActivity) getActivity();
