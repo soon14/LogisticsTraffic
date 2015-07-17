@@ -141,15 +141,19 @@
 
             <TableRow>
 
-                <EditText
+                <TextView
                     android:id="@+id/order_detail_type_ed"
                     style="@style/tx_black_df_style"
                     android:layout_marginRight="5dp"
+                    android:clickable="true"
+                    android:onClick="onClick_ChangeType"
                     android:text="电子原件" />
 
-                <EditText
+                <TextView
                     android:id="@+id/order_detail_name_ed"
                     style="@style/tx_black_df_style"
+                    android:clickable="true"
+                    android:onClick="onClick_ChangeWeight"
                     android:text="10吨" />
             </TableRow>
 
@@ -162,15 +166,19 @@
 
             <TableRow>
 
-                <EditText
+                <TextView
                     android:id="@+id/order_detail_kg_ed"
                     style="@style/tx_black_df_style"
                     android:layout_marginRight="5dp"
+                    android:clickable="true"
+                    android:onClick="onClick_ChangeTruckType"
                     android:text="集装箱" />
 
-                <EditText
+                <TextView
                     android:id="@+id/order_detail_size_ed"
                     style="@style/tx_black_df_style"
+                    android:clickable="true"
+                    android:onClick="onClick_ChangeTruckLength"
                     android:text="13米" />
             </TableRow>
 
@@ -182,6 +190,7 @@
             <EditText
                 android:id="@+id/order_detail_check_phone_ed"
                 style="@style/tx_black_df_style"
+                android:inputType="phone"
                 android:text="13945678914" />
 
         </TableLayout>

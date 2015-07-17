@@ -25,8 +25,9 @@
         android:columnCount="4"
         android:rowCount="4">
 
-        <TextView
-            style="@style/black_tx_18_style"
+        <Button
+            android:id="@+id/order_dialog"
+            style="@style/while_orange_btn_style"
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="建材" />

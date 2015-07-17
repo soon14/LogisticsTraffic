@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="onClick_ChangeTruckType"
-            android:hint="请选择需要的车型" />
+            android:hint="@string/order_change_truck_type_title" />
     </LinearLayout>
 
     <LinearLayout
@@ -119,7 +119,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="onClick_ChangeTruckLength"
-            android:hint="请选择需要的车长" />
+            android:hint="@string/order_change_truck_length_title" />
     </LinearLayout>
 
     <LinearLayout

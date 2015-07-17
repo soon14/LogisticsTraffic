@@ -54,50 +54,64 @@ public class OrderActivity extends BaseActivity {
         finish();
     }
 
+    /**
+     * 货物类型 选择事件
+     * @param view
+     */
     public void onClick_ChangeType(View view) {
         final TextView textView = (TextView) view;
-        BaseDialog dialog = new BaseDialog(this);
-        dialog.setView(R.layout.order_dialog_type);
-        dialog.setOnClickListener(R.id.order_dialog_type_ly, new View.OnClickListener() {
 
+        BaseDialog.showChooseItemsDialog(this, getString(R.string.order_change_type_title), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView.setText("建材");
+                if (v != null && v instanceof TextView) {
+                    TextView tx = (TextView) v;
+                    textView.setText(tx.getText());
+                }
             }
-        });
-        dialog.show();
+        },getResources().getStringArray(R.array.order_change_type_items));
+
     }
 
+    /**
+     * 车型 选择事件
+     * @param view
+     */
     public void onClick_ChangeTruckType(View view) {
         final TextView textView = (TextView) view;
-        BaseDialog dialog = new BaseDialog(this);
-        dialog.setView(R.layout.order_dialog_truck_type);
-        dialog.setOnClickListener(R.id.order_dialog_truck_type_ly,new View.OnClickListener() {
-
+        BaseDialog.showChooseItemsDialog(this, getString(R.string.order_change_truck_type_title), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView.setText("平板车");
+                if (v != null && v instanceof TextView) {
+                    TextView tx = (TextView) v;
+                    textView.setText(tx.getText());
+                }
             }
-        });
-        dialog.show();
+        },getResources().getStringArray(R.array.order_change_truck_type_items));
     }
 
+    /**
+     * 车长选择
+     * @param view
+     */
     public void onClick_ChangeTruckLength(View view) {
         final TextView textView = (TextView) view;
-//        final Dialog dialog = new Dialog(this);
-        BaseDialog dialog = new BaseDialog(this);
-        dialog.setView(R.layout.order_dialog_truck_length);
-        dialog.setOnClickListener(R.id.order_dialog_truck_length_ly, new View.OnClickListener() {
+        BaseDialog.showChooseItemsDialog(this, getString(R.string.order_change_truck_length_title), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView.setText("5米");
+                if (v != null && v instanceof TextView) {
+                    TextView tx = (TextView) v;
+                    textView.setText(tx.getText());
+                }
             }
-        });
-        dialog.show();
+        }, getResources().getStringArray(R.array.order_change_truck_length_items));
     }
 
 
-    //
+    /**
+     * 地址选择
+     * @param view
+     */
     public void onClick_ChangeLocation(View view) {
         final TextView textView = (TextView) view;
         BaseDialog baseDialog = new BaseDialog(this);
@@ -112,6 +126,10 @@ public class OrderActivity extends BaseActivity {
     }
 
 
+    /**
+     * 货物重量选择
+     * @param view
+     */
     public void onClick_ChangeWeight(View view) {
         final TextView textView = (TextView) view;
         BaseDialog dialog = new BaseDialog(this);

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <!-- dialog 封装 多按钮选择 -->
+    <TextView
+        android:id="@+id/dialog_choose_title"
+        style="@style/orange_tx_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="请选择货物类型" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3px"
+        android:background="@color/main_bg_color" />
+
+    <GridLayout
+        android:id="@+id/dialog_choose_item_ly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="4"
+        android:rowCount="4">
+
+        <Button
+            android:id="@+id/dialog_choose_item_1"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_2"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_3"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_4"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_5"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_6"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_7"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_8"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_9"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_10"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_11"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_12"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_13"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_14"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_15"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+        <Button
+            android:id="@+id/dialog_choose_item_16"
+            style="@style/while_orange_btn_style"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="建材" />
+
+
+    </GridLayout>
+</LinearLayout>

@@ -1,6 +1,32 @@
 <resources>
-    <string name="app_name">LogisticsTraffic</string>
+    <string name="app_name">物流联盟</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="order_change_type_title">请选择货物类型</string>
+    <string name="order_change_truck_type_title">请选择需要的车型</string>
+    <string name="order_change_truck_length_title">请选择需要的车长</string>
+
+    <string-array name="order_change_type_items">
+        <item>建材</item>
+        <item>化工</item>
+        <item>药品</item>
+        <item>矿产</item>
+        <item>食品蔬菜</item>
+        <item>设备</item>
+        <item>生鲜</item>
+    </string-array>
+    <string-array name="order_change_truck_type_items">
+        <item>平板车</item>
+        <item>高低板车</item>
+    </string-array>
+    <string-array name="order_change_truck_length_items">
+        <item>4米</item>
+        <item>5米</item>
+        <item>6米</item>
+        <item>8米</item>
+
+    </string-array>
+
+
 </resources>

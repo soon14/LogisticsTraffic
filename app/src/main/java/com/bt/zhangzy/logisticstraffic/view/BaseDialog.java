@@ -16,15 +16,15 @@ import android.widget.TextView;
 import com.bt.zhangzy.logisticstraffic.R;
 
 /**
- *  对话框整理类，对一些通用设置做封装
+ * 对话框整理类，对一些通用设置做封装
  * Created by ZhangZy on 2015/6/15.
  */
 public class BaseDialog extends Dialog implements View.OnClickListener {
     public interface DialogClickListener {
         void onClick(BaseDialog dialog, View view);
     }
-    /***
-     *
+
+    /**
      * @param context 需要activity 用于计算屏幕大小
      */
     public BaseDialog(Activity context) {
@@ -49,12 +49,13 @@ public class BaseDialog extends Dialog implements View.OnClickListener {
 
     /**
      * 设置dialog的现实内容
+     *
      * @param layoutID 布局文件的id值
      * @return
      */
-    public BaseDialog setView(int layoutID){
+    public BaseDialog setView(int layoutID) {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.dialog_content_ly);
-        View view = LayoutInflater.from(getContext()).inflate(layoutID,null);
+        View view = LayoutInflater.from(getContext()).inflate(layoutID, null);
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         linearLayout.addView(view);
         return this;
@@ -73,11 +74,12 @@ public class BaseDialog extends Dialog implements View.OnClickListener {
 
     /**
      * 设置dialog中的onClick事件
-     * @param id  view的id
+     *
+     * @param id       view的id
      * @param listener 监听事件  可为null 回传dialog对象 view对象
      * @return baseDialog
      */
-    public BaseDialog setOnClickListenerForDialog(int id,DialogClickListener listener){
+    public BaseDialog setOnClickListenerForDialog(int id, DialogClickListener listener) {
         return setOnClickObj(id, listener);
     }
 
@@ -94,13 +96,13 @@ public class BaseDialog extends Dialog implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v != null) {
-            if(v.getTag() != null){
-                if ( v.getTag() instanceof View.OnClickListener) {
+            if (v.getTag() != null) {
+                if (v.getTag() instanceof View.OnClickListener) {
                     View.OnClickListener listener = (View.OnClickListener) v.getTag();
                     listener.onClick(v);
-                }else if(v.getTag() instanceof DialogClickListener){
+                } else if (v.getTag() instanceof DialogClickListener) {
                     DialogClickListener listener = (DialogClickListener) v.getTag();
-                    listener.onClick(this,v);
+                    listener.onClick(this, v);
                     return;
                 }
             }
@@ -138,8 +140,9 @@ public class BaseDialog extends Dialog implements View.OnClickListener {
 
     /**
      * 常用对话框方法封装  二次确认对话框
-     * @param act 上下文
-     * @param msg 提示内容
+     *
+     * @param act      上下文
+     * @param msg      提示内容
      * @param listener 确认按钮执行的事件
      */
     public static void showConfirmDialog(Activity act, String msg, View.OnClickListener listener) {
@@ -148,23 +151,54 @@ public class BaseDialog extends Dialog implements View.OnClickListener {
 
     /**
      * 常用对话框方法封装  二次确认对话框
-     * @param act 上下文
-     * @param msg  提示内容
-     * @param cancel 取消按钮描述
-     * @param confirm 确认按钮描述
+     *
+     * @param act      上下文
+     * @param msg      提示内容
+     * @param cancel   取消按钮描述
+     * @param confirm  确认按钮描述
      * @param listener 执行事件
      */
     public static void showConfirmDialog(Activity act, String msg, String cancel, String confirm, View.OnClickListener listener) {
         BaseDialog dialog = new BaseDialog(act);
         dialog.setView(R.layout.dialog_confirm);
         dialog.setTextView(R.id.confirm_dl_msg_tx, msg);
-        if(!TextUtils.isEmpty(cancel)){
-            dialog.setTextView(R.id.dl_cancel_bt,cancel);
+        if (!TextUtils.isEmpty(cancel)) {
+            dialog.setTextView(R.id.dl_cancel_bt, cancel);
         }
-        if(!TextUtils.isEmpty(confirm)){
-            dialog.setTextView(R.id.dl_confirm_bt,confirm);
+        if (!TextUtils.isEmpty(confirm)) {
+            dialog.setTextView(R.id.dl_confirm_bt, confirm);
         }
         dialog.setOnClickListener(R.id.dl_cancel_bt, null).setOnClickListener(R.id.dl_confirm_bt, listener);
+        dialog.show();
+    }
+
+
+    /**
+     * 项目选择dialog封装
+     * @param act  上下文
+     * @param title 标题
+     * @param listener 监听事件
+     * @param items  选择的项目 最多16项
+     */
+    public static void showChooseItemsDialog(Activity act, String title, View.OnClickListener listener, String... items) {
+        BaseDialog dialog = new BaseDialog(act);
+        dialog.setView(R.layout.dialog_choose_items);
+        dialog.setTextView(R.id.dialog_choose_title,title);
+//        GridLayout layout = (GridLayout) dialog.findViewById(R.id.dialog_choose_item_ly);
+        final int[] ids = {R.id.dialog_choose_item_1, R.id.dialog_choose_item_2, R.id.dialog_choose_item_3, R.id.dialog_choose_item_4, R.id.dialog_choose_item_5,
+                R.id.dialog_choose_item_6, R.id.dialog_choose_item_7, R.id.dialog_choose_item_8, R.id.dialog_choose_item_9, R.id.dialog_choose_item_10,
+                R.id.dialog_choose_item_11, R.id.dialog_choose_item_12, R.id.dialog_choose_item_13, R.id.dialog_choose_item_14, R.id.dialog_choose_item_15,
+                R.id.dialog_choose_item_16};
+        for (int k = 0, id = -1; k < ids.length; k++) {
+            id = ids[k];
+            if (k < items.length) {
+                dialog.setOnClickListener(id, listener);
+                dialog.setTextView(id, items[k]);
+            } else {
+                dialog.findViewById(id).setVisibility(View.GONE);
+            }
+        }
+
         dialog.show();
     }
 }
