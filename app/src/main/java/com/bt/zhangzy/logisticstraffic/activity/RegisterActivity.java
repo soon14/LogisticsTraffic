@@ -24,7 +24,7 @@ public class RegisterActivity extends BaseActivity {
 
     /**
      * 企业注册
-     * */
+     */
     public void onClick_RegisterCompany(View view) {
         setContentView(R.layout.register_company);
         type = Type.EnterpriseType;
@@ -32,19 +32,21 @@ public class RegisterActivity extends BaseActivity {
 
 
     /**
-     * 物流门企注册*/
+     * 物流门企注册
+     */
     public void onClick_RegisterDepartment(View view) {
         setContentView(R.layout.register_department);
         type = Type.InformationType;
     }
 
-    public void onClick_RegisterBtn(View view){
+    public void onClick_RegisterBtn(View view) {
 //        startActivity(new Intent(this,UserActivity.class));
         User.getInstance().setUserType(type);
         User.getInstance().setLogin(true);
-        Bundle bundle = new Bundle();
-        bundle.putString(HomeActivity.BUNDLE_PAGE_KEY, HomeActivity.PAGE_USER);
-        startActivity(HomeActivity.class, bundle);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            startActivity(HomeActivity.class, bundle);
+        }
         finish();
     }
 }

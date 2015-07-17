@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.User;
 import com.zhangzy.baidusdk.BaiduMapActivity;
 
 /**
@@ -60,11 +61,8 @@ public class DetailCompany extends BaseActivity {
     public void onClick_CallPhone(View view) {
         openCall = true;
 //        ContextTools.callPhone(this, "10010");
-        getApp().callPhone( "10010");
+        getApp().callPhone("10010");
     }
-
-
-
 
 
     public void onClick_Evaluation(View view) {
@@ -82,6 +80,11 @@ public class DetailCompany extends BaseActivity {
     }
 
     public void onClick_Order(View view) {
+        if (!User.getInstance().getLogin()) {
+            //用户未登陆时自动跳转到登陆页面
+            startActivity(LoginActivity.class);
+            return;
+        }
         startActivity(OrderActivity.class);
     }
 }

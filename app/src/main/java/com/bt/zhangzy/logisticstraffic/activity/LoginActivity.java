@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 
@@ -29,7 +30,7 @@ public class LoginActivity extends BaseActivity {
 //                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
 //            }
 //        });
-        startActivity(RegisterActivity.class);
+        startActivity(RegisterActivity.class, getIntent().getExtras());
         finish();
     }
 
@@ -39,9 +40,9 @@ public class LoginActivity extends BaseActivity {
         User.getInstance().setLogin(true);
         User.getInstance().setUserType(Type.EnterpriseType);
 //        startActivity(new Intent(LoginActivity.this,UserActivity.class));
-        Bundle bundle = new Bundle();
-        bundle.putString(HomeActivity.BUNDLE_PAGE_KEY, HomeActivity.PAGE_USER);
-        startActivity(HomeActivity.class, bundle);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null)
+            startActivity(HomeActivity.class, bundle);
         finish();
 
     }

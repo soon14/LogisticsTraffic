@@ -36,11 +36,7 @@ import java.util.ArrayList;
 public class HomeActivity extends BaseActivity {
 
     private final static String Tag = HomeActivity.class.getSimpleName();
-    public static final String BUNDLE_PAGE_KEY = "BUNDLE_PAGE_KEY";
-    public static final String PAGE_HOME = "HomeFragment";
-    public static final String PAGE_USER = "UserFragment";
-    public static final String PAGE_HAPPY = "HappyFragment";
-    public static final String PAGE_SERVICES = "ServicesFragment";
+
     private static final int INDEX_HOME = 0;
     private static final int INDEX_SERVICES = 1;
     private static final int INDEX_HAPPY = 2;
@@ -97,18 +93,18 @@ public class HomeActivity extends BaseActivity {
         setSelectBtn(findViewById(R.id.home_bottom_first_btn));
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            if (bundle.containsKey(BUNDLE_PAGE_KEY)) {
-                String value = bundle.getString(BUNDLE_PAGE_KEY);
-                if (PAGE_HOME.equals(value)) {
+            if (bundle.containsKey(Constant.BUNDLE_PAGE_KEY)) {
+                String value = bundle.getString(Constant.BUNDLE_PAGE_KEY);
+                if (Constant.PAGE_HOME.equals(value)) {
                     contentViewPager.setCurrentItem(INDEX_HOME);
                     setSelectBtn(findViewById(R.id.home_bottom_first_btn));
-                } else if (PAGE_SERVICES.equals(value)) {
+                } else if (Constant.PAGE_SERVICES.equals(value)) {
                     contentViewPager.setCurrentItem(INDEX_SERVICES);
                     setSelectBtn(findViewById(R.id.home_bottom_services_btn));
-                } else if (PAGE_HAPPY.equals(value)) {
+                } else if (Constant.PAGE_HAPPY.equals(value)) {
                     contentViewPager.setCurrentItem(INDEX_HAPPY);
                     setSelectBtn(findViewById(R.id.home_bottom_happy_btn));
-                } else if (PAGE_USER.equals(value)) {
+                } else if (Constant.PAGE_USER.equals(value)) {
                     contentViewPager.setCurrentItem(INDEX_USER);
                     setSelectBtn(findViewById(R.id.home_bottom_me_btn));
                 }
@@ -253,7 +249,9 @@ public class HomeActivity extends BaseActivity {
         //标签页切换
 //        replace(R.id.home_content, new UserFragment(), TAG_USER);
         if (!User.getInstance().getLogin()) {
-            startActivity(LoginActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.BUNDLE_PAGE_KEY, Constant.PAGE_USER);
+            startActivity(LoginActivity.class,bundle);
         } else {
             contentViewPager.setCurrentItem(INDEX_USER);
             setSelectBtn(view);
