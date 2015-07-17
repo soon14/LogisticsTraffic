@@ -1,8 +1,6 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +9,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.TextureView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -74,7 +71,6 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void run() {
                 createViewPage();
-                createView();
             }
         });
     }
@@ -189,7 +185,12 @@ public class HomeActivity extends BaseActivity {
             floatView.setVisibility(View.VISIBLE);
             Log.d(Tag, "浮窗 显示");
         } else {
-//            createView();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    createView();
+                }
+            });
         }
     }
 
@@ -210,12 +211,11 @@ public class HomeActivity extends BaseActivity {
 
     public void showDialogCallPhone(final String phoneNum) {
         Log.d(Tag, ">>>showDialogCallPhone " + phoneNum);
-        BaseDialog dialog = BaseDialog.CreateDialog(HomeActivity.this);
-        dialog.setPhoneNum(phoneNum);
-        dialog.setListener(new BaseDialog.ConfirmListener() {
+        BaseDialog dialog = BaseDialog.CreateChoosePhoneDialog(HomeActivity.this,phoneNum);
+        dialog.setOnClickListener(R.id.dialog_btn_no, null).setOnClickListener(R.id.dialog_btn_yes, new View.OnClickListener() {
             @Override
-            public void onClick(View view, boolean isConfirm) {
-                if (isConfirm) {
+            public void onClick(View v) {
+                if (v.getId() == R.id.dialog_btn_yes) {
                     getApp().callPhone(phoneNum);
                 }
             }
@@ -299,13 +299,12 @@ public class HomeActivity extends BaseActivity {
 
     public void onClick_SafeQuit(View view) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle("是否退出?").setNegativeButton("取消", null).setPositiveButton("退出", new DialogInterface.OnClickListener() {
+        BaseDialog.showConfirmDialog(this, "是否退出?", "返回", "退出", new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 getApp().Exit();
             }
         });
-        builder.create().show();
     }
 
     public void onClick_SettingShare(View view) {

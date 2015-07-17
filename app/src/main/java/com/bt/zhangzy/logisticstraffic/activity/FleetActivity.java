@@ -1,6 +1,5 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,7 +15,7 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.logisticstraffic.view.AlertDialogApp;
+import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 
 /**
  * Created by ZhangZy on 2015/6/24.
@@ -33,10 +32,10 @@ public class FleetActivity extends BaseActivity {
         setContentView(R.layout.activity_fleet);
 
         setPageName("我的车队");
-        if(getIntent().getExtras()!=null){
+        if (getIntent().getExtras() != null) {
             Bundle bundle = getIntent().getExtras();
-            if(bundle.containsKey(Constant.RESULT_CODE_KEY)){
-                if(bundle.getInt(Constant.RESULT_CODE_KEY) == Constant.RESULT_CODE_SELECT_DEVICES){
+            if (bundle.containsKey(Constant.RESULT_CODE_KEY)) {
+                if (bundle.getInt(Constant.RESULT_CODE_KEY) == Constant.RESULT_CODE_SELECT_DEVICES) {
                     isSelectDevices = true;
                 }
             }
@@ -54,14 +53,14 @@ public class FleetActivity extends BaseActivity {
             }
         });
 
-        if(isSelectDevices){
+        if (isSelectDevices) {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     People people = (People) listView.getItemAtPosition(position);
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable(Constant.RESULT_CODE_KEY,people);
+                    bundle.putParcelable(Constant.RESULT_CODE_KEY, people);
 //                    intent.putExtra(Constant.RESULT_CODE_KEY,people);
                     intent.putExtras(bundle);
                     setResult(Constant.RESULT_CODE_SELECT_DEVICES, intent);
@@ -80,22 +79,21 @@ public class FleetActivity extends BaseActivity {
     }
 
     public void onclick_DelDriver(final int id) {
-        AlertDialogApp.showConfirm(this, "确认删除车队司机", new AlertDialogApp.DialogClickListener() {
+        BaseDialog.showConfirmDialog(this, "确认删除车队司机", new View.OnClickListener() {
             @Override
-            public void onClick(AlertDialog dialog, View view) {
+            public void onClick(View v) {
                 FleetListAdapter adp = (FleetListAdapter) listView.getAdapter();
                 adp.removePeople(id);
-                dialog.cancel();
             }
         });
     }
 
     public void onclick_AddDriver(View view) {
-        AlertDialogApp dialog = new AlertDialogApp(this, R.layout.dialog_add_driver);
-        dialog.create().show();
-        dialog.addClickListener(R.id.add_driver_dl_cancel_bt, null).addClickListener(R.id.add_driver_dl_confirm_bt, new AlertDialogApp.DialogClickListener() {
+        BaseDialog dialog = new BaseDialog(this);
+        dialog.setView(R.layout.dialog_add_driver);
+        dialog.setOnClickListener(R.id.add_driver_dl_cancel_bt, null).setOnClickListenerForDialog(R.id.add_driver_dl_confirm_bt, new BaseDialog.DialogClickListener() {
             @Override
-            public void onClick(AlertDialog dialog, View view) {
+            public void onClick(BaseDialog dialog, View view) {
                 EditText name = (EditText) dialog.findViewById(R.id.add_driver_dl_name_ed);
                 EditText phone = (EditText) dialog.findViewById(R.id.add_driver_dl_phone_ed);
                 if (TextUtils.isEmpty(name.getText()) || TextUtils.isEmpty(phone.getText())) {
@@ -110,6 +108,8 @@ public class FleetActivity extends BaseActivity {
                 Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show();
                 dialog.cancel();
             }
-        });
+
+
+        }).show();
     }
 }

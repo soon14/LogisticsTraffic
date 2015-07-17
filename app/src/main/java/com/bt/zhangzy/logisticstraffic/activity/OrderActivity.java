@@ -1,6 +1,5 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -9,6 +8,7 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 import com.zhangzy.baidusdk.BaiduMapActivity;
 
 /**
@@ -56,14 +56,12 @@ public class OrderActivity extends BaseActivity {
 
     public void onClick_ChangeType(View view) {
         final TextView textView = (TextView) view;
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.order_dialog_type);
-        dialog.setTitle(null);
-        dialog.findViewById(R.id.order_dialog_type_ly).setOnClickListener(new View.OnClickListener() {
+        BaseDialog dialog = new BaseDialog(this);
+        dialog.setView(R.layout.order_dialog_type);
+        dialog.setOnClickListener(R.id.order_dialog_type_ly, new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                dialog.cancel();
                 textView.setText("建材");
             }
         });
@@ -72,14 +70,12 @@ public class OrderActivity extends BaseActivity {
 
     public void onClick_ChangeTruckType(View view) {
         final TextView textView = (TextView) view;
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.order_dialog_truck_type);
-        dialog.setTitle(null);
-        dialog.findViewById(R.id.order_dialog_truck_type_ly).setOnClickListener(new View.OnClickListener() {
+        BaseDialog dialog = new BaseDialog(this);
+        dialog.setView(R.layout.order_dialog_truck_type);
+        dialog.setOnClickListener(R.id.order_dialog_truck_type_ly,new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                dialog.cancel();
                 textView.setText("平板车");
             }
         });
@@ -88,14 +84,12 @@ public class OrderActivity extends BaseActivity {
 
     public void onClick_ChangeTruckLength(View view) {
         final TextView textView = (TextView) view;
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.order_dialog_truck_length);
-        dialog.setTitle(null);
-        dialog.findViewById(R.id.order_dialog_truck_length_ly).setOnClickListener(new View.OnClickListener() {
-
+//        final Dialog dialog = new Dialog(this);
+        BaseDialog dialog = new BaseDialog(this);
+        dialog.setView(R.layout.order_dialog_truck_length);
+        dialog.setOnClickListener(R.id.order_dialog_truck_length_ly, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.cancel();
                 textView.setText("5米");
             }
         });
@@ -105,39 +99,26 @@ public class OrderActivity extends BaseActivity {
 
     //
     public void onClick_ChangeLocation(View view) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setView(R.layout.order_dialog_location);
-//        builder.create().show();
         final TextView textView = (TextView) view;
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.order_dialog_location);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setTitle(null);
-        dialog.findViewById(R.id.order_dialog_location_ly).setOnClickListener(new View.OnClickListener() {
+        BaseDialog baseDialog = new BaseDialog(this);
+        baseDialog.setView(R.layout.order_dialog_location);
+        baseDialog.setOnClickListener(R.id.order_dialog_location_ly, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textView.setText(System.currentTimeMillis() % 2 == 1 ? "呼和浩特" : "北京");
-                dialog.cancel();
             }
-        });
-        dialog.show();
+        }).show();
+
     }
 
 
     public void onClick_ChangeWeight(View view) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setView(R.layout.order_dialog_location);
-//        builder.create().show();
         final TextView textView = (TextView) view;
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.order_dialog_weight);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setTitle(null);
-        dialog.findViewById(R.id.order_dialog_weight_btn).setOnClickListener(new View.OnClickListener() {
+        BaseDialog dialog = new BaseDialog(this);
+        dialog.setView(R.layout.order_dialog_weight).setOnClickListener(R.id.order_dialog_weight_btn,new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textView.setText("20");
-                dialog.cancel();
             }
         });
         dialog.show();
