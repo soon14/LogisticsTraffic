@@ -17,11 +17,5 @@
 
     </ListView>
 
-    <Button
-        style="@style/orange_btn_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:text="更多..." />
+
 </LinearLayout>

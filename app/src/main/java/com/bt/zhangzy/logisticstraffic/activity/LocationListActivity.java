@@ -7,6 +7,7 @@ import android.widget.ListView;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.CollectListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.User;
 import com.zhangzy.baidusdk.BaiduMapActivity;
 
 /**
@@ -28,7 +29,7 @@ public class LocationListActivity extends BaseActivity {
         }
 
         listView = (ListView) findViewById(R.id.location_listview);
-        listView.setAdapter(new CollectListAdapter(true));
+        listView.setAdapter(new CollectListAdapter(true, User.getInstance().getHistoryList()));
 
     }
 

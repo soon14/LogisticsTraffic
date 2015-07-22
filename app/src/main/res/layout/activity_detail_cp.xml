@@ -7,7 +7,6 @@
     android:orientation="vertical"
     tools:context="com.bt.zhangzy.logisticstraffic.activity.DetailCompany">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,10 +18,12 @@
             android:layout_height="wrap_content"
             android:text="门企详情" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/detail_colletion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:onClick="onClick_CollectAdd"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:src="@drawable/colletion_icon" />
@@ -36,229 +37,248 @@
             android:src="@drawable/share_icon" />
     </RelativeLayout>
 
-
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <!-- 图片展示-->
-        <ViewFlipper
-            android:id="@+id/detail_cp_flipper"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autoStart="true"
-            android:flipInterval="3000"
-            android:inAnimation="@anim/slide_in_left"
-            android:outAnimation="@anim/slide_out_right">
+            android:orientation="vertical">
 
-            <ImageView
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- 图片展示-->
+                <ViewFlipper
+                    android:id="@+id/detail_cp_flipper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoStart="true"
+                    android:flipInterval="3000"
+                    android:inAnimation="@anim/slide_in_left"
+                    android:outAnimation="@anim/slide_out_right">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:onClick="onClick_OpenPicture"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/fake_detail_1" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:onClick="onClick_OpenPicture"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/fake_detail_1" />
+
+                </ViewFlipper>
+
+                <!-- 头像展示-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/detail_cp_flipper"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/fake_cp_user" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:onClick="onClick_OpenPicture"
-                android:scaleType="fitXY"
-                android:src="@drawable/fake_detail_1" />
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
 
-            <ImageView
+                <TextView
+                    android:id="@+id/detail_name_tx"
+                    style="@style/tx_black_df_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="联邦物流" />
+
+                <RatingBar
+                    style="@style/RatingBar_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="5dp"
+                    android:numStars="5"
+                    android:rating="3.5" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:onClick="onClick_OpenPicture"
-                android:scaleType="fitXY"
-                android:src="@drawable/fake_detail_1" />
-
-        </ViewFlipper>
-
-        <!-- 头像展示-->
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/detail_cp_flipper"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/fake_cp_user" />
-
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="联邦物流" />
-
-        <RatingBar
-            style="@style/RatingBar_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_alignParentRight="true"
-            android:numStars="5"
-            android:rating="3.5" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableStart="@drawable/phone_icon_big"
-            android:gravity="center"
-            android:clickable="true"
-            android:onClick="onClick_CallPhone"
-            android:text="联系电话" />
-
-        <View
-            android:layout_width="4px"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:background="#fca987" />
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableStart="@drawable/edit_icon"
-            android:gravity="center"
-            android:clickable="true"
-            android:onClick="onClick_Order"
-            android:text="我要下单" />
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/detail_cp_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:background="@color/white"
-        android:onClick="onClick_gotoMap">
-
-        <TextView
-            style="@style/detail_df_tx_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:text="内蒙古包头市 稀土路 黄河大街 59号" />
-
-        <TextView
-
-            style="@style/detail_smail_tx_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/location_icon"
-            android:text="距离1.5km" />
-    </RelativeLayout>
-
-    <!-- TODO 表格换成黑色 需要美术设计 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingBottom="5dp">
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="公司详情" />
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@color/black"
-            android:stretchColumns="1">
-
-            <TableRow android:layout_marginRight="2px">
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <TextView
-                    style="@style/table_tx_style"
-                    android:text="常发货物类型" />
+                    style="@style/tx_black_df_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/phone_icon_big"
+                    android:gravity="center"
+                    android:onClick="onClick_CallPhone"
+                    android:text="联系电话" />
 
-                <TextView style="@style/table_tx_style" />
-            </TableRow>
-
-            <TableRow android:layout_marginRight="2px">
+                <View
+                    android:layout_width="4px"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#fca987" />
 
                 <TextView
-                    style="@style/table_tx_style"
-                    android:text="常发线路" />
+                    style="@style/tx_black_df_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/edit_icon"
+                    android:gravity="center"
+                    android:onClick="onClick_Order"
+                    android:text="我要下单" />
 
-                <TextView style="@style/table_tx_style" />
-            </TableRow>
+            </LinearLayout>
 
-            <TableRow android:layout_marginRight="2px">
+            <RelativeLayout
+                android:id="@+id/detail_cp_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:onClick="onClick_gotoMap"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
 
                 <TextView
-                    style="@style/table_tx_style"
-                    android:layout_marginBottom="2px"
-                    android:text="经营规模" />
+                    android:id="@+id/detail_cp_address_tx"
+                    style="@style/detail_df_tx_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="内蒙古包头市 稀土路 黄河大街 59号" />
 
-                <TextView style="@style/table_tx_style" />
-            </TableRow>
+                <TextView
+                    style="@style/detail_smail_tx_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/location_icon"
+                    android:text="距离1.5km" />
+            </RelativeLayout>
 
-        </TableLayout>
-    </LinearLayout>
+            <!-- TODO 表格换成黑色 需要美术设计 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="5dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@color/white"
-        android:clickable="true"
-        android:onClick="onClick_Evaluation"
-        android:orientation="vertical">
+                <TextView
+                    style="@style/tx_black_df_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="公司详情" />
 
-        <TextView
-            style="@style/detail_df_tx_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="用户评价" />
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@color/black"
+                    android:stretchColumns="1">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@color/main_bg_color" />
+                    <TableRow android:layout_marginRight="2px">
 
-        <include layout="@layout/evaluate_list_item" />
+                        <TextView
+                            style="@style/table_tx_style"
+                            android:text="常发货物类型" />
+
+                        <TextView style="@style/table_tx_style" />
+                    </TableRow>
+
+                    <TableRow android:layout_marginRight="2px">
+
+                        <TextView
+                            style="@style/table_tx_style"
+                            android:text="常发线路" />
+
+                        <TextView style="@style/table_tx_style" />
+                    </TableRow>
+
+                    <TableRow android:layout_marginRight="2px">
+
+                        <TextView
+                            style="@style/table_tx_style"
+                            android:layout_marginBottom="2px"
+                            android:text="经营规模" />
+
+                        <TextView style="@style/table_tx_style" />
+                    </TableRow>
+
+                </TableLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/detail_df_tx_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="用户评价" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/main_bg_color" />
+
+                <include layout="@layout/evaluate_list_item" />
+
+                <include layout="@layout/evaluate_list_item" />
+
+                <Button
+                    style="@style/while_orange_btn_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClick_Evaluation"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="更多..." />
+            </LinearLayout>
 
 
-
-    </LinearLayout>
-
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

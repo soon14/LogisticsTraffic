@@ -8,9 +8,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.zhangzy.baidusdk.BaiduMapActivity;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by ZhangZy on 2015/6/18.
@@ -43,6 +46,24 @@ public class BaseActivity extends FragmentActivity {
         }
         pageTopName.setText(name);
 
+    }
+
+    /**
+     * 设置页面内容
+     * @param id 内容标识
+     * @param string 内容
+     */
+    protected void setTextView(int id,String string){
+        TextView tx = (TextView)findViewById(id);
+        tx.setText(string);
+    }
+
+    /**
+     * 显示提示信息
+     * @param msg
+     */
+    protected void showToast(String msg){
+        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
 

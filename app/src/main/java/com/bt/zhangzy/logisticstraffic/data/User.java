@@ -30,6 +30,12 @@ public class User {
      * 浏览历史
      */
     private ArrayList<Product> historyList = new ArrayList<Product>();
+
+    /**
+     * 收藏列表
+     */
+    private ArrayList<Product> collectionList = new ArrayList<Product>();
+
     /**
      * 搜索关键字历史
      */
@@ -47,6 +53,10 @@ public class User {
         searchKeyWordList.add("测试测试");
         searchKeyWordList.add("测试1");
 
+        Product p = new Product(12343);
+        p.setName("到底多大多大的");
+        collectionList.add(p);
+
     }
 
 
@@ -56,6 +66,7 @@ public class User {
 
     /**
      * 添加搜索记录
+     *
      * @param keyStr
      */
     public void addSearchKeyWord(String keyStr) {
@@ -77,6 +88,19 @@ public class User {
 
     public ArrayList<People> getDriverList() {
         return driverList;
+    }
+
+    public ArrayList<Product> getCollectionList() {
+        return collectionList;
+    }
+
+    /**
+     * 添加到收藏列表
+     *
+     * @param product
+     */
+    public void addCollectionProduct(Product product) {
+        collectionList.add(product);
     }
 
     public ArrayList<Product> getHistoryList() {

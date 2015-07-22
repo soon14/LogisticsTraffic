@@ -19,7 +19,9 @@ import android.view.inputmethod.InputMethodManager;
 import java.util.List;
 
 /**
+ * 系统工具类，主要用于获取设备的相关信息和功能
  * Created by ZhangZy on 2015/6/11.
+ * @author ZhangZy
  */
 public class ContextTools {
 

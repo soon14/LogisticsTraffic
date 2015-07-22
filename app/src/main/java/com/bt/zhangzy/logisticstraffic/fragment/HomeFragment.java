@@ -173,10 +173,10 @@ public class HomeFragment extends BaseHomeFragment {
             public void onItemClick(View v, int position) {
                 Log.d(getTag(), "onItemClick>>>>>");
                 if (v != null)
-                    if (v.getId() == R.id.home_list_item_ly) {
+                    if (v.getId() == R.id.list_item_ly) {
                         Log.d(getTag(), "    >>>>>点击了item" + position);
                         getHomeActivity().gotoDetail();
-                    } else if (v.getId() == R.id.home_list_item_phone) {
+                    } else if (v.getId() == R.id.list_item_phone) {
                         Log.d(getTag(), "    >>>>>点击了phone" + position);
                         getHomeActivity().showDialogCallPhone("12301253326");
                     }

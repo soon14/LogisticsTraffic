@@ -60,7 +60,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/home_list_item_tx"
+                        android:id="@+id/list_item_name_tx"
                         style="@style/tx_black_df_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -73,6 +73,7 @@
                         android:src="@drawable/vip_icon" />
 
                     <RatingBar
+                        android:id="@+id/list_item_lv_rating"
                         style="@style/RatingBar_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -83,6 +84,7 @@
 
 
                 <TextView
+                    android:id="@+id/list_item_dir_tx"
                     style="@style/tx_black_df_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -93,12 +95,13 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/list_item_times_tx"
                 style="@style/tx_gray_12sp_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:text="已被浏览：1850次" />
+                android:text="已被浏览：#n次" />
         </RelativeLayout>
 
 

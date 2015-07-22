@@ -54,10 +54,10 @@ public class HomeListAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_list_item, null);
             ViewHolder holder = new ViewHolder();
             holder.position = position;
-            holder.img = (ImageView) convertView.findViewById(R.id.home_list_item_img);
-            holder.button = (ImageButton) convertView.findViewById(R.id.home_list_item_phone);
-            holder.textView = (TextView) convertView.findViewById(R.id.home_list_item_tx);
-            holder.layout = convertView.findViewById(R.id.home_list_item_ly);
+            holder.img = (ImageView) convertView.findViewById(R.id.list_item_img);
+            holder.button = (ImageButton) convertView.findViewById(R.id.list_item_phone);
+            holder.textView = (TextView) convertView.findViewById(R.id.list_item_name_tx);
+            holder.layout = convertView.findViewById(R.id.list_item_ly);
             listView.add(holder);
 
             holder.img.setImageResource(fakeImgId[position % fakeImgId.length]);

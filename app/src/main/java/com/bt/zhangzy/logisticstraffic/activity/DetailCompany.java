@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.zhangzy.baidusdk.BaiduMapActivity;
 
@@ -16,11 +17,23 @@ import com.zhangzy.baidusdk.BaiduMapActivity;
  */
 public class DetailCompany extends BaseActivity {
 
+    private Product product;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //testData
+        product = new Product(102);
+        product.setName("测试数据名称");
+        product.setPhoneNumber("10010");
+        product.setAddress("黄河大街以北重工路xxx号");
+
+
         setContentView(R.layout.activity_detail_cp);
+
+        setTextView(R.id.detail_name_tx, product.getName());
+        setTextView(R.id.detail_cp_address_tx,product.getAddress());
 
         //TODO 设置电话监听
         TelephonyManager mTelephonyMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
@@ -61,7 +74,7 @@ public class DetailCompany extends BaseActivity {
     public void onClick_CallPhone(View view) {
         openCall = true;
 //        ContextTools.callPhone(this, "10010");
-        getApp().callPhone("10010");
+        getApp().callPhone(product.getPhoneNumber());
     }
 
 
@@ -86,5 +99,10 @@ public class DetailCompany extends BaseActivity {
             return;
         }
         startActivity(OrderActivity.class);
+    }
+
+    public void onClick_CollectAdd(View view) {
+        User.getInstance().addCollectionProduct(product);
+        showToast("收藏成功");
     }
 }

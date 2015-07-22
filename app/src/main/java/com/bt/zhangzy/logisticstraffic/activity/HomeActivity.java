@@ -87,30 +87,78 @@ public class HomeActivity extends BaseActivity {
                 return onTouchEvent(event);
             }
         });
+        contentViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setPage(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         //默认页面处理
-        contentViewPager.setCurrentItem(INDEX_HOME);
-        setSelectBtn(findViewById(R.id.home_bottom_first_btn));
+        setPage(INDEX_HOME);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             if (bundle.containsKey(Constant.BUNDLE_PAGE_KEY)) {
                 String value = bundle.getString(Constant.BUNDLE_PAGE_KEY);
+
                 if (Constant.PAGE_HOME.equals(value)) {
-                    contentViewPager.setCurrentItem(INDEX_HOME);
-                    setSelectBtn(findViewById(R.id.home_bottom_first_btn));
+                    setPage(INDEX_HOME);
                 } else if (Constant.PAGE_SERVICES.equals(value)) {
-                    contentViewPager.setCurrentItem(INDEX_SERVICES);
-                    setSelectBtn(findViewById(R.id.home_bottom_services_btn));
+                    setPage(INDEX_SERVICES);
                 } else if (Constant.PAGE_HAPPY.equals(value)) {
-                    contentViewPager.setCurrentItem(INDEX_HAPPY);
-                    setSelectBtn(findViewById(R.id.home_bottom_happy_btn));
+                    setPage(INDEX_HAPPY);
                 } else if (Constant.PAGE_USER.equals(value)) {
-                    contentViewPager.setCurrentItem(INDEX_USER);
-                    setSelectBtn(findViewById(R.id.home_bottom_me_btn));
+                    setPage(INDEX_USER);
                 }
             }
         }
 
+    }
+
+    private void setPage(int page) {
+        setPage(page, null);
+    }
+
+    private void setPage(int page, View view) {
+        if (page == INDEX_USER && !User.getInstance().getLogin()) {
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.BUNDLE_PAGE_KEY, Constant.PAGE_USER);
+            startActivity(LoginActivity.class, bundle);
+            return;
+        }
+        if (view == null) {
+            switch (page) {
+                case INDEX_HOME:
+                    setSelectBtn(findViewById(R.id.home_bottom_first_btn));
+                    break;
+                case INDEX_HAPPY:
+                    setSelectBtn(findViewById(R.id.home_bottom_happy_btn));
+                    break;
+                case INDEX_SERVICES:
+                    setSelectBtn(findViewById(R.id.home_bottom_services_btn));
+                    break;
+                case INDEX_USER:
+                    setSelectBtn(findViewById(R.id.home_bottom_me_btn));
+                    break;
+
+                default:
+                    //没有该页面，跳出
+                    return;
+            }
+        }
+        if (contentViewPager.getCurrentItem() != page) {
+            contentViewPager.setCurrentItem(page);
+        }
     }
 
 
@@ -120,7 +168,7 @@ public class HomeActivity extends BaseActivity {
     private void createView() {
         //TODO 浮窗音效 小汽车下单加入音效
         if (!User.getInstance().getLogin() || User.getInstance().getUserType() != Type.InformationType) {
-            Log.i(Tag, "用户 不符合浮窗创建条件");
+            Log.w(Tag, "用户 不符合浮窗创建条件");
             floatView = null;
             return;
         }
@@ -207,7 +255,7 @@ public class HomeActivity extends BaseActivity {
 
     public void showDialogCallPhone(final String phoneNum) {
         Log.d(Tag, ">>>showDialogCallPhone " + phoneNum);
-        BaseDialog dialog = BaseDialog.CreateChoosePhoneDialog(HomeActivity.this,phoneNum);
+        BaseDialog dialog = BaseDialog.CreateChoosePhoneDialog(HomeActivity.this, phoneNum);
         dialog.setOnClickListener(R.id.dialog_btn_no, null).setOnClickListener(R.id.dialog_btn_yes, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -248,35 +296,25 @@ public class HomeActivity extends BaseActivity {
 //        startActivity(LoginActivity.class);
         //标签页切换
 //        replace(R.id.home_content, new UserFragment(), TAG_USER);
-        if (!User.getInstance().getLogin()) {
-            Bundle bundle = new Bundle();
-            bundle.putString(Constant.BUNDLE_PAGE_KEY, Constant.PAGE_USER);
-            startActivity(LoginActivity.class,bundle);
-        } else {
-            contentViewPager.setCurrentItem(INDEX_USER);
-            setSelectBtn(view);
-        }
+        setPage(INDEX_USER, view);
     }
 
 
     public void onClick_Home(View view) {
 //        replace(R.id.home_content,new HomeFragment(),TAG_HOME);
-        contentViewPager.setCurrentItem(INDEX_HOME);
-        setSelectBtn(view);
+        setPage(INDEX_HOME, view);
     }
 
     public void onClick_Happy(View view) {
 //        startActivity(PlayActivity.class);
 //        replace(R.id.home_content,new HappyFragment(),TAG_HAPPY);
-        contentViewPager.setCurrentItem(INDEX_HAPPY);
-        setSelectBtn(view);
+        setPage(INDEX_HAPPY, view);
     }
 
     public void onClick_Services(View view) {
 //        startActivity(ServicesActivity.class);
 //        replace(R.id.home_content, new ServicesFragment(), TAG_SERVICES);
-        contentViewPager.setCurrentItem(INDEX_SERVICES);
-        setSelectBtn(view);
+        setPage(INDEX_SERVICES, view);
     }
 
     public void onClick_gotoHistory(View view) {

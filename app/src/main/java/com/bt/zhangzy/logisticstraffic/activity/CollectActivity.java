@@ -8,6 +8,7 @@ import android.widget.ListView;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.CollectListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.User;
 
 /**
  * Created by ZhangZy on 2015/7/7.
@@ -49,11 +50,13 @@ public class CollectActivity extends BaseActivity implements AdapterView.OnItemC
         if (pageState == MY_COLLECT) {
             myCollectType.setSelected(true);
             otherCollectType.setSelected(false);
-            listView.setAdapter(new CollectListAdapter(true));
+            CollectListAdapter adapter = new CollectListAdapter(true, null);
+            listView.setAdapter(adapter);
+            adapter.setData(User.getInstance().getCollectionList());
         } else if (pageState == OTHER_COLLECT) {
             myCollectType.setSelected(false);
             otherCollectType.setSelected(true);
-            listView.setAdapter(new CollectListAdapter(false));
+            listView.setAdapter(new CollectListAdapter(false, User.getInstance().getCollectionList()));
         }
     }
 
