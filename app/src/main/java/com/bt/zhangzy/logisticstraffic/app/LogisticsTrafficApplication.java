@@ -24,6 +24,7 @@ import com.bt.zhangzy.logisticstraffic.activity.LoginActivity;
 import com.bt.zhangzy.logisticstraffic.adapter.LocationListAdapter;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 import com.zhangzy.baidusdk.BaiduSDK;
 
 import java.util.Calendar;
@@ -49,8 +50,12 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
     private TextView locationNetworkTx;
     private Location location;//用于缓存已经定位的信息
 
-    public LogisticsTrafficApplication() {
-        super();
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
     }
 
     public void setCurrentAct(BaseActivity act) {
@@ -172,13 +177,12 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
      */
     public void callPhone(String phoneNumber) {
         if (!User.getInstance().getLogin()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(currentAct);
-            builder.setTitle("登陆提醒").setMessage("您还没有登陆，是否登陆？").setPositiveButton("登陆", new DialogInterface.OnClickListener() {
+            BaseDialog.showConfirmDialog(currentAct, "您还没有登陆，是否登陆？", "返回", "登陆", new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(View v) {
                     currentAct.startActivity(LoginActivity.class);
                 }
-            }).setNegativeButton("返回", null).show();
+            });
 
         } else {
             ContextTools.CallPhone(currentAct, phoneNumber);
