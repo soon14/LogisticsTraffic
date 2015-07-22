@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class HomeSpreadAdapter extends PagerAdapter {
 
     private static final String TAG = HomeSpreadAdapter.class.getSimpleName();
-    final int[] ids = {R.id.spread_3_ly, R.id.spread_1_ly, R.id.spread_2_ly, R.id.spread_3_ly, R.id.spread_1_ly};
+    final int[] ids = {R.layout.home_spread_item_3, R.layout.home_spread_item, R.layout.home_spread_item_2, R.layout.home_spread_item_3, R.layout.home_spread_item};
 
     public HomeSpreadAdapter() {
 
@@ -39,11 +39,7 @@ public class HomeSpreadAdapter extends PagerAdapter {
         int index = position % ids.length;
         View view;
         //实例化项目布局 并填入数据
-        view = LayoutInflater.from(container.getContext()).inflate(R.layout.home_spread_item, container, false);
-        for (int id : ids) {
-            view.findViewById(id).setVisibility(View.GONE);
-        }
-        view.findViewById(ids[index]).setVisibility(View.VISIBLE);
+        view = LayoutInflater.from(container.getContext()).inflate(ids[position], container, false);
 //        Log.w(TAG, ">>>>>>>>>>>>>>>>>>>>>>>>>>>addview=" + index + " ," + position);
         container.addView(view);
         return view;

@@ -57,7 +57,7 @@ public class LocationActivity extends BaseActivity {
                 startActivity(HomeActivity.class);
                 finish();
             }
-        }.sendEmptyMessageDelayed(0, 2000);
+        }.sendEmptyMessageDelayed(0, 1000);
     }
 
     public void onClick_OpenCityList(View view) {

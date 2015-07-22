@@ -6,44 +6,23 @@
     android:orientation="vertical">
 
     <GridLayout
-        android:id="@+id/spread_1_ly"
+        android:id="@+id/spread_2_ly"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="2px"
         android:columnCount="2"
-        android:rowCount="2"
+        android:rowCount="1"
         android:visibility="visible">
 
         <ImageView
             android:layout_columnWeight="1"
-            android:layout_marginBottom="2px"
             android:layout_marginRight="2px"
             android:layout_rowWeight="1"
             android:background="@color/white"
-            android:gravity="center"
+            android:gravity="fill"
             android:onClick="onClick_gotoDetail"
             android:scaleType="fitXY"
-            android:src="@drawable/fake_spread_6" />
-
-        <ImageView
-            android:layout_columnWeight="1"
-            android:layout_marginBottom="2px"
-            android:layout_rowWeight="1"
-            android:background="@color/white"
-            android:gravity="center"
-            android:onClick="onClick_gotoDetail"
-            android:scaleType="fitXY"
-            android:src="@drawable/fake_spread_7" />
-
-        <ImageView
-            android:layout_columnWeight="1"
-            android:layout_marginRight="2px"
-            android:layout_rowWeight="1"
-            android:background="@color/white"
-            android:gravity="center"
-            android:onClick="onClick_gotoDetail"
-            android:scaleType="fitXY"
-            android:src="@drawable/fake_spread_8" />
+            android:src="@drawable/fake_spread_4" />
 
         <ImageView
             android:layout_columnWeight="1"
@@ -52,7 +31,7 @@
             android:gravity="fill"
             android:onClick="onClick_gotoDetail"
             android:scaleType="fitXY"
-            android:src="@drawable/fake_spread_9" />
+            android:src="@drawable/fake_spread_5" />
     </GridLayout>
 
 

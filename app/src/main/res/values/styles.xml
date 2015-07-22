@@ -1,16 +1,15 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+    <style name="AppTheme" parent="@android:style/Theme.NoTitleBar">
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/page_bg_color</item>
-        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="AnimationFade" parent="android:Animation">
         <!--   PopupWindow左右弹出的效果-->
-        <item name="android:windowEnterAnimation">@anim/in_right</item>
-        <item name="android:windowExitAnimation">@anim/out_right</item>
+        <item name="android:windowEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_left</item>
 
     </style>
     <!-- 自定义dialog样式-->

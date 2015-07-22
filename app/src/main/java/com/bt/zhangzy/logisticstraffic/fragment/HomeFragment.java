@@ -4,10 +4,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ViewFlipper;
 
@@ -25,7 +25,8 @@ public class HomeFragment extends BaseHomeFragment {
     private ListView listView;
     private View listHeadView;
     private ViewFlipper flipper;
-//    private GestureDetector detector;
+    //    private GestureDetector detector;
+    private View topView;
 
     public HomeFragment() {
         super(null);
@@ -43,7 +44,8 @@ public class HomeFragment extends BaseHomeFragment {
     void init() {
         super.init();
 
-
+        topView = findViewById(R.id.home_top_ly);
+        topView.getBackground().setAlpha(0);
     }
 
     @Override
@@ -82,6 +84,7 @@ public class HomeFragment extends BaseHomeFragment {
     }
 
     Handler spreadHandler;
+    Handler spreadDelayHandler;
 
     /**
      * 推荐位 初始化
@@ -96,6 +99,18 @@ public class HomeFragment extends BaseHomeFragment {
         }
         spreadPager.setAdapter(new HomeSpreadAdapter());
         spreadPager.setCurrentItem(1, false);
+        spreadDelayHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+//                super.handleMessage(msg);
+                int count = spreadPager.getAdapter().getCount();
+                if (msg.what == 0) {
+                    spreadPager.setCurrentItem(count - 2, false);
+                } else if (msg.what == 1) {
+                    spreadPager.setCurrentItem(1, false);
+                }
+            }
+        };
         spreadPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -110,9 +125,11 @@ public class HomeFragment extends BaseHomeFragment {
 
                 int count = spreadPager.getAdapter().getCount();
                 if (position == 0) {
-                    spreadPager.setCurrentItem(count - 2, false);
+                    spreadDelayHandler.sendEmptyMessageDelayed(0, 200);
+
                 } else if (position == count - 1) {
-                    spreadPager.setCurrentItem(1, false);
+//                    spreadPager.setCurrentItem(1, false);
+                    spreadDelayHandler.sendEmptyMessageDelayed(1, 200);
                 }
             }
 
@@ -133,7 +150,9 @@ public class HomeFragment extends BaseHomeFragment {
                 if (spreadPager != null) {
                     int nextPage = spreadPager.getCurrentItem() + 1;
                     if (nextPage >= spreadPager.getAdapter().getCount()) {
-                        nextPage = 0;
+//                        nextPage = 0;
+                        Log.w(TAG, "取消跳转 nextPage=" + nextPage);
+                        return;
                     }
                     spreadPager.setCurrentItem(nextPage);
                     spreadHandler.sendEmptyMessageDelayed(0, 3000);
@@ -141,6 +160,16 @@ public class HomeFragment extends BaseHomeFragment {
             }
         };
         spreadHandler.sendEmptyMessageDelayed(0, 3000);
+    }
+
+    public int getScrollY() {
+        View c = listView.getChildAt(0);
+        if (c == null) {
+            return 0;
+        }
+        int firstVisiblePosition = listView.getFirstVisiblePosition();
+        int top = c.getTop();
+        return -top + firstVisiblePosition * c.getHeight();
     }
 
 
@@ -157,6 +186,25 @@ public class HomeFragment extends BaseHomeFragment {
         }
 
         listView = (ListView) findViewById(R.id.home_listView);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                Log.d(TAG, firstVisibleItem+","+visibleItemCount+","+totalItemCount);
+                if (listView == null)
+                    return;
+
+                View v = listView.getChildAt(0);
+                if (v != null) {
+                    topView.getBackground().setAlpha(Math.min(200, Math.abs(getScrollY())));
+//                    Log.d(TAG, "top=" + getScrollY() + " -->" + topView.getBackground().getAlpha());
+                }
+            }
+        });
         if (listHeadView == null) {
             listHeadView = LayoutInflater.from(getActivity()).inflate(R.layout.home_list_header, null);
         }

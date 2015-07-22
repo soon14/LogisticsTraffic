@@ -83,7 +83,7 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
         if (popupWindow.isShowing()) {
             popupWindow.dismiss();
         } else {
-            popupWindow.showAtLocation(view, Gravity.RIGHT | Gravity.TOP, 0, 0);
+            popupWindow.showAtLocation(view, Gravity.LEFT | Gravity.TOP, 0, 0);
             WindowManager.LayoutParams lp = currentAct.getWindow().getAttributes();
             lp.alpha = 0.3f;
             currentAct.getWindow().setAttributes(lp);
