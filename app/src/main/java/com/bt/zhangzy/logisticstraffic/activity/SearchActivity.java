@@ -16,6 +16,7 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.ContextTools;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.zhangzy.baidusdk.BaiduSDK;
 
 /**
  * TODO 1、搜索记录弹窗；2、点击搜索按钮后隐藏推荐店铺
@@ -103,6 +104,17 @@ public class SearchActivity extends BaseActivity {
                 });
             }
 
+            //语音输入回调
+            BaiduSDK.getInstance().setVoiceListener(new BaiduSDK.VoiceListener() {
+                @Override
+                public void callbackVoice(String string) {
+                    if(searchKeyWord != null){
+                        searchKeyWord.setText(string);
+                        onClick_Search(searchKeyWord);
+                    }
+                }
+            });
+
         } else {
             //线路模式
             lineBtn.setSelected(true);
@@ -155,5 +167,20 @@ public class SearchActivity extends BaseActivity {
             startEd.setText(endEd.getText());
             endEd.setText(editable);
         }
+    }
+
+    /**
+     * 语音搜索接入
+     *
+     * @param view
+     */
+    public void onClick_SearchVoice(View view) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                BaiduSDK.getInstance().showVoiceDialog(context);
+
+            }
+        });
     }
 }

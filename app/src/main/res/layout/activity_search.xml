@@ -64,6 +64,14 @@
                 android:layout_marginLeft="20dp"
                 android:onClick="onClick_Search"
                 android:text="搜索" />
+            <Button
+                android:id="@+id/search_keyword_voice_btn"
+                style="@style/home_button_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:onClick="onClick_SearchVoice"
+                android:text="语音搜索" />
         </LinearLayout>
 
 

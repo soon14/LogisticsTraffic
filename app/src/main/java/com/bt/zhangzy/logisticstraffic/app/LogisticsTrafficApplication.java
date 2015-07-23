@@ -66,6 +66,8 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
     public void Exit() {
         //定位服务推出
         BaiduSDK.getInstance().stopLocationServer();
+        //语音服务退出
+        BaiduSDK.getInstance().dismissVoiceDialog();
 
         if (currentAct != null)
             currentAct.finish();

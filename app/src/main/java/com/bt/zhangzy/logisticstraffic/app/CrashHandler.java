@@ -88,8 +88,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 Log.e(TAG, "error : ", e);
             }
             //退出程序
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
+//            android.os.Process.killProcess(android.os.Process.myPid());
+//            System.exit(1);
         }
     }
 

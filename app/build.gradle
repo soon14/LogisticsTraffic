@@ -19,7 +19,6 @@ android {
     sourceSets {
         main {
             resources.srcDirs = ['anim']
-            jniLibs.srcDirs = ['libs']
         }
     }
     productFlavors {
