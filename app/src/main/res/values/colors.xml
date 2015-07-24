@@ -8,6 +8,8 @@
     <color name="mask_black_no_alpha">#666666</color>
     <color name="editpage_bg_color">#66cccaa9</color>
     <color name="page_bg_color">#e6e6e6</color>
+    <color name="gray_line">#CCCCCC</color>
+    <color name="licence_btn_color">#838383</color>
 
     <color name="white">#FFF</color>
     <color name="black">#000</color>

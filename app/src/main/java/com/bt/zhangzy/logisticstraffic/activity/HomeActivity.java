@@ -181,7 +181,9 @@ public class HomeActivity extends BaseActivity {
             public void onClick(View v) {
                 Toast.makeText(HomeActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
 
-                startActivity(OrderDetailActivity.class);
+//                startActivity(OrderDetailActivity.class);
+//                startActivity(SourceActivity.class);
+                startActivity(PublishActivity.class);
             }
         });
         floatView.setWindowManager(windowManager);

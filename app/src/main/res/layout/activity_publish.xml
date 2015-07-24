@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_color"
+    android:orientation="vertical"
+    tools:context=".activity.PublishActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/page_top" />
+
+        <Button
+            style="@style/orange_btn_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:onClick="onClick_Reset"
+            android:text="重置"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:stretchColumns="1">
+
+        <TableRow android:gravity="center">
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="车 牌 号：" />
+
+            <EditText
+                android:id="@+id/publish_licence_ed"
+                style="@style/black_tx_12_style.source_detail"
+                android:hint="请输入车牌号" />
+
+            <Button
+                style="@style/while_orange_btn_style"
+                android:textSize="12sp"
+                android:onClick="onClick_ShowLicence"
+                android:text="虚拟\n键盘" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="车      长：" />
+
+            <EditText
+                style="@style/black_tx_12_style.source_detail"
+                android:hint="长度"
+                android:minWidth="40dp" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:minWidth="20dp"
+                android:text="米" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="载      重：" />
+
+            <EditText
+                style="@style/black_tx_12_style.source_detail"
+                android:hint="40"
+                android:inputType="number"
+                android:minWidth="40dp" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="吨" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="车辆类型：" />
+
+            <EditText
+                style="@style/black_tx_12_style.source_detail"
+                android:layout_span="2"
+                android:hint="货车" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:layout_column="3"
+                android:text="车辆状况：" />
+
+            <EditText
+                style="@style/black_tx_12_style.source_detail"
+                android:layout_span="2"
+                android:hint="半挂" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="联系人：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="卢爱华（车主）" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="联系电话：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="18600268826" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:stretchColumns="1">
+
+        <TableRow android:gravity="center">
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="车辆常驻地：" />
+
+            <EditText
+                style="@style/black_tx_12_style.source_detail"
+                android:hint="例：北京市" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        style="@style/black_tx_12_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="证件照" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_marginTop="20dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:background="@color/white"
+                android:minHeight="95dp"
+                android:minWidth="95dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:background="@color/white"
+                android:minHeight="95dp"
+                android:minWidth="95dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginTop="20dp"
+            android:gravity="center">
+
+            <TextView
+                style="@style/black_tx_12_style"
+                android:gravity="center"
+                android:text="车辆照" />
+
+            <TextView
+                style="@style/black_tx_12_style"
+                android:gravity="center"
+                android:text="车辆行驶照" />
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        style="@style/orange_btn_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:padding="10dp"
+        android:onClick="onClick_Publish"
+        android:text="立即发布" />
+</LinearLayout>

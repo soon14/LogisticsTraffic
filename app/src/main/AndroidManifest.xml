@@ -52,6 +52,9 @@
         <activity android:name=".activity.PictureActivity" />
         <activity android:name=".activity.OrderActivity" />
         <activity android:name=".activity.LocationListActivity" />
+        <activity android:name=".activity.SourceActivity"/>
+        <activity android:name=".activity.SourceDetailActivity"/>
+        <activity android:name=".activity.PublishActivity"/>
 
         <activity android:name="com.city.list.main.CityList" />
 

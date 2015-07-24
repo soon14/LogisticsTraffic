@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_color"
+    android:orientation="vertical"
+    tools:context=".activity.SourceDetailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/page_top" />
+
+        <Button
+            style="@style/orange_btn_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:onClick="onClick_Join"
+            android:text="加入\n车队"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        style="@style/black_tx_12_style.source_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="2dp"
+        android:text="车源详细信息" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="始 发 地：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="内蒙古-包头-青山区" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="目 的 地：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="北京-北京市-丰台区" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="发布时间：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="2015-07-20" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="发车时间：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="2015-07-23" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="备注：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="求货源" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        style="@style/black_tx_12_style.source_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="2dp"
+        android:text="车辆档案资料" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="车 牌 号：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="冀HK8209" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="类      型：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="回程车" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="车      长：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="13米" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:minWidth="60dp"
+                android:text="" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="载      重：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="40吨" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="车辆类型：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="货车" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:layout_column="3"
+                android:text="车辆状况：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="半挂" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="当前位置：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="内蒙古包头市" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="车辆识别代号：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="LBDINXIN*****9" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="联系人：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="卢爱华（车主）" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="联系电话：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="18600268826" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TableRow>
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="车辆常驻地：" />
+
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="内蒙古包头市" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
