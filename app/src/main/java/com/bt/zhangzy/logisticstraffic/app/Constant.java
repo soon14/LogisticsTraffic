@@ -13,7 +13,7 @@ public final class Constant {
     public static final String BUNDLE_PAGE_KEY = "BUNDLE_PAGE_KEY";
     public static final String PAGE_HOME = "HomeFragment";
     public static final String PAGE_USER = "UserFragment";
-    public static final String PAGE_HAPPY = "HappyFragment";
+//    public static final String PAGE_HAPPY = "HappyFragment";
     public static final String PAGE_SERVICES = "ServicesFragment";
 
     public static final String RESULT_CODE_KEY = "RESULT_CODE_KEY";

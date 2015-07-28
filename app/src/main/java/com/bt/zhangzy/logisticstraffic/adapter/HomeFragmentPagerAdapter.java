@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 
 import java.util.ArrayList;
 
@@ -13,14 +14,60 @@ import java.util.ArrayList;
  */
 public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    ArrayList<Fragment> fragments ;
+    ArrayList<Fragment> fragments;
+    private FragmentManager fm;
 
-    public HomeFragmentPagerAdapter(FragmentManager fm,ArrayList<Fragment> fragments) {
+    public HomeFragmentPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments) {
         super(fm);
+        this.fm = fm;
         this.fragments = fragments;
     }
 
+    /**
+     * 刷新全部fragament
+     *
+     * @param fragments
+     */
+    public void setFragments(ArrayList fragments) {
+        if (this.fragments != null) {
+            FragmentTransaction ft = fm.beginTransaction();
+            for (Fragment f : this.fragments) {
+                ft.remove(f);
+            }
+            ft.commit();
+            ft = null;
+            fm.executePendingTransactions();
+        }
+        this.fragments = fragments;
+        notifyDataSetChanged();
+    }
 
+    /**
+     * 刷新某一个位置的Fragment
+     *
+     * @param position
+     * @param fragment
+     */
+    public void updateFragment(int position, Fragment fragment) {
+        if (fragments != null) {
+            if (position < 0 || position >= fragments.size())
+                return;
+
+            FragmentTransaction ft = fm.beginTransaction();
+//            ft.replace(position,null);
+            ft.remove(fragments.get(position));
+            ft.commit();
+            fm.executePendingTransactions();
+            fragments.set(position, fragment);
+            notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+//        return super.getItemPosition(object);
+        return POSITION_NONE;
+    }
 
     @Override
     public Fragment getItem(int position) {

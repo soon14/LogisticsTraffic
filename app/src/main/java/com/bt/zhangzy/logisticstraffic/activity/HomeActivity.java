@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
@@ -24,6 +25,7 @@ import com.bt.zhangzy.logisticstraffic.fragment.BaseHomeFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.HappyFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.HomeFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.ServicesFragment;
+import com.bt.zhangzy.logisticstraffic.fragment.SourceListFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.UserFragment;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 import com.bt.zhangzy.logisticstraffic.view.FloatView;
@@ -39,13 +41,17 @@ public class HomeActivity extends BaseActivity {
 
     private static final int INDEX_HOME = 0;
     private static final int INDEX_SERVICES = 1;
-    private static final int INDEX_HAPPY = 2;
-    private static final int INDEX_USER = 3;
+    //    private static final int INDEX_HAPPY = 2;
+    private static final int INDEX_USER = 2;//3;
 
     //浮动窗口
     private WindowManager windowManager = null;
     private FloatView floatView;
     private ViewPager contentViewPager;
+
+    //中间的按钮
+    private Button customBtn;
+    boolean lastLogin = User.getInstance().getLogin();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,129 +73,9 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void run() {
                 createViewPage();
+                init();
             }
         });
-    }
-
-
-    private void createViewPage() {
-        contentViewPager = (ViewPager) findViewById(R.id.home_content_pager);
-        ArrayList<Fragment> fragments = new ArrayList<Fragment>();
-        fragments.add(new HomeFragment());
-        fragments.add(new ServicesFragment());
-        fragments.add(new HappyFragment());
-        fragments.add(new UserFragment());
-
-        contentViewPager.setAdapter(new HomeFragmentPagerAdapter(getSupportFragmentManager(), fragments));
-        contentViewPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return onTouchEvent(event);
-            }
-        });
-        contentViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                setPage(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        //默认页面处理
-        setPage(INDEX_HOME);
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            if (bundle.containsKey(Constant.BUNDLE_PAGE_KEY)) {
-                String value = bundle.getString(Constant.BUNDLE_PAGE_KEY);
-
-                if (Constant.PAGE_HOME.equals(value)) {
-                    setPage(INDEX_HOME);
-                } else if (Constant.PAGE_SERVICES.equals(value)) {
-                    setPage(INDEX_SERVICES);
-                } else if (Constant.PAGE_HAPPY.equals(value)) {
-                    setPage(INDEX_HAPPY);
-                } else if (Constant.PAGE_USER.equals(value)) {
-                    setPage(INDEX_USER);
-                }
-            }
-        }
-
-    }
-
-    private void setPage(int page) {
-        setPage(page, null);
-    }
-
-    private void setPage(int page, View view) {
-        if (page == INDEX_USER && !User.getInstance().getLogin()) {
-            Bundle bundle = new Bundle();
-            bundle.putString(Constant.BUNDLE_PAGE_KEY, Constant.PAGE_USER);
-            startActivity(LoginActivity.class, bundle);
-            return;
-        }
-        if (view == null) {
-            switch (page) {
-                case INDEX_HOME:
-                    setSelectBtn(findViewById(R.id.home_bottom_first_btn));
-                    break;
-                case INDEX_HAPPY:
-                    setSelectBtn(findViewById(R.id.home_bottom_happy_btn));
-                    break;
-                case INDEX_SERVICES:
-                    setSelectBtn(findViewById(R.id.home_bottom_services_btn));
-                    break;
-                case INDEX_USER:
-                    setSelectBtn(findViewById(R.id.home_bottom_me_btn));
-                    break;
-
-                default:
-                    //没有该页面，跳出
-                    return;
-            }
-        }
-        if (contentViewPager.getCurrentItem() != page) {
-            contentViewPager.setCurrentItem(page);
-        }
-    }
-
-
-    /**
-     * 浮窗 创建
-     */
-    private void createView() {
-        //TODO 浮窗音效 小汽车下单加入音效
-        if (!User.getInstance().getLogin() || User.getInstance().getUserType() != Type.InformationType) {
-            Log.w(Tag, "用户 不符合浮窗创建条件");
-            floatView = null;
-            return;
-        }
-        Log.d(Tag, "浮窗 创建");
-        // 获取WindowManager
-        windowManager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-        floatView = FloatView.CreateView(getApplicationContext(), new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(HomeActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
-
-//                startActivity(OrderDetailActivity.class);
-//                startActivity(SourceActivity.class);
-                startActivity(PublishActivity.class);
-            }
-        });
-        floatView.setWindowManager(windowManager);
-        floatView.setVisibility(View.VISIBLE);
-        // 显示myFloatView图像
-        windowManager.addView(floatView, floatView.getWindowManagerParams());
     }
 
 
@@ -227,6 +113,21 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        initCustomBtn();
+        //判断用户是否登陆，并对页面进行相应的更新
+        if (lastLogin != User.getInstance().getLogin()) {
+            lastLogin = User.getInstance().getLogin();
+//            createViewPage();
+            if (User.getInstance().getUserType() == Type.InformationType) {
+                HomeFragmentPagerAdapter adapter = (HomeFragmentPagerAdapter) contentViewPager.getAdapter();
+                adapter.updateFragment(INDEX_SERVICES, new SourceListFragment());
+//            ArrayList<Fragment> fragments = new ArrayList<Fragment>();
+//            fragments.add(new HomeFragment());
+//            fragments.add(new SourceListFragment());
+//            fragments.add(new UserFragment());
+//            adapter.setFragments(fragments);
+            }
+        }
         if (floatView != null) {
             floatView.setVisibility(View.VISIBLE);
             Log.d(Tag, "浮窗 显示");
@@ -247,6 +148,156 @@ public class HomeActivity extends BaseActivity {
             floatView.setVisibility(View.INVISIBLE);
             Log.d(Tag, "浮窗 隐藏");
         }
+    }
+
+
+    private void createViewPage() {
+        contentViewPager = (ViewPager) findViewById(R.id.home_content_pager);
+        ArrayList<Fragment> fragments = new ArrayList<Fragment>();
+        fragments.add(new HomeFragment());
+        if (User.getInstance().getUserType() == Type.InformationType) {
+            fragments.add(new SourceListFragment());
+        } else {
+            fragments.add(new ServicesFragment());
+        }
+//        fragments.add(new HappyFragment());
+        fragments.add(new UserFragment());
+
+        contentViewPager.setAdapter(new HomeFragmentPagerAdapter(getSupportFragmentManager(), fragments));
+        contentViewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return onTouchEvent(event);
+            }
+        });
+        contentViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setPage(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
+    }
+
+    private void init() {
+
+
+        //默认页面处理
+        setPage(INDEX_HOME);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            if (bundle.containsKey(Constant.BUNDLE_PAGE_KEY)) {
+                String value = bundle.getString(Constant.BUNDLE_PAGE_KEY);
+
+                if (Constant.PAGE_HOME.equals(value)) {
+                    setPage(INDEX_HOME);
+                } else if (Constant.PAGE_SERVICES.equals(value)) {
+                    setPage(INDEX_SERVICES);
+//                } else if (Constant.PAGE_HAPPY.equals(value)) {
+//                    setPage(INDEX_HAPPY);
+                } else if (Constant.PAGE_USER.equals(value)) {
+                    setPage(INDEX_USER);
+                }
+            }
+        }
+    }
+
+    /**
+     * 初始化自定义按键
+     */
+    private void initCustomBtn() {
+        customBtn = (Button) findViewById(R.id.home_bottom_services_btn);
+        if (User.getInstance().getUserType() == Type.InformationType) {
+            customBtn.setText("空车信息");
+        } else if (User.getInstance().getUserType() == Type.DriverType) {
+            customBtn.setText("货源");
+        }
+    }
+
+    private void setPage(int page) {
+        setPage(page, null);
+    }
+
+    private void setPage(int page, View view) {
+        if (page == INDEX_USER && !User.getInstance().getLogin()) {
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.BUNDLE_PAGE_KEY, Constant.PAGE_USER);
+            startActivity(LoginActivity.class, bundle);
+//            finish();
+            if (contentViewPager.getCurrentItem() == INDEX_USER) {
+                contentViewPager.setCurrentItem(INDEX_SERVICES);
+            }
+
+            return;
+        }
+        if (view == null) {
+            switch (page) {
+                case INDEX_HOME:
+                    setSelectBtn(findViewById(R.id.home_bottom_first_btn));
+                    break;
+//                case INDEX_HAPPY:
+//                    setSelectBtn(findViewById(R.id.home_bottom_happy_btn));
+//                    break;
+                case INDEX_SERVICES:
+                    setSelectBtn(findViewById(R.id.home_bottom_services_btn));
+                    break;
+                case INDEX_USER:
+                    setSelectBtn(findViewById(R.id.home_bottom_me_btn));
+                    break;
+
+                default:
+                    //没有该页面，跳出
+                    return;
+            }
+        }
+        if (contentViewPager != null && contentViewPager.getCurrentItem() != page) {
+            contentViewPager.setCurrentItem(page);
+        }
+    }
+
+
+    /**
+     * 浮窗 创建
+     */
+    private void createView() {
+        //TODO 浮窗音效 小汽车下单加入音效
+        if (!User.getInstance().getLogin() || User.getInstance().getUserType() != Type.InformationType) {
+            Log.w(Tag, "用户 不符合浮窗创建条件");
+            floatView = null;
+            return;
+        }
+        Log.d(Tag, "浮窗 创建");
+        // 获取WindowManager
+        windowManager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        floatView = FloatView.CreateView(getApplicationContext(), new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(HomeActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
+
+//                startActivity(OrderDetailActivity.class);
+                if (User.getInstance().getUserType() == Type.DriverType) {
+                    startActivity(PublishActivity.class);
+                } else {
+                    startActivity(OrderDetailActivity.class);
+                }
+            }
+        });
+        floatView.setWindowManager(windowManager);
+        floatView.setVisibility(View.VISIBLE);
+        // 显示myFloatView图像
+        windowManager.addView(floatView, floatView.getWindowManagerParams());
     }
 
 
@@ -310,7 +361,7 @@ public class HomeActivity extends BaseActivity {
     public void onClick_Happy(View view) {
 //        startActivity(PlayActivity.class);
 //        replace(R.id.home_content,new HappyFragment(),TAG_HAPPY);
-        setPage(INDEX_HAPPY, view);
+//        setPage(INDEX_HAPPY, view);
     }
 
     public void onClick_Services(View view) {

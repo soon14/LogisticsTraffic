@@ -12,54 +12,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/main_bg_color"
-        android:gravity="center"
+        android:background="@drawable/home_bottom_bt_bg"
+        android:gravity="bottom"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/home_bottom_first_btn"
-            style="@style/home_bottom_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/home_icon"
+            android:background="@color/transparent"
+            android:drawableTop="@drawable/home_home_btn_selector"
             android:onClick="onClick_Home"
             android:paddingTop="10dp"
+            android:layout_marginRight="20dp"
             android:text="首页" />
 
-        <Button
-            android:id="@+id/home_bottom_services_btn"
-            style="@style/home_bottom_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/surround_icon"
-            android:onClick="onClick_Services"
-            android:paddingTop="10dp"
-            android:text="周边" />
 
-        <Button
-            android:id="@+id/home_bottom_happy_btn"
-            style="@style/home_bottom_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/play_icon"
-            android:onClick="onClick_Happy"
-            android:paddingTop="10dp"
-            android:text="解闷儿" />
+
+        <!--<Button-->
+            <!--android:id="@+id/home_bottom_happy_btn"-->
+            <!--style="@style/home_bottom_title"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:drawableTop="@drawable/play_icon"-->
+            <!--android:onClick="onClick_Happy"-->
+            <!--android:paddingTop="10dp"-->
+            <!--android:text="解闷儿" />-->
 
         <Button
             android:id="@+id/home_bottom_me_btn"
-            style="@style/home_bottom_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/user_icon"
+            android:layout_marginLeft="20dp"
+            android:drawableTop="@drawable/home_user_btn_selector"
             android:onClick="onClick_Me"
+            android:background="@drawable/home_bottom_bt_bg"
             android:paddingTop="10dp"
-            android:text="我的订单" />
+            android:text="我的" />
     </LinearLayout>
+
 
     <FrameLayout
         android:id="@+id/home_content"
@@ -75,5 +69,14 @@
 
         </android.support.v4.view.ViewPager>
     </FrameLayout>
-
+    <Button
+        android:id="@+id/home_bottom_services_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/home_bottom_custom_bt_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick_Services"
+        android:paddingTop="10dp"
+        android:text="服务" />
 </RelativeLayout>
