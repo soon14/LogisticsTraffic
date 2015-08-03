@@ -3,94 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/page_bg_color"
     android:orientation="vertical"
-    tools:context=".activity.HomeActivity"
-    android:background="@color/page_bg_color">
+    tools:context=".activity.HomeActivity">
 
     <include layout="@layout/page_top" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/user_top_bg"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:src="@drawable/user_bg" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/tx_black_df_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="13345666689" />
-
-            <TextView
-                style="@style/tx_black_df_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="门企名称" />
-
-            <Button
-                style="@style/button_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:onClick="onClick_gotoDetailPhoto"
-                android:text="完善详情" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ee8951"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <Button
-            style="@style/tx_black_df_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:drawableLeft="@drawable/order_icon"
-            android:drawablePadding="2dp"
-            android:gravity="center"
-            android:onClick="onClick_gotoOrderList"
-            android:text="我的订单"
-            android:textColor="@color/white" />
-
-        <View
-            android:layout_width="2px"
-            android:layout_height="match_parent"
-            android:background="@color/main_bg_color" />
-
-        <Button
-            style="@style/tx_black_df_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:drawablePadding="10dp"
-            android:gravity="center"
-            android:onClick="onClick_Collect"
-            android:text="收藏夹"
-            android:textColor="@color/white" />
-    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -100,6 +17,87 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/user_top_bg"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/user_bg" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/tx_black_df_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="13345666689" />
+
+                    <TextView
+                        style="@style/tx_black_df_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="用户名" />
+
+                    <Button
+                        style="@style/button_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:onClick="onClick_gotoDetailPhoto"
+                        android:text="完善详情" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ee8951"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <Button
+                    style="@style/tx_black_df_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:background="@color/transparent"
+                    android:drawableLeft="@drawable/order_icon"
+                    android:drawablePadding="5dp"
+                    android:onClick="onClick_gotoOrderList"
+                    android:text="我的订单"
+                    android:textColor="@color/white" />
+
+                <View
+                    android:layout_width="2px"
+                    android:layout_height="match_parent"
+                    android:background="@color/white" />
+
+                <Button
+                    style="@style/tx_black_df_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:background="@color/transparent"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:onClick="onClick_Collect"
+                    android:text="收藏夹"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
 
             <Button
                 style="@style/setting_item_style"
@@ -118,8 +116,20 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/driver_icon"
                 android:drawablePadding="5dp"
+                android:drawableRight="@drawable/right_icon"
                 android:onClick="onClick_Fleet"
                 android:text="我的车队" />
+
+            <Button
+                android:id="@+id/user_services_item"
+                style="@style/setting_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/push_icon"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/right_icon"
+                android:onClick="onClick_Server"
+                android:text="服务" />
 
             <Button
                 style="@style/setting_item_style"
@@ -137,8 +147,8 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/send_icon"
                 android:drawablePadding="5dp"
-                android:onClick="onClick_SendFriend"
                 android:drawableRight="@drawable/right_icon"
+                android:onClick="onClick_SendFriend"
                 android:text="推荐给好友" />
 
             <Button

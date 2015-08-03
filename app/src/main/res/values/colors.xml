@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="base_btn_default">#808080</color>
-    <color name="base_btn_focus">#cc0000</color>
+    <color name="base_btn_focus">#cc0000</color> <!--#cc0000-->
     <color name="main_bg_color">#e6763a</color>
     <color name="home_btn_focus">#ea2a15</color>
     <color name="mask_black">#55666666</color>
@@ -11,8 +11,8 @@
     <color name="gray_line">#CCCCCC</color>
     <color name="licence_btn_color">#838383</color>
 
-    <color name="white">#FFF</color>
-    <color name="black">#000</color>
-    <color name="transparent">#00000000</color>
+    <color name="white">@android:color/white</color>
+    <color name="black">@android:color/black</color>
+    <color name="transparent">@android:color/transparent</color>
 
 </resources>

@@ -7,6 +7,8 @@
     <string name="order_change_truck_type_title">请选择需要的车型</string>
     <string name="order_change_truck_length_title">请选择需要的车长</string>
 
+
+
     <string-array name="order_change_type_items">
         <item>建材</item>
         <item>化工</item>

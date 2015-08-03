@@ -103,11 +103,8 @@
         <item name="android:padding">5dp</item>
     </style>
 
-    <style name="button_style">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">#fff</item>
+    <style name="button_style" parent="orange_btn_style">
         <item name="android:padding">3dp</item>
-        <item name="android:background">@drawable/base_btn_selector</item>
     </style>
 
     <style name="home_button_style" parent="button_style">
@@ -127,6 +124,13 @@
         <item name="android:padding">1dp</item>
         <item name="android:textColor">@color/black_while_color_selector</item>
     </style>
+    <!--车源信息 -->
+    <style name="transparent_orange_btn_style">
+        <item name="android:background">@drawable/transparent_orange_selector</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black_while_color_selector</item>
+    </style>
+
     <style name="while_orange_tab_style">
         <item name="android:background">@drawable/bottom_black_tab_selector</item>
         <item name="android:textSize">18sp</item>
@@ -221,6 +225,16 @@
     <style name="RatingBar_small_style" parent="RatingBar_style">
         <item name="android:progressDrawable">@drawable/ratingbar_gold_smail</item>
         <item name="android:minHeight">15dp</item>
+    </style>
+
+    <!-- 自定义 switch 样式-->
+    <style name="setting_switch_theme" >
+        <item name="android:track">@drawable/switch_btn_selector</item>
+        <item name="android:thumb">@drawable/switch_btn_thumb</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textOff"> </item>
+        <item name="android:textOn"> </item>
     </style>
 
 </resources>

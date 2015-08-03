@@ -5,74 +5,57 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <GridLayout
+    <LinearLayout
         android:id="@+id/spread_3_ly"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alignmentMode="alignMargins"
-        android:columnCount="2"
-        android:rowCount="2"
-        android:visibility="visible">
+        android:layout_margin="1px">
+
 
         <ImageView
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill"
-            android:layout_margin="2px"
-            android:layout_row="0"
-            android:layout_rowSpan="2"
-            android:background="@color/white"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1px"
+            android:layout_weight="3"
             android:onClick="onClick_gotoDetail"
             android:scaleType="fitXY"
             android:src="@drawable/fake_spread_1" />
 
-        <FrameLayout
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill"
-            android:layout_marginBottom="2px"
-            android:layout_marginRight="2px"
-            android:layout_marginTop="2px"
-            android:layout_row="0"
-            android:layout_rowWeight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
-                android:gravity="center"
+                android:layout_margin="1px"
+                android:layout_weight="1"
                 android:onClick="onClick_gotoDetail"
                 android:scaleType="fitXY"
                 android:src="@drawable/fake_spread_2"
                 android:text="图片" />
-        </FrameLayout>
 
-
-        <FrameLayout
-            android:layout_column="1"
-            android:layout_gravity="fill"
-            android:layout_marginRight="2px"
-            android:layout_row="1"
-            android:layout_rowWeight="1">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
-                android:gravity="center"
+                android:layout_margin="1px"
+                android:layout_weight="1"
                 android:onClick="onClick_gotoDetail"
                 android:scaleType="fitXY"
                 android:src="@drawable/fake_spread_3"
                 android:text="图片" />
-        </FrameLayout>
+        </LinearLayout>
 
 
-    </GridLayout>
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="2px"
         android:background="#bb999999"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
