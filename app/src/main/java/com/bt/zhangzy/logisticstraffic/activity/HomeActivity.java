@@ -482,7 +482,7 @@ public class HomeActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constant.REQUEST_CODE_CONTACT) {
             String[] str = ContextTools.OnActivityRsultForContacts(this, data);
-            if (!TextUtils.isEmpty(str[1])) {
+            if (str != null && str.length>1 && !TextUtils.isEmpty(str[1])) {
                 //给拿到的电话发送短信
                 ContextTools.SendSMS(this, str[1], "测试短信：推荐内容   快来使用易运通吧！！");
             }

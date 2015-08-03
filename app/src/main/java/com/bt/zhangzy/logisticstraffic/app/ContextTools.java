@@ -116,6 +116,8 @@ public class ContextTools {
      * @return
      */
     public static String[] OnActivityRsultForContacts(Activity act, Intent data) {
+        if(data == null)
+            return null;
         Uri uri = data.getData();
         String[] contact = new String[2];
         //得到ContentResolver对象
