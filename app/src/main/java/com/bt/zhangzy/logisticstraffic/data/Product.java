@@ -2,13 +2,14 @@ package com.bt.zhangzy.logisticstraffic.data;
 
 import com.bt.zhangzy.logisticstraffic.R;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
  * 展示的信息数据类型封装
  * Created by ZhangZy on 2015/7/9.
  */
-public class Product {
+public class Product implements Serializable {
     final int ID;
 
     private Type type = Type.EmptyType;

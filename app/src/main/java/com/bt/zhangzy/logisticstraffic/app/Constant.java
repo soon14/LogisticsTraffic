@@ -33,6 +33,11 @@ public final class Constant {
      * */
     public static final String ORDER_DETAIL_KEY_TYPE = "ORDER_DETAIL_KEY_TYPE";
 
+    /**
+     * product 在 bundle中的key值
+     */
+    public static final String BUNDLE_PRODUCT_KEY = "BUNDLE_PRODUCT_KEY";
+
 
 
 }

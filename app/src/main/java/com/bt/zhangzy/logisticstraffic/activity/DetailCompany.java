@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.zhangzy.baidusdk.BaiduMapActivity;
@@ -31,6 +32,12 @@ public class DetailCompany extends BaseActivity {
 
 
         setContentView(R.layout.activity_detail_cp);
+        if(getIntent().getExtras() != null){
+            Bundle bundle = getIntent().getExtras();
+            if(bundle.containsKey(Constant.BUNDLE_PRODUCT_KEY)){
+                product = (Product) bundle.get(Constant.BUNDLE_PRODUCT_KEY);
+            }
+        }
 
         setTextView(R.id.detail_name_tx, product.getName());
         setTextView(R.id.detail_cp_address_tx,product.getAddress());

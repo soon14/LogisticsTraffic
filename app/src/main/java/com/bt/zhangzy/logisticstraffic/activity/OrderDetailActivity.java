@@ -92,7 +92,7 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     final int[] edit_ids = {/*R.id.order_detail_open_ed,R.id.order_detail_finish_ed,*/R.id.order_detail_phone, R.id.order_detail_kg_ed, R.id.order_detail_check_phone_ed, R.id.order_detail_start_ed,
-            R.id.order_detail_end_ed, R.id.order_detail_type_ed, R.id.order_detail_name_ed, R.id.order_detail_size_ed};
+            R.id.order_detail_end_ed, R.id.order_detail_type_ed, R.id.order_detail_name_ed/*, R.id.order_detail_size_ed*/};
 
     private void initView() {
         TextView textView;
@@ -100,7 +100,7 @@ public class OrderDetailActivity extends BaseActivity {
         Button button;
         switch (currentMode) {
             case EnterpriseMode://企业模式
-                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
+//                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
                 button = (Button) findViewById(R.id.order_detail_yes);
                 button.setText("下单");
                 button.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +120,7 @@ public class OrderDetailActivity extends BaseActivity {
                 }
                 break;
             case InformationMode://信息部模式
-                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
+//                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
                 button = (Button) findViewById(R.id.order_detail_yes);
                 button.setText("提交订单");
                 button.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +142,7 @@ public class OrderDetailActivity extends BaseActivity {
                 });
                 break;
             case DriverMode://司机
-                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
+//                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_yes).setVisibility(View.GONE);
                 for (int id : edit_ids) {
                     editText = (EditText) findViewById(id);
@@ -151,13 +151,13 @@ public class OrderDetailActivity extends BaseActivity {
                 }
                 break;
             case CompletedMode:
-                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
+//                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_phone_btn).setVisibility(View.GONE);
                 textView = (TextView) findViewById(R.id.order_detail_yes);
                 textView.setText("订单已完成");
                 break;
             case SubmittedMode:
-                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
+//                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
                 textView = (TextView) findViewById(R.id.order_detail_yes);
                 textView.setText("订单已提交");
                 break;
@@ -193,6 +193,7 @@ public class OrderDetailActivity extends BaseActivity {
 
     /**
      * 货物类型 选择事件
+     *
      * @param view
      */
     public void onClick_ChangeType(View view) {
@@ -212,6 +213,7 @@ public class OrderDetailActivity extends BaseActivity {
 
     /**
      * 车型 选择事件
+     *
      * @param view
      */
     public void onClick_ChangeTruckType(View view) {
@@ -229,6 +231,7 @@ public class OrderDetailActivity extends BaseActivity {
 
     /**
      * 车长选择
+     *
      * @param view
      */
     public void onClick_ChangeTruckLength(View view) {
@@ -246,12 +249,13 @@ public class OrderDetailActivity extends BaseActivity {
 
     /**
      * 货物重量选择
+     *
      * @param view
      */
     public void onClick_ChangeWeight(View view) {
         final TextView textView = (TextView) view;
         BaseDialog dialog = new BaseDialog(this);
-        dialog.setView(R.layout.order_dialog_weight).setOnClickListener(R.id.order_dialog_weight_btn,new View.OnClickListener() {
+        dialog.setView(R.layout.order_dialog_weight).setOnClickListener(R.id.order_dialog_weight_btn, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textView.setText("20");

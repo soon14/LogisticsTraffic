@@ -14,6 +14,7 @@ import android.widget.ViewFlipper;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeSpreadAdapter;
+import com.bt.zhangzy.logisticstraffic.data.Product;
 
 /**
  * Created by ZhangZy on 2015/7/2.
@@ -85,6 +86,7 @@ public class HomeFragment extends BaseHomeFragment {
 
     Handler spreadHandler;
     Handler spreadDelayHandler;
+    long spreadLastTouchTime;//记录上次操作的时间，用于解决手指滑动和自动翻页的操作冲突
 
     /**
      * 推荐位 初始化
@@ -105,9 +107,9 @@ public class HomeFragment extends BaseHomeFragment {
 //                super.handleMessage(msg);
                 int count = spreadPager.getAdapter().getCount();
                 if (msg.what == 0) {
-                    spreadPager.setCurrentItem(count - 2, false);
+                    spreadPager.setCurrentItem(count - 3, false);
                 } else if (msg.what == 1) {
-                    spreadPager.setCurrentItem(1, false);
+                    spreadPager.setCurrentItem(2, false);
                 }
             }
         };
@@ -119,8 +121,9 @@ public class HomeFragment extends BaseHomeFragment {
 
             @Override
             public void onPageSelected(int position) {
-                //TODO 滑动过程不流畅
-                /* 循环原理：   2 0 1 2 0   */
+                spreadLastTouchTime = System.currentTimeMillis();
+                /* 循环原理：position=0的时候自动跳转到最后一组（当前设置是每三个为一组）中的第一个元素（length-3）
+                   * 当 position=length-1（最后一个元素） 时自动调转到第一组中的最后一个元素 */
 //                Log.w(TAG, ">>>>>>>>>>>>>>>>>>>>>>>>>>>onPageSelected=" + position);
 
                 int count = spreadPager.getAdapter().getCount();
@@ -148,13 +151,16 @@ public class HomeFragment extends BaseHomeFragment {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 if (spreadPager != null) {
-                    int nextPage = spreadPager.getCurrentItem() + 1;
-                    if (nextPage >= spreadPager.getAdapter().getCount()) {
+                    //判断时间，解决操作冲突
+                    if (System.currentTimeMillis() - spreadLastTouchTime > 3000) {
+                        int nextPage = spreadPager.getCurrentItem() + 1;
+                        if (nextPage >= spreadPager.getAdapter().getCount()) {
 //                        nextPage = 0;
-                        Log.w(TAG, "取消跳转 nextPage=" + nextPage);
-                        return;
+                            Log.w(TAG, "取消跳转 nextPage=" + nextPage);
+                            return;
+                        }
+                        spreadPager.setCurrentItem(nextPage);
                     }
-                    spreadPager.setCurrentItem(nextPage);
                     spreadHandler.sendEmptyMessageDelayed(0, 3000);
                 }
             }
@@ -214,13 +220,15 @@ public class HomeFragment extends BaseHomeFragment {
 //        initViewFlipper(listHeadView);
         initSpreadViewPager(listHeadView);
 
-        HomeListAdapter adapter = new HomeListAdapter();
+        final HomeListAdapter adapter = new HomeListAdapter();
         listView.setAdapter(adapter);
         adapter.setOnClickItemListener(new HomeListAdapter.OnClickItemListener() {
             @Override
             public void onItemClick(View v, int position) {
                 Log.d(getTag(), "onItemClick>>>>>");
                 if (v != null)
+                    //TODO 从adapter中获取数据
+//                    Product product = adapter.getItem(position);
                     if (v.getId() == R.id.list_item_ly) {
                         Log.d(getTag(), "    >>>>>点击了item" + position);
                         getHomeActivity().gotoDetail();

@@ -2,18 +2,25 @@ package com.bt.zhangzy.logisticstraffic.data;
 
 import android.text.TextUtils;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * Created by ZhangZy on 2015/6/30.
  */
-public class User {
-
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static User instance = new User();
 
     public static User getInstance() {
         return instance;
+    }
+
+    public void loadUser(User user) {
+        if (user == null)
+            return;
+        instance = user;
     }
 
     private boolean isLogin = false;
@@ -59,6 +66,13 @@ public class User {
 
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+//        StringBuffer stringBuffer = new StringBuffer();
+//        driverList.toString();
+//        return stringBuffer.toString();
+    }
 
     public ArrayList<String> getSearchKeyWordList() {
         return searchKeyWordList;

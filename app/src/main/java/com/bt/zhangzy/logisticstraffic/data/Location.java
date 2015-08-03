@@ -1,9 +1,11 @@
 package com.bt.zhangzy.logisticstraffic.data;
 
+import java.io.Serializable;
+
 /**
  * Created by ZhangZy on 2015/7/3.
  */
-public class Location {
+public class Location implements Serializable {
 
     private String cityName;
     private String latitude;//纬度

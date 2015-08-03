@@ -3,11 +3,13 @@ package com.bt.zhangzy.logisticstraffic.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * 联系人数据封装
  * Created by ZhangZy on 2015/7/10.
  */
-public class People implements Parcelable {
+public class People implements Parcelable, Serializable {
     private String name;
     private String phoneNumber;
 

@@ -92,12 +92,23 @@ public class HomeActivity extends BaseActivity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (contentViewPager != null && contentViewPager.getAdapter() != null) {
-            HomeFragmentPagerAdapter adapter = (HomeFragmentPagerAdapter) contentViewPager.getAdapter();
-            BaseHomeFragment item = (BaseHomeFragment) adapter.getItem(contentViewPager.getCurrentItem());
+            BaseHomeFragment item = getCurrentFragment();
             return item.onTouchEventFragment(event);
         }
         return super.onTouchEvent(event);
 //        return detector.onTouchEvent(event);
+    }
+
+    /**
+     * 返回当前页的Fragment
+     *
+     * @return
+     */
+    public BaseHomeFragment getCurrentFragment() {
+        if (contentViewPager == null || contentViewPager.getAdapter() == null)
+            return null;
+        HomeFragmentPagerAdapter adapter = (HomeFragmentPagerAdapter) contentViewPager.getAdapter();
+        return (BaseHomeFragment) adapter.getItem(contentViewPager.getCurrentItem());
     }
 
     @Override
@@ -230,6 +241,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void setPage(int page, View view) {
+        //登陆判断
         if (page == INDEX_USER && !User.getInstance().getLogin()) {
             Bundle bundle = new Bundle();
             bundle.putString(Constant.BUNDLE_PAGE_KEY, Constant.PAGE_USER);
@@ -396,6 +408,11 @@ public class HomeActivity extends BaseActivity {
         });
     }
 
+    public void onClick_Server(View view) {
+        // 从用户信息中点击服务按钮
+        startActivity(ServicesActivity.class);
+    }
+
     public void onClick_SettingShare(View view) {
         startActivity(SettingShareActivity.class);
     }
@@ -439,6 +456,16 @@ public class HomeActivity extends BaseActivity {
             Bundle bundle = new Bundle();
             bundle.putString("pageName", pageName);
             startActivity(LocationListActivity.class, bundle);
+        }
+    }
+
+    //搜索类型选择
+    public void onClick_SearchType(View view) {
+
+        BaseHomeFragment f = getCurrentFragment();
+        if(f != null && f instanceof SourceListFragment){
+            SourceListFragment slf = (SourceListFragment) f;
+            ((SourceListFragment) f).onClick_SearchType(view);
         }
     }
 
