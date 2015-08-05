@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/main_bg_color">
 
         <include layout="@layout/page_top" />
 
@@ -23,19 +24,21 @@
 
     </RelativeLayout>
 
+    <!-- 暂时取消此栏-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/source_search_all_btn"
             style="@style/transparent_orange_btn_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onClick_SearchType"
+            android:onClick="onClick_SourceListFM"
             android:paddingBottom="5dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
@@ -47,7 +50,7 @@
             style="@style/transparent_orange_btn_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onClick_SearchType"
+            android:onClick="onClick_SourceListFM"
             android:paddingBottom="5dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
@@ -59,18 +62,21 @@
         android:id="@+id/source_precision_ly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp">
+        android:orientation="horizontal">
 
         <Button
+            android:id="@+id/source_truck_type_bt"
             style="@style/transparent_orange_btn_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableRight="@drawable/down_arrow"
+            android:hint="车型"
+            android:onClick="onClick_SourceListFM"
             android:paddingRight="10dp"
-            android:text="车型" />
+            android:text="" />
 
         <View
             android:layout_width="2px"
@@ -78,13 +84,15 @@
             android:background="@color/black" />
 
         <Button
+            android:id="@+id/source_truck_length_bt"
             style="@style/transparent_orange_btn_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableRight="@drawable/down_arrow"
-            android:paddingRight="10dp"
-            android:text="车长" />
+            android:hint="车长"
+            android:onClick="onClick_SourceListFM"
+            android:paddingRight="10dp" />
 
         <View
             android:layout_width="2px"
@@ -92,13 +100,15 @@
             android:background="@color/black" />
 
         <Button
+            android:id="@+id/source_truck_weight_bt"
             style="@style/transparent_orange_btn_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableRight="@drawable/down_arrow"
-            android:paddingRight="10dp"
-            android:text="载重" />
+            android:hint="载重"
+            android:onClick="onClick_SourceListFM"
+            android:paddingRight="10dp" />
 
         <View
             android:layout_width="2px"
@@ -106,13 +116,15 @@
             android:background="@color/black" />
 
         <Button
+            android:id="@+id/source_location_bt"
             style="@style/transparent_orange_btn_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableRight="@drawable/down_arrow"
-            android:paddingRight="10dp"
-            android:text="区域" />
+            android:hint="区域"
+            android:onClick="onClick_SourceListFM"
+            android:paddingRight="10dp" />
     </LinearLayout>
 
     <ListView

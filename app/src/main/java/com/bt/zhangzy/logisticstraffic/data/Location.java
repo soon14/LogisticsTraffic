@@ -7,7 +7,8 @@ import java.io.Serializable;
  */
 public class Location implements Serializable {
 
-    private String cityName;
+    private String cityName;//市
+    private String provinceName;//省
     private String latitude;//纬度
     private String langitude;//经度
 

@@ -21,19 +21,20 @@
         android:layout_height="wrap_content"
         android:minLines="4" />
 
-    <TextView
-        style="@style/tx_black_df_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="常发线路" />
-
 
     <TableLayout
+        android:id="@+id/setting_lines_ly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:stretchColumns="*">
+
+        <TextView
+            style="@style/tx_black_df_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="常发线路" />
 
         <TableRow android:layout_marginTop="5dp">
 

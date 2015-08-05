@@ -111,6 +111,7 @@
                 android:text="店铺设置" />
 
             <Button
+                android:id="@+id/user_fleet_item"
                 style="@style/setting_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

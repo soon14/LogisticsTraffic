@@ -6,12 +6,17 @@
         <item name="android:windowBackground">@color/page_bg_color</item>
     </style>
 
-    <style name="AnimationFade" parent="android:Animation">
+    <style name="AnimationFadeLeft" parent="android:Animation">
         <!--   PopupWindow左右弹出的效果-->
         <item name="android:windowEnterAnimation">@anim/slide_in_left</item>
         <item name="android:windowExitAnimation">@anim/slide_out_left</item>
-
     </style>
+    <style name="AnimationFadeTop" parent="android:Animation">
+        <!--   PopupWindow上下弹出的效果-->
+        <item name="android:windowEnterAnimation">@anim/abc_slide_in_top</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_top</item>
+    </style>
+
     <!-- 自定义dialog样式-->
     <style name="app_dialog_style" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item><!-- 边框 -->
@@ -116,6 +121,17 @@
         <item name="android:textSize">18sp</item>
         <item name="android:padding">1dp</item>
         <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="orange_btn_noPadding_style">
+        <item name="android:background">@drawable/home_btn_selector</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="pop_while_mask_18sp_btn">
+        <item name="android:background">@drawable/location_pop_selector</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="while_orange_btn_style">

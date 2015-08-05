@@ -22,7 +22,6 @@ import com.bt.zhangzy.logisticstraffic.app.ContextTools;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.fragment.BaseHomeFragment;
-import com.bt.zhangzy.logisticstraffic.fragment.HappyFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.HomeFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.ServicesFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.SourceListFragment;
@@ -82,9 +81,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            finish();
-//            getApp().Exit();
-            onClick_SafeQuit(null);
+            onClick_Quit(null);
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -398,12 +395,21 @@ public class HomeActivity extends BaseActivity {
         startActivity(OrderListActivity.class);
     }
 
-    public void onClick_SafeQuit(View view) {
-
+    public void onClick_Quit(View view) {
         BaseDialog.showConfirmDialog(this, "是否退出?", "返回", "退出", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getApp().Exit();
+                getApp().Exit(true);
+            }
+        });
+    }
+
+    public void onClick_SafeQuit(View view) {
+
+        BaseDialog.showConfirmDialog(this, "是否注销并退出程序?", "返回", "退出", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getApp().Exit(false);
             }
         });
     }
@@ -460,12 +466,12 @@ public class HomeActivity extends BaseActivity {
     }
 
     //搜索类型选择
-    public void onClick_SearchType(View view) {
+    public void onClick_SourceListFM(View view) {
 
         BaseHomeFragment f = getCurrentFragment();
-        if(f != null && f instanceof SourceListFragment){
+        if (f != null && f instanceof SourceListFragment) {
             SourceListFragment slf = (SourceListFragment) f;
-            ((SourceListFragment) f).onClick_SearchType(view);
+            ((SourceListFragment) f).onClick_SourceListFM(view);
         }
     }
 
@@ -482,7 +488,7 @@ public class HomeActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constant.REQUEST_CODE_CONTACT) {
             String[] str = ContextTools.OnActivityRsultForContacts(this, data);
-            if (str != null && str.length>1 && !TextUtils.isEmpty(str[1])) {
+            if (str != null && str.length > 1 && !TextUtils.isEmpty(str[1])) {
                 //给拿到的电话发送短信
                 ContextTools.SendSMS(this, str[1], "测试短信：推荐内容   快来使用易运通吧！！");
             }

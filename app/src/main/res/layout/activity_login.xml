@@ -62,7 +62,7 @@
             android:layout_gravity="center_horizontal">
 
             <Button
-                style="@style/button_style"
+                style="@style/register_button_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -71,7 +71,7 @@
                 android:text="登录" />
 
             <Button
-                style="@style/button_style"
+                style="@style/register_button_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

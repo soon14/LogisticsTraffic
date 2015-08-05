@@ -17,11 +17,16 @@ public class User implements Serializable {
         return instance;
     }
 
+    /**
+     * 加载用回对象，用于数据存储；
+     * @param user
+     */
     public void loadUser(User user) {
         if (user == null)
             return;
         instance = user;
     }
+
 
     private boolean isLogin = false;
     private Type userType = Type.EmptyType;
@@ -29,6 +34,16 @@ public class User implements Serializable {
     private String phoneNum;
     private String address;
     private Location location;//保存用户的定位信息
+    private boolean isFirstOpen = true;
+
+    public boolean isFirstOpen() {
+        return isFirstOpen;
+    }
+
+    public void setIsFirstOpen(boolean isFirstOpen) {
+        this.isFirstOpen = isFirstOpen;
+    }
+
     /**
      * 司机列表
      */

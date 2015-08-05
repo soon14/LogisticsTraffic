@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.User;
 
 
 public class MainActivity extends BaseActivity {
@@ -22,7 +23,11 @@ public class MainActivity extends BaseActivity {
             public boolean handleMessage(Message msg) {
 //                startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
 //                startActivity(new Intent(MainActivity.this, LocationActivity.class));
-                startActivity(WelcomeActivity.class);
+                if(User.getInstance().isFirstOpen()) {
+                    startActivity(WelcomeActivity.class);
+                }else{
+                    startActivity(HomeActivity.class);
+                }
                 finish();
                 return true;
             }

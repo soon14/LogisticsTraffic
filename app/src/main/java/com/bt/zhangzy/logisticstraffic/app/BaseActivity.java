@@ -45,6 +45,9 @@ public class BaseActivity extends FragmentActivity {
             pageTopName = (TextView) findViewById(R.id.page_top_name);
         }
         pageTopName.setText(name);
+        if (findViewById(R.id.page_top_ly) != null) {
+            findViewById(R.id.page_top_ly).setBackgroundColor(getResources().getColor(R.color.main_bg_color));
+        }
 
     }
 

@@ -34,6 +34,9 @@ public abstract class BaseHomeFragment extends Fragment {
             TextView pageTopName = (TextView) view.findViewById(R.id.page_top_name);
             pageTopName.setText(pageName);
         }
+        if (view.findViewById(R.id.page_top_ly) != null) {
+            view.findViewById(R.id.page_top_ly).setBackgroundColor(getResources().getColor(R.color.main_bg_color));
+        }
         return view;
     }
 
@@ -62,7 +65,7 @@ public abstract class BaseHomeFragment extends Fragment {
     }
 
 
-    public boolean onTouchEventFragment(MotionEvent event){
+    public boolean onTouchEventFragment(MotionEvent event) {
 
         return false;
     }

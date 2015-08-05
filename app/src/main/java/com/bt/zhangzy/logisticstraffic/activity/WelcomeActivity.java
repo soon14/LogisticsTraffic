@@ -17,6 +17,7 @@ import android.widget.ViewFlipper;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.User;
 
 import java.util.ArrayList;
 
@@ -67,6 +68,7 @@ public class WelcomeActivity extends BaseActivity {
 
     public void nextActivityBtn(View view) {
 //        startActivity(new Intent(this, LocationActivity.class));
+        User.getInstance().setIsFirstOpen(false);
         startActivity(LocationActivity.class);
         finish();
     }

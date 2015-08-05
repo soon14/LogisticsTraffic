@@ -25,6 +25,8 @@ public class UserFragment extends BaseHomeFragment {
         super.init();
         if(User.getInstance().getUserType() == Type.EnterpriseType){
             findViewById(R.id.user_services_item).setVisibility(View.GONE);
+            findViewById(R.id.user_fleet_item).setVisibility(View.GONE);
+
         }
     }
 

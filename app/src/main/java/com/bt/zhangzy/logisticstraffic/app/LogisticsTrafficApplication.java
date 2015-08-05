@@ -30,10 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Objects;
 
 /**
  * Created by ZhangZy on 2015/6/10.
@@ -87,20 +84,29 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
         Log.w(TAG, "设置当前Activity=" + act.TAG);
     }
 
-    public void Exit() {
+    public void Exit(boolean isSave) {
         //定位服务推出
         BaiduSDK.getInstance().stopLocationServer();
         //语音服务退出
         BaiduSDK.getInstance().dismissVoiceDialog();
 
-        //save  todo 数据保存 未完成
-        saveFile(User.class.getSimpleName(), User.getInstance());
+        //save
+        if(isSave) {
+            saveFile(User.class.getSimpleName(), User.getInstance());
+        }else{
+            deleteFile(User.class.getSimpleName());
+
+        }
         if (currentAct != null)
             currentAct.finish();
         System.exit(0);
 //        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
+    public void delFile(String fileName){
+        Log.i(TAG, "删除文件：文件名=" + fileName );
+        getBaseContext().deleteFile(fileName);
+    }
 
     public boolean saveFile(String fileName, Object content) {
         try {
@@ -173,7 +179,7 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
         View tmp_view = LayoutInflater.from(context).inflate(R.layout.location_popupwindow, null);
         popupWindow = new PopupWindow(tmp_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
         // 设置动画效果
-        popupWindow.setAnimationStyle(R.style.AnimationFade);
+        popupWindow.setAnimationStyle(R.style.AnimationFadeLeft);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.transparent)));
 
