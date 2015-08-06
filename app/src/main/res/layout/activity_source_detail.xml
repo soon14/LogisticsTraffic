@@ -21,7 +21,8 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:onClick="onClick_Join"
-            android:text="加入\n车队"
+            android:background="@drawable/join_fleet"
+            android:text=""
             android:textSize="16sp" />
 
     </RelativeLayout>

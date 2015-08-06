@@ -12,7 +12,7 @@
 
         <include layout="@layout/page_top" />
 
-        <Button
+        <ImageButton
             style="@style/orange_btn_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -20,7 +20,8 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:onClick="onClick_gotoMap"
-            android:text="地图" />
+            android:src="@drawable/map_icon"
+            android:text="" />
 
     </RelativeLayout>
 

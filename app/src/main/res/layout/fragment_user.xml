@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/page_bg_color"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".activity.HomeActivity">
 
@@ -66,7 +66,7 @@
                 android:background="#ee8951"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="5dp">
+                android:padding="15dp">
 
                 <Button
                     style="@style/tx_black_df_style"
@@ -91,7 +91,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
                     android:background="@color/transparent"
-                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/collect_icon"
+                    android:drawablePadding="5dp"
                     android:gravity="center"
                     android:onClick="onClick_Collect"
                     android:text="收藏夹"
@@ -103,12 +104,17 @@
                 style="@style/setting_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:drawableLeft="@drawable/setting_icon"
-                android:drawablePadding="5dp"
                 android:drawableRight="@drawable/right_icon"
                 android:onClick="onClick_SettingShop"
                 android:text="店铺设置" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray_line" />
 
             <Button
                 android:id="@+id/user_fleet_item"
@@ -116,21 +122,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/driver_icon"
-                android:drawablePadding="5dp"
                 android:drawableRight="@drawable/right_icon"
                 android:onClick="onClick_Fleet"
                 android:text="我的车队" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray_line" />
 
             <Button
                 android:id="@+id/user_services_item"
                 style="@style/setting_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/push_icon"
+                android:drawableLeft="@drawable/services_icon"
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/right_icon"
                 android:onClick="onClick_Server"
                 android:text="服务" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray_line" />
 
             <Button
                 style="@style/setting_item_style"
@@ -142,6 +161,13 @@
                 android:onClick="onClick_SettingShare"
                 android:text="设置" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray_line" />
+
             <Button
                 style="@style/setting_item_style"
                 android:layout_width="match_parent"
@@ -152,6 +178,13 @@
                 android:onClick="onClick_SendFriend"
                 android:text="推荐给好友" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray_line" />
+
             <Button
                 style="@style/setting_item_style"
                 android:layout_width="match_parent"
@@ -161,6 +194,13 @@
                 android:drawableRight="@drawable/right_icon"
                 android:text="在线升级" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray_line" />
+
             <Button
                 style="@style/setting_item_style"
                 android:layout_width="match_parent"
@@ -168,6 +208,13 @@
                 android:drawableLeft="@drawable/pay_icon"
                 android:drawablePadding="5dp"
                 android:text="我的财富" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray_line" />
 
             <Button
                 style="@style/setting_item_style"
@@ -177,6 +224,13 @@
                 android:drawablePadding="5dp"
                 android:onClick="onClick_SafeQuit"
                 android:text="安全退出" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray_line" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

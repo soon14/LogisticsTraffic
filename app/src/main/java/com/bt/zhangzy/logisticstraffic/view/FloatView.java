@@ -1,9 +1,13 @@
 package com.bt.zhangzy.logisticstraffic.view;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.nfc.Tag;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,10 +37,20 @@ public class FloatView extends ImageView {
     //屏幕大小
     private int screenWidth;
     private int screenHeight;
-//    private static WindowManager.LayoutParams windowManagerParams;
+    //    private static WindowManager.LayoutParams windowManagerParams;
+    private long lastTouchTime;
+    private Handler updateWindow = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+            if (System.currentTimeMillis() - lastTouchTime > 3000)
+                getDrawable().setAlpha(150);
+        }
+    };
 
     public FloatView(Context context) {
         super(context);
+        updateWindow.sendEmptyMessageDelayed(0, 3000);
     }
 
     public WindowManager.LayoutParams getWindowManagerParams() {
@@ -81,8 +95,13 @@ public class FloatView extends ImageView {
 
     long action_down_time;
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        lastTouchTime = System.currentTimeMillis();
+        if (getDrawable().getAlpha() == 150) {
+            getDrawable().setAlpha(255);
+        }
         //获取到状态栏的高度
         Rect frame = new Rect();
         getWindowVisibleDisplayFrame(frame);
@@ -115,6 +134,7 @@ public class FloatView extends ImageView {
                 }
                 //停靠逻辑
                 locViewPosition();
+                updateWindow.sendEmptyMessageDelayed(0, 3000);
                 break;
         }
         return true;

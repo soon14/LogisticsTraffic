@@ -29,6 +29,14 @@
             android:src="@drawable/icon_xinxibu" />
 
         <ImageView
+            android:id="@+id/services_jiayouzhan_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick_InfoLocation"
+            android:src="@drawable/icon_jiayouzhan" />
+
+        <ImageView
             android:id="@+id/services_wuliu_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,13 +52,7 @@
             android:onClick="onClick_InfoLocation"
             android:src="@drawable/icon_cangchu" />
 
-        <ImageView
-            android:id="@+id/services_jiayouzhan_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick_InfoLocation"
-            android:src="@drawable/icon_jiayouzhan" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -67,28 +69,28 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClick_InfoLocation"
-            android:src="@drawable/icon_xinxibu" />
+            android:src="@drawable/icon_jiudian" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClick_InfoLocation"
-            android:src="@drawable/icon_wuliuyuanqu" />
+            android:src="@drawable/icon_canying" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClick_InfoLocation"
-            android:src="@drawable/icon_cangchu" />
+            android:src="@drawable/icon_xiyu" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClick_InfoLocation"
-            android:src="@drawable/icon_jiayouzhan" />
+            android:src="@drawable/icon_chaoshi" />
     </LinearLayout>
 
     <LinearLayout
