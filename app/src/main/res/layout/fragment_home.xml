@@ -20,6 +20,7 @@
         android:padding="5dp">
 
         <Button
+            android:id="@+id/home_location_btn"
             style="@style/home_button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +38,6 @@
             android:onClick="onClick_Search" />
 
         <Button
-            android:id="@+id/home_location_btn"
             style="@style/home_button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

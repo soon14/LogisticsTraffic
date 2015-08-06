@@ -5,39 +5,33 @@
     android:descendantFocusability="afterDescendants"
     android:orientation="vertical">
 
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="#fff"-->
+    <!--android:paddingLeft="10dp"-->
+    <!--android:text="A"-->
+    <!--android:textSize="13sp" />-->
+
+
     <TextView
+        android:id="@+id/location_list_item_title"
+        style="@style/while_tx_18_style"
+        android:background="@color/main_bg_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
-        android:paddingLeft="10dp"
-        android:text="A"
-        android:textSize="13sp" />
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ccc">
-
-        <TextView
-            android:id="@+id/location_list_item_title"
-            style="@style/location_default"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/main_bg_color"
-            android:drawableRight="@drawable/right_icon"
-            android:paddingLeft="20dp"
-            android:text="安徽"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-    </TableRow>
+        android:layout_marginTop="5dp"
+        android:drawableRight="@drawable/right_icon"
+        android:gravity="start"
+        android:paddingLeft="20dp"
+        android:text="安徽" />
 
     <LinearLayout
         android:id="@+id/location_list_item_ly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:orientation="vertical">
-
+        android:orientation="vertical"
+        android:visibility="gone">
 
 
     </LinearLayout>

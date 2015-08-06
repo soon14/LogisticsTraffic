@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
+import android.util.JsonToken;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,10 +26,16 @@ import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 import com.zhangzy.baidusdk.BaiduSDK;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
@@ -37,13 +45,6 @@ import java.util.Calendar;
  */
 public class LogisticsTrafficApplication extends Application implements BaiduSDK.LocationListener {
 
-    /**测试数据 城市列表*/ {
-        //TODO 测试城市列表的JSON数据 未完成
-//        JSONArray cityArray = new JSONArray();
-//        JSONArray provinceJson = new JSONArray();
-//        provinceJson.put()
-
-    }
 
     private static final String TAG = LogisticsTrafficApplication.class.getSimpleName();
     private PopupWindow popupWindow;
@@ -52,6 +53,7 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
     private LocationCallback locationCallback;
     private TextView locationNetworkTx;
     private Location location;//用于缓存已经定位的信息
+    private JSONArray jsonCityList;
 
 
     @Override
@@ -76,6 +78,39 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
             User.getInstance().loadUser((User) obj);
             Log.i(TAG, "读取文件：User=" + User.getInstance());
         }
+        //读取城市列表
+        new AsyncTask<String, Integer, JSONArray>() {
+
+            @Override
+            protected JSONArray doInBackground(String... params) {
+                try {
+                    InputStream is = getResources().getAssets().open(params[0]);
+                    int size = is.available();
+                    // Read the entire asset into a local byte buffer.
+                    byte[] buffer = new byte[size];
+                    is.read(buffer);
+                    is.close();
+                    // Convert the buffer into a string.
+                    String text = new String(buffer, "UTF-8");
+                    JSONArray jsonObject = new JSONArray(text.trim());
+//                    Log.d(TAG, "json=" + jsonObject.toString());
+                    return jsonObject;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(JSONArray jsonArray) {
+                super.onPostExecute(jsonArray);
+                if (jsonArray != null)
+                    jsonCityList = jsonArray;
+            }
+        }.execute("cityList.json");
+
     }
 
 
@@ -91,9 +126,9 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
         BaiduSDK.getInstance().dismissVoiceDialog();
 
         //save
-        if(isSave) {
+        if (isSave) {
             saveFile(User.class.getSimpleName(), User.getInstance());
-        }else{
+        } else {
             deleteFile(User.class.getSimpleName());
 
         }
@@ -103,8 +138,8 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
 //        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
-    public void delFile(String fileName){
-        Log.i(TAG, "删除文件：文件名=" + fileName );
+    public void delFile(String fileName) {
+        Log.i(TAG, "删除文件：文件名=" + fileName);
         getBaseContext().deleteFile(fileName);
     }
 
@@ -135,7 +170,7 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
     }
 
     public Object loadFile(String fileName) {
-        Log.i(TAG, "读取文件：文件名=" + fileName+" dir="+this.getFilesDir());
+        Log.i(TAG, "读取文件：文件名=" + fileName + " dir=" + this.getFilesDir());
         Object string = null;
         try {
             FileInputStream inStream = this.openFileInput(fileName);
@@ -181,7 +216,7 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
         // 设置动画效果
         popupWindow.setAnimationStyle(R.style.AnimationFadeLeft);
         popupWindow.setOutsideTouchable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.transparent)));
+        popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.mask_black)));
 
         Button backBtn = (Button) tmp_view.findViewById(R.id.popupwindow_back);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -210,19 +245,18 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
 
         listView = (ListView) tmp_view.findViewById(R.id.location_city_list);
 
-        LocationListAdapter adapter = new LocationListAdapter();
+        LocationListAdapter adapter = new LocationListAdapter(jsonCityList);
         listView.setAdapter(adapter);
         adapter.setItemOnClickCallback(new LocationListAdapter.ItemOnClickCallback() {
             @Override
-            public void onClickItem(String string) {
-                Log.d(TAG, "点击了：" + string);
+            public void onClickItem(Location loc) {
+                Log.d(TAG, "点击了：" + loc.toString());
 //                Toast.makeText(getBaseContext(),"点击了："+
                 if (locationCallback != null) {
-                    if (location == null) {
-                        location = new Location();
-                    }
-                    location.setCityName(string);
-                    locationCallback.chooseLocation(location);
+                    location = loc;
+                    if (locationNetworkTx != null)
+                        locationNetworkTx.setText(location.getCityName());
+                    locationCallback.chooseLocation(loc);
                 }
             }
         });

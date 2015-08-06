@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
+ * 工具类
  * Created by ZhangZy on 2015/7/22.
  */
 public final class Tools {

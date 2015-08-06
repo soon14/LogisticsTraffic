@@ -12,6 +12,26 @@ public class Location implements Serializable {
     private String latitude;//纬度
     private String langitude;//经度
 
+    public Location() {
+    }
+
+    public Location(String provinceName, String cityName) {
+        this.provinceName = provinceName;
+        this.cityName = cityName;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "[" + provinceName + "->" + cityName + "(" + langitude + "," + latitude + ")]";
+    }
+
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
 
     public String getCityName() {
         return cityName;

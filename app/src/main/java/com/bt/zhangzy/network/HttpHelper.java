@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * todo 数据链接类  未测试
  * Created by ZhangZy on 2015/6/4.
  */
 public class HttpHelper extends OkHttpClient {

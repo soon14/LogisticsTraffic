@@ -19,6 +19,8 @@ import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.app.ContextTools;
+import com.bt.zhangzy.logisticstraffic.app.LogisticsTrafficApplication;
+import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.fragment.BaseHomeFragment;
@@ -217,6 +219,30 @@ public class HomeActivity extends BaseActivity {
                 } else if (Constant.PAGE_USER.equals(value)) {
                     setPage(INDEX_USER);
                 }
+            }
+        }
+
+        getApp().requestLocation(new LogisticsTrafficApplication.LocationCallback() {
+            @Override
+            public void networkLocation(Location location) {
+                User.getInstance().setLocation(location);
+                setCityName(location.getCityName());
+            }
+
+            @Override
+            public void chooseLocation(Location location) {
+                User.getInstance().setLocation(location);
+                setCityName(location.getCityName());
+            }
+        });
+        setCityName(User.getInstance().getLocation().getCityName());
+    }
+
+    private void setCityName(String cityName) {
+        if (contentViewPager != null && contentViewPager.getCurrentItem() == INDEX_HOME) {
+            Button btn = (Button) findViewById(R.id.home_location_btn);
+            if (btn != null) {
+                btn.setText(cityName);
             }
         }
     }
