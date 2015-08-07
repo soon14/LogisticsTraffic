@@ -29,7 +29,9 @@ public class HistoryListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null){
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_item ,  null);
+//            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_item ,  null);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_list_item ,  null);
+
         }
         return convertView;
     }

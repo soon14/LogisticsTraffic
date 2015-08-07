@@ -168,6 +168,7 @@ public class LocationListAdapter extends BaseAdapter {
             if (title.getText().equals(titleStr))
                 return;
             title.setText(titleStr);
+            title.setBackgroundColor(title.getResources().getColor(R.color.main_bg_color));
             locationArray = list;
             if (ly == null)
                 return;

@@ -85,13 +85,20 @@ public class BaseActivity extends FragmentActivity {
      * activity 跳转封装 带参数
      */
     public void startActivity(Class<?> cls, Bundle bundle) {
+        startActivity(cls,bundle,false);
+    }
+    public void startActivity(Class<?> cls, Bundle bundle,boolean istop) {
         Intent intent = new Intent(this, cls);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        if(istop){
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_stop);
+        }else {
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        }
     }
 
     /**

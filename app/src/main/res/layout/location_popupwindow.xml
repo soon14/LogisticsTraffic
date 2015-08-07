@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/location_pop_ly"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginRight="80dp"
+        android:layout_marginLeft="90dp"
         android:background="@color/main_bg_color"
         android:orientation="vertical">
 
@@ -49,8 +49,8 @@
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
             android:text="GPS定位城市"
-            android:textColor="@color/main_bg_color"
-            android:textSize="13sp" />
+            android:textColor="@color/white"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/location_network_tx"
@@ -58,16 +58,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/main_bg_color"
+            android:paddingLeft="10dp"
             android:text="正在定位..." />
 
         <ListView
             android:id="@+id/location_city_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@color/white"
             android:background="@color/white"
+            android:divider="@color/white"
             android:listSelector="@color/white">
 
         </ListView>
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>

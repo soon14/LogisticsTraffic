@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/list_item_ly"
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal">
 
@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:scaleType="fitXY"
+            android:layout_marginLeft="2dp"
             android:src="@drawable/fake_1" />
 
         <ImageButton
@@ -42,12 +42,6 @@
             android:layout_marginRight="20dp"
             android:text="580" />
 
-        <View
-            android:layout_width="3px"
-            android:layout_height="150px"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/list_item_phone"
-            android:background="@color/main_bg_color" />
 
         <TextView
             style="@style/tx_gray_12sp_style"

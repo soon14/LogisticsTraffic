@@ -12,7 +12,8 @@
         android:id="@+id/history_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:dividerHeight="10dp"
+        android:dividerHeight="2dp"
+        android:divider="@color/transparent"
         >
 
     </ListView>

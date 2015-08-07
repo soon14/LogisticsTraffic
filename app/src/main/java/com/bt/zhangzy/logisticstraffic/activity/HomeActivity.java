@@ -1,7 +1,10 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -41,9 +44,9 @@ public class HomeActivity extends BaseActivity {
     private final static String Tag = HomeActivity.class.getSimpleName();
 
     private static final int INDEX_HOME = 0;
-    private static final int INDEX_SERVICES = 1;
+//    private static final int INDEX_SERVICES = 1;
     //    private static final int INDEX_HAPPY = 2;
-    private static final int INDEX_USER = 2;//3;
+    private static final int INDEX_USER = 1;//3;
 
     //浮动窗口
     private WindowManager windowManager = null;
@@ -125,7 +128,7 @@ public class HomeActivity extends BaseActivity {
         super.onStart();
         initCustomBtn();
         //判断用户是否登陆，并对页面进行相应的更新
-        if (lastLogin != User.getInstance().getLogin()) {
+      /*  if (lastLogin != User.getInstance().getLogin()) {
             lastLogin = User.getInstance().getLogin();
 //            createViewPage();
             if (User.getInstance().getUserType() == Type.InformationType) {
@@ -137,7 +140,7 @@ public class HomeActivity extends BaseActivity {
 //            fragments.add(new UserFragment());
 //            adapter.setFragments(fragments);
             }
-        }
+        }*/
         if (floatView != null) {
             floatView.setVisibility(View.VISIBLE);
             Log.d(Tag, "浮窗 显示");
@@ -165,11 +168,11 @@ public class HomeActivity extends BaseActivity {
         contentViewPager = (ViewPager) findViewById(R.id.home_content_pager);
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
         fragments.add(new HomeFragment());
-        if (User.getInstance().getUserType() == Type.InformationType) {
-            fragments.add(new SourceListFragment());
-        } else {
-            fragments.add(new ServicesFragment());
-        }
+//        if (User.getInstance().getUserType() == Type.InformationType) {
+//            fragments.add(new SourceListFragment());
+//        } else {
+//            fragments.add(new ServicesFragment());
+//        }
 //        fragments.add(new HappyFragment());
         fragments.add(new UserFragment());
 
@@ -212,8 +215,8 @@ public class HomeActivity extends BaseActivity {
 
                 if (Constant.PAGE_HOME.equals(value)) {
                     setPage(INDEX_HOME);
-                } else if (Constant.PAGE_SERVICES.equals(value)) {
-                    setPage(INDEX_SERVICES);
+//                } else if (Constant.PAGE_SERVICES.equals(value)) {
+//                    setPage(INDEX_SERVICES);
 //                } else if (Constant.PAGE_HAPPY.equals(value)) {
 //                    setPage(INDEX_HAPPY);
                 } else if (Constant.PAGE_USER.equals(value)) {
@@ -253,7 +256,13 @@ public class HomeActivity extends BaseActivity {
     private void initCustomBtn() {
         customBtn = (Button) findViewById(R.id.home_bottom_services_btn);
         if (User.getInstance().getUserType() == Type.InformationType) {
-            customBtn.setText("空车信息");
+            customBtn.setText("车源");
+//            customBtn.setCompoundDrawables(null, getDrawable(R.drawable.home_source_btn_selector), null, null);
+            // 使用代码设置drawableleft
+            Drawable drawable = getResources().getDrawable(R.drawable.home_source_btn_selector);
+            // / 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            customBtn.setCompoundDrawables(null, drawable, null, null);
         } else if (User.getInstance().getUserType() == Type.DriverType) {
             customBtn.setText("货源");
         }
@@ -271,7 +280,7 @@ public class HomeActivity extends BaseActivity {
             startActivity(LoginActivity.class, bundle);
 //            finish();
             if (contentViewPager.getCurrentItem() == INDEX_USER) {
-                contentViewPager.setCurrentItem(INDEX_SERVICES);
+                contentViewPager.setCurrentItem(INDEX_HOME);
             }
 
             return;
@@ -284,9 +293,9 @@ public class HomeActivity extends BaseActivity {
 //                case INDEX_HAPPY:
 //                    setSelectBtn(findViewById(R.id.home_bottom_happy_btn));
 //                    break;
-                case INDEX_SERVICES:
-                    setSelectBtn(findViewById(R.id.home_bottom_services_btn));
-                    break;
+//                case INDEX_SERVICES:
+//                    setSelectBtn(findViewById(R.id.home_bottom_services_btn));
+//                    break;
                 case INDEX_USER:
                     setSelectBtn(findViewById(R.id.home_bottom_me_btn));
                     break;
@@ -402,7 +411,12 @@ public class HomeActivity extends BaseActivity {
     public void onClick_Services(View view) {
 //        startActivity(ServicesActivity.class);
 //        replace(R.id.home_content, new ServicesFragment(), TAG_SERVICES);
-        setPage(INDEX_SERVICES, view);
+//        setPage(INDEX_SERVICES, view);
+          if (User.getInstance().getUserType() == Type.InformationType) {
+              startActivity(SourceActivity.class,null,true);
+          }else /*if(User.getInstance().getUserType() == Type.EnterpriseType)*/{
+              startActivity(ServicesActivity.class,null,true);
+          }
     }
 
     public void onClick_gotoHistory(View view) {

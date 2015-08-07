@@ -11,6 +11,7 @@ import android.widget.ViewFlipper;
 import com.bt.zhangzy.logisticstraffic.R;
 
 /**
+ * 广告轮播组件
  * Created by ZhangZy on 2015/7/13.
  */
 public class AdViewFlipper extends ViewFlipper implements GestureDetector.OnGestureListener, View.OnTouchListener {

@@ -6,7 +6,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.util.JsonToken;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,8 +27,6 @@ import com.zhangzy.baidusdk.BaiduSDK;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -192,10 +189,9 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
 
     public void showLoacaitonList(View view) {
         if (popupWindow == null) {
-            creatPopupWindow(currentAct);
 
         }
-
+        PopupWindow popupWindow = creatPopupWindow(currentAct);
         if (popupWindow.isShowing()) {
             popupWindow.dismiss();
         } else {
@@ -209,15 +205,16 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
     /**
      * 地址选择对话框
      */
-    private void creatPopupWindow(Context context) {
+    private PopupWindow creatPopupWindow(Context context) {
         //        Context context = this.getBaseContext();
-        View tmp_view = LayoutInflater.from(context).inflate(R.layout.location_popupwindow, null);
-        popupWindow = new PopupWindow(tmp_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+        View tmp_view = LayoutInflater.from(this).inflate(R.layout.location_popupwindow, null);
+        final PopupWindow popupWindow = new PopupWindow(tmp_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        //设置颜色值 修正奇葩错误
+        tmp_view.findViewById(R.id.location_pop_ly).setBackgroundColor(getResources().getColor(R.color.main_bg_color));
         // 设置动画效果
-        popupWindow.setAnimationStyle(R.style.AnimationFadeLeft);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.mask_black)));
-
+        popupWindow.setAnimationStyle(R.style.AnimationFadeRight);
+//        popupWindow.setOutsideTouchable(true);
+//        popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.mask_black)));
         Button backBtn = (Button) tmp_view.findViewById(R.id.popupwindow_back);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,6 +257,8 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
                 }
             }
         });
+
+        return popupWindow;
 
     }
 

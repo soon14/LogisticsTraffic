@@ -116,40 +116,52 @@
                 android:layout_marginRight="10dp"
                 android:background="@color/gray_line" />
 
-            <Button
+            <LinearLayout
                 android:id="@+id/user_fleet_item"
-                style="@style/setting_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/driver_icon"
-                android:drawableRight="@drawable/right_icon"
-                android:onClick="onClick_Fleet"
-                android:text="我的车队" />
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/gray_line" />
+                <Button
+                    style="@style/setting_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/driver_icon"
+                    android:drawableRight="@drawable/right_icon"
+                    android:onClick="onClick_Fleet"
+                    android:text="我的车队" />
 
-            <Button
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/gray_line" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/user_services_item"
-                style="@style/setting_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/services_icon"
-                android:drawablePadding="5dp"
-                android:drawableRight="@drawable/right_icon"
-                android:onClick="onClick_Server"
-                android:text="服务" />
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/gray_line" />
+                <Button
+                    style="@style/setting_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/services_icon"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@drawable/right_icon"
+                    android:onClick="onClick_Server"
+                    android:text="服务" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/gray_line" />
+            </LinearLayout>
 
             <Button
                 style="@style/setting_item_style"

@@ -126,7 +126,12 @@ public class OrderDetailActivity extends BaseActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showChooseCallDialog();
+                        EditText edit = (EditText) findViewById(R.id.order_detail_phone);
+                        if (edit.getText().length() == 0) {
+                            showChooseCallDialog();
+                        } else {
+                            finish();
+                        }
                     }
                 });
                 button = (Button) findViewById(R.id.order_detail_phone_btn);
@@ -168,12 +173,12 @@ public class OrderDetailActivity extends BaseActivity {
 //        new AlertDialog.Builder(this).setNegativeButton("呼叫车队",null)
 //                .setPositiveButton("Call车",null).show();
 
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_call, null);
-        final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).create();
+//        View view = LayoutInflater.from(this).inflate(R.layout.dialog_call, null);
+//        final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).create();
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.cancel();
+//                dialog.cancel();
                 if (v.getId() == R.id.dialog_call_me_btn) {
                     gotoFleet();
                 } else {
@@ -181,10 +186,15 @@ public class OrderDetailActivity extends BaseActivity {
                 }
             }
         };
-        view.findViewById(R.id.dialog_call_me_btn).setOnClickListener(listener);
-        view.findViewById(R.id.dialog_call_all_btn).setOnClickListener(listener);
-        dialog.show();
+//        view.findViewById(R.id.dialog_call_me_btn).setOnClickListener(listener);
+//        view.findViewById(R.id.dialog_call_all_btn).setOnClickListener(listener);
+//        dialog.show();
 
+        BaseDialog baseDialog = new BaseDialog(this);
+        baseDialog.setView(R.layout.dialog_call);
+        baseDialog.setOnClickListener(R.id.dialog_call_me_btn, listener);
+        baseDialog.setOnClickListener(R.id.dialog_call_all_btn, listener);
+        baseDialog.show();
     }
 
     private void gotoFleet() {
