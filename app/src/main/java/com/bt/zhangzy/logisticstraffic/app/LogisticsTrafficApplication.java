@@ -23,6 +23,7 @@ import com.bt.zhangzy.logisticstraffic.adapter.LocationListAdapter;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.zhangzy.baidusdk.BaiduSDK;
 
 import org.json.JSONArray;
@@ -76,37 +77,7 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
             Log.i(TAG, "读取文件：User=" + User.getInstance());
         }
         //读取城市列表
-        new AsyncTask<String, Integer, JSONArray>() {
-
-            @Override
-            protected JSONArray doInBackground(String... params) {
-                try {
-                    InputStream is = getResources().getAssets().open(params[0]);
-                    int size = is.available();
-                    // Read the entire asset into a local byte buffer.
-                    byte[] buffer = new byte[size];
-                    is.read(buffer);
-                    is.close();
-                    // Convert the buffer into a string.
-                    String text = new String(buffer, "UTF-8");
-                    JSONArray jsonObject = new JSONArray(text.trim());
-//                    Log.d(TAG, "json=" + jsonObject.toString());
-                    return jsonObject;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(JSONArray jsonArray) {
-                super.onPostExecute(jsonArray);
-                if (jsonArray != null)
-                    jsonCityList = jsonArray;
-            }
-        }.execute("cityList.json");
+//        LocationView.loadData(this);
 
     }
 

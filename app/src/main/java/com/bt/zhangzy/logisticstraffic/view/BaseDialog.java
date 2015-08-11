@@ -201,4 +201,7 @@ public class BaseDialog extends Dialog implements View.OnClickListener {
 
         dialog.show();
     }
+
+
+
 }

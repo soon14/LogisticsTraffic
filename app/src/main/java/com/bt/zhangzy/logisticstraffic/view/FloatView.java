@@ -44,7 +44,8 @@ public class FloatView extends ImageView {
         public void handleMessage(Message msg) {
 //            super.handleMessage(msg);
             if (System.currentTimeMillis() - lastTouchTime > 3000)
-                getDrawable().setAlpha(150);
+                alpha = 150;
+                getDrawable().setAlpha(alpha);
         }
     };
 
@@ -94,13 +95,14 @@ public class FloatView extends ImageView {
     }
 
     long action_down_time;
+    int alpha  = 255;
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         lastTouchTime = System.currentTimeMillis();
-        if (getDrawable().getAlpha() == 150) {
-            getDrawable().setAlpha(255);
+        if (alpha == 150) {
+            alpha = 255;
+            getDrawable().setAlpha(alpha);
         }
         //获取到状态栏的高度
         Rect frame = new Rect();

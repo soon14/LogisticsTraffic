@@ -18,4 +18,6 @@
     <color name="orange">@android:color/holo_orange_dark</color>
     <color name="gray">@android:color/darker_gray</color>
 
+    <color name="province_line_border">#C7C7C7</color>
+
 </resources>

@@ -13,6 +13,7 @@ import android.widget.PopupWindow;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.SourceListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.view.LocationView;
 
 /**
  * 车源信息页
@@ -166,33 +167,39 @@ public class SourceActivity extends BaseActivity {
     private void showLocationPopup(View view) {
         if (view == null)
             return;
-        View tmp_view = LayoutInflater.from(this).inflate(R.layout.popup_location, null);
-        popupWindow = new PopupWindow(tmp_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.transparent)));
-
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (popupWindow != null)
-                    popupWindow.dismiss();
-                Button btn = (Button) findViewById(R.id.source_location_bt);
-                Button tx = (Button) v;
-                if (tx.getText().equals("不限")) {
-                    btn.setText("");
-                } else {
-                    btn.setText(tx.getText());
-                }
-            }
-        };
-        tmp_view.findViewById(R.id.location_province_3).setSelected(true);
-        tmp_view.findViewById(R.id.location_city_1).setOnClickListener(listener);
-        tmp_view.findViewById(R.id.location_city_2).setOnClickListener(listener);
-        tmp_view.findViewById(R.id.location_city_3).setOnClickListener(listener);
-
-
-        popupWindow.showAsDropDown(view);
+        LocationView.creatPopupWindow(this).show(view);
+//        View tmp_view = LayoutInflater.from(this).inflate(R.layout.popup_location, null);
+//        popupWindow = new PopupWindow(tmp_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+//        popupWindow.setOutsideTouchable(true);
+//        popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.transparent)));
+//
+//        View.OnClickListener listener = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (popupWindow != null)
+//                    popupWindow.dismiss();
+//                Button btn = (Button) findViewById(R.id.source_location_bt);
+//                Button tx = (Button) v;
+//                if (tx.getText().equals("不限")) {
+//                    btn.setText("");
+//                } else {
+//                    btn.setText(tx.getText());
+//                }
+//            }
+//        };
+//        tmp_view.findViewById(R.id.location_province_3).setSelected(true);
+//        tmp_view.findViewById(R.id.location_city_1).setOnClickListener(listener);
+//        tmp_view.findViewById(R.id.location_city_2).setOnClickListener(listener);
+//        tmp_view.findViewById(R.id.location_city_3).setOnClickListener(listener);
+//
+//
+//        popupWindow.showAsDropDown(view);
     }
 
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_stop, R.anim.slide_out_bottom);
+    }
 }
