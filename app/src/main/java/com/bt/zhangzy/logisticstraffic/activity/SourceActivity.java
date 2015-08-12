@@ -2,6 +2,7 @@ package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.SourceListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
+
+import org.w3c.dom.Text;
 
 /**
  * 车源信息页
@@ -167,7 +170,23 @@ public class SourceActivity extends BaseActivity {
     private void showLocationPopup(View view) {
         if (view == null)
             return;
-        LocationView.creatPopupWindow(this).show(view);
+        LocationView locationView = LocationView.creatPopupWindow(this);
+        locationView.setListener(new LocationView.ChangingListener() {
+            @Override
+            public void onChanged(String province, String city) {
+                if(TextUtils.isEmpty( city))
+                    return;
+                Button btn = (Button) findViewById(R.id.source_location_bt);
+//                Button tx = (Button) v;
+                if (city.equals("不限")) {
+                    btn.setText("");
+                } else {
+                    btn.setText(city);
+                }
+            }
+        });
+        locationView.show(view);
+
 //        View tmp_view = LayoutInflater.from(this).inflate(R.layout.popup_location, null);
 //        popupWindow = new PopupWindow(tmp_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 //        popupWindow.setOutsideTouchable(true);

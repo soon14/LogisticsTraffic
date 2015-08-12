@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.zhangzy.baidusdk.BaiduMapActivity;
 
 import org.w3c.dom.Text;
@@ -53,20 +55,22 @@ public class BaseActivity extends FragmentActivity {
 
     /**
      * 设置页面内容
-     * @param id 内容标识
+     *
+     * @param id     内容标识
      * @param string 内容
      */
-    protected void setTextView(int id,String string){
-        TextView tx = (TextView)findViewById(id);
+    protected void setTextView(int id, String string) {
+        TextView tx = (TextView) findViewById(id);
         tx.setText(string);
     }
 
     /**
      * 显示提示信息
+     *
      * @param msg
      */
-    protected void showToast(String msg){
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    protected void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -85,18 +89,19 @@ public class BaseActivity extends FragmentActivity {
      * activity 跳转封装 带参数
      */
     public void startActivity(Class<?> cls, Bundle bundle) {
-        startActivity(cls,bundle,false);
+        startActivity(cls, bundle, false);
     }
-    public void startActivity(Class<?> cls, Bundle bundle,boolean istop) {
+
+    public void startActivity(Class<?> cls, Bundle bundle, boolean istop) {
         Intent intent = new Intent(this, cls);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
         startActivity(intent);
-        if(istop){
+        if (istop) {
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_stop);
-        }else {
+        } else {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
     }
@@ -146,5 +151,23 @@ public class BaseActivity extends FragmentActivity {
 
     public void onClick_gotoMap(View view) {
         startActivity(BaiduMapActivity.class);
+    }
+
+    /**
+     * 地址选择
+     *
+     * @param view
+     */
+    public void onClick_ChangeLocation(final View view) {
+        LocationView.createDialog(this).setListener(new LocationView.ChangingListener() {
+            @Override
+            public void onChanged(String province, String city) {
+                if (TextUtils.isEmpty(city))
+                    return;
+                if (view != null && view instanceof TextView) {
+                    ((TextView) view).setText(city);
+                }
+            }
+        }).show();
     }
 }

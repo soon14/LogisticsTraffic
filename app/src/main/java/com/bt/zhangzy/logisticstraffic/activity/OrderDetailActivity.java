@@ -3,6 +3,7 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,9 @@ import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.logisticstraffic.view.LocationView;
+
+import org.w3c.dom.Text;
 
 import static com.bt.zhangzy.logisticstraffic.data.OrderDetailMode.EnterpriseMode;
 
@@ -91,8 +95,8 @@ public class OrderDetailActivity extends BaseActivity {
 
     }
 
-    final int[] edit_ids = {/*R.id.order_detail_open_ed,R.id.order_detail_finish_ed,*/R.id.order_detail_phone, R.id.order_detail_kg_ed, R.id.order_detail_check_phone_ed, R.id.order_detail_start_ed,
-            R.id.order_detail_end_ed, R.id.order_detail_type_ed, R.id.order_detail_name_ed/*, R.id.order_detail_size_ed*/};
+    final int[] edit_ids = {R.id.order_detail_phone, R.id.order_detail_kg_ed, R.id.order_detail_check_phone_ed, R.id.order_detail_start_ed,
+            R.id.order_detail_end_ed, R.id.order_detail_type_ed, R.id.order_detail_name_ed};
 
     private void initView() {
         TextView textView;
@@ -113,9 +117,15 @@ public class OrderDetailActivity extends BaseActivity {
                     if (id == R.id.order_detail_start_ed || id == R.id.order_detail_end_ed) {
 
                     } else {
-                        editText = (EditText) findViewById(id);
-                        editText.setEnabled(false);
-                        editText.setBackgroundColor(getResources().getColor(R.color.mask_black));
+                        View viewById = findViewById(id);
+                        if(viewById instanceof EditText) {
+                            editText = (EditText) viewById;
+                            editText.setEnabled(false);
+                            editText.setBackgroundColor(getResources().getColor(R.color.mask_black));
+                        }else{
+                            viewById.setClickable(false);
+                        }
+
                     }
                 }
                 break;
@@ -134,8 +144,10 @@ public class OrderDetailActivity extends BaseActivity {
                         }
                     }
                 });
+                //更改按钮功能  定位改成车队列表选择；
                 button = (Button) findViewById(R.id.order_detail_phone_btn);
-                button.setText("车队");
+                button.setText("");
+                button.setBackgroundResource(R.drawable.add_devices);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -273,4 +285,6 @@ public class OrderDetailActivity extends BaseActivity {
         });
         dialog.show();
     }
+
+
 }

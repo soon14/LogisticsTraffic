@@ -108,22 +108,8 @@ public class OrderActivity extends BaseActivity {
     }
 
 
-    /**
-     * 地址选择
-     * @param view
-     */
-    public void onClick_ChangeLocation(View view) {
-        final TextView textView = (TextView) view;
-        BaseDialog baseDialog = new BaseDialog(this);
-        baseDialog.setView(R.layout.order_dialog_location);
-        baseDialog.setOnClickListener(R.id.order_dialog_location_ly, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textView.setText(System.currentTimeMillis() % 2 == 1 ? "呼和浩特" : "北京");
-            }
-        }).show();
 
-    }
+
 
 
     /**

@@ -3,146 +3,155 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/page_bg_color"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".activity.OrderActivity">
     <!-- 下单 -->
     <include layout="@layout/page_top" />
 
-    <LinearLayout
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:background="@color/white"
-        android:orientation="vertical">
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="交易订单号" />
-
-        <TextView
-            style="@style/tx_black_df_style"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+        <TableRow>
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="20dp"
+                android:text="交易订单号" />
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="2045-06-26-110-555" />
+        </TableRow>
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="2045-06-26-110-555" />
-    </LinearLayout>
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+        <TableRow>
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发货企业" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="发货企业" />
-
-        <EditText
-            style="@style/edit_style"
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="戴尔科技" />
+        </TableRow>
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="戴尔科技" />
-    </LinearLayout>
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+        <TableRow>
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发货企业" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="承接信息部" />
-
-        <EditText
-            style="@style/edit_style"
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="戴尔科技" />
+        </TableRow>
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="德邦物流" />
-    </LinearLayout>
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+        <TableRow>
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="承接信息部" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="信息部电话" />
-
-        <EditText
-            style="@style/edit_style"
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="德邦物流" />
+        </TableRow>
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="18812345614" />
-    </LinearLayout>
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+        <TableRow>
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="信息部电话" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="始发地" />
-
-        <TextView
-            style="@style/edit_style"
+            <EditText
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="18812345614" />
+        </TableRow>
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:hint="默认为当前所在地"
-            android:onClick="onClick_ChangeLocation" />
-    </LinearLayout>
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+        <TableRow>
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="始发地" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="目的地" />
-
-        <TextView
-            style="@style/edit_style"
+            <TextView
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:hint="默认为当前所在地"
+                android:onClick="onClick_ChangeLocation" />
+        </TableRow>
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:hint="选择目的地"
-            android:onClick="onClick_ChangeLocation" />
-    </LinearLayout>
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+        <TableRow>
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="目的地" />
+
+            <TextView
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:hint="选择目的地"
+                android:onClick="onClick_ChangeLocation" />
+        </TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+    </TableLayout>
+
+
 
     <Button
-        style="@style/orange_btn_style"
+        style="@style/orange_btn_noPadding_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginTop="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:onClick="onClick_OrderPlace"
         android:text="提交订单" />
 

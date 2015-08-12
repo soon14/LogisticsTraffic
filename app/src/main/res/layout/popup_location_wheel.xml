@@ -6,30 +6,36 @@
     android:orientation="vertical">
 
 
-    <TableLayout
-        android:id="@+id/order_dialog_location_ly"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:clickable="true"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
-        <TableRow android:gravity="center_horizontal">
 
-            <TextView
-                style="@style/orange_tx_style"
-                android:layout_marginEnd="20dp"
-                android:text="省/直辖市" />
+        <TextView
+            style="@style/orange_tx_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="省/直辖市" />
 
-            <TextView
-                style="@style/orange_tx_style"
-                android:layout_marginStart="20dp"
-                android:text="市/区" />
-        </TableRow>
+        <TextView
+            style="@style/orange_tx_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="市/区" />
 
-    </TableLayout>
+    </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="80dp"
         android:orientation="horizontal">
@@ -47,10 +53,10 @@
             android:layout_weight="1"></kankan.wheel.widget.WheelView>
 
         <!--<kankan.wheel.widget.WheelView-->
-            <!--android:id="@+id/id_district"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"></kankan.wheel.widget.WheelView>-->
+        <!--android:id="@+id/id_district"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"></kankan.wheel.widget.WheelView>-->
     </LinearLayout>
 
 </LinearLayout>

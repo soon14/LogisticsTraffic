@@ -1,5 +1,7 @@
 package com.bt.zhangzy.logisticstraffic.view;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -22,8 +24,10 @@ import java.io.InputStream;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -57,6 +61,7 @@ public class LocationView implements OnWheelChangedListener {
     private String mProvinceCurrent;
     private String mCityCurrent;
     private PopupWindow popupWindow;
+    private Dialog dialog;
 
     private ChangingListener listener;
 
@@ -66,14 +71,14 @@ public class LocationView implements OnWheelChangedListener {
         popupWindow = view;
         mProvinceView = (WheelView) view.getContentView().findViewById(R.id.location_wheel_province);
         mCityView = (WheelView) view.getContentView().findViewById(R.id.location_wheel_city);
-        mProvinceView.setShadowColor(0xFFFFFFFF, 0xBBFFFFFF, 0x00FFFFFF);
-        mCityView.setShadowColor(0xFFFFFFFF, 0xBBFFFFFF, 0x00FFFFFF);
-        mProvinceView.addChangingListener(this);
-        mCityView.addChangingListener(this);
+        init();
+    }
 
-        if (mProvinceArray == null) {
-            loadXmlData(context, "province_data.xml");
-        }
+    LocationView(Context context,Dialog dialog){
+        this.context = context;
+        this.dialog = dialog;
+        mProvinceView = (WheelView) dialog.findViewById(R.id.location_wheel_province);
+        mCityView = (WheelView) dialog.findViewById(R.id.location_wheel_city);
         init();
     }
 
@@ -87,15 +92,33 @@ public class LocationView implements OnWheelChangedListener {
         return locationView;
     }
 
+    public static LocationView createDialog(Activity context){
+        BaseDialog dialog = new BaseDialog(context);
+        dialog.setContentView(R.layout.popup_location_wheel);
+
+        LocationView locationView = new LocationView(context,dialog);
+        return locationView;
+    }
+
     public void show(View view) {
         if (popupWindow != null) {
             popupWindow.showAsDropDown(view);
+        }
+
+    }
+
+    public void show(){
+        if(dialog !=null){
+            dialog.show();
         }
     }
 
     public void dismiss() {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
+        }
+        if(dialog != null && dialog.isShowing()){
+            dialog.dismiss();
         }
     }
 
@@ -125,6 +148,7 @@ public class LocationView implements OnWheelChangedListener {
             strings.toArray(mProvinceArray);
             //排序
             Comparator cmp = Collator.getInstance(Locale.CHINESE);
+//            Collections.sort((List) strings,cmp);
             Arrays.sort(mProvinceArray, cmp);
 
             for (String str : strings) {
@@ -140,6 +164,10 @@ public class LocationView implements OnWheelChangedListener {
 
     }
 
+    /**
+     * 读取json数据
+     * @param context
+     */
     public static void loadData(final Context context) {
         //读取城市列表
         new AsyncTask<String, Integer, JSONArray>() {
@@ -194,6 +222,15 @@ public class LocationView implements OnWheelChangedListener {
     }
 
     private void init() {
+
+        mProvinceView.setShadowColor(0xFFFFFFFF, 0xBBFFFFFF, 0x00FFFFFF);
+        mCityView.setShadowColor(0xFFFFFFFF, 0xBBFFFFFF, 0x00FFFFFF);
+        mProvinceView.addChangingListener(this);
+        mCityView.addChangingListener(this);
+
+        if (mProvinceArray == null) {
+            loadXmlData(context, "province_data.xml");
+        }
         mProvinceView.setViewAdapter(new ArrayWheelAdapter<String>(context, mProvinceArray));
         mProvinceView.setCurrentItem(0);
         updateCities();
@@ -207,6 +244,7 @@ public class LocationView implements OnWheelChangedListener {
         }
         mCityView.setViewAdapter(new ArrayWheelAdapter<String>(context, cities));
         mCityView.setCurrentItem(0);
+        mCityCurrent = cities[0];
     }
 
 
