@@ -13,12 +13,15 @@
         style="@style/tx_black_df_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:text="公司介绍" />
 
     <EditText
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:minLines="4" />
 
 
@@ -156,12 +159,15 @@
         style="@style/tx_black_df_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:text="企业推广" />
 
     <EditText
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:minLines="4" />
 
 </LinearLayout>

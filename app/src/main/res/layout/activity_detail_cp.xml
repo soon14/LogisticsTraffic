@@ -22,10 +22,10 @@
             android:id="@+id/detail_colletion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:onClick="onClick_CollectAdd"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
+            android:background="@color/transparent"
+            android:onClick="onClick_CollectAdd"
             android:src="@drawable/colletion_icon" />
 
         <ImageView
@@ -265,15 +265,20 @@
 
                 <include layout="@layout/evaluate_list_item" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/gray_line" />
+
                 <include layout="@layout/evaluate_list_item" />
 
                 <Button
                     style="@style/while_orange_btn_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="onClick_Evaluation"
-                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    android:onClick="onClick_Evaluation"
                     android:text="更多..." />
             </LinearLayout>
 
