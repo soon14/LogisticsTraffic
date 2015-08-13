@@ -36,6 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/white_shape"
+            android:layout_marginBottom="2dp"
             android:hint="搜索店铺"
             android:onClick="onClick_Search" />
 

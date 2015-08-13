@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/setting_icon"
-                android:drawableRight="@drawable/right_icon"
+                android:drawableRight="@drawable/right_gray_arrow"
                 android:onClick="onClick_SettingShop"
                 android:text="店铺设置" />
 
@@ -127,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/driver_icon"
-                    android:drawableRight="@drawable/right_icon"
+                    android:drawableRight="@drawable/right_gray_arrow"
                     android:onClick="onClick_Fleet"
                     android:text="我的车队" />
 
@@ -150,8 +150,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/services_icon"
-                    android:drawablePadding="5dp"
-                    android:drawableRight="@drawable/right_icon"
+                    android:drawableRight="@drawable/right_gray_arrow"
                     android:onClick="onClick_Server"
                     android:text="服务" />
 
@@ -168,8 +167,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/push_icon"
-                android:drawablePadding="5dp"
-                android:drawableRight="@drawable/right_icon"
+                android:drawableRight="@drawable/right_gray_arrow"
                 android:onClick="onClick_SettingShare"
                 android:text="设置" />
 
@@ -185,8 +183,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/send_icon"
-                android:drawablePadding="5dp"
-                android:drawableRight="@drawable/right_icon"
+                android:drawableRight="@drawable/right_gray_arrow"
                 android:onClick="onClick_SendFriend"
                 android:text="推荐给好友" />
 
@@ -202,8 +199,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/updata_icon"
-                android:drawablePadding="5dp"
-                android:drawableRight="@drawable/right_icon"
+                android:drawableRight="@drawable/right_gray_arrow"
                 android:text="在线升级" />
 
             <View
@@ -218,7 +214,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/pay_icon"
-                android:drawablePadding="5dp"
                 android:text="我的财富" />
 
             <View
@@ -233,7 +228,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/quit_icon"
-                android:drawablePadding="5dp"
                 android:onClick="onClick_SafeQuit"
                 android:text="安全退出" />
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/editpage_bg_color"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".activity.FleetActivity">
 
@@ -13,6 +13,8 @@
         android:id="@+id/fleet_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:dividerHeight="2px"
+        android:divider="@color/gray_line"
         android:layout_margin="5dp"
         android:layout_weight="1">
 
