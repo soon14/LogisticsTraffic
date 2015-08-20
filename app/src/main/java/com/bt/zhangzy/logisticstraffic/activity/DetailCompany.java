@@ -32,6 +32,7 @@ public class DetailCompany extends BaseActivity {
 
 
         setContentView(R.layout.activity_detail_cp);
+        setPageName("门企详情");
         if(getIntent().getExtras() != null){
             Bundle bundle = getIntent().getExtras();
             if(bundle.containsKey(Constant.BUNDLE_PRODUCT_KEY)){

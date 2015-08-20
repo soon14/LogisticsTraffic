@@ -73,6 +73,9 @@ public class HomeFragment extends BaseHomeFragment {
             listView.setAdapter(null);
             listView = null;
         }
+        if(topView != null){
+            topView.getBackground().setAlpha(255);
+        }
     }
 
 

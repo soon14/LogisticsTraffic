@@ -40,15 +40,15 @@ public class BaseActivity extends FragmentActivity {
         return (LogisticsTrafficApplication) getApplication();
     }
 
-    TextView pageTopName;
 
     public void setPageName(String name) {
+        TextView pageTopName = (TextView) findViewById(R.id.page_top_name);
         if (pageTopName == null) {
-            pageTopName = (TextView) findViewById(R.id.page_top_name);
+            pageTopName.setText(name);
         }
-        pageTopName.setText(name);
-        if (findViewById(R.id.page_top_ly) != null) {
-            findViewById(R.id.page_top_ly).setBackgroundColor(getResources().getColor(R.color.main_bg_color));
+        View pagetoply = findViewById(R.id.page_top_ly);
+        if (pagetoply != null) {
+            pagetoply.setBackgroundColor(getResources().getColor(R.color.main_bg_color));
         }
 
     }
