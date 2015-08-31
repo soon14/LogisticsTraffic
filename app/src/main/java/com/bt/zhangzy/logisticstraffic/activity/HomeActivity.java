@@ -1,10 +1,8 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -28,7 +26,6 @@ import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.fragment.BaseHomeFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.HomeFragment;
-import com.bt.zhangzy.logisticstraffic.fragment.ServicesFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.SourceListFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.UserFragment;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
@@ -44,7 +41,7 @@ public class HomeActivity extends BaseActivity {
     private final static String Tag = HomeActivity.class.getSimpleName();
 
     private static final int INDEX_HOME = 0;
-//    private static final int INDEX_SERVICES = 1;
+    //    private static final int INDEX_SERVICES = 1;
     //    private static final int INDEX_HAPPY = 2;
     private static final int INDEX_USER = 1;//3;
 
@@ -265,6 +262,11 @@ public class HomeActivity extends BaseActivity {
             customBtn.setCompoundDrawables(null, drawable, null, null);
         } else if (User.getInstance().getUserType() == Type.DriverType) {
             customBtn.setText("货源");
+            // 使用代码设置drawableleft
+            Drawable drawable = getResources().getDrawable(R.drawable.goods_icon);
+            // / 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            customBtn.setCompoundDrawables(null, drawable, null, null);
         }
     }
 
@@ -316,7 +318,7 @@ public class HomeActivity extends BaseActivity {
      */
     private void createView() {
         //TODO 浮窗音效 小汽车下单加入音效
-        if (!User.getInstance().getLogin() || User.getInstance().getUserType() != Type.InformationType) {
+        if (!User.getInstance().getLogin() || User.getInstance().getUserType() == Type.EnterpriseType) {
             Log.w(Tag, "用户 不符合浮窗创建条件");
             floatView = null;
             return;
@@ -412,11 +414,14 @@ public class HomeActivity extends BaseActivity {
 //        startActivity(ServicesActivity.class);
 //        replace(R.id.home_content, new ServicesFragment(), TAG_SERVICES);
 //        setPage(INDEX_SERVICES, view);
-          if (User.getInstance().getUserType() == Type.InformationType) {
-              startActivity(SourceActivity.class,null,true);
-          }else /*if(User.getInstance().getUserType() == Type.EnterpriseType)*/{
-              startActivity(ServicesActivity.class,null,true);
-          }
+        if (User.getInstance().getUserType() == Type.EnterpriseType) {
+            startActivity(ServicesActivity.class, null, true);
+        }
+        if (User.getInstance().getUserType() == Type.DriverType) {
+            startActivity(SourceGoodsActivity.class, null, true);
+        } else {
+            startActivity(SourceActivity.class, null, true);
+        }
     }
 
     public void onClick_gotoHistory(View view) {

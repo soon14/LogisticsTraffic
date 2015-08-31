@@ -138,6 +138,7 @@
                     android:text="联系电话" />
 
                 <View
+                    android:id="@+id/detail_gray_line"
                     android:layout_width="4px"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="5dp"
@@ -147,6 +148,7 @@
                     android:background="#fca987" />
 
                 <TextView
+                    android:id="@+id/detail_order_btn"
                     style="@style/tx_black_df_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

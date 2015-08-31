@@ -93,6 +93,7 @@
         android:background="@color/gray_line" />
 
     <TableLayout
+        android:id="@+id/order_detail_phone_ly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -117,14 +118,15 @@
                 android:background="@drawable/location_btn"
                 android:onClick="onClick_gotoMap" />
         </TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/gray_line" />
     </TableLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/gray_line" />
+
 
     <TableLayout
         android:layout_width="match_parent"
@@ -157,7 +159,7 @@
                 android:text="始  发  地" />
 
             <TextView
-                android:id="@+id/order_detail_start_ed"
+                android:id="@+id/order_detail_start_bt"
                 style="@style/tx_black_df_style"
                 android:background="@color/white"
                 android:clickable="true"
@@ -182,7 +184,7 @@
                 android:text="目  的  地" />
 
             <TextView
-                android:id="@+id/order_detail_end_ed"
+                android:id="@+id/order_detail_end_bt"
                 style="@style/tx_black_df_style"
                 android:background="@color/white"
                 android:clickable="true"
@@ -207,7 +209,7 @@
                 android:text="类        型" />
 
             <TextView
-                android:id="@+id/order_detail_type_ed"
+                android:id="@+id/order_detail_type_bt"
                 style="@style/tx_black_df_style"
                 android:layout_marginRight="5dp"
                 android:clickable="true"
@@ -233,6 +235,7 @@
                 android:text="名        称" />
 
             <TextView
+                android:id="@+id/order_detail_truck_type_bt"
                 style="@style/tx_black_df_style"
                 android:layout_marginRight="5dp"
                 android:clickable="true"
@@ -258,7 +261,7 @@
                 android:text="重        量" />
 
             <TextView
-                android:id="@+id/order_detail_name_ed"
+                android:id="@+id/order_detail_name_bt"
                 style="@style/tx_black_df_style"
                 android:clickable="true"
                 android:onClick="onClick_ChangeWeight"
@@ -282,7 +285,7 @@
                 android:text="体        积" />
 
             <TextView
-                android:id="@+id/order_detail_kg_ed"
+                android:id="@+id/order_detail_kg_bt"
                 style="@style/tx_black_df_style"
                 android:layout_marginRight="5dp"
                 android:clickable="true"

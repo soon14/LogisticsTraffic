@@ -43,7 +43,6 @@ import java.util.Calendar;
  */
 public class LogisticsTrafficApplication extends Application implements BaiduSDK.LocationListener {
 
-
     private static final String TAG = LogisticsTrafficApplication.class.getSimpleName();
     private PopupWindow popupWindow;
     private ListView listView;

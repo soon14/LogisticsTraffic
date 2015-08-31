@@ -40,6 +40,11 @@ public class DetailCompany extends BaseActivity {
             }
         }
 
+        if(Constant.DEVICES_APP){
+            findViewById(R.id.detail_gray_line).setVisibility(View.GONE);
+            findViewById(R.id.detail_order_btn).setVisibility(View.GONE);
+        }
+
         setTextView(R.id.detail_name_tx, product.getName());
         setTextView(R.id.detail_cp_address_tx,product.getAddress());
 

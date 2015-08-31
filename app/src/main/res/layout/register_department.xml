@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/editpage_bg_color"
-    android:gravity="center_horizontal">
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-<!-- 物流企业注册 -->
+    <!-- 物流企业注册 -->
     <TextView
         style="@style/title_style"
         android:layout_width="match_parent"
@@ -23,12 +24,26 @@
         android:layout_margin="5dp"
         android:hint="门企名称" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray_line" />
+
     <EditText
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:hint="用户名" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray_line" />
 
     <EditText
         style="@style/edit_style"
@@ -37,6 +52,13 @@
         android:layout_margin="5dp"
         android:hint="密    码" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray_line" />
+
     <EditText
         style="@style/edit_style"
         android:layout_width="match_parent"
@@ -44,25 +66,39 @@
         android:layout_margin="5dp"
         android:hint="确认密码" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray_line" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
 
         <EditText
             style="@style/edit_style"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:hint="验证码"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:hint="验证码" />
 
         <Button
             style="@style/home_button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="获取验证码"/>
+            android:text="获取验证码" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray_line" />
 
     <EditText
         style="@style/edit_style"
@@ -71,28 +107,35 @@
         android:layout_margin="5dp"
         android:hint="推荐人" />
 
-   <!-- <Button
-        style="@style/home_button_style"
-        android:layout_margin="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="推荐福利" />-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray_line" />
+    <!-- <Button
+         style="@style/home_button_style"
+         android:layout_margin="5dp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal"
+         android:text="推荐福利" />-->
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
         android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="已阅读并同意法律申明"
-        android:textSize="11sp"/>
+        android:textColor="@color/black"
+        android:textSize="11sp" />
 
     <Button
         style="@style/home_button_style"
-        android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
         android:onClick="onClick_RegisterBtn"
         android:text="注   册" />
 </LinearLayout>

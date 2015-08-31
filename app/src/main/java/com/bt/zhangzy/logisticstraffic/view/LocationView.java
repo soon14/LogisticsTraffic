@@ -13,7 +13,6 @@ import android.widget.PopupWindow;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.LocationXmlParserHandler;
-import com.bt.zhangzy.tools.PinyinComparator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,10 +23,8 @@ import java.io.InputStream;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;

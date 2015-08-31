@@ -43,7 +43,7 @@ public class BaseActivity extends FragmentActivity {
 
     public void setPageName(String name) {
         TextView pageTopName = (TextView) findViewById(R.id.page_top_name);
-        if (pageTopName == null) {
+        if (pageTopName != null) {
             pageTopName.setText(name);
         }
         View pagetoply = findViewById(R.id.page_top_ly);

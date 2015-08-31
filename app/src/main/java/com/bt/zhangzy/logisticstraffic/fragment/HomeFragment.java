@@ -25,7 +25,7 @@ public class HomeFragment extends BaseHomeFragment {
     private ViewPager spreadPager;
     private ListView listView;
     private View listHeadView;
-    private ViewFlipper flipper;
+//    private ViewFlipper flipper;
     //    private GestureDetector detector;
     private View topView;
 
@@ -64,6 +64,14 @@ public class HomeFragment extends BaseHomeFragment {
             }
         });
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(topView != null){
+            topView.getBackground().setAlpha(255);
+        }
     }
 
     @Override

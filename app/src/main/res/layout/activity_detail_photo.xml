@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include layout="@layout/page_top" />
@@ -14,6 +15,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
+        android:background="@drawable/white_gray_shape"
         android:hint="门企地址" />
 
     <EditText
@@ -22,95 +24,55 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:background="@drawable/white_gray_shape"
         android:hint="联系电话" />
 
-    <LinearLayout
+    <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
+        android:columnCount="2"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical">
+            android:layout_margin="10dp"
+            android:src="@drawable/detail_yyzz" />
 
-            <TextView
-                style="@style/home_bottom_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="营业执照" />
-
-            <TextView
-                style="@style/tx_black_df_style"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:text="拍照上传" />
-
-            <TextView
-                style="@style/home_bottom_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="门头照片" />
-
-            <TextView
-                style="@style/tx_black_df_style"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:text="拍照上传" />
-        </LinearLayout>
-
-        <LinearLayout
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_margin="10dp"
+            android:src="@drawable/detail_swdjz" />
 
-            <TextView
-                style="@style/home_bottom_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="税务登记证" />
-
-            <TextView
-                style="@style/tx_black_df_style"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:text="拍照上传" />
-
-            <TextView
-                style="@style/home_bottom_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="法人身份证正面照片" />
-
-            <TextView
-                style="@style/tx_black_df_style"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:text="拍照上传" />
-        </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/detail_mtzp" />
 
 
-    </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/detail_frsfz" />
+
+
+    </GridLayout>
 
     <Button
-        style="@style/home_bottom_title"
+        style="@style/orange_btn_noPadding_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:onClick="onClick_Submit"
         android:text="验证/审核" />
 

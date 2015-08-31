@@ -22,81 +22,84 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/user_top_bg"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/user_bg" />
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        style="@style/tx_black_df_style"
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="13345666689" />
+                        android:layout_margin="10dp"
+                        android:src="@drawable/user_bg" />
 
-                    <TextView
-                        style="@style/tx_black_df_style"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="用户名" />
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/tx_black_df_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:text="13345666689" />
+
+                        <TextView
+                            style="@style/tx_black_df_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:text="用户名" />
+
+                        <Button
+                            style="@style/button_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/user_wsxq"
+                            android:onClick="onClick_gotoDetailPhoto"
+                            android:text="" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/user_top_bt_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="15dp">
 
                     <Button
-                        style="@style/button_style"
+                        style="@style/tx_black_df_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:onClick="onClick_gotoDetailPhoto"
-                        android:text="完善详情" />
+                        android:layout_marginRight="30dp"
+                        android:background="@color/transparent"
+                        android:drawableLeft="@drawable/order_icon"
+                        android:drawablePadding="5dp"
+                        android:onClick="onClick_gotoOrderList"
+                        android:text="我的订单"
+                        android:textColor="@color/white" />
+
+
+                    <Button
+                        style="@style/tx_black_df_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:background="@color/transparent"
+                        android:drawableLeft="@drawable/collect_icon"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:onClick="onClick_Collect"
+                        android:text="收藏夹"
+                        android:textColor="@color/white" />
                 </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ee8951"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="15dp">
-
-                <Button
-                    style="@style/tx_black_df_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
-                    android:background="@color/transparent"
-                    android:drawableLeft="@drawable/order_icon"
-                    android:drawablePadding="5dp"
-                    android:onClick="onClick_gotoOrderList"
-                    android:text="我的订单"
-                    android:textColor="@color/white" />
-
-                <View
-                    android:layout_width="2px"
-                    android:layout_height="match_parent"
-                    android:background="@color/white" />
-
-                <Button
-                    style="@style/tx_black_df_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="60dp"
-                    android:background="@color/transparent"
-                    android:drawableLeft="@drawable/collect_icon"
-                    android:drawablePadding="5dp"
-                    android:gravity="center"
-                    android:onClick="onClick_Collect"
-                    android:text="收藏夹"
-                    android:textColor="@color/white" />
             </LinearLayout>
 
 

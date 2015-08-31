@@ -134,8 +134,11 @@
         android:id="@+id/source_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/transparent"
-        android:dividerHeight="10dp">
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:scrollbars="none"
+        android:divider="@color/gray_line"
+        android:dividerHeight="2px">
 
     </ListView>
 </LinearLayout>

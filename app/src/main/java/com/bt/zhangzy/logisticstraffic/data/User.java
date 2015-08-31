@@ -2,6 +2,8 @@ package com.bt.zhangzy.logisticstraffic.data;
 
 import android.text.TextUtils;
 
+import com.bt.zhangzy.logisticstraffic.app.Constant;
+
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class User implements Serializable {
 
     /**
      * 加载用回对象，用于数据存储；
+     *
      * @param user
      */
     public void loadUser(User user) {
@@ -153,8 +156,15 @@ public class User implements Serializable {
         this.isLogin = login;
     }
 
+    public boolean isDevicesType(){
+        return getUserType() == Type.DriverType;
+    }
+
     public Type getUserType() {
-        return userType;
+        if (Constant.DEVICES_APP) {
+            return Type.DriverType;
+        } else
+            return userType;
     }
 
     public void setUserType(Type userType) {

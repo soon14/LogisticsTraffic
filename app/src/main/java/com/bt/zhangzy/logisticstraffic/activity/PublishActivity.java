@@ -22,10 +22,11 @@ public class PublishActivity extends BaseActivity {
 
     EditText licenceEd;
     View contentView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        contentView = LayoutInflater.from(this).inflate(R.layout.activity_publish,null);
+        contentView = LayoutInflater.from(this).inflate(R.layout.activity_publish, null);
         setContentView(contentView);
         setPageName("发布车辆");
         licenceEd = (EditText) findViewById(R.id.publish_licence_ed);
@@ -33,6 +34,14 @@ public class PublishActivity extends BaseActivity {
 
     public void onClick_Reset(View view) {
         //重置按钮
+        final int[] ids = {R.id.publish_address_ed, R.id.publish_length_ed, R.id.publish_licence_ed, R.id.publish_status_ed, R.id.publish_type_ed, R.id.publish_weight_ed};
+        View tmpV;
+        for (int id : ids) {
+            tmpV = findViewById(id);
+            if (tmpV != null && tmpV instanceof EditText) {
+                ((EditText) tmpV).setText("");
+            }
+        }
     }
 
     public void onClick_ShowLicence(View view) {
@@ -42,7 +51,7 @@ public class PublishActivity extends BaseActivity {
             public void confirm(String string) {
                 licenceEd.setText(string);
             }
-        }).showAsDropDown(view,0,-view.getHeight());
+        }).showAsDropDown(view, 0, -view.getHeight());
 
     }
 

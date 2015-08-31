@@ -5,6 +5,8 @@ package com.bt.zhangzy.logisticstraffic.app;
  * Created by ZhangZy on 2015/7/14.
  */
 public final class Constant {
+    /* 标记是否为司机端 */
+    public static final boolean DEVICES_APP = true;
 
     /*=============activity跳转请求常量 =================*/
     /**

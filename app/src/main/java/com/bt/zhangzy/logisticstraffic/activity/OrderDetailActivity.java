@@ -1,11 +1,8 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,9 +17,6 @@ import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
-import com.bt.zhangzy.logisticstraffic.view.LocationView;
-
-import org.w3c.dom.Text;
 
 import static com.bt.zhangzy.logisticstraffic.data.OrderDetailMode.EnterpriseMode;
 
@@ -95,8 +89,8 @@ public class OrderDetailActivity extends BaseActivity {
 
     }
 
-    final int[] edit_ids = {R.id.order_detail_phone, R.id.order_detail_kg_ed, R.id.order_detail_check_phone_ed, R.id.order_detail_start_ed,
-            R.id.order_detail_end_ed, R.id.order_detail_type_ed, R.id.order_detail_name_ed};
+    final int[] edit_ids = {R.id.order_detail_phone, R.id.order_detail_kg_bt, R.id.order_detail_check_phone_ed, R.id.order_detail_start_bt,
+            R.id.order_detail_end_bt, R.id.order_detail_type_bt, R.id.order_detail_name_bt,R.id.order_detail_truck_type_bt};
 
     private void initView() {
         TextView textView;
@@ -114,15 +108,15 @@ public class OrderDetailActivity extends BaseActivity {
                     }
                 });
                 for (int id : edit_ids) {
-                    if (id == R.id.order_detail_start_ed || id == R.id.order_detail_end_ed) {
+                    if (id == R.id.order_detail_start_bt || id == R.id.order_detail_end_bt) {
 
                     } else {
                         View viewById = findViewById(id);
-                        if(viewById instanceof EditText) {
+                        if (viewById instanceof EditText) {
                             editText = (EditText) viewById;
                             editText.setEnabled(false);
                             editText.setBackgroundColor(getResources().getColor(R.color.mask_black));
-                        }else{
+                        } else {
                             viewById.setClickable(false);
                         }
 
@@ -160,11 +154,18 @@ public class OrderDetailActivity extends BaseActivity {
                 break;
             case DriverMode://司机
 //                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
-                findViewById(R.id.order_detail_yes).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_phone_ly).setVisibility(View.GONE);
+                textView = (TextView) findViewById(R.id.order_detail_yes);
+                textView.setText("抢单");
                 for (int id : edit_ids) {
-                    editText = (EditText) findViewById(id);
-                    editText.setEnabled(false);
-                    editText.setBackgroundColor(getResources().getColor(R.color.mask_black));
+                    View viewById = findViewById(id);
+                    if (viewById instanceof EditText) {
+                        editText = (EditText) viewById;
+                        editText.setEnabled(false);
+                        editText.setBackgroundColor(getResources().getColor(R.color.mask_black));
+                    } else {
+                        viewById.setClickable(false);
+                    }
                 }
                 break;
             case CompletedMode:

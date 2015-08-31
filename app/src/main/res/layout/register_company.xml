@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/editpage_bg_color"
+    android:background="@color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -18,6 +18,7 @@
         android:drawablePadding="5dp"
         android:text="简单信息" />
 
+
     <EditText
         style="@style/edit_style"
         android:layout_width="match_parent"
@@ -25,27 +26,48 @@
         android:layout_margin="5dp"
         android:hint="门企名称" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray_line"/>
     <EditText
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:hint="用户名" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray_line"/>
     <EditText
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:hint="密    码" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray_line"/>
     <EditText
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:hint="确认密码" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray_line"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,14 +87,24 @@
             android:layout_height="wrap_content"
             android:text="获取验证码"/>
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray_line"/>
     <EditText
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:hint="推荐人" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray_line"/>
    <!-- <Button
         style="@style/home_button_style"
         android:layout_margin="5dp"
@@ -87,6 +119,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="已阅读并同意法律申明"
+        android:textColor="@color/black"
         android:textSize="11sp"/>
 
     <Button

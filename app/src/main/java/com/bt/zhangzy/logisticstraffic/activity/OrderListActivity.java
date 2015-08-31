@@ -9,6 +9,7 @@ import android.view.View;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.fragment.OrderListFragment;
 
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ public class OrderListActivity extends BaseActivity {
         setContentView(R.layout.activity_orderlist);
         setPageName("我的订单");
 //        initTabHost();
+        if(Constant.DEVICES_APP){
+            findViewById(R.id.orderlist_tab_untreated).setVisibility(View.GONE);
+        }
         initViewPager();
     }
 
@@ -38,12 +42,18 @@ public class OrderListActivity extends BaseActivity {
         viewPager = (ViewPager) findViewById(R.id.orderlist_viewpager);
 
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
-        fragments.add(new OrderListFragment(PAGE_UNTREATED));
+        if(!Constant.DEVICES_APP) {
+            fragments.add(new OrderListFragment(PAGE_UNTREATED));
+        }
         fragments.add(new OrderListFragment(PAGE_SUBMITTED));
         fragments.add(new OrderListFragment(PAGE_COMPLETED));
         FragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
-        onClick_SelectBtn(findViewById(R.id.orderlist_tab_untreated));
+        if(Constant.DEVICES_APP){
+            onClick_SelectBtn(findViewById(R.id.orderlist_tab_submitted));
+        }else {
+            onClick_SelectBtn(findViewById(R.id.orderlist_tab_untreated));
+        }
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -52,6 +62,9 @@ public class OrderListActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
+                if (Constant.DEVICES_APP) {
+                    position += 1;
+                }
                 switch (position) {
                     case PAGE_UNTREATED:
                         onClick_SelectBtn(findViewById(R.id.orderlist_tab_untreated));
@@ -100,6 +113,9 @@ public class OrderListActivity extends BaseActivity {
             case R.id.orderlist_tab_completed:
                 currentPage = PAGE_COMPLETED;
                 break;
+        }
+        if(Constant.DEVICES_APP){
+            currentPage -=1;
         }
         if (currentPage > 0 && viewPager != null) {
             if (viewPager.getCurrentItem() != currentPage)
