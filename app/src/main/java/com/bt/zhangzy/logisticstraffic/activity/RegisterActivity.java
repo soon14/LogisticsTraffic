@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 
@@ -19,7 +20,11 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_register);
+        if(Constant.DEVICES_APP){
+            setContentView(R.layout.register_company);
+        }else {
+            setContentView(R.layout.activity_register);
+        }
     }
 
     /**

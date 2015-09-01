@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.app.PictureHelper;
 
 /**
@@ -19,7 +20,11 @@ public class DetailPhotoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_detail_photo);
+        if (Constant.DEVICES_APP) {
+            setContentView(R.layout.activity_detail_devices);
+        } else {
+            setContentView(R.layout.activity_detail_photo);
+        }
         setPageName("详细信息");
 
     }

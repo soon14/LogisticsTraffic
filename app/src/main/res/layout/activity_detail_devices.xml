@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- 司机端注册-->
+
+    <include layout="@layout/page_top" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/white_gray_shape"
+        android:orientation="vertical">
+
+        <EditText
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:hint="姓名" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <EditText
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:hint="联系电话" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/detail_sfz_s" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/detail_jsz_s" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/detail_tszz_s" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/white_gray_shape"
+        android:orientation="vertical">
+
+        <EditText
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:hint="车型" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <EditText
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:hint="车长" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <EditText
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:hint="车宽" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <EditText
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:hint="车高" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <EditText
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:hint="荷载" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <EditText
+            style="@style/edit_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:hint="最后年检日期" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/detail_xsz_s" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/detail_clzp_s" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/detail_clzp_s" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        style="@style/orange_btn_noPadding_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:onClick="onClick_Submit"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp"
+        android:text="验证/审核" />
+
+</LinearLayout>
