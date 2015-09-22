@@ -15,27 +15,35 @@
         android:layout_height="match_parent"
         android:dividerHeight="2px"
         android:divider="@color/gray_line"
+        android:listSelector="@color/transparent"
         android:layout_margin="5dp"
         android:layout_weight="1">
 
     </ListView>
 
-    <View
+    <LinearLayout
+        android:id="@+id/fleet_button_ly"
         android:layout_width="match_parent"
-        android:layout_height="4px"
-        android:background="@color/main_bg_color" />
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4px"
+            android:background="@color/main_bg_color" />
 
-    <Button
-        style="@style/home_button_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="0"
-        android:padding="5dp"
-        android:onClick="onclick_AddDriver"
-        android:text="添加我的新司机" />
+        <Button
+            style="@style/home_button_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0"
+            android:padding="5dp"
+            android:onClick="onclick_AddDriver"
+            android:text="添加我的新司机" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -61,6 +61,7 @@
         <activity android:name=".activity.PublishActivity"/>
         <activity android:name=".activity.ServicesActivity"/>
         <activity android:name=".activity.SourceGoodsActivity"/>
+        <activity android:name=".activity.FleetDevicesActivity"/>
 
 
 

@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -12,20 +11,17 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.People;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * Created by ZhangZy on 2015/6/24.
  */
-public class FleetListAdapter extends BaseAdapter {
+public class FleetListForDevicesAdapter extends BaseAdapter {
 
     private ArrayList<People> list = new ArrayList<People>();
-    private DelBtnListener delBtnListener;
-    boolean isSelect;
 
-    public FleetListAdapter(boolean isSelect) {
-        this.isSelect = isSelect;
+    public FleetListForDevicesAdapter() {
+
     }
 
 
@@ -50,9 +46,6 @@ public class FleetListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void setDelBtnListener(DelBtnListener delBtnListener) {
-        this.delBtnListener = delBtnListener;
-    }
 
     @Override
     public int getCount() {
@@ -75,24 +68,17 @@ public class FleetListAdapter extends BaseAdapter {
         Holder holder = null;
         if (convertView == null) {
             holder = new Holder(position);
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fleet_list_item, null);
-
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fleet_list_devices_item, null);
             holder.name = (TextView) convertView.findViewById(R.id.fleet_it_name_tx);
             holder.phone = (TextView) convertView.findViewById(R.id.fleet_it_phone_tx);
-            holder.del = (ImageButton) convertView.findViewById(R.id.fleet_it_del_btn);
-            if (isSelect) {
-                holder.del.setVisibility(View.GONE);
-            } else {
-                holder.del.setOnClickListener(holder);
-            }
             convertView.setTag(holder);
         } else if (convertView.getTag() != null) {
             holder = (Holder) convertView.getTag();
         }
         if (holder != null) {
-            People people = list.get(position);
-            holder.name.setText(people.getName());
-            holder.phone.setText(people.getPhoneNumber());
+//                People people = list.get(position);
+//                holder.name.setText(people.getName());
+//                holder.phone.setText(people.getPhoneNumber());
         }
 
 
@@ -112,9 +98,6 @@ public class FleetListAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
 //            removePeople(id);
-            if (delBtnListener != null) {
-                delBtnListener.onClick(id);
-            }
         }
     }
 

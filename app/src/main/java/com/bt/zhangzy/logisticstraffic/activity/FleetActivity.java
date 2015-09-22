@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.FleetListAdapter;
+import com.bt.zhangzy.logisticstraffic.adapter.FleetListForDevicesAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.People;
@@ -31,7 +32,13 @@ public class FleetActivity extends BaseActivity {
 
         setContentView(R.layout.activity_fleet);
 
-        setPageName("我的车队");
+        if (Constant.DEVICES_APP) {
+            findViewById(R.id.fleet_button_ly).setVisibility(View.GONE);
+            setPageName("我加入的车队");
+        } else {
+            setPageName("我的车队");
+        }
+
         if (getIntent().getExtras() != null) {
             Bundle bundle = getIntent().getExtras();
             if (bundle.containsKey(Constant.RESULT_CODE_KEY)) {
@@ -43,30 +50,44 @@ public class FleetActivity extends BaseActivity {
 
 
         listView = (ListView) findViewById(R.id.fleet_list);
-        FleetListAdapter adapter = new FleetListAdapter(isSelectDevices);
-        adapter.addPeople(User.getInstance().getDriverList());
-        listView.setAdapter(adapter);
-        adapter.setDelBtnListener(new FleetListAdapter.DelBtnListener() {
-            @Override
-            public void onClick(int id) {
-                onclick_DelDriver(id);
-            }
-        });
 
-        if (isSelectDevices) {
+        if (Constant.DEVICES_APP) {
+            FleetListForDevicesAdapter adapter = new FleetListForDevicesAdapter();
+            adapter.addPeople(User.getInstance().getDriverList());
+            listView.setAdapter(adapter);
+
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    People people = (People) listView.getItemAtPosition(position);
-                    Intent intent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(Constant.RESULT_CODE_KEY, people);
-//                    intent.putExtra(Constant.RESULT_CODE_KEY,people);
-                    intent.putExtras(bundle);
-                    setResult(Constant.RESULT_CODE_SELECT_DEVICES, intent);
-                    finish();
+                    startActivity(FleetDevicesActivity.class);
                 }
             });
+        } else {
+            FleetListAdapter adapter = new FleetListAdapter(isSelectDevices);
+            adapter.addPeople(User.getInstance().getDriverList());
+            listView.setAdapter(adapter);
+            adapter.setDelBtnListener(new FleetListAdapter.DelBtnListener() {
+                @Override
+                public void onClick(int id) {
+                    onclick_DelDriver(id);
+                }
+            });
+
+            if (isSelectDevices) {
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        People people = (People) listView.getItemAtPosition(position);
+                        Intent intent = new Intent();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(Constant.RESULT_CODE_KEY, people);
+//                    intent.putExtra(Constant.RESULT_CODE_KEY,people);
+                        intent.putExtras(bundle);
+                        setResult(Constant.RESULT_CODE_SELECT_DEVICES, intent);
+                        finish();
+                    }
+                });
+            }
         }
 
 
@@ -75,7 +96,11 @@ public class FleetActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        User.getInstance().setDriverList(((FleetListAdapter) listView.getAdapter()).getList());
+        if (Constant.DEVICES_APP) {
+
+        } else {
+            User.getInstance().setDriverList(((FleetListAdapter) listView.getAdapter()).getList());
+        }
     }
 
     public void onclick_DelDriver(final int id) {
@@ -112,4 +137,6 @@ public class FleetActivity extends BaseActivity {
 
         }).show();
     }
+
+
 }
