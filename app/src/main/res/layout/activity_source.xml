@@ -24,7 +24,34 @@
             android:text="" />
 
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/source_type1"
+            style="@style/while_orange_tab_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick_ChangeSourceType"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="平台车源" />
+
+        <Button
+            android:id="@+id/source_type2"
+            style="@style/while_orange_tab_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick_ChangeSourceType"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="车队车源" />
+    </LinearLayout>
     <!-- 暂时取消此栏-->
     <LinearLayout
         android:layout_width="match_parent"

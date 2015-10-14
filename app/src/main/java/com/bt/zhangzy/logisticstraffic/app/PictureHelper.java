@@ -87,8 +87,8 @@ public class PictureHelper {
         intent.putExtra("aspectY", 1);
 
         // outputX,outputY 是剪裁图片的宽高
-        intent.putExtra("outputX", 250);
-        intent.putExtra("outputY", 250);
+        intent.putExtra("outputX", 500);
+        intent.putExtra("outputY", 500);
         intent.putExtra("return-data", false);
         intent.putExtra("noFaceDetection", true);
 

@@ -3,20 +3,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".activity.SourceGoodsActivity">
 
     <include layout="@layout/page_top" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/source_goods_type1"
+            style="@style/while_orange_tab_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick_ChangeSourceType"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="平台货源" />
+
+        <Button
+            android:id="@+id/source_goods_type2"
+            style="@style/while_orange_tab_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick_ChangeSourceType"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="车队货源" />
+    </LinearLayout>
+
     <ListView
         android:id="@+id/source_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:scrollbars="none"
         android:divider="@color/gray_line"
-        android:dividerHeight="2px">
+        android:dividerHeight="2px"
+        android:scrollbars="none">
 
     </ListView>
 </LinearLayout>

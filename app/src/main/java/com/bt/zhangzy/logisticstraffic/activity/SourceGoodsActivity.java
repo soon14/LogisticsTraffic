@@ -33,6 +33,24 @@ public class SourceGoodsActivity extends BaseActivity {
                 gotoDetail();
             }
         });
+        lastSelectBtn = findViewById(R.id.source_goods_type1);
+        lastSelectBtn.setSelected(true);
+    }
+
+
+    private View lastSelectBtn;//记录上一次选中的按钮
+
+    public void onClick_ChangeSourceType(View view) {
+        if (view == null)
+            return;
+        if (lastSelectBtn != null && lastSelectBtn.getId() == view.getId())
+            return;
+        view.setSelected(true);
+        if (lastSelectBtn != null) {
+            lastSelectBtn.setSelected(false);
+        }
+        lastSelectBtn = view;
+        listView.setAdapter(new SourceGoodsListAdapter());
     }
 
     private void gotoDetail() {

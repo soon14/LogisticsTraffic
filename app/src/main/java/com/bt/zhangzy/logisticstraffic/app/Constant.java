@@ -6,7 +6,7 @@ package com.bt.zhangzy.logisticstraffic.app;
  */
 public final class Constant {
     /* 标记是否为司机端 */
-    public static final boolean DEVICES_APP = true;
+    public static final boolean DEVICES_APP = false;
 
     /*=============activity跳转请求常量 =================*/
     /**

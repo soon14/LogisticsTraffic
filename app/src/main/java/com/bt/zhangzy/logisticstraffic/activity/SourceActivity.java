@@ -48,9 +48,25 @@ public class SourceActivity extends BaseActivity {
             }
         });
         currentSearchType = SearchType.Precision;
+
+        lastSelectBtn = findViewById(R.id.source_type1);
+        lastSelectBtn.setSelected(true);
     }
 
+    private View lastSelectBtn;//记录上一次选中的按钮
 
+    public void onClick_ChangeSourceType(View view) {
+        if (view == null)
+            return;
+        if (lastSelectBtn != null && lastSelectBtn.getId() == view.getId())
+            return;
+        view.setSelected(true);
+        if (lastSelectBtn != null) {
+            lastSelectBtn.setSelected(false);
+        }
+        lastSelectBtn = view;
+        listView.setAdapter(new SourceListAdapter());
+    }
 
 //    View lastSearchTypeView;
 
@@ -174,7 +190,7 @@ public class SourceActivity extends BaseActivity {
         locationView.setListener(new LocationView.ChangingListener() {
             @Override
             public void onChanged(String province, String city) {
-                if(TextUtils.isEmpty( city))
+                if (TextUtils.isEmpty(city))
                     return;
                 Button btn = (Button) findViewById(R.id.source_location_bt);
 //                Button tx = (Button) v;

@@ -415,7 +415,7 @@ public class HomeActivity extends BaseActivity {
 //        replace(R.id.home_content, new ServicesFragment(), TAG_SERVICES);
 //        setPage(INDEX_SERVICES, view);
         if (User.getInstance().getUserType() == Type.EnterpriseType) {
-            startActivity(ServicesActivity.class, null, true);
+//            startActivity(ServicesActivity.class, null, true);
         }
         if (User.getInstance().getUserType() == Type.DriverType) {
             startActivity(SourceGoodsActivity.class, null, true);
