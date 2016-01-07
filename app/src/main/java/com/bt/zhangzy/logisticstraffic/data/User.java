@@ -38,6 +38,15 @@ public class User implements Serializable {
     private String address;
     private Location location;//保存用户的定位信息
     private boolean isFirstOpen = true;
+    private boolean isVIP = false;//标记用户是否付费
+
+    public boolean isVIP() {
+        return isVIP;
+    }
+
+    public void setIsVIP(boolean isVIP) {
+        this.isVIP = isVIP;
+    }
 
     public boolean isFirstOpen() {
         return isFirstOpen;
