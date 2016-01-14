@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/page_top" />
+
+    <TextView
+        style="@style/black_tx_18_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="购买会员" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <RadioButton
+            style="@style/black_tx_12_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:paddingLeft="10dp"
+            android:text="三个月  30元" />
+        <RadioButton
+            style="@style/black_tx_12_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:paddingLeft="10dp"
+            android:text="六个月  60元" />
+        <RadioButton
+            style="@style/black_tx_12_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:paddingLeft="10dp"
+            android:text="一年  120元" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/black_tx_18_style"
+        android:text="选择支付方式"
+        />
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <RadioButton
+            style="@style/black_tx_12_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:drawableLeft="@drawable/weixin_icon"
+            android:paddingLeft="10dp"
+            android:text="微信支付" />
+        <RadioButton
+            style="@style/black_tx_12_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:drawableLeft="@drawable/zhifubao_icon"
+            android:paddingLeft="10dp"
+            android:text="支付宝支付" />
+    </RadioGroup>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/button_style"
+        android:text="确认支付"
+        android:onClick="onClick_Pay"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

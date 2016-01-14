@@ -16,8 +16,6 @@ import com.bt.zhangzy.logisticstraffic.adapter.SourceListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 
-import org.w3c.dom.Text;
-
 /**
  * 车源信息页
  * todo 将车源信息改为弹出形式  服务页面也得改

@@ -1,10 +1,8 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 
 import com.bt.zhangzy.logisticstraffic.R;
@@ -12,15 +10,7 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.NetCallback;
-import com.bt.zhangzy.network.Url;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -60,6 +50,9 @@ public class MainActivity extends BaseActivity {
          //货物类型
          //http://192.168.1.113:8033/api/goodstype
          */
+//        if(true)
+//            return;
+
         new Handler(getMainLooper(), new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -78,6 +71,24 @@ public class MainActivity extends BaseActivity {
     }
 
 
+    public void onClick_Test(View view) {
+        String url = "http://192.168.1.115:8080/freight-master/users/list";
+        String url1 = "http://112.124.60.26/freight/users/1";
+        String url2 = "http://112.124.60.26/freight/users/ ";//    post 新建用户
+        HashMap map = new HashMap();
+        map.put("userid","123");
+        HttpHelper.getInstance().post(url1,map, new NetCallback() {
+            @Override
+            public void onFailed(String str) {
+
+            }
+
+            @Override
+            public void onSuccess(String str) {
+
+            }
+        });
+    }
 
    /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {

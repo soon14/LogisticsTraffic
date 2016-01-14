@@ -6,6 +6,7 @@
     <string name="order_change_type_title">请选择货物类型</string>
     <string name="order_change_truck_type_title">请选择需要的车型</string>
     <string name="order_change_truck_length_title">请选择需要的车长</string>
+    <string name="dialog_ask_pay">您现在还没有权限使用此功能，是否进行付费？</string>
 
 
 

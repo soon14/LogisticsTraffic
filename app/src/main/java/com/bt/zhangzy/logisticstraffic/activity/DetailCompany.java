@@ -11,7 +11,7 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.zhangzy.baidusdk.BaiduMapActivity;
+import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 
 /**
  * Created by ZhangZy on 2015/6/11.
@@ -85,6 +85,15 @@ public class DetailCompany extends BaseActivity {
     boolean openCall;
 
     public void onClick_CallPhone(View view) {
+        if(Constant.DEVICES_APP && !User.getInstance().isVIP()){
+            BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(PayActivity.class);
+                }
+            });
+            return;
+        }
         openCall = true;
 //        ContextTools.callPhone(this, "10010");
         getApp().callPhone(product.getPhoneNumber());
@@ -111,10 +120,28 @@ public class DetailCompany extends BaseActivity {
             startActivity(LoginActivity.class);
             return;
         }
+        if(Constant.DEVICES_APP && !User.getInstance().isVIP()){
+            BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(PayActivity.class);
+                }
+            });
+            return;
+        }
         startActivity(OrderActivity.class);
     }
 
     public void onClick_CollectAdd(View view) {
+        if(Constant.DEVICES_APP && !User.getInstance().isVIP()){
+            BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(PayActivity.class);
+                }
+            });
+            return;
+        }
         User.getInstance().addCollectionProduct(product);
         showToast("收藏成功");
     }

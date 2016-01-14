@@ -126,7 +126,7 @@ public class HttpHelper extends OkHttpClient {
      * @param responseCallback
      * @throws IOException
      */
-    public void post(String url, HashMap textParams, NetCallback responseCallback) {
+    public void post(String url, HashMap<String,Object> textParams, NetCallback responseCallback) {
         FormEncodingBuilder builder = new FormEncodingBuilder();
         //表单
         if (textParams != null && textParams.size() > 0) {
@@ -157,6 +157,11 @@ public class HttpHelper extends OkHttpClient {
                 .build();
         enqueue(request, responseCallback);
 
+    }
+
+    public void get(String url,NetCallback responseCallback){
+        Request request = new Request.Builder().url(url).build();
+        this.newCall(request).enqueue(responseCallback);
     }
 
     /**

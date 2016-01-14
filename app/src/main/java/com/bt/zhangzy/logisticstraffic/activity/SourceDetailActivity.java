@@ -5,8 +5,10 @@ import android.view.View;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 
 /**
  * Created by ZhangZy on 2015/7/23.
@@ -33,6 +35,15 @@ public class SourceDetailActivity extends BaseActivity {
 
     public void onClick_CallPhone(View view) {
 //        ContextTools.callPhone(this, "10010");
+        if(Constant.DEVICES_APP && !User.getInstance().isVIP()){
+            BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(PayActivity.class);
+                }
+            });
+            return;
+        }
         getApp().callPhone("10010");
     }
 }

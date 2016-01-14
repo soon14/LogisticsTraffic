@@ -43,10 +43,10 @@ public class OrderListActivity extends BaseActivity {
 
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
         if(!Constant.DEVICES_APP) {
-            fragments.add(new OrderListFragment(PAGE_UNTREATED));
+            fragments.add(new OrderListFragment().initTAG_INDEX(PAGE_UNTREATED));
         }
-        fragments.add(new OrderListFragment(PAGE_SUBMITTED));
-        fragments.add(new OrderListFragment(PAGE_COMPLETED));
+        fragments.add(new OrderListFragment().initTAG_INDEX(PAGE_SUBMITTED));
+        fragments.add(new OrderListFragment().initTAG_INDEX(PAGE_COMPLETED));
         FragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
         if(Constant.DEVICES_APP){

@@ -55,6 +55,15 @@ public class SourceGoodsActivity extends BaseActivity {
 
     private void gotoDetail() {
         if (User.getInstance().getLogin()) {
+            if(Constant.DEVICES_APP && !User.getInstance().isVIP()){
+                BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(PayActivity.class);
+                    }
+                });
+                return;
+            }
 //                Bundle bundle = new Bundle();
 //                bundle.putInt(Constant.ORDER_DETAIL_KEY_TYPE, ordinal);
             startActivity(OrderDetailActivity.class);

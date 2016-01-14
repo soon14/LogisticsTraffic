@@ -1,17 +1,12 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.os.Bundle;
-import android.text.Layout;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.PopupWindow;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 import com.bt.zhangzy.logisticstraffic.view.LicenceKeyboardPopupWindow;
 
 /**

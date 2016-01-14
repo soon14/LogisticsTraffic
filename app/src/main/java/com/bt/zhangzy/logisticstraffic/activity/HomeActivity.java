@@ -354,6 +354,15 @@ public class HomeActivity extends BaseActivity {
 
     public void showDialogCallPhone(final String phoneNum) {
         Log.d(Tag, ">>>showDialogCallPhone " + phoneNum);
+        if(Constant.DEVICES_APP && !User.getInstance().isVIP()){
+            BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(PayActivity.class);
+                }
+            });
+            return;
+        }
         BaseDialog dialog = BaseDialog.CreateChoosePhoneDialog(HomeActivity.this, phoneNum);
         dialog.setOnClickListener(R.id.dialog_btn_no, null).setOnClickListener(R.id.dialog_btn_yes, new View.OnClickListener() {
             @Override

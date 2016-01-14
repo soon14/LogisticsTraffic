@@ -1,10 +1,8 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import com.bt.zhangzy.logisticstraffic.R;

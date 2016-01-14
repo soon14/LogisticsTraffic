@@ -28,13 +28,17 @@ public class OrderListFragment extends Fragment {
     private int TAG_INDEX;
     private ListView list;
 
-    public OrderListFragment(int tag) {
+    public OrderListFragment() {
         super();
-        TAG_INDEX = tag;
+    }
+
+    public OrderListFragment initTAG_INDEX(int TAG_INDEX) {
+        this.TAG_INDEX = TAG_INDEX;
+        return  this;
     }
 
 
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_list, container, false);
@@ -53,9 +57,9 @@ public class OrderListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 int ordinal = -1;
-                switch (TAG_INDEX){
+                switch (TAG_INDEX) {
                     case OrderListActivity.PAGE_UNTREATED:
-                        ordinal =  OrderDetailMode.UntreatedMode.ordinal();
+                        ordinal = OrderDetailMode.UntreatedMode.ordinal();
                         break;
                     case OrderListActivity.PAGE_SUBMITTED:
                         ordinal = OrderDetailMode.SubmittedMode.ordinal();
@@ -64,10 +68,10 @@ public class OrderListFragment extends Fragment {
                         ordinal = OrderDetailMode.CompletedMode.ordinal();
                         break;
                 }
-                if(ordinal >0) {
+                if (ordinal > 0) {
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constant.ORDER_DETAIL_KEY_TYPE, ordinal);
-                    getBaseActivity().startActivity(OrderDetailActivity.class,bundle);
+                    getBaseActivity().startActivity(OrderDetailActivity.class, bundle);
                 }
             }
         });
