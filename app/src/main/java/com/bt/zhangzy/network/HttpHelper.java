@@ -8,6 +8,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,6 +24,7 @@ public class HttpHelper extends OkHttpClient {
     private static final String TAG = HttpHelper.class.getSimpleName();
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    public static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");
     /**
      * 请求超时 秒
      */
@@ -54,7 +56,7 @@ public class HttpHelper extends OkHttpClient {
     }
 
 
-    public String get(String url) throws IOException {
+    private String get(String url) throws IOException {
         Request request = new Request.Builder().url(url).build();
         Response response = this.newCall(request).execute();
         if (response.isSuccessful()) {
@@ -65,7 +67,7 @@ public class HttpHelper extends OkHttpClient {
     }
 
 
-    public String post(String url, HashMap textParams) throws IOException {
+    private String post(String url, HashMap textParams) throws IOException {
         RequestBody requestBody = null;
 //        MultipartBuilder multBuilder = new MultipartBuilder();
 //        multBuilder.type(MediaType.parse("multipart/form-data"+ ";boundary=" + BOUNDARY));
@@ -87,7 +89,7 @@ public class HttpHelper extends OkHttpClient {
         return post(url, requestBody);
     }
 
-    public String post(String url, String json) throws IOException {
+    private String post(String url, String json) throws IOException {
         RequestBody body = RequestBody.create(JSON, json);
         return post(url, body);
     }
@@ -126,7 +128,7 @@ public class HttpHelper extends OkHttpClient {
      * @param responseCallback
      * @throws IOException
      */
-    public void post(String url, HashMap<String,Object> textParams, NetCallback responseCallback) {
+    public void post(String url, HashMap<String,String> textParams, NetCallback responseCallback) {
         FormEncodingBuilder builder = new FormEncodingBuilder();
         //表单
         if (textParams != null && textParams.size() > 0) {
@@ -159,6 +161,21 @@ public class HttpHelper extends OkHttpClient {
 
     }
 
+    /**
+     * 文件上传 待测试
+     * @param url
+     * @param file
+     * @param rspCallback
+     */
+    public void postFile(String url,File file,NetCallback rspCallback){
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, file))
+                .build();
+        enqueue(request, rspCallback);
+    }
+
     public void get(String url,NetCallback responseCallback){
         Request request = new Request.Builder().url(url).build();
         this.newCall(request).enqueue(responseCallback);
@@ -181,7 +198,7 @@ public class HttpHelper extends OkHttpClient {
      * @param request
      * @param responseCallback
      */
-    public void enqueue(Request request, Callback responseCallback) {
+    public void enqueue(Request request, NetCallback responseCallback) {
         this.newCall(request).enqueue(responseCallback);
     }
 

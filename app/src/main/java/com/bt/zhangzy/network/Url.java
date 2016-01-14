@@ -10,6 +10,10 @@ public final class Url {
 
     /* 注册 */
     public static final String Register = Host + "register01";
+
+    /* 登录 */
+    public static final String Login = Host + "login";
+
     /* 城市列表     */
     public static final String CityList = Host + "values";
     /* 货物类型     */

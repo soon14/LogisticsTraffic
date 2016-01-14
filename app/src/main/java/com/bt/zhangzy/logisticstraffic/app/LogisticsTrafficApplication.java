@@ -24,6 +24,7 @@ import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
+import com.bt.zhangzy.network.ImageHelper;
 import com.zhangzy.baidusdk.BaiduSDK;
 
 import org.json.JSONArray;
@@ -58,6 +59,9 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
         super.onCreate();
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
+
+        //初始化Image loader
+        ImageHelper.getInstance().init(this);
 
         //先放在这里，后期如果数据加载时间过长 可以考虑放到别的位置！或者增加异步线程
         LoadAppData();

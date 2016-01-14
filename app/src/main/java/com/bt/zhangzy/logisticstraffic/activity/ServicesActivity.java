@@ -23,4 +23,28 @@ public class ServicesActivity extends BaseActivity {
             findViewById(R.id.services_check_ly).setVisibility(View.GONE);
         }
     }
+
+    public void onClick_InfoLocation(View view) {
+
+        String pageName = null;
+        switch (view.getId()) {
+            case R.id.services_qiye_btn:
+                pageName = "信息部";
+                break;
+            case R.id.services_wuliu_btn:
+                pageName = "物流园区";
+                break;
+            case R.id.services_xinxibu_btn:
+                pageName = "仓储";
+                break;
+            case R.id.services_jiayouzhan_btn:
+                pageName = "加油站";
+                break;
+        }
+        if (pageName != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("pageName", pageName);
+            startActivity(LocationListActivity.class, bundle);
+        }
+    }
 }

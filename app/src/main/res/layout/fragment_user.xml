@@ -110,7 +110,7 @@
                 android:drawableLeft="@drawable/setting_icon"
                 android:drawableRight="@drawable/right_gray_arrow"
                 android:onClick="onClick_SettingShop"
-                android:text="店铺设置" />
+                android:text="详细信息" />
 
             <View
                 android:layout_width="match_parent"
@@ -190,34 +190,34 @@
                 android:onClick="onClick_SendFriend"
                 android:text="推荐给好友" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/gray_line" />
+            <!--    <View
+                  android:layout_width="match_parent"
+                  android:layout_height="2px"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginRight="10dp"
+                  android:background="@color/gray_line" />
+
+              <Button
+                  style="@style/setting_item_style"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:drawableLeft="@drawable/updata_icon"
+                  android:drawableRight="@drawable/right_gray_arrow"
+                  android:text="在线升级" />
+
+              <View
+                  android:layout_width="match_parent"
+                  android:layout_height="2px"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginRight="10dp"
+                  android:background="@color/gray_line" />
 
             <Button
-                style="@style/setting_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/updata_icon"
-                android:drawableRight="@drawable/right_gray_arrow"
-                android:text="在线升级" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/gray_line" />
-
-            <Button
-                style="@style/setting_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/pay_icon"
-                android:text="我的财富" />
+                  style="@style/setting_item_style"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:drawableLeft="@drawable/pay_icon"
+                  android:text="我的财富" />-->
 
             <View
                 android:layout_width="match_parent"

@@ -51,7 +51,7 @@
             <TextView
                 style="@style/tx_black_df_style"
                 android:layout_margin="3dp"
-                android:text="发货企业" />
+                android:text="货物来源" />
 
             <TextView
                 android:id="@+id/order_detail_open_ed"
@@ -91,41 +91,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@color/gray_line" />
-
-    <TableLayout
-        android:id="@+id/order_detail_phone_ly"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:stretchColumns="0">
-
-        <TableRow>
-
-            <EditText
-                android:id="@+id/order_detail_phone"
-                style="@style/tx_black_df_style"
-                android:layout_margin="5dp"
-                android:background="@color/white"
-                android:hint="货运司机（电话）"
-                android:inputType="phone"
-                android:padding="10dp" />
-
-            <Button
-                android:id="@+id/order_detail_phone_btn"
-                style="@style/tx_black_df_style"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/location_btn"
-                android:onClick="onClick_gotoMap" />
-        </TableRow>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/gray_line" />
-    </TableLayout>
-
 
 
     <TableLayout
@@ -318,6 +283,24 @@
                 android:text="13945678914" />
         </TableRow>
 
+        <TableRow>
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:text="需要车辆数：" />
+
+            <EditText
+                style="@style/tx_black_df_style"
+                android:background="@color/transparent"
+                android:inputType="phone"
+                android:text="1" />
+            <!-- 选择 车队司机 -->
+            <Button
+                style="@style/tx_black_df_style"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/add_devices" />
+        </TableRow>
 
     </TableLayout>
 
@@ -326,7 +309,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="horizontal">
-
+        <!-- todo 添加按钮跳转到选择司机页面 order_select_drivers -->
         <Button
             android:id="@+id/order_detail_yes"
             style="@style/orange_btn_noPadding_style"

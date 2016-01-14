@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 选择司机 -->
+    <include layout="@layout/page_top" />
+
+    <TableLayout
+        android:id="@+id/order_detail_phone_ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:stretchColumns="0">
+
+
+        <TableRow>
+            <EditText
+                android:id="@+id/order_detail_phone"
+                style="@style/tx_black_df_style"
+                android:layout_margin="5dp"
+                android:background="@color/white"
+                android:hint="货运司机（电话）"
+                android:inputType="phone"
+                android:padding="10dp" />
+
+            <Button
+                android:id="@+id/order_detail_phone_btn"
+                style="@style/tx_black_df_style"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/location_btn"
+                android:onClick="onClick_gotoMap" />
+        </TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/gray_line" />
+    </TableLayout>
+</LinearLayout>

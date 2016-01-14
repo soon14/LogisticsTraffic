@@ -11,6 +11,7 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.app.PictureHelper;
+import com.bt.zhangzy.network.HttpHelper;
 
 import java.io.File;
 
@@ -36,8 +37,11 @@ public class DetailPhotoActivity extends BaseActivity {
         PictureHelper.getInstance().setCallBack(new PictureHelper.CallBack() {
             @Override
             public void handlerImage(String path) {
+                File file = new File(path);
+                // todo 照片上传逻辑
+//                HttpHelper.getInstance().postFile(url,file,new NetCallback);
                 if (userImage != null)
-                    userImage.setImageURI(Uri.fromFile(new File(path)));
+                    userImage.setImageURI(Uri.fromFile(file));
             }
         });
     }
