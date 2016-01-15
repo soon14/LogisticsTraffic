@@ -1,5 +1,7 @@
 package com.bt.zhangzy.network;
 
+import android.util.Log;
+
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
@@ -59,8 +61,6 @@ public class HttpHelper extends OkHttpClient {
     }
 
 
-
-
     private String get(String url) throws IOException {
         Request request = new Request.Builder().url(url).build();
         Response response = this.newCall(request).execute();
@@ -113,6 +113,13 @@ public class HttpHelper extends OkHttpClient {
     }
 
 
+    public void post(String url, JSONObject json, NetCallback callback) {
+        if(json == null)
+            return;
+        Log.i(TAG, "url = "+url+" json = "+json.toString());
+        RequestBody body = RequestBody.create(JSON, json.toString());
+        post(url, body, callback);
+    }
     /**
      * 异步线程访问网络
      *
@@ -121,6 +128,7 @@ public class HttpHelper extends OkHttpClient {
      * @param callback
      */
     public void post(String url, String json, NetCallback callback) {
+        Log.i(TAG, "url = "+url+" json = "+json);
         RequestBody body = RequestBody.create(JSON, json);
         post(url, body, callback);
     }
@@ -133,20 +141,25 @@ public class HttpHelper extends OkHttpClient {
      * @param responseCallback
      * @throws IOException
      */
-    public void post(String url, HashMap<String,String> textParams, NetCallback responseCallback) {
-        FormEncodingBuilder builder = new FormEncodingBuilder();
-        //表单
-        if (textParams != null && textParams.size() > 0) {
-            Set<String> keySet = textParams.keySet();
-            for (Iterator<String> it = keySet.iterator(); it.hasNext(); ) {
-                String name = it.next();
-                String value = (String) textParams.get(name);
+    public void post(String url, HashMap<String, String> textParams, NetCallback responseCallback) {
+        try {
+            FormEncodingBuilder builder = new FormEncodingBuilder();
+            //表单
+            if (textParams != null && textParams.size() > 0) {
+                Log.i(TAG, "url = "+url+" params = "+textParams.toString());
+                Set<String> keySet = textParams.keySet();
+                for (Iterator<String> it = keySet.iterator(); it.hasNext(); ) {
+                    String name = it.next();
+                    String value = (String) textParams.get(name);
 //                multBuilder.addFormDataPart(name,value);
-                builder.add(name, value);
+                    builder.add(name, value);
+                }
             }
+            RequestBody body = builder.build();
+            post(url, body, responseCallback);
+        } catch (Exception e) {
+            Log.w(TAG, "post(" + url + "," + textParams == null ? "" : textParams.toString() + ")", e);
         }
-        RequestBody body = builder.build();
-        post(url, body, responseCallback);
     }
 
     /***
@@ -168,11 +181,12 @@ public class HttpHelper extends OkHttpClient {
 
     /**
      * 文件上传 待测试
+     *
      * @param url
      * @param file
      * @param rspCallback
      */
-    public void postFile(String url,File file,NetCallback rspCallback){
+    public void postFile(String url, File file, NetCallback rspCallback) {
 
         Request request = new Request.Builder()
                 .url(url)
@@ -181,7 +195,7 @@ public class HttpHelper extends OkHttpClient {
         enqueue(request, rspCallback);
     }
 
-    public void get(String url,NetCallback responseCallback){
+    public void get(String url, NetCallback responseCallback) {
         Request request = new Request.Builder().url(url).build();
         this.newCall(request).enqueue(responseCallback);
     }

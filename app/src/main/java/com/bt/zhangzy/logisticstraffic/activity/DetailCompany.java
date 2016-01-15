@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
@@ -12,6 +13,7 @@ import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.network.ImageHelper;
 
 /**
  * Created by ZhangZy on 2015/6/11.
@@ -47,6 +49,10 @@ public class DetailCompany extends BaseActivity {
 
         setTextView(R.id.detail_name_tx, product.getName());
         setTextView(R.id.detail_cp_address_tx,product.getAddress());
+
+        ImageView headImg = (ImageView) findViewById(R.id.detail_user_head_img);
+        String url = "http://img1.3lian.com/img2011/w1/105/4/13.jpg";
+        ImageHelper.getInstance().load(url,headImg);
 
         //TODO 设置电话监听
         TelephonyManager mTelephonyMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);

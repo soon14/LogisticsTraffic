@@ -16,118 +16,148 @@
         android:background="@color/main_bg_color"
         android:drawableLeft="@drawable/title_left_icon"
         android:drawablePadding="5dp"
-        android:text="简单信息" />
+        android:text="新用户注册" />
 
 
     <EditText
+        android:id="@+id/reg_nickname_ed"
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:hint="门企名称" />
+        android:hint="昵称"
+        android:imeOptions="actionNext" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/gray_line"/>
+        android:background="@color/gray_line" />
+
     <EditText
+        android:id="@+id/reg_phoneNum_ed"
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:hint="用户名" />
+        android:hint="手机号"
+        android:imeOptions="actionNext"
+        android:inputType="phone" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/gray_line"/>
+        android:background="@color/gray_line" />
+
     <EditText
+        android:id="@+id/reg_password_ed"
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:hint="密    码" />
+        android:hint="密    码"
+        android:imeOptions="actionNext"
+        android:inputType="textPassword"
+        android:password="true" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/gray_line"/>
+        android:background="@color/gray_line" />
+
     <EditText
+        android:id="@+id/reg_password_confirm_ed"
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:hint="确认密码" />
+        android:hint="确认密码"
+        android:imeOptions="actionNext"
+        android:inputType="textPassword"
+        android:password="true" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/gray_line"/>
+        android:background="@color/gray_line" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/reg_verification_ed"
             style="@style/edit_style"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:hint="验证码"
-            android:layout_marginRight="10dp"/>
+            android:imeOptions="actionNext"
+            android:inputType="number" />
 
         <Button
             style="@style/home_button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="获取验证码"/>
+            android:text="获取验证码" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/gray_line"/>
+        android:background="@color/gray_line" />
+
     <EditText
+        android:id="@+id/reg_recommend_ed"
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:hint="推荐人" />
+        android:hint="推荐人"
+        android:imeOptions="actionDone"
+        android:inputType="number" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/gray_line"/>
-   <!-- <Button
-        style="@style/home_button_style"
-        android:layout_margin="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="推荐福利" />-->
+        android:background="@color/gray_line" />
+    <!-- <Button
+         style="@style/home_button_style"
+         android:layout_margin="5dp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal"
+         android:text="推荐福利" />-->
 
     <CheckBox
+        android:id="@+id/reg_confirm_ck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
         android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="已阅读并同意法律申明"
         android:textColor="@color/black"
-        android:textSize="11sp"/>
+        android:textSize="11sp" />
 
     <Button
         style="@style/home_button_style"
-        android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
         android:onClick="onClick_RegisterBtn"
         android:text="注   册" />
 

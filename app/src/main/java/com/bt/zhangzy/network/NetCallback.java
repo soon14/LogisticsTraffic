@@ -34,8 +34,8 @@ public abstract class NetCallback implements Callback {
     public void onResponse(Response response) throws IOException {
         try {
             String responseBody = response.body().string();
-            onSuccess(responseBody);
             Log.d(TAG, response.toString() + "==>>" + responseBody);
+            onSuccess(responseBody);
         } catch (Exception e) {
             Log.w(TAG, "onResponse", e);
         }

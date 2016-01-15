@@ -11,6 +11,7 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.NetCallback;
+import com.bt.zhangzy.tools.Json;
 import com.bt.zhangzy.tools.Tools;
 
 import org.json.JSONArray;
@@ -79,37 +80,60 @@ public class MainActivity extends BaseActivity {
 
     public void onClick_Test(View view) {
         String json = "[{\"id\":1,\"name\":\"eryk\",\"personPhotoUrl\":\"null\",\"idCardPhotoUrl\":\"null\",\"role\":\"null\",\"roleId\":\"null\",\"registeDate\":1452528000000,\"password\":\"123456\",\"status\":0,\"recommendCode\":\"null\",\"recommendUserId\":\"null\"}]";
-        try {
-            JSONArray array = new JSONArray(json);
-            Log.d(TAG, "====>"+array.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        json = "{\n" +
+                "\t\"code\": 200,\n" +
+                "\t\"message\": \"register user is successed\",\n" +
+                "\t\"result\": {\n" +
+                "\t\t\"id\": 12,\n" +
+                "\t\t\"name\": \"15012345656\",\n" +
+                "\t\t\"personPhotoUrl\": null,\n" +
+                "\t\t\"idCardPhotoUrl\": null,\n" +
+                "\t\t\"role\": 1,\n" +
+                "\t\t\"roleId\": null,\n" +
+                "\t\t\"registeDate\": 1452787200000,\n" +
+                "\t\t\"password\": \"d8578edf8458ce06fbc5bb76a58c5ca4\",\n" +
+                "\t\t\"status\": -1,\n" +
+                "\t\t\"recommendCode\": null,\n" +
+                "\t\t\"recommendUserId\": null,\n" +
+                "\t\t\"portraitUrl\": null,\n" +
+                "\t\t\"nickname\": \"zzt\"\n" +
+                "\t}\n" +
+                "}";
+        Json jsonObj = Json.ToJson(json);
+        Log.d(TAG, "====>" + jsonObj.toString());
+        Log.d(TAG, "====>" + jsonObj.getJson("result").toString());
+
+//        try {
+//            JSONArray array = new JSONArray(json);
+//            Log.d(TAG, "====>"+array.toString());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
         String url = "http://192.168.1.115:8080/freight-master/users/list";
         String url1 = "http://112.124.60.26/freight/users/1";
         String url2 = "http://112.124.60.26/freight/users/list";//    post 新建用户
         HashMap map = new HashMap();
         map.put("userid", "123");
-        HttpHelper.getInstance().post(url2, map, new NetCallback() {
-            @Override
-            public void onFailed(String str) {
-
-            }
-
-            @Override
-            public void onSuccess(String str) {
-                JSONObject json = Tools.toJson(str);
-                if (json != null) {
-                    Log.d(TAG, json.toString());
-                }
-                try {
-                    JSONArray jsonArray = new JSONArray(str);
-                    Log.d(TAG, jsonArray.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        HttpHelper.getInstance().post(url2, map, new NetCallback() {
+//            @Override
+//            public void onFailed(String str) {
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(String str) {
+//                JSONObject json = Tools.toJson(str);
+//                if (json != null) {
+//                    Log.d(TAG, json.toString());
+//                }
+//                try {
+//                    JSONArray jsonArray = new JSONArray(str);
+//                    Log.d(TAG, jsonArray.toString());
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
     }
 
    /* @Override

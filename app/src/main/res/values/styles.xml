@@ -122,6 +122,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">5dp</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="button_style" parent="orange_btn_style">

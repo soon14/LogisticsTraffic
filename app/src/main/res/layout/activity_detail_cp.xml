@@ -64,6 +64,7 @@
                     android:outAnimation="@anim/slide_out_right">
 
                     <ImageView
+                        android:id="@+id/detail_flipper_1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
@@ -83,6 +84,7 @@
 
                 <!-- 头像展示-->
                 <ImageView
+                    android:id="@+id/detail_user_head_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/detail_cp_flipper"
