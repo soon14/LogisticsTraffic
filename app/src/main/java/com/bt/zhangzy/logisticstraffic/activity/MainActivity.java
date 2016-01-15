@@ -3,6 +3,7 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 
 import com.bt.zhangzy.logisticstraffic.R;
@@ -10,6 +11,11 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.NetCallback;
+import com.bt.zhangzy.tools.Tools;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -50,7 +56,7 @@ public class MainActivity extends BaseActivity {
          //货物类型
          //http://192.168.1.113:8033/api/goodstype
          */
-//        if(true)
+//        if (true)
 //            return;
 
         new Handler(getMainLooper(), new Handler.Callback() {
@@ -72,12 +78,19 @@ public class MainActivity extends BaseActivity {
 
 
     public void onClick_Test(View view) {
+        String json = "[{\"id\":1,\"name\":\"eryk\",\"personPhotoUrl\":\"null\",\"idCardPhotoUrl\":\"null\",\"role\":\"null\",\"roleId\":\"null\",\"registeDate\":1452528000000,\"password\":\"123456\",\"status\":0,\"recommendCode\":\"null\",\"recommendUserId\":\"null\"}]";
+        try {
+            JSONArray array = new JSONArray(json);
+            Log.d(TAG, "====>"+array.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         String url = "http://192.168.1.115:8080/freight-master/users/list";
         String url1 = "http://112.124.60.26/freight/users/1";
-        String url2 = "http://112.124.60.26/freight/users/ ";//    post 新建用户
+        String url2 = "http://112.124.60.26/freight/users/list";//    post 新建用户
         HashMap map = new HashMap();
-        map.put("userid","123");
-        HttpHelper.getInstance().post(url1,map, new NetCallback() {
+        map.put("userid", "123");
+        HttpHelper.getInstance().post(url2, map, new NetCallback() {
             @Override
             public void onFailed(String str) {
 
@@ -85,7 +98,16 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onSuccess(String str) {
-
+                JSONObject json = Tools.toJson(str);
+                if (json != null) {
+                    Log.d(TAG, json.toString());
+                }
+                try {
+                    JSONArray jsonArray = new JSONArray(str);
+                    Log.d(TAG, jsonArray.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

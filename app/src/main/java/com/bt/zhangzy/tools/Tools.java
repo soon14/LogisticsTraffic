@@ -1,5 +1,10 @@
 package com.bt.zhangzy.tools;
 
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,6 +17,8 @@ import java.util.Locale;
  * Created by ZhangZy on 2015/7/22.
  */
 public final class Tools {
+
+    private static final String TAG = Tools.class.getSimpleName();
 
     /**
      *
@@ -55,5 +62,15 @@ public final class Tools {
             hex.append(Integer.toHexString(b & 0xFF));
         }
         return hex.toString();
+    }
+
+    public static JSONObject toJson(String string){
+        try {
+            return new JSONObject(string);
+        } catch (JSONException e) {
+//            e.printStackTrace();
+            Log.w(TAG,string,e);
+        }
+        return null;
     }
 }

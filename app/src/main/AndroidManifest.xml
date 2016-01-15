@@ -17,6 +17,9 @@
 
     <!-- 往SDCard写入数据权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- 地图定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".app.LogisticsTrafficApplication"
@@ -63,6 +66,7 @@
         <activity android:name=".activity.SourceGoodsActivity"/>
         <activity android:name=".activity.FleetDevicesActivity"/>
         <activity android:name=".activity.PayActivity"/>
+        <activity android:name=".activity.WebViewActivity"/>
 
 
     </application>

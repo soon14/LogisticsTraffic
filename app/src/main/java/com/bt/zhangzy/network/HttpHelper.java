@@ -8,6 +8,9 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -54,6 +57,8 @@ public class HttpHelper extends OkHttpClient {
 
         return mInstance;
     }
+
+
 
 
     private String get(String url) throws IOException {

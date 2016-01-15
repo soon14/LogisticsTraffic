@@ -22,14 +22,22 @@ public abstract class NetCallback implements Callback {
 
     @Override
     public void onFailure(Request request, IOException e) {
-        onFailed(request.toString());
-        Log.w(TAG, request.urlString(), e);
+        try {
+            onFailed(request.toString());
+            Log.w(TAG, request.urlString(), e);
+        } catch (Exception ex) {
+            Log.w(TAG, "onFailure", ex);
+        }
     }
 
     @Override
     public void onResponse(Response response) throws IOException {
-        String responseBody = response.body().string();
-        onSuccess(responseBody);
-        Log.d(TAG, response.toString() + "==>>" + responseBody);
+        try {
+            String responseBody = response.body().string();
+            onSuccess(responseBody);
+            Log.d(TAG, response.toString() + "==>>" + responseBody);
+        } catch (Exception e) {
+            Log.w(TAG, "onResponse", e);
+        }
     }
 }

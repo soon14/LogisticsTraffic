@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.activity.WebViewActivity;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.zhangzy.baidusdk.BaiduMapActivity;
 
@@ -151,6 +152,8 @@ public class BaseActivity extends FragmentActivity {
 
     public void onClick_gotoMap(View view) {
         startActivity(BaiduMapActivity.class);
+        //todo  测试地图web页
+//        startActivity(WebViewActivity.class);
     }
 
     /**
