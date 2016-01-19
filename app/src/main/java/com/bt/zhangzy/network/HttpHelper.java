@@ -2,6 +2,8 @@ package com.bt.zhangzy.network;
 
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
+import com.bt.zhangzy.network.entity.BaseEntity;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
@@ -28,7 +30,7 @@ public class HttpHelper extends OkHttpClient {
 
     private static final String TAG = HttpHelper.class.getSimpleName();
 
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    public static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
     public static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");
     /**
      * 请求超时 秒
@@ -95,7 +97,7 @@ public class HttpHelper extends OkHttpClient {
     }
 
     private String post(String url, String json) throws IOException {
-        RequestBody body = RequestBody.create(JSON, json);
+        RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
         return post(url, body);
     }
 
@@ -117,9 +119,20 @@ public class HttpHelper extends OkHttpClient {
         if(json == null)
             return;
         Log.i(TAG, "url = "+url+" json = "+json.toString());
-        RequestBody body = RequestBody.create(JSON, json.toString());
+        RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json.toString());
         post(url, body, callback);
     }
+
+    /**
+     *
+     * @param url
+     * @param entity fastJSON实体类
+     * @param callback
+     */
+    public void post(String url,BaseEntity entity,NetCallback callback){
+        post(url, JSON.toJSONString(entity),callback);
+    }
+
     /**
      * 异步线程访问网络
      *
@@ -129,7 +142,7 @@ public class HttpHelper extends OkHttpClient {
      */
     public void post(String url, String json, NetCallback callback) {
         Log.i(TAG, "url = "+url+" json = "+json);
-        RequestBody body = RequestBody.create(JSON, json);
+        RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
         post(url, body, callback);
     }
 
@@ -195,8 +208,27 @@ public class HttpHelper extends OkHttpClient {
         enqueue(request, rspCallback);
     }
 
+    public void get(String url,HashMap textParams,NetCallback responseCallback){
+        //表单
+        if (textParams != null && textParams.size() > 0) {
+            Log.i(TAG, "url = "+url+" params = "+textParams.toString());
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append(url);
+            stringBuffer.append("?");
+            Set<String> keySet = textParams.keySet();
+            for (Iterator<String> it = keySet.iterator(); it.hasNext(); ) {
+                String name = it.next();
+                String value = (String) textParams.get(name);
+//                multBuilder.addFormDataPart(name,value);
+//                builder.add(name, value);
+                stringBuffer.append(name+"="+value);
+            }
+            get(stringBuffer.toString(),responseCallback);
+        }
+    }
+
     public void get(String url, NetCallback responseCallback) {
-        Request request = new Request.Builder().url(url).build();
+        Request request = new Request.Builder().url(url).get().build();
         this.newCall(request).enqueue(responseCallback);
     }
 

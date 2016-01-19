@@ -1,6 +1,7 @@
 package com.bt.zhangzy.logisticstraffic.fragment;
 
 import android.view.View;
+import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.Constant;
@@ -30,10 +31,19 @@ public class UserFragment extends BaseHomeFragment {
         }else if(Constant.DEVICES_APP){
 //            findViewById(R.id.user_services_item).setVisibility(View.GONE);
         }
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        initView();
+    }
+
+    private void initView(){
+        TextView nickTx = (TextView) findViewById(R.id.user_nick_tx);
+        nickTx.setText(User.getInstance().getNickName());
+        TextView name = (TextView)findViewById(R.id.user_name_tx);
+        name.setText(User.getInstance().getUserName());
     }
 }

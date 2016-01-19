@@ -33,12 +33,23 @@ public class User implements Serializable {
 
     private boolean isLogin = false;
     private Type userType = Type.EmptyType;
-    private String userName;
+    private long id;
+    private String userName, nickName;
     private String phoneNum;
     private String address;
     private Location location;//保存用户的定位信息
     private boolean isFirstOpen = true;
     private boolean isVIP = false;//标记用户是否付费
+    private boolean isSave = true;//标记用户是否记住用户名
+
+
+    public boolean isSave() {
+        return isSave;
+    }
+
+    public void setIsSave(boolean isSave) {
+        this.isSave = isSave;
+    }
 
     public boolean isVIP() {
         return isVIP;
@@ -97,8 +108,8 @@ public class User implements Serializable {
     public String toString() {
         return super.toString();
 //        StringBuffer stringBuffer = new StringBuffer();
-//        driverList.toString();
-//        return stringBuffer.toString();
+//        driverList.toJsonString();
+//        return stringBuffer.toJsonString();
     }
 
     public ArrayList<String> getSearchKeyWordList() {
@@ -117,6 +128,14 @@ public class User implements Serializable {
         if (searchKeyWordList.size() > 5) {
             searchKeyWordList.remove(0);
         }
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Location getLocation() {
@@ -165,7 +184,7 @@ public class User implements Serializable {
         this.isLogin = login;
     }
 
-    public boolean isDevicesType(){
+    public boolean isDevicesType() {
         return getUserType() == Type.DriverType;
     }
 
@@ -204,5 +223,11 @@ public class User implements Serializable {
         this.address = address;
     }
 
+    public String getNickName() {
+        return nickName;
+    }
 
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 }

@@ -1,7 +1,9 @@
 package com.bt.zhangzy.network;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -53,6 +55,22 @@ public class ImageHelper {
         ImageLoader.getInstance().init(configuration);
 
     }
+
+    /**
+     * 设置Activity中ImageView的图片地址；
+     * @param act
+     * @param imgId
+     * @param url
+     */
+    public void load(Activity act, int imgId, String url) {
+        if (act != null) {
+            View view = act.findViewById(imgId);
+            if (view instanceof ImageView) {
+                load(url, (ImageView) view);
+            }
+        }
+    }
+
 
     /**
      * 加载网络图片

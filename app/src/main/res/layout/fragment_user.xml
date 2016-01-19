@@ -42,18 +42,20 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/user_nick_tx"
                             style="@style/tx_black_df_style"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:text="13345666689" />
+                            android:hint="昵称" />
 
                         <TextView
+                            android:id="@+id/user_name_tx"
                             style="@style/tx_black_df_style"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:text="用户名" />
+                            android:hint="用户名" />
 
                         <Button
                             style="@style/button_style"

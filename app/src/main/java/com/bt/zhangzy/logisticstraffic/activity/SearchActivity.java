@@ -15,8 +15,13 @@ import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.ContextTools;
 import com.bt.zhangzy.logisticstraffic.data.Location;
+import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.network.entity.JsonUser;
 import com.zhangzy.baidusdk.BaiduSDK;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TODO 1、搜索记录弹窗；2、点击搜索按钮后隐藏推荐店铺
@@ -148,7 +153,7 @@ public class SearchActivity extends BaseActivity {
 
         if (listView == null)
             listView = (ListView) findViewById(R.id.search_listView);
-        HomeListAdapter adapter = new HomeListAdapter();
+        HomeListAdapter adapter = new HomeListAdapter(new ArrayList<Product>(10));
         listView.setAdapter(adapter);
         listView.requestFocus();
 

@@ -71,10 +71,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="10"
-                    android:text="德邦物流"
+                    android:hint="默认名称"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <ImageView
+                    android:id="@+id/list_item_vip_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/vip_icon" />
@@ -96,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="10"
-                android:text="包头--呼和浩特"
+                android:hint="始发地--目的地"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
 

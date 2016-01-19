@@ -62,7 +62,7 @@ public class LocationListAdapter extends BaseAdapter {
                             for (int j = 0; j < array.length(); j++) {
                                 location = new Location(province, array.getString(j));
                                 list.add(location);
-//                        Log.d(TAG, "location=" + location.toString());
+//                        Log.d(TAG, "location=" + location.toJsonString());
                             }
                             locationList.add(list);
                         }

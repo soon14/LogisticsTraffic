@@ -181,7 +181,7 @@ public class LocationView implements OnWheelChangedListener {
                     // Convert the buffer into a string.
                     String text = new String(buffer, "UTF-8");
                     JSONArray jsonObject = new JSONArray(text.trim());
-//                    Log.d(TAG, "json=" + jsonObject.toString());
+//                    Log.d(TAG, "json=" + jsonObject.toJsonString());
                     if (jsonObject == null)
                         return null;
                     mProvinceArray = new String[jsonObject.length()];

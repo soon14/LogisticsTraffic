@@ -9,12 +9,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
-import android.widget.ViewFlipper;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeSpreadAdapter;
 import com.bt.zhangzy.logisticstraffic.data.Product;
+import com.bt.zhangzy.logisticstraffic.data.Type;
+import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.network.HttpHelper;
+import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.network.entity.JsonUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ZhangZy on 2015/7/2.
@@ -25,7 +33,7 @@ public class HomeFragment extends BaseHomeFragment {
     private ViewPager spreadPager;
     private ListView listView;
     private View listHeadView;
-//    private ViewFlipper flipper;
+    //    private ViewFlipper flipper;
     //    private GestureDetector detector;
     private View topView;
 
@@ -69,7 +77,7 @@ public class HomeFragment extends BaseHomeFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if(topView != null){
+        if (topView != null) {
             topView.getBackground().setAlpha(255);
         }
     }
@@ -81,7 +89,7 @@ public class HomeFragment extends BaseHomeFragment {
             listView.setAdapter(null);
             listView = null;
         }
-        if(topView != null){
+        if (topView != null) {
             topView.getBackground().setAlpha(255);
         }
     }
@@ -231,8 +239,12 @@ public class HomeFragment extends BaseHomeFragment {
 //        initViewFlipper(listHeadView);
         initSpreadViewPager(listHeadView);
 
-        final HomeListAdapter adapter = new HomeListAdapter();
-        listView.setAdapter(adapter);
+        request_getUserList();
+//        setListAdapter();
+    }
+
+    private void setListAdapter(List<Product> list) {
+        final HomeListAdapter adapter = new HomeListAdapter(list);
         adapter.setOnClickItemListener(new HomeListAdapter.OnClickItemListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -242,18 +254,53 @@ public class HomeFragment extends BaseHomeFragment {
 //                    Product product = adapter.getItem(position);
                     if (v.getId() == R.id.list_item_ly) {
                         Log.d(getTag(), "    >>>>>点击了item" + position);
-                        getHomeActivity().gotoDetail();
+                        getHomeActivity().gotoDetail(adapter.getItem(position));
                     } else if (v.getId() == R.id.list_item_phone) {
                         Log.d(getTag(), "    >>>>>点击了phone" + position);
                         getHomeActivity().showDialogCallPhone("12301253326");
                     }
             }
         });
-        //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                showDialogCallPhone("12301253326");
-//            }
-//        });
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                listView.setAdapter(adapter);
+            }
+        });
+
+    }
+
+    private void request_getUserList() {
+        // Url.GetUserList+"?role=2" 根据用户类型筛选
+        String url = Url.GetUserList;
+        if (User.getInstance().getUserType() == Type.EnterpriseType) {
+            url += "?role=3";
+        }
+        HttpHelper.getInstance().get(url, new JsonCallback() {
+            @Override
+            public void onFailed(String str) {
+
+            }
+
+            @Override
+            public void onSuccess(String msg, String json) {
+                List<JsonUser> list = ParseJson_Array(json, JsonUser.class);
+//                Log.w(TAG, "Test==>>>>" + toJsonString(list));
+                ArrayList<Product> arrayList = new ArrayList<Product>();
+                Product product;
+                for (JsonUser user : list) {
+                    product = new Product(user.getId());
+                    product.setName(user.getNickname());
+                    product.setPhoneNumber(user.getName());
+                    product.setType(user.getType());
+                    //设置 认证用户或者 付费用户
+                    product.setIsVip(user.getStatus() == 0 || user.getStatus() == 3);
+                    arrayList.add(product);
+                }
+                setListAdapter(arrayList);
+            }
+
+
+        });
     }
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.alibaba.fastjson.JSON;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.Constant;
@@ -16,6 +17,7 @@ import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.NetCallback;
 import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.tools.Json;
 import com.bt.zhangzy.tools.Tools;
 
@@ -104,41 +106,54 @@ public class RegisterActivity extends BaseActivity {
      */
     private void requestRegister(String nickname, String phoneNum, String password, String recommend, String verficaiton) {
         Log.e(TAG, "============================================");
-        try {
+//        try {
+//            Json json = new Json();
+//            json.put("nickname", nickname);
+//            json.put("name", phoneNum);
+//            json.put("password", password);
+//            json.put("role", type == Type.DriverType ? "1" : type == Type.EnterpriseType ? "2" : type == Type.InformationType ? "3" : "-1");
+//            json.put("recommendCode", recommend);
 
-            Json json = new Json();
-            json.put("nickname", nickname);
-            json.put("name", phoneNum);
-            json.put("password", password);
-            json.put("role", type == Type.DriverType ? "1" : type == Type.EnterpriseType ? "2" : type == Type.InformationType ? "3" : "-1");
-            json.put("recommendCode", recommend);
+        JsonUser jsonUser = new JsonUser();
+        jsonUser.setNickname(nickname);
+        jsonUser.setName(phoneNum);
+        jsonUser.setPassword(password);
+        jsonUser.setRole(type == Type.DriverType ? 1 : type == Type.EnterpriseType ? 2 : type == Type.InformationType ? 3 : -1);
+        jsonUser.setRecommendCode(recommend);
 
-            JsonCallback responseCallback = new JsonCallback() {
-                @Override
-                public void onFailed(String str) {
-                    showToast("用户注册失败");
+        JsonCallback responseCallback = new JsonCallback() {
+
+            @Override
+            public void onFailed(String str) {
+                showToast("用户注册失败：" + str);
+            }
+
+            public void onSuccess(String msg, String jsonstr) {
+                showToast("用户注册成功");
+                JsonUser jsonUser = ParseJson_Object(jsonstr, JsonUser.class);
+                User user = User.getInstance();
+                user.setUserType(type);
+                user.setLogin(true);
+//                showToast(JSON.toJSONString(jsonUser));
+                user.setId(jsonUser.getId());
+                user.setUserName(jsonUser.getName());
+                user.setPhoneNum(jsonUser.getName());
+                user.setNickName(jsonUser.getNickname());
+
+                Bundle bundle = getIntent().getExtras();
+                if (bundle != null) {
+                    startActivity(HomeActivity.class, bundle);
                 }
+                finish();
+            }
 
-                @Override
-                public void onSuccess(String msg, Json json) {
-                    showToast("用户注册成功");
-                    User.getInstance().setUserType(type);
-                    User.getInstance().setLogin(true);
+        };
+        HttpHelper.getInstance().post(Url.Register, jsonUser, responseCallback);
 
-//                Bundle bundle = getIntent().getExtras();
-//                if (bundle != null) {
-//                    startActivity(HomeActivity.class, bundle);
-//                }
-//                finish();
-                }
-
-            };
-            HttpHelper.getInstance().post(Url.Register, json, responseCallback);
-
-            Log.e(TAG, "====>> end");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Log.e(TAG, "====>> end");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
     }
 }

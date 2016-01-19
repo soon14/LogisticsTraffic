@@ -5,11 +5,14 @@ package com.bt.zhangzy.network;
  * Created by ZhangZy on 2016-1-5.
  */
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 
@@ -35,7 +38,9 @@ public abstract class NetCallback implements Callback {
         try {
             String responseBody = response.body().string();
             Log.d(TAG, response.toString() + "==>>" + responseBody);
-            onSuccess(responseBody);
+            if(!TextUtils.isEmpty(responseBody)) {
+                onSuccess(responseBody);
+            }
         } catch (Exception e) {
             Log.w(TAG, "onResponse", e);
         }

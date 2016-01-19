@@ -94,7 +94,7 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
                     // Convert the buffer into a string.
                     String text = new String(buffer, "UTF-8");
                     JSONArray jsonObject = new JSONArray(text.trim());
-//                    Log.d(TAG, "json=" + jsonObject.toString());
+//                    Log.d(TAG, "json=" + jsonObject.toJsonString());
                     return jsonObject;
                 } catch (IOException e) {
                     e.printStackTrace();

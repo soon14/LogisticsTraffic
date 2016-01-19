@@ -105,7 +105,7 @@ public class MainActivity extends BaseActivity {
 
 //        try {
 //            JSONArray array = new JSONArray(json);
-//            Log.d(TAG, "====>"+array.toString());
+//            Log.d(TAG, "====>"+array.toJsonString());
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
@@ -124,11 +124,11 @@ public class MainActivity extends BaseActivity {
 //            public void onSuccess(String str) {
 //                JSONObject json = Tools.toJson(str);
 //                if (json != null) {
-//                    Log.d(TAG, json.toString());
+//                    Log.d(TAG, json.toJsonString());
 //                }
 //                try {
 //                    JSONArray jsonArray = new JSONArray(str);
-//                    Log.d(TAG, jsonArray.toString());
+//                    Log.d(TAG, jsonArray.toJsonString());
 //                } catch (JSONException e) {
 //                    e.printStackTrace();
 //                }

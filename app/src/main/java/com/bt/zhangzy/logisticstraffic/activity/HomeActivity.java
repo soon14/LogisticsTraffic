@@ -22,6 +22,7 @@ import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.app.ContextTools;
 import com.bt.zhangzy.logisticstraffic.app.LogisticsTrafficApplication;
 import com.bt.zhangzy.logisticstraffic.data.Location;
+import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.fragment.BaseHomeFragment;
@@ -347,14 +348,20 @@ public class HomeActivity extends BaseActivity {
     }
 
 
-    public void gotoDetail() {
+    public void gotoDetail(Product product) {
 //        startActivity(new Intent(this,DetailCompany.class));
-        startActivity(DetailCompany.class);
+        if (product != null) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constant.BUNDLE_PRODUCT_KEY, product);
+            startActivity(DetailCompany.class, bundle);
+        } else {
+            startActivity(DetailCompany.class);
+        }
     }
 
     public void showDialogCallPhone(final String phoneNum) {
         Log.d(Tag, ">>>showDialogCallPhone " + phoneNum);
-        if(Constant.DEVICES_APP && !User.getInstance().isVIP()){
+        if (Constant.DEVICES_APP && !User.getInstance().isVIP()) {
             BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -378,7 +385,7 @@ public class HomeActivity extends BaseActivity {
 
 
     public void onClick_gotoDetail(View view) {
-        gotoDetail();
+        gotoDetail(null);
     }
 
     public void onClick_CityList(View view) {
@@ -453,7 +460,7 @@ public class HomeActivity extends BaseActivity {
         BaseDialog.showConfirmDialog(this, "是否退出?", "返回", "退出", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getApp().Exit(true);
+                getApp().Exit(User.getInstance().isSave());
             }
         });
     }

@@ -19,6 +19,7 @@ public class Product implements Serializable {
     private String address;//地址
     private String times;//被浏览的次数
     private float level;//评分等级
+    private boolean isVip;// 是否是认证用户
     private Location location;//地理位置
     private int iconImg;//图标
     private int[] photoImg = {R.drawable.fake_1,//相册
@@ -30,6 +31,14 @@ public class Product implements Serializable {
 
     public float getLevel() {
         return level;
+    }
+
+    public boolean isVip() {
+        return isVip;
+    }
+
+    public void setIsVip(boolean isVip) {
+        this.isVip = isVip;
     }
 
     public void setLevel(float level) {
