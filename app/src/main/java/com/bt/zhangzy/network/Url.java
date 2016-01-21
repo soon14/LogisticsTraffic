@@ -31,7 +31,21 @@ public final class Url {
     /* 获取手机验证码 /commons/getVerificationCode/{phoneNumber}*/
     public static final String GetVerificationCode = Host + "/commons/getVerificationCode/";
 
+    /*图片上传接口*/
     public static final String UpLoadImage = Host+"/upload";
+
+    /*企业身份认证*/
+    public static final String VerifyEnterprises = Host + "/enterprises/authenticate";
+    /*信息部/物流公司身份认证*/
+    public static final String VerifyCompanies = Host + "/companies/authenticate";
+    /*司机身份认证*/
+    public static final String VerifyDrivers = Host + "/drivers/authenticate";
+
+    /*根据用户id获取对应的企业信息*/
+    public static final String GetEnterprisesInfo =Host +  "/enterprises/user_id/";
+    /*根据对应用户id获取 物流公司的详细信息*/
+    public static final String GetCompaniesInfo =Host +  "/companies/user_id/";
+
 
     /* 城市列表     */
     public static final String CityList = Host + "values";

@@ -243,7 +243,6 @@ public class HttpHelper extends OkHttpClient {
 //        Headers handler = Headers.Builder.;
         Request request = new Request.Builder()
                 .url(url)
-//                .headers(handler)
                 .post(builder.build())
                 .build();
 
@@ -281,8 +280,13 @@ public class HttpHelper extends OkHttpClient {
     }
 
     public void get(String url, NetCallback responseCallback) {
-        Request request = new Request.Builder().url(url).get().build();
-        this.newCall(request).enqueue(responseCallback);
+        try {
+            Request request = new Request.Builder().url(url).get().build();
+            this.newCall(request).enqueue(responseCallback);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG,"网络请求异常url="+url,e);
+        }
     }
 
     /**

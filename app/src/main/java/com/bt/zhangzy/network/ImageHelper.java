@@ -3,6 +3,7 @@ package com.bt.zhangzy.network;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -58,6 +59,7 @@ public class ImageHelper {
 
     /**
      * 设置Activity中ImageView的图片地址；
+     *
      * @param act
      * @param imgId
      * @param url
@@ -71,6 +73,24 @@ public class ImageHelper {
         }
     }
 
+    /**
+     * 加载网络图片 在Ui线程中
+     *
+     * @param url
+     * @param imageView
+     */
+    public void loadImgOnUiThread(Activity act, final String url, final ImageView imageView) {
+        if (TextUtils.isEmpty(url) || imageView == null)
+            return;
+        act.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ImageHelper.getInstance().load(url, imageView);
+            }
+        });
+
+    }
+
 
     /**
      * 加载网络图片
@@ -80,7 +100,6 @@ public class ImageHelper {
      */
     public void load(String imageUrl, ImageView imageView) {
         ImageLoader.getInstance().displayImage(imageUrl, imageView, options);
-
     }
 
     /**

@@ -187,11 +187,11 @@ public class OrderDetailActivity extends BaseActivity {
 //                .setPositiveButton("Call车",null).show();
 
 //        View view = LayoutInflater.from(this).inflate(R.layout.dialog_call, null);
-//        final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).create();
+//        final AlertDialog progress = new AlertDialog.Builder(this).setView(view).create();
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                dialog.cancel();
+//                progress.cancel();
                 if (v.getId() == R.id.dialog_call_me_btn) {
                     gotoFleet();
                 } else {
@@ -201,7 +201,7 @@ public class OrderDetailActivity extends BaseActivity {
         };
 //        view.findViewById(R.id.dialog_call_me_btn).setOnClickListener(listener);
 //        view.findViewById(R.id.dialog_call_all_btn).setOnClickListener(listener);
-//        dialog.show();
+//        progress.show();
 
         BaseDialog baseDialog = new BaseDialog(this);
         baseDialog.setView(R.layout.dialog_call);

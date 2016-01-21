@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">物流联盟</string>
+    <!--<string name="app_name">物流联盟_司机</string>-->
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -7,7 +8,8 @@
     <string name="order_change_truck_type_title">请选择需要的车型</string>
     <string name="order_change_truck_length_title">请选择需要的车长</string>
     <string name="dialog_ask_pay">您现在还没有权限使用此功能，是否进行付费？</string>
-
+    <string name="information_upload_fail">信息提交失败</string>
+    <string name="upload_verify_info">您的信息已经上传到后台，需要3-5天进行信息审核，请耐心等待。谢谢使用物流联盟。</string>
 
 
     <string-array name="order_change_type_items">

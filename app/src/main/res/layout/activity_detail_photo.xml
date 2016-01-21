@@ -10,6 +10,7 @@
     <include layout="@layout/page_top" />
 
     <EditText
+        android:id="@+id/photo_address_ed"
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,13 +22,14 @@
         android:hint="门企地址" />
 
     <EditText
+        android:id="@+id/photo_name_ed"
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/white_gray_shape"
-        android:hint="联系电话" />
+        android:hint="注册名称" />
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -37,48 +39,59 @@
         android:columnCount="2"
         android:orientation="horizontal">
 
-        <ImageButton
+        <ImageView
+            android:id="@+id/photo_yyzz_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@color/transparent"
             android:onClick="onClick_Photo"
+            android:scaleType="fitCenter"
             android:src="@drawable/detail_yyzz" />
 
         <ImageView
-            android:id="@+id/load_img"
+            android:id="@+id/photo_swdjz_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:onClick="onClick_Photo"
+            android:scaleType="fitCenter"
             android:src="@drawable/detail_swdjz" />
 
         <ImageView
+            android:id="@+id/photo_mtzp_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:onClick="onClick_Photo"
+            android:scaleType="fitCenter"
             android:src="@drawable/detail_mtzp" />
 
 
         <ImageView
+            android:id="@+id/photo_frsfz_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:onClick="onClick_Photo"
+            android:scaleType="fitCenter"
             android:src="@drawable/detail_frsfz" />
 
 
     </GridLayout>
 
     <Button
+        android:id="@+id/detail_photo_verify_bt"
         style="@style/orange_btn_noPadding_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
+        android:onClick="onClick_Submit"
+        android:paddingBottom="5dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:onClick="onClick_Submit"
         android:text="验证/审核" />
 
 </LinearLayout>

@@ -8,12 +8,16 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.activity.WebViewActivity;
+import com.bt.zhangzy.logisticstraffic.view.CustomProgress;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
+import com.bt.zhangzy.network.ImageHelper;
+import com.bt.zhangzy.network.Url;
 import com.zhangzy.baidusdk.BaiduMapActivity;
 
 import org.w3c.dom.Text;
@@ -26,6 +30,8 @@ public class BaseActivity extends FragmentActivity {
     public final String TAG;
     protected Context context;
 
+    CustomProgress progress;
+
     protected BaseActivity() {
         TAG = getClass().getSimpleName();
         context = this;
@@ -37,11 +43,46 @@ public class BaseActivity extends FragmentActivity {
         getApp().setCurrentAct(this);
     }
 
+
+
+    /**
+     * 显示进度条 用户不可取消
+     *
+     * @param msg
+     */
+    public void showProgress(CharSequence msg) {
+        if (progress == null)
+            progress = CustomProgress.show(context, msg);
+        else {
+            progress.setMessage(msg);
+            progress.show();
+        }
+    }
+
+    /**
+     * 取消精度条
+     */
+    public void cancelProgress() {
+        if (progress == null)
+            return;
+        progress.cancel();
+    }
+
+
     public LogisticsTrafficApplication getApp() {
         return (LogisticsTrafficApplication) getApplication();
     }
 
+    public BaseActivity getActivity(){
+        return this;
+    }
 
+
+    /**
+     * 设置页面名称
+     *
+     * @param name
+     */
     public void setPageName(String name) {
         TextView pageTopName = (TextView) findViewById(R.id.page_top_name);
         if (pageTopName != null) {

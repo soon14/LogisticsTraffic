@@ -42,6 +42,14 @@ public class RegisterActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onClick_Back(View view) {
+        if (!AppParams.DEVICES_APP) {
+
+        }
+        super.onClick_Back(view);
+    }
+
     /**
      * 企业注册
      */
@@ -89,10 +97,10 @@ public class RegisterActivity extends BaseActivity {
         });
 
 
-
     }
 
-    private void testSMS(){
+    @Deprecated
+    private void testSMS() {
         HashMap map = new HashMap();
         map.put("account", "cf_yiyuntong");
         map.put("password", "zhang123456");
@@ -115,6 +123,7 @@ public class RegisterActivity extends BaseActivity {
 
     public void onClick_RegisterBtn(View view) {
 //        startActivity(new Intent(this,UserActivity.class));
+
         CheckBox confirmCk = (CheckBox) findViewById(R.id.reg_confirm_ck);
         if (!confirmCk.isChecked()) {
             showToast("请阅读并确认法律申明");
@@ -135,6 +144,10 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         password = passwordEd.getText().toString();
+        phoneNum = phoneNumEd.getText().toString();
+        if (verificationCode == 0) {
+            requestVerificationCode(phoneNum);
+        }
         if (!password.equals(passwordConfirmEd.getText().toString())) {
             showToast("密码输入不一致");
             return;
@@ -147,14 +160,16 @@ public class RegisterActivity extends BaseActivity {
             showToast("请输入验证码");
             return;
         }
-        verfication = verficationEd.getText().toString();
-        if (!verfication.equals(verificationCode)) {
-            showToast("验证码错误");
-            return;
-        }
+        verfication = verficationEd.getText().toString().trim();
+        //test 万能验证码
+        if (!verfication.equals("0000"))
+            if (!verfication.equals(String.valueOf(verificationCode))) {
+                showToast("验证码错误");
+                return;
+            }
 
         nickname = nicknameEd.getText().toString();
-        phoneNum = phoneNumEd.getText().toString();
+
         recommend = TextUtils.isEmpty(recommendEd.getText()) ? "0" : recommendEd.getText().toString();
 
         requestRegister(nickname, phoneNum, Tools.MD5(password), recommend, verfication);
@@ -183,6 +198,10 @@ public class RegisterActivity extends BaseActivity {
             }
 
             public void onSuccess(String msg, String jsonstr) {
+                if (TextUtils.isEmpty(jsonstr)) {
+                    showToast("用户注册失败：" + msg);
+                    return;
+                }
                 showToast("用户注册成功");
                 JsonUser jsonUser = ParseJson_Object(jsonstr, JsonUser.class);
                 User user = User.getInstance();
@@ -216,6 +235,9 @@ public class RegisterActivity extends BaseActivity {
         HttpHelper.getInstance().get(Url.GetVerificationCode + phoneNum, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
+                if (TextUtils.isEmpty(result)) {
+                    return;
+                }
                 BaseEntity entity = ParseJson_Object(result, BaseEntity.class);
                 verificationCode = entity.getCode();
             }

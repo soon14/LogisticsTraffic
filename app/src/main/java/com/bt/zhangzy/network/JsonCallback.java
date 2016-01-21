@@ -23,10 +23,9 @@ public abstract class JsonCallback extends NetCallback {
         if (entity != null) {
             if (entity.getCode() == 200) {
                 try {
-                    if (!TextUtils.isEmpty(entity.getResult())) {
-                        onSuccess(entity.getMessage(), entity.getResult());
-                        return;
-                    }
+                    onSuccess(entity.getMessage(), entity.getResult());
+
+                    return;
                 } catch (JSONException ex) {
                     Log.w(JsonCallback.class.getSimpleName(), ex);
                 }

@@ -75,6 +75,8 @@ public class LoginActivity extends BaseActivity {
 //        User.getInstance().setLogin(true);
 //        User.getInstance().setUserType(Type.EnterpriseType);
 //        startActivity(new Intent(LoginActivity.this,UserActivity.class));
+        //登录成功后保存一下信息；
+        getApp().saveUser();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null)
             startActivity(HomeActivity.class, bundle);
@@ -103,6 +105,10 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onSuccess(String msg, String jsonstr) {
+                if (TextUtils.isEmpty(jsonstr)) {
+                    showToast("用户注册失败：" + msg);
+                    return;
+                }
                 showToast("用户登录成功");
                 JsonUser jsonUser = ParseJson_Object(jsonstr, JsonUser.class);
                 User user = User.getInstance();

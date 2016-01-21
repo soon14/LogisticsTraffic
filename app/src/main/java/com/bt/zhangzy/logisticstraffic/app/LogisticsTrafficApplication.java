@@ -130,15 +130,22 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
 
         //save
         if (isSave) {
-            saveFile(User.class.getSimpleName(), User.getInstance());
+            saveUser();
         } else {
-            deleteFile(User.class.getSimpleName());
-
+            deleteUser();
         }
         if (currentAct != null)
             currentAct.finish();
         System.exit(0);
 //        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    public void deleteUser() {
+        deleteFile(User.class.getSimpleName());
+    }
+
+    public void saveUser() {
+        saveFile(User.class.getSimpleName(), User.getInstance());
     }
 
     public void delFile(String fileName) {

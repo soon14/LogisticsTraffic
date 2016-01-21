@@ -18,3 +18,4 @@
 
 -dontwarn java.nio.file.**
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-libraryjars libs/fastjson-1.2.5.jar
