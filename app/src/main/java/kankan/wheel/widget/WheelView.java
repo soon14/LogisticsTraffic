@@ -30,7 +30,6 @@ import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -41,8 +40,6 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
-
-import com.bt.zhangzy.logisticstraffic.app.Constant;
 
 
 /**

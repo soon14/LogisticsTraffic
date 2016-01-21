@@ -6,7 +6,9 @@ import com.alibaba.fastjson.JSON;
 import com.bt.zhangzy.network.entity.BaseEntity;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -19,6 +21,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -32,6 +36,8 @@ public class HttpHelper extends OkHttpClient {
 
     public static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
     public static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");
+    public static final MediaType MEDIA_TYPE_IMAGE = MediaType.parse("image/png");
+
     /**
      * 请求超时 秒
      */
@@ -118,7 +124,7 @@ public class HttpHelper extends OkHttpClient {
     public void post(String url, JSONObject json, NetCallback callback) {
         if(json == null)
             return;
-        Log.i(TAG, "url = "+url+" json = "+json.toString());
+        Log.i(TAG, "post url = "+url+" json = "+json.toString());
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json.toString());
         post(url, body, callback);
     }
@@ -141,7 +147,7 @@ public class HttpHelper extends OkHttpClient {
      * @param callback
      */
     public void post(String url, String json, NetCallback callback) {
-        Log.i(TAG, "url = "+url+" json = "+json);
+        Log.i(TAG, "post url = "+url+" json = "+json);
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
         post(url, body, callback);
     }
@@ -159,7 +165,7 @@ public class HttpHelper extends OkHttpClient {
             FormEncodingBuilder builder = new FormEncodingBuilder();
             //表单
             if (textParams != null && textParams.size() > 0) {
-                Log.i(TAG, "url = "+url+" params = "+textParams.toString());
+                Log.i(TAG, "post url = "+url+" params = "+textParams.toString());
                 Set<String> keySet = textParams.keySet();
                 for (Iterator<String> it = keySet.iterator(); it.hasNext(); ) {
                     String name = it.next();
@@ -208,10 +214,57 @@ public class HttpHelper extends OkHttpClient {
         enqueue(request, rspCallback);
     }
 
+    public void postImage(String url,File file,NetCallback rspCallback){
+        /* MediaType FORM = MediaType.parse("multipart/form-data");
+        *  MediaType MEDIA_TYPE_IMAGE = MediaType.parse("image/png");
+        * */
+        MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
+//        builder.addPart(RequestBody.create(MEDIA_TYPE_IMAGE, file));
+        builder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("media/type"), file));
+
+//        builder.addPart(Headers.of(
+//                "Content-Disposition",
+//                "form-data; name=\"file\""),RequestBody.create(MEDIA_TYPE_IMAGE, file));
+
+        //遍历map中所有参数到builder
+//        for (String key : map.keySet()) {
+//            builder.addFormDataPart(key, map.get(key));
+//        }
+
+        //遍历paths中所有图片绝对路径到builder，并约定key如“upload”作为后台接受多张图片的key
+//        for (String path : paths) {
+//            builder.addFormDataPart("upload", null, RequestBody.create(MEDIA_TYPE_PNG, new File(path)));
+//        }
+
+
+        //构建请求体
+//        RequestBody requestBody = builder.build();
+
+//        Headers handler = Headers.Builder.;
+        Request request = new Request.Builder()
+                .url(url)
+//                .headers(handler)
+                .post(builder.build())
+                .build();
+
+       /* MediaType jsonMediaType = MediaType.parse("application/json");
+        RequestBody requestBody = new MultipartBuilder()
+                .type(MultipartBuilder.FORM)
+                .addPart(Headers.of("Content-Disposition", "form-data; name=\"data\""),
+                        RequestBody.create(jsonMediaType, photoMetaDataStr))
+                .addPart(Headers.of("Content-Disposition", "form-data; name=\"localName\""),
+                        RequestBody.create(MediaType.parse("text/plain"), localName.getPath()))
+                .addPart(Headers.of("Content-Disposition", "form-data; name=\"file\""),
+                        RequestBody.create(MediaType.parse("image/jpeg"), new File(localName.getPath())))
+                .build();*/
+
+        enqueue(request, rspCallback);
+    }
+
     public void get(String url,HashMap textParams,NetCallback responseCallback){
         //表单
         if (textParams != null && textParams.size() > 0) {
-            Log.i(TAG, "url = "+url+" params = "+textParams.toString());
+            Log.i(TAG, "post url = "+url+" params = "+textParams.toString());
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(url);
             stringBuffer.append("?");
@@ -251,6 +304,12 @@ public class HttpHelper extends OkHttpClient {
      */
     public void enqueue(Request request, NetCallback responseCallback) {
         this.newCall(request).enqueue(responseCallback);
+    }
+
+
+    public void uploadImage(){
+//        LinkedHashMap<String ,Object> map = new LinkedHashMap<>();
+//        map.add("file", new File());
     }
 
 

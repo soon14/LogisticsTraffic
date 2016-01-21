@@ -7,8 +7,11 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.bt.zhangzy.tools.Tools;
+
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,7 +23,7 @@ public class PictureHelper {
     private static final String TAG = PictureHelper.class.getSimpleName();
 
     public interface CallBack {
-        public void handlerImage(String path);
+        void handlerImage(File file);
     }
 
     static final int REQUEST_TAKE_PHOTO = 1;// 去照相
@@ -50,7 +53,7 @@ public class PictureHelper {
             if (data == null || croppedFile == null)
                 return false;
             if (callBack != null) {
-                callBack.handlerImage(croppedFile.getPath());
+                callBack.handlerImage(croppedFile);
                 return true;
             }
 //            String path = galleryManager.selectImage(data);
@@ -103,13 +106,15 @@ public class PictureHelper {
 
 
     public File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+//        String imageFileName = "JPEG_" + timeStamp + "_";
+//        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File storageDir = new File(AppParams.getInstance().getCacheImageDir());
         Log.i(TAG, "storageDir:" + storageDir.getPath());
         if (!storageDir.exists()) {
             storageDir.mkdir();
         }
+        String imageFileName = "Android_Crop_JPEG";
         File image = File.createTempFile(imageFileName, /* prefix */
                 ".jpg", /* suffix */
                 storageDir /* directory */
@@ -159,6 +164,16 @@ public class PictureHelper {
         activity.startActivityForResult(photoPickerIntent, SELECT_PHOTO);
 
     }
+
+   /* public void startImg(){
+        Intent intent = new Intent();
+                *//* 开启Pictures画面Type设定为image *//*
+        intent.setType("image*//*");
+                *//* 使用Intent.ACTION_GET_CONTENT这个Action *//*
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+                *//* 取得相片后返回本画面 *//*
+        startActivityForResult(intent, 1);
+    }*/
 
 
    /* public static void setImageViewCircleBorder(View view){

@@ -7,22 +7,18 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.alibaba.fastjson.JSON;
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.NetCallback;
 import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.network.entity.JsonUser;
-import com.bt.zhangzy.tools.Json;
 import com.bt.zhangzy.tools.Tools;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -37,9 +33,10 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Constant.DEVICES_APP) {
+        if (AppParams.DEVICES_APP) {
             type = Type.DriverType;
             setContentView(R.layout.register_beginning);
+            setPageName("司机用户注册");
         } else {
             setContentView(R.layout.activity_register);
         }
@@ -51,6 +48,7 @@ public class RegisterActivity extends BaseActivity {
     public void onClick_RegisterCompany(View view) {
         setContentView(R.layout.register_beginning);
         type = Type.EnterpriseType;
+        setPageName("企业用户注册");
     }
 
 
@@ -60,7 +58,60 @@ public class RegisterActivity extends BaseActivity {
     public void onClick_RegisterDepartment(View view) {
         setContentView(R.layout.register_beginning);
         type = Type.InformationType;
+        setPageName("物流用户注册");
     }
+
+    /* 给手机发送验证码  */
+    public void onClick_SendVerificationCode(View view) {
+//        testSMS();
+        EditText phoneNumEd = (EditText) findViewById(R.id.reg_phoneNum_ed);
+        if (TextUtils.isEmpty(phoneNumEd.getText()) || phoneNumEd.getText().length() != 11) {
+            showToast("手机号输入错误");
+            return;
+        }
+        final String phoneNum = phoneNumEd.getText().toString();
+//        Json json = new Json();
+//        json.put("phoneNumber", phoneNum);
+
+        HttpHelper.getInstance().get(Url.SendVerificationCode + phoneNum, new NetCallback() {
+
+            @Override
+            public void onFailed(String str) {
+                showToast("验证码发送失败");
+            }
+
+            @Override
+            public void onSuccess(String str) {
+//                Json js = Json.ToJson(str);
+                showToast("验证码发送成功");
+                requestVerificationCode(phoneNum);
+            }
+        });
+
+
+
+    }
+
+    private void testSMS(){
+        HashMap map = new HashMap();
+        map.put("account", "cf_yiyuntong");
+        map.put("password", "zhang123456");
+        map.put("mobile", "18686192818");
+        String msg = "您的验证码是：【1212】。请不要把验证码泄露给其他人。";
+        map.put("content", msg);
+        HttpHelper.getInstance().post("http://106.ihuyi.cn/webservice/sms.php?method=Submit", map, new NetCallback() {
+            @Override
+            public void onFailed(String str) {
+
+            }
+
+            @Override
+            public void onSuccess(String str) {
+
+            }
+        });
+    }
+
 
     public void onClick_RegisterBtn(View view) {
 //        startActivity(new Intent(this,UserActivity.class));
@@ -92,12 +143,21 @@ public class RegisterActivity extends BaseActivity {
             showToast("手机号输入错误");
             return;
         }
+        if (TextUtils.isEmpty(verficationEd.getText())) {
+            showToast("请输入验证码");
+            return;
+        }
+        verfication = verficationEd.getText().toString();
+        if (!verfication.equals(verificationCode)) {
+            showToast("验证码错误");
+            return;
+        }
+
         nickname = nicknameEd.getText().toString();
         phoneNum = phoneNumEd.getText().toString();
-        verfication = verficationEd.getText().toString();
         recommend = TextUtils.isEmpty(recommendEd.getText()) ? "0" : recommendEd.getText().toString();
 
-        requestRegister(nickname, phoneNum, password, recommend, verfication);
+        requestRegister(nickname, phoneNum, Tools.MD5(password), recommend, verfication);
 
     }
 
@@ -106,17 +166,11 @@ public class RegisterActivity extends BaseActivity {
      */
     private void requestRegister(String nickname, String phoneNum, String password, String recommend, String verficaiton) {
         Log.e(TAG, "============================================");
-//        try {
-//            Json json = new Json();
-//            json.put("nickname", nickname);
-//            json.put("name", phoneNum);
-//            json.put("password", password);
-//            json.put("role", type == Type.DriverType ? "1" : type == Type.EnterpriseType ? "2" : type == Type.InformationType ? "3" : "-1");
-//            json.put("recommendCode", recommend);
 
         JsonUser jsonUser = new JsonUser();
         jsonUser.setNickname(nickname);
         jsonUser.setName(phoneNum);
+        jsonUser.setPhoneNumber(phoneNum);
         jsonUser.setPassword(password);
         jsonUser.setRole(type == Type.DriverType ? 1 : type == Type.EnterpriseType ? 2 : type == Type.InformationType ? 3 : -1);
         jsonUser.setRecommendCode(recommend);
@@ -137,7 +191,7 @@ public class RegisterActivity extends BaseActivity {
 //                showToast(JSON.toJSONString(jsonUser));
                 user.setId(jsonUser.getId());
                 user.setUserName(jsonUser.getName());
-                user.setPhoneNum(jsonUser.getName());
+                user.setPhoneNum(jsonUser.getPhoneNumber());
                 user.setNickName(jsonUser.getNickname());
 
                 Bundle bundle = getIntent().getExtras();
@@ -151,9 +205,25 @@ public class RegisterActivity extends BaseActivity {
         HttpHelper.getInstance().post(Url.Register, jsonUser, responseCallback);
 
         Log.e(TAG, "====>> end");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
 
+    }
+
+    int verificationCode;
+
+    /*获取手机验证码*/
+    private void requestVerificationCode(String phoneNum) {
+
+        HttpHelper.getInstance().get(Url.GetVerificationCode + phoneNum, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                BaseEntity entity = ParseJson_Object(result, BaseEntity.class);
+                verificationCode = entity.getCode();
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
     }
 }

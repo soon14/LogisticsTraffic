@@ -7,8 +7,8 @@ import android.widget.ListView;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.SourceGoodsListAdapter;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 
@@ -55,7 +55,7 @@ public class SourceGoodsActivity extends BaseActivity {
 
     private void gotoDetail() {
         if (User.getInstance().getLogin()) {
-            if(Constant.DEVICES_APP && !User.getInstance().isVIP()){
+            if(AppParams.DEVICES_APP && !User.getInstance().isVIP()){
                 BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

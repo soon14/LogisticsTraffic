@@ -40,7 +40,8 @@
             android:layout_marginBottom="20dp"
             android:hint="用户名"
             android:imeOptions="actionNext"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:maxLength="11" />
 
         <EditText
             android:id="@+id/login_password_ed"

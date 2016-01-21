@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
@@ -37,12 +37,12 @@ public class DetailCompany extends BaseActivity {
         setPageName("门企详情");
         if(getIntent().getExtras() != null){
             Bundle bundle = getIntent().getExtras();
-            if(bundle.containsKey(Constant.BUNDLE_PRODUCT_KEY)){
-                product = (Product) bundle.get(Constant.BUNDLE_PRODUCT_KEY);
+            if(bundle.containsKey(AppParams.BUNDLE_PRODUCT_KEY)){
+                product = (Product) bundle.get(AppParams.BUNDLE_PRODUCT_KEY);
             }
         }
 
-        if(Constant.DEVICES_APP){
+        if(AppParams.DEVICES_APP){
             findViewById(R.id.detail_gray_line).setVisibility(View.GONE);
             findViewById(R.id.detail_order_btn).setVisibility(View.GONE);
         }
@@ -91,7 +91,7 @@ public class DetailCompany extends BaseActivity {
     boolean openCall;
 
     public void onClick_CallPhone(View view) {
-        if(Constant.DEVICES_APP && !User.getInstance().isVIP()){
+        if(AppParams.DEVICES_APP && !User.getInstance().isVIP()){
             BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -126,7 +126,7 @@ public class DetailCompany extends BaseActivity {
             startActivity(LoginActivity.class);
             return;
         }
-        if(Constant.DEVICES_APP && !User.getInstance().isVIP()){
+        if(AppParams.DEVICES_APP && !User.getInstance().isVIP()){
             BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -139,7 +139,7 @@ public class DetailCompany extends BaseActivity {
     }
 
     public void onClick_CollectAdd(View view) {
-        if(Constant.DEVICES_APP && !User.getInstance().isVIP()){
+        if(AppParams.DEVICES_APP && !User.getInstance().isVIP()){
             BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

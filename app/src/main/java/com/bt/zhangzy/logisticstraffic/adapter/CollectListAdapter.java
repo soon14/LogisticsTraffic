@@ -11,10 +11,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
-import com.bt.zhangzy.logisticstraffic.app.Util;
 import com.bt.zhangzy.logisticstraffic.data.Product;
-
-import org.w3c.dom.Text;
+import com.bt.zhangzy.tools.ViewUtils;
 
 import java.util.ArrayList;
 
@@ -95,10 +93,10 @@ public class CollectListAdapter extends BaseAdapter {
             }
             Product item = list.get(position);
             holder.img.setImageResource(item.getIconImg());
-            Util.setText(holder.name, item.getName());
-            Util.setText(holder.dir, item.getDescribe());
+            ViewUtils.setText(holder.name, item.getName());
+            ViewUtils.setText(holder.dir, item.getDescribe());
             String times = holder.times.getText().toString();
-            Util.setText(holder.times, times.replace("#n",item.getTimes()==null?"0":item.getTimes()));
+            ViewUtils.setText(holder.times, times.replace("#n",item.getTimes()==null?"0":item.getTimes()));
             holder.lv.setRating(item.getLevel());
             return convertView;
         } catch (Exception ex) {

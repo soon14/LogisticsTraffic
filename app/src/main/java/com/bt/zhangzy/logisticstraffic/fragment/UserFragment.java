@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
-import com.bt.zhangzy.logisticstraffic.app.Constant;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 
@@ -28,7 +28,7 @@ public class UserFragment extends BaseHomeFragment {
         if(User.getInstance().getUserType() == Type.EnterpriseType){
             findViewById(R.id.user_services_item).setVisibility(View.GONE);
             findViewById(R.id.user_fleet_item).setVisibility(View.GONE);
-        }else if(Constant.DEVICES_APP){
+        }else if(AppParams.DEVICES_APP){
 //            findViewById(R.id.user_services_item).setVisibility(View.GONE);
         }
 

@@ -10,8 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.Type;
@@ -36,9 +36,9 @@ public class OrderDetailActivity extends BaseActivity {
         setPageName("订单详情");
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.containsKey(Constant.ORDER_DETAIL_KEY_TYPE)) {
+        if (bundle != null && bundle.containsKey(AppParams.ORDER_DETAIL_KEY_TYPE)) {
             //根据传入的参数判断显示模式
-            int type = bundle.getInt(Constant.ORDER_DETAIL_KEY_TYPE);
+            int type = bundle.getInt(AppParams.ORDER_DETAIL_KEY_TYPE);
             OrderDetailMode[] values = OrderDetailMode.values();
             currentMode = values[Math.max(0, Math.min(values.length - 1, type))];
             if (currentMode == OrderDetailMode.UntreatedMode) {
@@ -72,10 +72,10 @@ public class OrderDetailActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == Constant.RESULT_CODE_SELECT_DEVICES) {
+        if (requestCode == AppParams.RESULT_CODE_SELECT_DEVICES) {
             //车队选择返回
             if (data != null) {
-                People people = data.getParcelableExtra(Constant.RESULT_CODE_KEY);
+                People people = data.getParcelableExtra(AppParams.RESULT_CODE_KEY);
                 if (people != null) {
                     Log.d(TAG, ">>>>>>>>>>>>>>>>" + people.getPhoneNumber() + "," + people.getName());
 //                Toast.makeText(this,people.getPhoneNumber(),Toast.LENGTH_SHORT).show();
@@ -147,8 +147,8 @@ public class OrderDetailActivity extends BaseActivity {
                     public void onClick(View v) {
 //                        startActivity(FleetActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putInt(Constant.RESULT_CODE_KEY, Constant.RESULT_CODE_SELECT_DEVICES);
-                        startActivityForResult(FleetActivity.class, bundle, Constant.RESULT_CODE_SELECT_DEVICES);
+                        bundle.putInt(AppParams.RESULT_CODE_KEY, AppParams.RESULT_CODE_SELECT_DEVICES);
+                        startActivityForResult(FleetActivity.class, bundle, AppParams.RESULT_CODE_SELECT_DEVICES);
                     }
                 });
                 break;

@@ -12,8 +12,8 @@ import android.widget.Toast;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.FleetListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.FleetListForDevicesAdapter;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
@@ -32,7 +32,7 @@ public class FleetActivity extends BaseActivity {
 
         setContentView(R.layout.activity_fleet);
 
-        if (Constant.DEVICES_APP) {
+        if (AppParams.DEVICES_APP) {
             findViewById(R.id.fleet_button_ly).setVisibility(View.GONE);
             setPageName("我加入的车队");
         } else {
@@ -41,8 +41,8 @@ public class FleetActivity extends BaseActivity {
 
         if (getIntent().getExtras() != null) {
             Bundle bundle = getIntent().getExtras();
-            if (bundle.containsKey(Constant.RESULT_CODE_KEY)) {
-                if (bundle.getInt(Constant.RESULT_CODE_KEY) == Constant.RESULT_CODE_SELECT_DEVICES) {
+            if (bundle.containsKey(AppParams.RESULT_CODE_KEY)) {
+                if (bundle.getInt(AppParams.RESULT_CODE_KEY) == AppParams.RESULT_CODE_SELECT_DEVICES) {
                     isSelectDevices = true;
                 }
             }
@@ -51,7 +51,7 @@ public class FleetActivity extends BaseActivity {
 
         listView = (ListView) findViewById(R.id.fleet_list);
 
-        if (Constant.DEVICES_APP) {
+        if (AppParams.DEVICES_APP) {
             FleetListForDevicesAdapter adapter = new FleetListForDevicesAdapter();
             adapter.addPeople(User.getInstance().getDriverList());
             listView.setAdapter(adapter);
@@ -80,10 +80,10 @@ public class FleetActivity extends BaseActivity {
                         People people = (People) listView.getItemAtPosition(position);
                         Intent intent = new Intent();
                         Bundle bundle = new Bundle();
-                        bundle.putParcelable(Constant.RESULT_CODE_KEY, people);
+                        bundle.putParcelable(AppParams.RESULT_CODE_KEY, people);
 //                    intent.putExtra(Constant.RESULT_CODE_KEY,people);
                         intent.putExtras(bundle);
-                        setResult(Constant.RESULT_CODE_SELECT_DEVICES, intent);
+                        setResult(AppParams.RESULT_CODE_SELECT_DEVICES, intent);
                         finish();
                     }
                 });
@@ -96,7 +96,7 @@ public class FleetActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (Constant.DEVICES_APP) {
+        if (AppParams.DEVICES_APP) {
 
         } else {
             User.getInstance().setDriverList(((FleetListAdapter) listView.getAdapter()).getList());

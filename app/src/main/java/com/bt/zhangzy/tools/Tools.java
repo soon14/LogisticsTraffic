@@ -1,10 +1,20 @@
 package com.bt.zhangzy.tools;
 
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,8 +30,9 @@ public final class Tools {
 
     private static final String TAG = Tools.class.getSimpleName();
 
+
+
     /**
-     *
      * @param format 格式
      * @return 返回当前时间的字符串表达式
      */
@@ -33,7 +44,6 @@ public final class Tools {
     }
 
     /**
-     *
      * @return 根据默认的格式返回当前时间
      */
     public static String getCurrentTime() {
@@ -43,6 +53,7 @@ public final class Tools {
 
     /**
      * MD5加密字符串
+     *
      * @param string
      * @return
      */
@@ -64,13 +75,15 @@ public final class Tools {
         return hex.toString();
     }
 
-    public static JSONObject toJson(String string){
+    public static JSONObject toJson(String string) {
         try {
             return new JSONObject(string);
         } catch (JSONException e) {
 //            e.printStackTrace();
-            Log.w(TAG,string,e);
+            Log.w(TAG, string, e);
         }
         return null;
     }
+
+
 }

@@ -8,17 +8,7 @@
 
     <!--初始用户 注册-->
 
-    <TextView
-        style="@style/title_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:background="@color/main_bg_color"
-        android:drawableLeft="@drawable/title_left_icon"
-        android:drawablePadding="5dp"
-        android:text="新用户注册" />
-
-
+    <include layout="@layout/page_top"/>
     <EditText
         android:id="@+id/reg_nickname_ed"
         style="@style/edit_style"
@@ -42,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:hint="手机号"
+        android:maxLength="11"
         android:imeOptions="actionNext"
         android:inputType="phone" />
 
@@ -108,6 +99,7 @@
             style="@style/home_button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onClick_SendVerificationCode"
             android:text="获取验证码" />
     </LinearLayout>
 

@@ -6,7 +6,7 @@ package com.bt.zhangzy.network;
 public final class Url {
 
     /*服务器端口  例：http://182.92.77.31:8080/freight/users/1  */
-    private static final String Host = "http://182.92.77.31:8080";
+    public static final String Host = "http://182.92.77.31:8080";
 
     /* 注册   用户列表： http://182.92.77.31:8080/users/list  */
     public static final String Register = Host + "/users/register";
@@ -19,6 +19,19 @@ public final class Url {
 
     /* 登录 */
     public static final String Login = Host + "/users/login";
+
+   /* 验证司机/企业和信息部的接口是
+    /enterprises/authenticate
+    /drivers/authenticate
+    /companies/authenticate  */
+
+    /* 发送验证码 */
+    public static final String SendVerificationCode = Host + "/commons/sendVerificationCode/";
+
+    /* 获取手机验证码 /commons/getVerificationCode/{phoneNumber}*/
+    public static final String GetVerificationCode = Host + "/commons/getVerificationCode/";
+
+    public static final String UpLoadImage = Host+"/upload";
 
     /* 城市列表     */
     public static final String CityList = Host + "values";

@@ -1,4 +1,4 @@
-package com.bt.zhangzy.logisticstraffic.app;
+package com.bt.zhangzy.tools;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -25,6 +25,39 @@ import java.util.List;
  */
 public class ContextTools {
 
+
+    /**
+     * 获取应用的数据存储目录，便于统一管理和更改；
+     * */
+    public static String getCacheDir(Context context) {
+        if (context == null)
+            return null;
+        /*这两个方法是通过上下文对象Context获取的，只要应用程序被卸载，这两个目录下的文件都要被清空。
+        context.getCacheDir()  获取应用程序自己的缓存目录
+        context.getExternalCacheDir() 获取应用程序在外部存储的存储目录
+        static File getDataDirectory() 获得data的目录（/data）。
+        static File getDownloadCacheDirectory() 获得下载缓存目录。（/cache）
+        static File getExternalStorageDirectory() 获得外部存储媒体目录。（/mnt/sdcard  or /storage/sdcard0）
+        static File getRootDirectory() 获得系统主目录（/system）
+        */
+
+       /*
+       Log.i(TAG, "缓存目录 目录路径：" + context.getCacheDir());
+        Log.i(TAG, "getExternalCacheDir 目录路径：" + context.getExternalCacheDir());
+
+        //可以通过静态方法getExternalStorageState()来获取外部存储的状态，如果程序需要在外部存储里面读写数据，必须要先判断：
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+
+        }
+        Log.i(TAG, "Environment.getDataDirectory 目录路径：" + Environment.getDataDirectory());
+        Log.i(TAG, "Environment.getDownloadCacheDirectory 目录路径：" + Environment.getDownloadCacheDirectory());
+        Log.i(TAG, "getPackageName 目录路径：" + context.getPackageName());
+        */
+        String cacheDir = context.getExternalCacheDir().getPath();
+
+        return cacheDir;
+    }
     /**
      *    //显示虚拟键盘
      * @param v

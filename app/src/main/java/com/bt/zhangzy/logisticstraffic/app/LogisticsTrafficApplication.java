@@ -4,7 +4,6 @@ import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,8 +22,9 @@ import com.bt.zhangzy.logisticstraffic.adapter.LocationListAdapter;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
-import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.ImageHelper;
+import com.bt.zhangzy.tools.ContextTools;
+import com.bt.zhangzy.tools.Tools;
 import com.zhangzy.baidusdk.BaiduSDK;
 
 import org.json.JSONArray;
@@ -45,6 +45,7 @@ import java.util.Calendar;
 public class LogisticsTrafficApplication extends Application implements BaiduSDK.LocationListener {
 
     private static final String TAG = LogisticsTrafficApplication.class.getSimpleName();
+
     private PopupWindow popupWindow;
     private ListView listView;
     private BaseActivity currentAct;
@@ -57,6 +58,7 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
     @Override
     public void onCreate() {
         super.onCreate();
+        AppParams.getInstance().init(this);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
 

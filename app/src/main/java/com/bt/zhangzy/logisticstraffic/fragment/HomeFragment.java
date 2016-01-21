@@ -284,6 +284,7 @@ public class HomeFragment extends BaseHomeFragment {
 
             @Override
             public void onSuccess(String msg, String json) {
+
                 List<JsonUser> list = ParseJson_Array(json, JsonUser.class);
 //                Log.w(TAG, "Test==>>>>" + toJsonString(list));
                 ArrayList<Product> arrayList = new ArrayList<Product>();

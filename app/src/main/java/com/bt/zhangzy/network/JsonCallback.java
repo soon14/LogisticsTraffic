@@ -1,16 +1,13 @@
 package com.bt.zhangzy.network;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 import com.bt.zhangzy.network.entity.BaseEntity;
-import com.bt.zhangzy.tools.Json;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * f
@@ -25,9 +22,13 @@ public abstract class JsonCallback extends NetCallback {
         BaseEntity entity = JSON.parseObject(str, BaseEntity.class);
         if (entity != null) {
             if (entity.getCode() == 200) {
-                if (!TextUtils.isEmpty(entity.getResult())) {
-                    onSuccess(entity.getMessage(), entity.getResult());
-                    return;
+                try {
+                    if (!TextUtils.isEmpty(entity.getResult())) {
+                        onSuccess(entity.getMessage(), entity.getResult());
+                        return;
+                    }
+                } catch (JSONException ex) {
+                    Log.w(JsonCallback.class.getSimpleName(), ex);
                 }
             }
             onFailed(entity.getMessage());

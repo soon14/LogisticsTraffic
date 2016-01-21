@@ -8,8 +8,8 @@ import android.view.View;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.fragment.OrderListFragment;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class OrderListActivity extends BaseActivity {
         setContentView(R.layout.activity_orderlist);
         setPageName("我的订单");
 //        initTabHost();
-        if(Constant.DEVICES_APP){
+        if(AppParams.DEVICES_APP){
             findViewById(R.id.orderlist_tab_untreated).setVisibility(View.GONE);
         }
         initViewPager();
@@ -42,14 +42,14 @@ public class OrderListActivity extends BaseActivity {
         viewPager = (ViewPager) findViewById(R.id.orderlist_viewpager);
 
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
-        if(!Constant.DEVICES_APP) {
+        if(!AppParams.DEVICES_APP) {
             fragments.add(new OrderListFragment().initTAG_INDEX(PAGE_UNTREATED));
         }
         fragments.add(new OrderListFragment().initTAG_INDEX(PAGE_SUBMITTED));
         fragments.add(new OrderListFragment().initTAG_INDEX(PAGE_COMPLETED));
         FragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
-        if(Constant.DEVICES_APP){
+        if(AppParams.DEVICES_APP){
             onClick_SelectBtn(findViewById(R.id.orderlist_tab_submitted));
         }else {
             onClick_SelectBtn(findViewById(R.id.orderlist_tab_untreated));
@@ -62,7 +62,7 @@ public class OrderListActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (Constant.DEVICES_APP) {
+                if (AppParams.DEVICES_APP) {
                     position += 1;
                 }
                 switch (position) {
@@ -114,7 +114,7 @@ public class OrderListActivity extends BaseActivity {
                 currentPage = PAGE_COMPLETED;
                 break;
         }
-        if(Constant.DEVICES_APP){
+        if(AppParams.DEVICES_APP){
             currentPage -=1;
         }
         if (currentPage > 0 && viewPager != null) {

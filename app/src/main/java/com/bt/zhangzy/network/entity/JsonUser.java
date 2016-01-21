@@ -9,10 +9,34 @@ public class JsonUser extends BaseEntity {
 
     int id, roleId;
     int status, role;
-    String name, nickname, password, idCardPhotoUrl, portraitUrl, recommendCode;
-    String personPhotoUrl;
+    String name, nickname, password, recommendCode,phoneNumber;
+    String personPhotoUrl, idCardPhotoUrl, portraitUrl;
 
     public JsonUser() {
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPersonPhotoUrl() {
+        return personPhotoUrl;
+    }
+
+    public void setPersonPhotoUrl(String personPhotoUrl) {
+        this.personPhotoUrl = personPhotoUrl;
     }
 
     public int getId() {

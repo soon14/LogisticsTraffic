@@ -6,21 +6,17 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.NetCallback;
 import com.bt.zhangzy.network.Url;
 import com.bt.zhangzy.network.entity.JsonUser;
-
-import java.util.HashMap;
+import com.bt.zhangzy.tools.Tools;
 
 /**
  * Created by ZhangZy on 2015/6/9.
@@ -71,7 +67,7 @@ public class LoginActivity extends BaseActivity {
             showToast("请填写用户名和密码");
             return;
         }
-        request_Login(nameStr, passwordStr);
+        request_Login(nameStr, Tools.MD5(passwordStr));
     }
 
     private void loginSusses() {
@@ -90,8 +86,9 @@ public class LoginActivity extends BaseActivity {
 
         JsonUser user = new JsonUser();
         user.setName(username);
+        user.setPhoneNumber(username);
         user.setPassword(password);
-        user.setRole(2);
+//        user.setRole(2);
 //        if(Constant.DEVICES_APP) {
 //            user.setRole(1);
 //        }else{

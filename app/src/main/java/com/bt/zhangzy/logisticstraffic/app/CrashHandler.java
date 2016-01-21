@@ -184,16 +184,17 @@ public class CrashHandler implements UncaughtExceptionHandler {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
             String fileName = "crash-" + time + "-" + timestamp + ".log";
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                String path = "/sdcard/LogisticsTrafficCrash/";
-                File dir = new File(path);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-                FileOutputStream fos = new FileOutputStream(path + fileName);
-                fos.write(sb.toString().getBytes());
-                fos.close();
+//            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+//                String path = "/sdcard/LogisticsTrafficCrash/";
+            String path = AppParams.getInstance().getCrashLogDir();
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdirs();
             }
+            FileOutputStream fos = new FileOutputStream(path + fileName);
+            fos.write(sb.toString().getBytes());
+            fos.close();
+//            }
             return fileName;
         } catch (Exception e) {
             Log.e(TAG, "an error occured while writing file...", e);

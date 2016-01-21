@@ -17,9 +17,9 @@ import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.app.Constant;
-import com.bt.zhangzy.logisticstraffic.app.ContextTools;
+import com.bt.zhangzy.tools.ContextTools;
 import com.bt.zhangzy.logisticstraffic.app.LogisticsTrafficApplication;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Product;
@@ -208,16 +208,16 @@ public class HomeActivity extends BaseActivity {
         setPage(INDEX_HOME);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            if (bundle.containsKey(Constant.BUNDLE_PAGE_KEY)) {
-                String value = bundle.getString(Constant.BUNDLE_PAGE_KEY);
+            if (bundle.containsKey(AppParams.BUNDLE_PAGE_KEY)) {
+                String value = bundle.getString(AppParams.BUNDLE_PAGE_KEY);
 
-                if (Constant.PAGE_HOME.equals(value)) {
+                if (AppParams.PAGE_HOME.equals(value)) {
                     setPage(INDEX_HOME);
 //                } else if (Constant.PAGE_SERVICES.equals(value)) {
 //                    setPage(INDEX_SERVICES);
 //                } else if (Constant.PAGE_HAPPY.equals(value)) {
 //                    setPage(INDEX_HAPPY);
-                } else if (Constant.PAGE_USER.equals(value)) {
+                } else if (AppParams.PAGE_USER.equals(value)) {
                     setPage(INDEX_USER);
                 }
             }
@@ -279,7 +279,7 @@ public class HomeActivity extends BaseActivity {
         //登陆判断
         if (page == INDEX_USER && !User.getInstance().getLogin()) {
             Bundle bundle = new Bundle();
-            bundle.putString(Constant.BUNDLE_PAGE_KEY, Constant.PAGE_USER);
+            bundle.putString(AppParams.BUNDLE_PAGE_KEY, AppParams.PAGE_USER);
             startActivity(LoginActivity.class, bundle);
 //            finish();
             if (contentViewPager.getCurrentItem() == INDEX_USER) {
@@ -352,7 +352,7 @@ public class HomeActivity extends BaseActivity {
 //        startActivity(new Intent(this,DetailCompany.class));
         if (product != null) {
             Bundle bundle = new Bundle();
-            bundle.putSerializable(Constant.BUNDLE_PRODUCT_KEY, product);
+            bundle.putSerializable(AppParams.BUNDLE_PRODUCT_KEY, product);
             startActivity(DetailCompany.class, bundle);
         } else {
             startActivity(DetailCompany.class);
@@ -361,7 +361,7 @@ public class HomeActivity extends BaseActivity {
 
     public void showDialogCallPhone(final String phoneNum) {
         Log.d(Tag, ">>>showDialogCallPhone " + phoneNum);
-        if (Constant.DEVICES_APP && !User.getInstance().isVIP()) {
+        if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
             BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -457,14 +457,14 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void onClick_Quit(View view) {
-        BaseDialog.showConfirmDialog(this, "是否退出?", "返回", "退出", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getApp().Exit(User.getInstance().isSave());
-            }
-        });
-    }
 
+    BaseDialog.showConfirmDialog(this, "是否退出?", "返回", "退出", new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getApp().Exit(User.getInstance().isSave());
+        }
+    });
+}
     public void onClick_SafeQuit(View view) {
 
         BaseDialog.showConfirmDialog(this, "是否注销并退出程序?", "返回", "退出", new View.OnClickListener() {
@@ -542,12 +542,12 @@ public class HomeActivity extends BaseActivity {
      * @param view
      */
     public void onClick_SendFriend(View view) {
-        ContextTools.showContacts(this, Constant.REQUEST_CODE_CONTACT);
+        ContextTools.showContacts(this, AppParams.REQUEST_CODE_CONTACT);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constant.REQUEST_CODE_CONTACT) {
+        if (requestCode == AppParams.REQUEST_CODE_CONTACT) {
             String[] str = ContextTools.OnActivityRsultForContacts(this, data);
             if (str != null && str.length > 1 && !TextUtils.isEmpty(str[1])) {
                 //给拿到的电话发送短信

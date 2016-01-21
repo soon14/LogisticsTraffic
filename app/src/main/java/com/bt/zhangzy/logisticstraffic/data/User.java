@@ -2,10 +2,9 @@ package com.bt.zhangzy.logisticstraffic.data;
 
 import android.text.TextUtils;
 
-import com.bt.zhangzy.logisticstraffic.app.Constant;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -189,7 +188,7 @@ public class User implements Serializable {
     }
 
     public Type getUserType() {
-        if (Constant.DEVICES_APP) {
+        if (AppParams.DEVICES_APP) {
             return Type.DriverType;
         } else
             return userType;

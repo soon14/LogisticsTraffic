@@ -2,7 +2,6 @@ package com.bt.zhangzy.logisticstraffic.fragment;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +13,8 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.activity.OrderDetailActivity;
 import com.bt.zhangzy.logisticstraffic.activity.OrderListActivity;
 import com.bt.zhangzy.logisticstraffic.adapter.OrderListAdapter;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.app.Constant;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 
 /**
@@ -70,7 +69,7 @@ public class OrderListFragment extends Fragment {
                 }
                 if (ordinal > 0) {
                     Bundle bundle = new Bundle();
-                    bundle.putInt(Constant.ORDER_DETAIL_KEY_TYPE, ordinal);
+                    bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE, ordinal);
                     getBaseActivity().startActivity(OrderDetailActivity.class, bundle);
                 }
             }

@@ -39,7 +39,7 @@ public class Json extends JSONObject {
         return null;
     }
 
-    public Json put(String name, Objects value) {
+    public Json put(String name, Object value) {
         try {
             super.put(name, value);
         } catch (JSONException e) {

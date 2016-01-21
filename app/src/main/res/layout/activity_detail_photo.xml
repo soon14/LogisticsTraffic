@@ -46,6 +46,7 @@
             android:src="@drawable/detail_yyzz" />
 
         <ImageView
+            android:id="@+id/load_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
