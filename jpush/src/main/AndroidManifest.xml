@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bt.zhangzy.logisticstraffic">
-
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="15" />
-    <!-- 访问网络，网络定位需要上网-->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--<uses-permission android:name="android.permission.RESTART_PACKAGES"/>-->
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <!-- 在SDCard中创建与删除文件权限 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-
-    <!-- 往SDCard写入数据权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- 地图定位-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    package="com.example.com.bt.zhangzy.jpush">
 
     <permission
         android:name="${applicationId}.permission.JPUSH_MESSAGE"
@@ -50,103 +30,48 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
     <application
-        android:name=".app.LogisticsTrafficApplication"
+        android:name="com.example.com.bt.zhangzy.jpush.ExampleApplication"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:label="@string/app_name_jpush">
+
+
+        <!-- For test only 测试的主程序-->
         <activity
-            android:name=".activity.MainActivity"
-            android:label="@string/app_name">
+            android:name="com.example.com.bt.zhangzy.jpush.MainActivity"
+            android:label="@string/app_name_jpush">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.WelcomeActivity" />
-        <activity android:name=".activity.LocationActivity" />
-        <activity
-            android:name=".activity.HomeActivity"
-            android:launchMode="singleTask" />
-        <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.LogoActivity" />
-        <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.DetailCompany" />
-        <activity android:name=".activity.FleetActivity" />
-        <activity android:name=".activity.SettingShareActivity" />
-        <activity android:name=".activity.SettingShopActivity" />
-        <activity android:name=".activity.OrderListActivity" />
-        <activity android:name=".activity.OrderDetailActivity" />
-        <activity android:name=".activity.HistoryActivity" />
-        <activity android:name=".activity.DetailPhotoActivity" />
-        <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.CollectActivity" />
-        <activity android:name=".activity.EvaluationActivity" />
-        <activity android:name=".activity.EvaluationListActivity" />
-        <activity android:name=".activity.PictureActivity" />
-        <activity android:name=".activity.OrderActivity" />
-        <activity android:name=".activity.LocationListActivity" />
-        <activity android:name=".activity.SourceActivity" />
-        <activity android:name=".activity.SourceDetailActivity" />
-        <activity android:name=".activity.PublishActivity" />
-        <activity android:name=".activity.ServicesActivity" />
-        <activity android:name=".activity.SourceGoodsActivity" />
-        <activity android:name=".activity.FleetDevicesActivity" />
-        <activity android:name=".activity.PayActivity" />
-        <activity android:name=".activity.WebViewActivity" />
-
-
-        <!-- User defined.  For test only  用户自定义的广播接收器-->
-        <receiver
-            android:name="com.bt.zhangzy.logisticstraffic.receiver.MyReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" />
-                <!--Required  用户注册SDK的intent-->
-                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
-                <!--Required  用户接收SDK消息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
-                <!--Required  用户接收SDK通知栏信息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
-                <!--Required  用户打开自定义通知栏的intent-->
-                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
-                <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
-                <action android:name="cn.jpush.android.intent.CONNECTION" />
-                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="${applicationId}" />
-            </intent-filter>
-        </receiver>
-
         <!-- For test only 测试高级功能 -->
         <activity
-            android:name="com.bt.zhangzy.jpush.PushSetActivity"
+            android:name="com.example.com.bt.zhangzy.jpush.PushSetActivity"
             android:label="@string/app_name_jpush"></activity>
         <!-- For test only 测试设置 -->
         <activity
-            android:name="com.bt.zhangzy.jpush.SettingActivity"
+            android:name="com.example.com.bt.zhangzy.jpush.SettingActivity"
             android:label="@string/app_name_jpush"></activity>
         <!-- For test only 测试状态通知栏，需要打开的Activity -->
         <activity
-            android:name="com.bt.zhangzy.jpush.TestActivity"
+            android:name="com.example.com.bt.zhangzy.jpush.TestActivity"
             android:exported="false">
             <intent-filter>
-                <action android:name="jpush.testAction" />
-                <category android:name="jpush.testCategory" />
+                <action android:name="com.bt.zhangzy.jpush.testAction" />
+                <category android:name="com.bt.zhangzy.jpush.testCategory" />
             </intent-filter>
         </activity>
 
 
         <!-- Required SDK核心功能-->
         <activity
-            android:name="cn.jpush.android.ui.PushActivity"
+            android:name="cn.com.bt.zhangzy.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="false"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
-                <action android:name="cn.jpush.android.ui.PushActivity" />
+                <action android:name="cn.com.bt.zhangzy.jpush.android.ui.PushActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="${applicationId}" />
@@ -154,7 +79,7 @@
         </activity>
         <!-- Required  SDK核心功能-->
         <service
-            android:name="cn.jpush.android.service.DownloadService"
+            android:name="cn.com.bt.zhangzy.jpush.android.service.DownloadService"
             android:enabled="true"
             android:exported="false"></service>
 
@@ -162,25 +87,25 @@
         <!-- Required SDK 核心功能-->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
-            android:name="cn.jpush.android.service.PushService"
+            android:name="cn.com.bt.zhangzy.jpush.android.service.PushService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTER" />
-                <action android:name="cn.jpush.android.intent.REPORT" />
-                <action android:name="cn.jpush.android.intent.PushService" />
-                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+                <action android:name="cn.com.bt.zhangzy.jpush.android.intent.REGISTER" />
+                <action android:name="cn.com.bt.zhangzy.jpush.android.intent.REPORT" />
+                <action android:name="cn.com.bt.zhangzy.jpush.android.intent.PushService" />
+                <action android:name="cn.com.bt.zhangzy.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
         </service>
 
         <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
         <service
-            android:name="cn.jpush.android.service.DaemonService"
+            android:name="cn.com.bt.zhangzy.jpush.android.service.DaemonService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.DaemonService" />
+                <action android:name="cn.com.bt.zhangzy.jpush.android.intent.DaemonService" />
                 <category android:name="${applicationId}" />
             </intent-filter>
 
@@ -188,11 +113,11 @@
 
         <!-- Required SDK核心功能-->
         <receiver
-            android:name="cn.jpush.android.service.PushReceiver"
+            android:name="cn.com.bt.zhangzy.jpush.android.service.PushReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                <action android:name="cn.com.bt.zhangzy.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
                 <!--Required  显示通知栏 -->
                 <category android:name="${applicationId}" />
             </intent-filter>
@@ -212,12 +137,12 @@
 
         <!-- Required SDK核心功能-->
         <receiver
-            android:name="cn.jpush.android.service.AlarmReceiver"
+            android:name="cn.com.bt.zhangzy.jpush.android.service.AlarmReceiver"
             android:exported="false" />
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <!--<receiver-->
-        <!--android:name="com.bt.zhangzy.jpushdemo.MyReceiver"-->
+        <!--android:name="com.example.jpushdemo.MyReceiver"-->
         <!--android:exported="false"-->
         <!--android:enabled="true">-->
         <!--<intent-filter>-->
@@ -241,6 +166,7 @@
             android:name="JPUSH_APPKEY"
             android:value="cba04bab06fa527b1113d749" />
         <!--  </>值来自开发者平台取得的AppKey-->
+
     </application>
 
 </manifest>

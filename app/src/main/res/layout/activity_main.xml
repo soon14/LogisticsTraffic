@@ -9,23 +9,46 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-   <!-- <TextView
+    <!-- <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/hello_world" />-->
+
+    <!--   <VideoView
+           android:id="@+id/video"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent" />-->
+
+    <Button
+        android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />-->
-
- <!--   <VideoView
-        android:id="@+id/video"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="98dp"
+        android:onClick="onClick_Test"
+        android:text="New Button"
+        android:visibility="gone" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button3"
+        android:text="司机端"
+        android:id="@+id/button4"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:onClick="onClick_Test"
-        android:layout_marginBottom="98dp" />
+        android:onClick="onClick_Driver"
+        android:layout_marginBottom="158dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="企业端"
+        android:id="@+id/button5"
+        android:onClick="onClick_Enterprise"
+        android:layout_alignTop="@+id/button4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp" />
+
+
 </RelativeLayout>
