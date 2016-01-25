@@ -80,8 +80,7 @@ public class ImageHelper {
      * @param imageView
      */
     public void loadImgOnUiThread(Activity act, final String url, final ImageView imageView) {
-        if (TextUtils.isEmpty(url) || imageView == null)
-            return;
+
         act.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -99,6 +98,8 @@ public class ImageHelper {
      * @param imageView
      */
     public void load(String imageUrl, ImageView imageView) {
+        if (TextUtils.isEmpty(imageUrl) || imageView == null)
+            return;
         ImageLoader.getInstance().displayImage(imageUrl, imageView, options);
     }
 

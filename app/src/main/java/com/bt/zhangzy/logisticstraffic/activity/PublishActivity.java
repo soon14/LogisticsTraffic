@@ -1,13 +1,21 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.LicenceKeyboardPopupWindow;
+import com.bt.zhangzy.network.HttpHelper;
+import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.network.entity.JsonCar;
+import com.bt.zhangzy.network.entity.JsonDriver;
+import com.bt.zhangzy.network.entity.RequestAddCar;
 
 /**
  * 发布车源信息
@@ -25,6 +33,14 @@ public class PublishActivity extends BaseActivity {
         setContentView(contentView);
         setPageName("发布车辆");
         licenceEd = (EditText) findViewById(R.id.publish_licence_ed);
+
+        initView();
+    }
+
+    private void initView(){
+        User user = User.getInstance();
+        JsonDriver driver = user.getJsonTypeEntity();
+
     }
 
     public void onClick_Reset(View view) {
@@ -45,13 +61,42 @@ public class PublishActivity extends BaseActivity {
             @Override
             public void confirm(String string) {
                 licenceEd.setText(string);
+
             }
         }).showAsDropDown(view, 0, -view.getHeight());
 
     }
 
     public void onClick_Publish(View view) {
-        showToast("发布成功");
-        finish();
+        if (TextUtils.isEmpty(licenceEd.getText())) {
+            showToast("请输入车牌号");
+            return;
+        }
+        requestCarJson.setNumber(licenceEd.getText().toString().trim());
+        requestPublishCar();
+
+    }
+
+    JsonCar requestCarJson = new JsonCar();
+
+    private void requestPublishCar() {
+        RequestAddCar requestJson = new RequestAddCar();
+        JsonDriver jsonDriver = User.getInstance().getJsonTypeEntity();
+        requestJson.setDriver(jsonDriver);
+        requestJson.setCar(requestCarJson);
+        requestCarJson.setDriver_id(jsonDriver.getId());
+
+        HttpHelper.getInstance().post(Url.PostDriversAddCar, requestJson, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                showToast("发布成功");
+//                finish();
+            }
+
+            @Override
+            public void onFailed(String str) {
+                showToast("发布失败");
+            }
+        });
     }
 }

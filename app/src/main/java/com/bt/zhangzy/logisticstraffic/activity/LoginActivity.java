@@ -16,6 +16,7 @@ import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.Url;
 import com.bt.zhangzy.network.entity.JsonUser;
+import com.bt.zhangzy.network.entity.ResponseLogin;
 import com.bt.zhangzy.tools.Tools;
 
 /**
@@ -87,7 +88,7 @@ public class LoginActivity extends BaseActivity {
     private void request_Login(String username, String password) {
 
         JsonUser user = new JsonUser();
-        user.setName(username);
+//        user.setName(username);
         user.setPhoneNumber(username);
         user.setPassword(password);
 //        user.setRole(2);
@@ -110,25 +111,38 @@ public class LoginActivity extends BaseActivity {
                     return;
                 }
                 showToast("用户登录成功");
-                JsonUser jsonUser = ParseJson_Object(jsonstr, JsonUser.class);
+                ResponseLogin json = ParseJson_Object(jsonstr, ResponseLogin.class);
+//                JsonUser jsonUser = ParseJson_Object(jsonstr, JsonUser.class);
+                JsonUser jsonUser = json.getUser();
                 User user = User.getInstance();
                 user.setLogin(true);
-                showToast(JSON.toJSONString(jsonUser));
+//                showToast(JSON.toJSONString(jsonUser));
                 user.setId(jsonUser.getId());
                 user.setUserName(jsonUser.getName());
                 user.setPhoneNum(jsonUser.getName());
                 user.setNickName(jsonUser.getNickname());
+                user.setJsonUser(jsonUser);
                 switch (jsonUser.getRole()) {
                     case 1:
                         user.setUserType(Type.DriverType);
+                        if (json.getDriver() != null) {
+                            user.setJsonTypeEntity(json.getDriver());
+                        }
                         break;
                     case 2:
                         user.setUserType(Type.EnterpriseType);
+                        if (json.getEnterprise() != null) {
+                            user.setJsonTypeEntity(json.getEnterprise());
+                        }
                         break;
                     case 3:
                         user.setUserType(Type.InformationType);
+                        if (json.getCompany() != null) {
+                            user.setJsonTypeEntity(json.getCompany());
+                        }
                         break;
                 }
+
 
                 loginSusses();
             }

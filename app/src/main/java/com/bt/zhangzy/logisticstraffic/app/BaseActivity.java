@@ -7,20 +7,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
-import com.bt.zhangzy.logisticstraffic.activity.WebViewActivity;
+import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.receiver.MessageReceiver;
 import com.bt.zhangzy.logisticstraffic.view.CustomProgress;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.Url;
 import com.zhangzy.baidusdk.BaiduMapActivity;
 
-import org.w3c.dom.Text;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by ZhangZy on 2015/6/18.
@@ -32,9 +34,17 @@ public class BaseActivity extends FragmentActivity {
 
     CustomProgress progress;
 
+
     protected BaseActivity() {
         TAG = getClass().getSimpleName();
         context = this;
+
+        if (TextUtils.isEmpty(User.getInstance().getRegistrationID())) {
+            String registrationID = JPushInterface.getRegistrationID(context);
+            User.getInstance().setRegistrationID(registrationID);
+            Log.d(TAG, "JPUSH registrationID=" + registrationID);
+        }
+
     }
 
     @Override
@@ -43,6 +53,26 @@ public class BaseActivity extends FragmentActivity {
         getApp().setCurrentAct(this);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //JPUSH  数据统计
+        JPushInterface.onPause(this);
+        MessageReceiver.unregisterReceiver(getActivity());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //JPUSH 数据统计
+        JPushInterface.onResume(this);
+        MessageReceiver.registerMessageReceiver(getActivity());  // used for receive msg
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
 
     /**
@@ -73,7 +103,7 @@ public class BaseActivity extends FragmentActivity {
         return (LogisticsTrafficApplication) getApplication();
     }
 
-    public BaseActivity getActivity(){
+    public BaseActivity getActivity() {
         return this;
     }
 
@@ -102,8 +132,24 @@ public class BaseActivity extends FragmentActivity {
      * @param string 内容
      */
     protected void setTextView(int id, String string) {
+        if (TextUtils.isEmpty(string))
+            return;
         TextView tx = (TextView) findViewById(id);
-        tx.setText(string);
+        if (tx != null)
+            tx.setText(string);
+    }
+
+    /**
+     * 设置网络图片
+     * @param id
+     * @param url
+     */
+    protected void setImageUrl(int id, String url) {
+        if (TextUtils.isEmpty(url) || !url.startsWith(Url.Host))
+            return;
+        ImageView img = (ImageView) findViewById(id);
+        if (img != null)
+            ImageHelper.getInstance().load(url, img);
     }
 
     /**

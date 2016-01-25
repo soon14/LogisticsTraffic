@@ -25,6 +25,7 @@ public class FleetDevicesActivity extends BaseActivity {
         FleetListAdapter adapter = new FleetListAdapter(true);
         adapter.addPeople(User.getInstance().getDriverList());
         listView.setAdapter(adapter);
+        //TODO  接口 车队详情获取
     }
 
     public void onclick_QuitFleet(View view) {

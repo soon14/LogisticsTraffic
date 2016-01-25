@@ -23,5 +23,7 @@ public class EvaluationListActivity extends BaseActivity {
         list = (ListView) findViewById(R.id.evaluation_list);
 
         list.setAdapter(new EvaluationListAdapter());
+
+        //TODO 接口 评价列表
     }
 }

@@ -21,9 +21,11 @@ import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
+import com.bt.zhangzy.network.entity.JsonUser;
 
 import java.io.File;
 
@@ -35,15 +37,19 @@ public class DetailPhotoActivity extends BaseActivity {
 
     private ImageView userImage;
     String yyzzUrl, swdjzUrl, mtzpUrl, frsfzUrl;
+    private boolean isFirstVerify = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        isFirstVerify = User.getInstance().getJsonTypeEntity() == null;
         if (AppParams.DEVICES_APP) {
             setContentView(R.layout.activity_detail_devices);
+            initDriverView();
         } else {
             setContentView(R.layout.activity_detail_photo);
+            initCompanyView();
         }
         setPageName("详细信息");
 
@@ -63,13 +69,61 @@ public class DetailPhotoActivity extends BaseActivity {
         });
     }
 
+    private void initDriverView() {
+        User user = User.getInstance();
+        setTextView(R.id.devices_name_ed, user.getUserName());
+        setTextView(R.id.devices_phone_ed, user.getPhoneNum());
+        JsonUser jsonUser = user.getJsonUser();
+        setImageUrl(R.id.devices_sfz_img, jsonUser.getIdCardPhotoUrl());
+//        setImageUrl(R.id.devices_jsz_img, jsonUser.getPersonPhotoUrl());
+        if(user.getJsonTypeEntity() != null){
+            JsonDriver jsonDriver = user.getJsonTypeEntity();
+            setImageUrl(R.id.devices_jsz_img,jsonDriver.getLicensePhotoUrl());
+            setImageUrl(R.id.devices_tszz_img,jsonDriver.getSpecial_qualifications_photo_url());
+
+            requestJsonDriver = jsonDriver;
+            //todo 车的信息更新
+        }
+
+    }
+
+    //初始化 企业相关view
+    private void initCompanyView() {
+        User user = User.getInstance();
+        setTextView(R.id.photo_address_ed, user.getAddress());
+        setTextView(R.id.photo_name_ed, user.getPhoneNum());
+
+        ImageView yyzzImg = (ImageView) findViewById(R.id.photo_yyzz_img);
+        ImageView frsfzImg = (ImageView) findViewById(R.id.photo_frsfz_img);
+        ImageView mtzpImg = (ImageView) findViewById(R.id.photo_mtzp_img);
+        ImageView swdjzImg = (ImageView) findViewById(R.id.photo_swdjz_img);
+        JsonUser jsonUser = user.getJsonUser();
+        frsfzUrl = jsonUser.getIdCardPhotoUrl();
+        ImageHelper.getInstance().load(frsfzUrl, frsfzImg);
+
+        if (user.getUserType() == Type.EnterpriseType) {
+            JsonEnterprise enterprise = user.getJsonTypeEntity();
+            yyzzUrl = enterprise.getBusinessLicenseUrl();
+            swdjzUrl = enterprise.getTaxRegistrationCertificateUrl();
+            mtzpUrl = enterprise.getPhotoUrl();
+        } else if (user.getUserType() == Type.InformationType) {
+            JsonCompany company = user.getJsonTypeEntity();
+            yyzzUrl = company.getBusinessLicenseUrl();
+            swdjzUrl = company.getTaxRegistrationCertificateUrl();
+            mtzpUrl = company.getPhotoUrl();
+        }
+        ImageHelper.getInstance().load(yyzzUrl, yyzzImg);
+        ImageHelper.getInstance().load(swdjzUrl, swdjzImg);
+        ImageHelper.getInstance().load(mtzpUrl, mtzpImg);
+    }
+
 
     private void uploadFile(File file) {
         showProgress("图片上传中...");
         //  照片上传逻辑
-//                UploadFileTask task = new UploadFileTask(DetailPhotoActivity.this, Url.UpLoadImage);
-//                task.execute(file);
-        HttpHelper.getInstance().postImage(Url.UpLoadImage, file, new JsonCallback() {
+//        UploadFileTask task = new UploadFileTask(Url.UpLoadImage);
+//        task.execute(file);
+        JsonCallback rspCallback = new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("图片上传成功");
@@ -81,13 +135,31 @@ public class DetailPhotoActivity extends BaseActivity {
                             yyzzUrl = uploadImgURL;
                             break;
                         case R.id.photo_frsfz_img:
+                        case R.id.devices_sfz_img:
                             frsfzUrl = uploadImgURL;
+                            requestChangeUserInfo();
                             break;
                         case R.id.photo_mtzp_img:
                             mtzpUrl = uploadImgURL;
                             break;
                         case R.id.photo_swdjz_img:
                             swdjzUrl = uploadImgURL;
+                            break;
+                        //司机的相关图片
+                        case R.id.devices_jsz_img:
+                            requestJsonDriver.setLicensePhotoUrl(uploadImgURL);
+                            break;
+                        case R.id.devices_tszz_img:
+                            requestJsonDriver.setSpecial_qualifications_photo_url(uploadImgURL);
+                            break;
+                        case R.id.devices_xxz_img:
+                            requestJsonCar.setDriving_license_photo_url(uploadImgURL);
+                            break;
+                        case R.id.devices_clzp_img:
+                            requestJsonCar.setFrontal_photo_url_1(uploadImgURL);
+                            break;
+                        case R.id.devices_clzp_two_img:
+                            requestJsonCar.setFrontal_photo_url_2(uploadImgURL);
                             break;
 
                     }
@@ -99,7 +171,10 @@ public class DetailPhotoActivity extends BaseActivity {
                 showToast("图片上传失败：" + str);
                 cancelProgress();
             }
-        });
+        };
+//        HttpHelper.getInstance().postImage(Url.UpLoadImage, file, rspCallback);
+
+        HttpHelper.uploadImagePost(Url.UpLoadImage, file, rspCallback);
     }
 
 
@@ -112,6 +187,8 @@ public class DetailPhotoActivity extends BaseActivity {
     }
 
     public void onClick_Submit(View view) {
+
+        isFirstVerify = User.getInstance().getJsonTypeEntity() == null;
         Type type = User.getInstance().getUserType();
         if (type == Type.EnterpriseType || type == Type.InformationType) {
             EditText nameEd = (EditText) findViewById(R.id.photo_name_ed);
@@ -124,39 +201,86 @@ public class DetailPhotoActivity extends BaseActivity {
                 requestVerifyEnterprise(nameEd.getText().toString(), addressEd.getText().toString());
             else if (type == Type.InformationType)
                 requestVerifyInformation(nameEd.getText().toString(), addressEd.getText().toString());
-        }else if(type == Type.DriverType){
+        } else if (type == Type.DriverType) {
             EditText nameEd = (EditText) findViewById(R.id.devices_name_ed);
             EditText phoneEd = (EditText) findViewById(R.id.devices_phone_ed);
-            requestVerifyDriver();
+            if (TextUtils.isEmpty(nameEd.getText()) || TextUtils.isEmpty(phoneEd.getText())) {
+                showToast("请填写" + nameEd.getHint() + "和" + phoneEd.getHint());
+                return;
+            }
+            requestVerifyDriver(nameEd.getText().toString(), phoneEd.getText().toString());
         }
 
 //        showSuccessDialog();
     }
 
-    private void requestVerifyDriver() {
-        JsonDriver driver = new JsonDriver();
+    private void requestChangeUserInfo() {
+        JsonUser jsonUser = User.getInstance().getJsonUser();
+        jsonUser.setIdCardPhotoUrl(frsfzUrl);
 
-        HttpHelper.getInstance().post(Url.VerifyDrivers, driver, new JsonCallback() {
+        HttpHelper.getInstance().put(Url.PutUserInfo + jsonUser.getId(), jsonUser, new JsonCallback() {
+            @Override
+            public void onFailed(String str) {
+                showToast("身份证照修改失败");
+            }
+
             @Override
             public void onSuccess(String msg, String result) {
+                showToast("身份证照修改成功");
 
+            }
+        });
+    }
+
+    JsonDriver requestJsonDriver = new JsonDriver();
+    JsonCar requestJsonCar = new JsonCar();
+
+    private void requestVerifyDriver(String name, String phoneNum) {
+
+        requestJsonDriver.setUserId((int) User.getInstance().getId());
+
+        JsonCallback callback = new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                showSuccessDialog();
             }
 
             @Override
             public void onFailed(String str) {
                 showToast(getString(R.string.information_upload_fail));
             }
-        });
+        };
+        if (isFirstVerify)
+            HttpHelper.getInstance().post(Url.PostVerifyDrivers, requestJsonDriver, callback);
+        else
+            HttpHelper.getInstance().put(Url.PutDrivers, requestJsonDriver, callback);
     }
 
     private void showSuccessDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.upload_verify_info).setNegativeButton("联系客服", null).setPositiveButton("确认", null);
-        builder.create().show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(R.string.upload_verify_info).setNegativeButton("联系客服", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //todo 拨打客服电话
+                    }
+                }).setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                builder.create().show();
+            }
+        });
+
     }
 
     private void requestVerifyInformation(String name, String address) {
         JsonCompany company = new JsonCompany();
+        company.setId(User.getInstance().getCompanyID());
         company.setUserId((int) User.getInstance().getId());
         company.setName(name);
         company.setAddress(address);
@@ -168,7 +292,7 @@ public class DetailPhotoActivity extends BaseActivity {
         company.setTaxRegistrationCertificateUrl(swdjzUrl);
         //法人照 frsfzUrl
 
-        HttpHelper.getInstance().post(Url.VerifyCompanies, company, new JsonCallback() {
+        JsonCallback callback = new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showSuccessDialog();
@@ -178,11 +302,16 @@ public class DetailPhotoActivity extends BaseActivity {
             public void onFailed(String str) {
                 showToast(getString(R.string.information_upload_fail));
             }
-        });
+        };
+        if (isFirstVerify)
+            HttpHelper.getInstance().post(Url.PostVerifyCompanies, company, callback);
+        else
+            HttpHelper.getInstance().put(Url.PutCompaniesInfo + User.getInstance().getCompanyID(), company, callback);
     }
 
     private void requestVerifyEnterprise(String name, String address) {
         JsonEnterprise enterprise = new JsonEnterprise();
+        enterprise.setId(User.getInstance().getEnterpriseID());
         enterprise.setUserId((int) User.getInstance().getId());
         enterprise.setName(name);
         enterprise.setAddress(address);
@@ -194,7 +323,7 @@ public class DetailPhotoActivity extends BaseActivity {
         enterprise.setTaxRegistrationCertificateUrl(swdjzUrl);
         //法人照 frsfzUrl
 
-        HttpHelper.getInstance().post(Url.VerifyEnterprises, enterprise, new JsonCallback() {
+        JsonCallback callback = new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showSuccessDialog();
@@ -204,7 +333,11 @@ public class DetailPhotoActivity extends BaseActivity {
             public void onFailed(String str) {
                 showToast(getString(R.string.information_upload_fail));
             }
-        });
+        };
+        if (isFirstVerify)
+            HttpHelper.getInstance().post(Url.PostVerifyEnterprises, enterprise, callback);
+        else
+            HttpHelper.getInstance().put(Url.PutEnterprisesInfo + User.getInstance().getEnterpriseID(), enterprise, callback);
     }
 
     public void onClick_Photo(View view) {

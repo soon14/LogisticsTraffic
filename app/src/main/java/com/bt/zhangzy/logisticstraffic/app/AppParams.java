@@ -44,7 +44,7 @@ public final class AppParams {
     }
 
     /* 标记是否为司机端 */
-    public static final boolean DEVICES_APP = false;
+    public static boolean DEVICES_APP = false;
 
     /*=============activity跳转请求常量 =================*/
     /**

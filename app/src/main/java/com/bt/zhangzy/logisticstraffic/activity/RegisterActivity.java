@@ -181,10 +181,10 @@ public class RegisterActivity extends BaseActivity {
      */
     private void requestRegister(String nickname, String phoneNum, String password, String recommend, String verficaiton) {
         Log.e(TAG, "============================================");
-
+        showProgress("注册中...");
         JsonUser jsonUser = new JsonUser();
         jsonUser.setNickname(nickname);
-        jsonUser.setName(phoneNum);
+//        jsonUser.setName(phoneNum);
         jsonUser.setPhoneNumber(phoneNum);
         jsonUser.setPassword(password);
         jsonUser.setRole(type == Type.DriverType ? 1 : type == Type.EnterpriseType ? 2 : type == Type.InformationType ? 3 : -1);
@@ -213,9 +213,16 @@ public class RegisterActivity extends BaseActivity {
                 user.setPhoneNum(jsonUser.getPhoneNumber());
                 user.setNickName(jsonUser.getNickname());
 
-                Bundle bundle = getIntent().getExtras();
-                if (bundle != null) {
-                    startActivity(HomeActivity.class, bundle);
+                //登录成功后保存一下信息；
+                getApp().saveUser();
+                cancelProgress();
+                if (type == Type.DriverType) {
+                    startActivity(DetailPhotoActivity.class);
+                } else {
+                    Bundle bundle = getIntent().getExtras();
+                    if (bundle != null) {
+                        startActivity(HomeActivity.class, bundle);
+                    }
                 }
                 finish();
             }

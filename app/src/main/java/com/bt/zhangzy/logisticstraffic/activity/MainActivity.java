@@ -1,5 +1,6 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -7,23 +8,21 @@ import android.util.Log;
 import android.view.View;
 
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.network.HttpHelper;
-import com.bt.zhangzy.network.NetCallback;
 import com.bt.zhangzy.tools.Json;
-import com.bt.zhangzy.tools.Tools;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 
 
 public class MainActivity extends BaseActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     /*    private VideoView video1;
-        MediaController mediaco;*/
+            MediaController mediaco;*/
+    ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,21 +59,25 @@ public class MainActivity extends BaseActivity {
 //        if (true)
 //            return;
 
-        new Handler(getMainLooper(), new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-//                startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
-//                startActivity(new Intent(MainActivity.this, LocationActivity.class));
-                if (User.getInstance().isFirstOpen()) {
-                    startActivity(WelcomeActivity.class);
-                } else {
-                    startActivity(HomeActivity.class);
-                }
-                finish();
-                return true;
-            }
-        }).sendEmptyMessageDelayed(0, 2000);
+//        new Handler(getMainLooper(), new Handler.Callback() {
+//            @Override
+//            public boolean handleMessage(Message msg) {
+////                startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
+////                startActivity(new Intent(MainActivity.this, LocationActivity.class));
+//                loginHome();
+//                return true;
+//            }
+//        }).sendEmptyMessageDelayed(0, 2000);
 
+    }
+
+    public void loginHome() {
+        if (User.getInstance().isFirstOpen()) {
+            startActivity(WelcomeActivity.class);
+        } else {
+            startActivity(HomeActivity.class);
+        }
+        finish();
     }
 
 
@@ -134,6 +137,16 @@ public class MainActivity extends BaseActivity {
 //                }
 //            }
 //        });
+    }
+
+    public void onClick_Enterprise(View view) {
+        AppParams.DEVICES_APP = false;
+        loginHome();
+    }
+
+    public void onClick_Driver(View view) {
+        AppParams.DEVICES_APP = true;
+        loginHome();
     }
 
    /* @Override

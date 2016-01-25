@@ -270,6 +270,7 @@ public class HomeFragment extends BaseHomeFragment {
 
     }
 
+    // todo 首页的列表不是用户列表， 需要返回对应的店铺信息，点击数 始发地-目的地，拨打电话的次数
     private void request_getUserList() {
         // Url.GetUserList+"?role=2" 根据用户类型筛选
         String url = Url.GetUserList;

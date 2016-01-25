@@ -3,6 +3,11 @@ package com.bt.zhangzy.logisticstraffic.data;
 import android.text.TextUtils;
 
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
+import com.bt.zhangzy.network.entity.BaseEntity;
+import com.bt.zhangzy.network.entity.JsonCompany;
+import com.bt.zhangzy.network.entity.JsonDriver;
+import com.bt.zhangzy.network.entity.JsonEnterprise;
+import com.bt.zhangzy.network.entity.JsonUser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,7 +17,9 @@ import java.util.ArrayList;
  */
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
+
     private static User instance = new User();
+    private String registrationID;//推送标识符
 
     public static User getInstance() {
         return instance;
@@ -33,6 +40,7 @@ public class User implements Serializable {
     private boolean isLogin = false;
     private Type userType = Type.EmptyType;
     private long id;
+    private int companyID, enterpriseID, driverID;
     private String userName, nickName;
     private String phoneNum;
     private String address;
@@ -40,7 +48,49 @@ public class User implements Serializable {
     private boolean isFirstOpen = true;
     private boolean isVIP = false;//标记用户是否付费
     private boolean isSave = true;//标记用户是否记住用户名
+    private BaseEntity jsonTypeEntity;
+    private JsonUser jsonUser;
 
+
+    public JsonUser getJsonUser() {
+        return jsonUser;
+    }
+
+    public void setJsonUser(JsonUser jsonUser) {
+        this.jsonUser = jsonUser;
+    }
+
+    public <T extends BaseEntity> void setJsonTypeEntity( T jsonTypeEntity) {
+        this.jsonTypeEntity = jsonTypeEntity;
+    }
+
+    public <T extends BaseEntity> T getJsonTypeEntity() {
+        return (T) jsonTypeEntity;
+    }
+
+    public int getCompanyID() {
+        return companyID;
+    }
+
+    public void setCompanyID(int companyID) {
+        this.companyID = companyID;
+    }
+
+    public int getEnterpriseID() {
+        return enterpriseID;
+    }
+
+    public void setEnterpriseID(int enterpriseID) {
+        this.enterpriseID = enterpriseID;
+    }
+
+    public int getDriverID() {
+        return driverID;
+    }
+
+    public void setDriverID(int driverID) {
+        this.driverID = driverID;
+    }
 
     public boolean isSave() {
         return isSave;
@@ -228,5 +278,13 @@ public class User implements Serializable {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public void setRegistrationID(String registrationID) {
+        this.registrationID = registrationID;
+    }
+
+    public String getRegistrationID() {
+        return registrationID;
     }
 }

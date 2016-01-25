@@ -9,10 +9,37 @@ public class JsonUser extends BaseEntity {
 
     int id, roleId;
     int status, role;
-    String name, nickname, password, recommendCode,phoneNumber;
+    String name, nickname ,password, recommendCode, phoneNumber;
+    //个人正面照片URL  个人身份证URL 个人头像URL
     String personPhotoUrl, idCardPhotoUrl, portraitUrl;
+    String register_date;
+    int recommend_user_id;
 
     public JsonUser() {
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getRegister_date() {
+        return register_date;
+    }
+
+    public void setRegister_date(String register_date) {
+        this.register_date = register_date;
+    }
+
+    public int getRecommend_user_id() {
+        return recommend_user_id;
+    }
+
+    public void setRecommend_user_id(int recommend_user_id) {
+        this.recommend_user_id = recommend_user_id;
     }
 
     public int getRoleId() {
@@ -98,13 +125,6 @@ public class JsonUser extends BaseEntity {
         this.name = name;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
 
     public String getPassword() {
         return password;

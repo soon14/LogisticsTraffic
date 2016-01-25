@@ -5,7 +5,7 @@ package com.bt.zhangzy.network.entity;
  */
 public class JsonEnterprise extends BaseEntity {
 
-    int userId;
+    int id,userId;
     //必填
     String name, address;
     //可选
@@ -14,8 +14,25 @@ public class JsonEnterprise extends BaseEntity {
     String businessLicenseUrl;//营业执照URL
     String organizationCode;//组织机构代码
     String taxCode;//税号
+    int status;
 
     public JsonEnterprise() {
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getUserId() {

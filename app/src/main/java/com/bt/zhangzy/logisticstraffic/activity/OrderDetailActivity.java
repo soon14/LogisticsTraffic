@@ -140,7 +140,7 @@ public class OrderDetailActivity extends BaseActivity {
                 });
                 //更改按钮功能  定位改成车队列表选择；
                 button = (Button) findViewById(R.id.order_detail_phone_btn);
-                button.setText("");
+//                button.setText("");
                 button.setBackgroundResource(R.drawable.add_devices);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override

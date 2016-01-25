@@ -1,12 +1,12 @@
 package com.bt.zhangzy.network;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.bt.zhangzy.network.entity.BaseEntity;
-import com.squareup.okhttp.Callback;
+import com.bt.zhangzy.tools.UploadFileTask;
 import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -14,20 +14,21 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * todo 数据链接类  未测试
+ * 数据链接类
+ * 1、POST    /url      创建
+ * 2、DELETE  /url/xxx  删除
+ * 3、PUT     /url/xxx  更新
+ * 4、GET     /url/xxx  查看
  * Created by ZhangZy on 2015/6/4.
  */
 public class HttpHelper extends OkHttpClient {
@@ -122,21 +123,24 @@ public class HttpHelper extends OkHttpClient {
 
 
     public void post(String url, JSONObject json, NetCallback callback) {
-        if(json == null)
+        if (json == null)
             return;
-        Log.i(TAG, "post url = "+url+" json = "+json.toString());
+        Log.i(TAG, "post url = " + url + " json = " + json.toString());
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json.toString());
         post(url, body, callback);
     }
 
     /**
-     *
      * @param url
-     * @param entity fastJSON实体类
+     * @param entity   fastJSON实体类
      * @param callback
      */
-    public void post(String url,BaseEntity entity,NetCallback callback){
-        post(url, JSON.toJSONString(entity),callback);
+    public void post(String url, BaseEntity entity, NetCallback callback) {
+        post(url, JSON.toJSONString(entity), callback);
+    }
+
+    public void put(String url, BaseEntity entity, NetCallback callback) {
+        put(url, JSON.toJSONString(entity), callback);
     }
 
     /**
@@ -147,9 +151,15 @@ public class HttpHelper extends OkHttpClient {
      * @param callback
      */
     public void post(String url, String json, NetCallback callback) {
-        Log.i(TAG, "post url = "+url+" json = "+json);
+        Log.i(TAG, "post url = " + url + " json = " + json);
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
         post(url, body, callback);
+    }
+
+    public void put(String url, String json, NetCallback callback) {
+        Log.i(TAG, "post url = " + url + " json = " + json);
+        RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
+        put(url, body, callback);
     }
 
     /***
@@ -165,7 +175,7 @@ public class HttpHelper extends OkHttpClient {
             FormEncodingBuilder builder = new FormEncodingBuilder();
             //表单
             if (textParams != null && textParams.size() > 0) {
-                Log.i(TAG, "post url = "+url+" params = "+textParams.toString());
+                Log.i(TAG, "post url = " + url + " params = " + textParams.toString());
                 Set<String> keySet = textParams.keySet();
                 for (Iterator<String> it = keySet.iterator(); it.hasNext(); ) {
                     String name = it.next();
@@ -198,6 +208,15 @@ public class HttpHelper extends OkHttpClient {
 
     }
 
+    private void put(String url, RequestBody body, NetCallback responseCallback) {
+        Request request = new Request.Builder()
+                .url(url)
+                .put(body)
+                .build();
+        enqueue(request, responseCallback);
+
+    }
+
     /**
      * 文件上传 待测试
      *
@@ -214,17 +233,48 @@ public class HttpHelper extends OkHttpClient {
         enqueue(request, rspCallback);
     }
 
-    public void postImage(String url,File file,NetCallback rspCallback){
+    /**
+     * 图片上传  使用HttpURLConnection 上传；
+     *
+     * @param url
+     * @param file
+     * @param rspCallback
+     */
+    public static void uploadImagePost(String url, File file, final NetCallback rspCallback) {
+        //  照片上传逻辑
+        new UploadFileTask(url) {
+            @Override
+            protected void onPostExecute(String result) {
+//                super.onPostExecute(s);
+                if (rspCallback == null)
+                    return;
+                if (TextUtils.isEmpty(result)) {
+                    rspCallback.onFailed("null");
+                } else {
+                    rspCallback.onSuccess(result);
+                }
+            }
+        }.execute(file);
+    }
+
+    /**
+     * 基于okhttp上传文件
+     *
+     * @param url
+     * @param file
+     * @param rspCallback
+     */
+    public void postImage(String url, File file, NetCallback rspCallback) {
         /* MediaType FORM = MediaType.parse("multipart/form-data");
         *  MediaType MEDIA_TYPE_IMAGE = MediaType.parse("image/png");
         * */
         MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
 //        builder.addPart(RequestBody.create(MEDIA_TYPE_IMAGE, file));
-        builder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("media/type"), file));
+        /* MediaType.parse("media/type") */
+        builder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/jpg"), file));
 
-//        builder.addPart(Headers.of(
-//                "Content-Disposition",
-//                "form-data; name=\"file\""),RequestBody.create(MEDIA_TYPE_IMAGE, file));
+//        builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"file\""),
+//                RequestBody.create(MediaType.parse("image/jpeg"), file));
 
         //遍历map中所有参数到builder
 //        for (String key : map.keySet()) {
@@ -241,9 +291,10 @@ public class HttpHelper extends OkHttpClient {
 //        RequestBody requestBody = builder.build();
 
 //        Headers handler = Headers.Builder.;
+        RequestBody requestBody = builder.build();
         Request request = new Request.Builder()
                 .url(url)
-                .post(builder.build())
+                .post(requestBody)
                 .build();
 
        /* MediaType jsonMediaType = MediaType.parse("application/json");
@@ -260,10 +311,10 @@ public class HttpHelper extends OkHttpClient {
         enqueue(request, rspCallback);
     }
 
-    public void get(String url,HashMap textParams,NetCallback responseCallback){
+    public void get(String url, HashMap textParams, NetCallback responseCallback) {
         //表单
         if (textParams != null && textParams.size() > 0) {
-            Log.i(TAG, "post url = "+url+" params = "+textParams.toString());
+            Log.i(TAG, "post url = " + url + " params = " + textParams.toString());
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(url);
             stringBuffer.append("?");
@@ -273,9 +324,9 @@ public class HttpHelper extends OkHttpClient {
                 String value = (String) textParams.get(name);
 //                multBuilder.addFormDataPart(name,value);
 //                builder.add(name, value);
-                stringBuffer.append(name+"="+value);
+                stringBuffer.append(name + "=" + value);
             }
-            get(stringBuffer.toString(),responseCallback);
+            get(stringBuffer.toString(), responseCallback);
         }
     }
 
@@ -285,7 +336,7 @@ public class HttpHelper extends OkHttpClient {
             this.newCall(request).enqueue(responseCallback);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(TAG,"网络请求异常url="+url,e);
+            Log.e(TAG, "网络请求异常url=" + url, e);
         }
     }
 
@@ -311,7 +362,7 @@ public class HttpHelper extends OkHttpClient {
     }
 
 
-    public void uploadImage(){
+    public void uploadImage() {
 //        LinkedHashMap<String ,Object> map = new LinkedHashMap<>();
 //        map.add("file", new File());
     }

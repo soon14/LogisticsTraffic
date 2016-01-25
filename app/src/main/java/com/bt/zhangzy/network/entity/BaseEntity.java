@@ -2,10 +2,13 @@ package com.bt.zhangzy.network.entity;
 
 import com.alibaba.fastjson.JSON;
 
+import java.io.Serializable;
+
 /**
  * Created by ZhangZy on 2016-1-15.
  */
-public class BaseEntity {
+public class BaseEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     int code = -1;
     String message;

@@ -32,6 +32,7 @@ public class FleetActivity extends BaseActivity {
 
         setContentView(R.layout.activity_fleet);
 
+        //TODO 接口 更新车队信息；
         if (AppParams.DEVICES_APP) {
             findViewById(R.id.fleet_button_ly).setVisibility(View.GONE);
             setPageName("我加入的车队");
@@ -109,6 +110,7 @@ public class FleetActivity extends BaseActivity {
             public void onClick(View v) {
                 FleetListAdapter adp = (FleetListAdapter) listView.getAdapter();
                 adp.removePeople(id);
+                //todo 接口 删除车队 队员
             }
         });
     }
@@ -130,6 +132,7 @@ public class FleetActivity extends BaseActivity {
                 p.setPhoneNumber(phone.getText().toString());
                 FleetListAdapter adp = (FleetListAdapter) listView.getAdapter();
                 adp.addPeople(p);
+                //TODO 接口 添加车队成员；
                 Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show();
                 dialog.cancel();
             }

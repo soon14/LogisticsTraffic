@@ -13,7 +13,10 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.ImageHelper;
+import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.Url;
 
 /**
  * Created by ZhangZy on 2015/6/11.
@@ -22,37 +25,29 @@ public class DetailCompany extends BaseActivity {
 
     private Product product;
 
+    //testData
+//        product = new Product(102);
+//        product.setName("测试数据名称");
+//        product.setPhoneNumber("10010");
+//        product.setAddress("黄河大街以北重工路xxx号");
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //testData
-        product = new Product(102);
-        product.setName("测试数据名称");
-        product.setPhoneNumber("10010");
-        product.setAddress("黄河大街以北重工路xxx号");
-
-
         setContentView(R.layout.activity_detail_cp);
         setPageName("门企详情");
-        if(getIntent().getExtras() != null){
+        if (getIntent().getExtras() != null) {
             Bundle bundle = getIntent().getExtras();
-            if(bundle.containsKey(AppParams.BUNDLE_PRODUCT_KEY)){
+            if (bundle.containsKey(AppParams.BUNDLE_PRODUCT_KEY)) {
                 product = (Product) bundle.get(AppParams.BUNDLE_PRODUCT_KEY);
             }
         }
 
-        if(AppParams.DEVICES_APP){
-            findViewById(R.id.detail_gray_line).setVisibility(View.GONE);
-            findViewById(R.id.detail_order_btn).setVisibility(View.GONE);
-        }
+        initView();
 
-        setTextView(R.id.detail_name_tx, product.getName());
-        setTextView(R.id.detail_cp_address_tx,product.getAddress());
-
-        ImageView headImg = (ImageView) findViewById(R.id.detail_user_head_img);
-        String url = "http://img1.3lian.com/img2011/w1/105/4/13.jpg";
-        ImageHelper.getInstance().load(url,headImg);
+        requestGetCompany(product.getID());
 
         //TODO 设置电话监听
         TelephonyManager mTelephonyMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
@@ -88,10 +83,40 @@ public class DetailCompany extends BaseActivity {
         }, PhoneStateListener.LISTEN_CALL_STATE);
     }
 
+    //更新店铺信息
+    private void requestGetCompany(int id) {
+        // todo 店铺信息没有返回
+        HttpHelper.getInstance().get(Url.GetCompany + id, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
+    }
+
+    private void initView() {
+        if (AppParams.DEVICES_APP) {
+            findViewById(R.id.detail_gray_line).setVisibility(View.GONE);
+            findViewById(R.id.detail_order_btn).setVisibility(View.GONE);
+        }
+
+        setTextView(R.id.detail_name_tx, product.getName());
+        setTextView(R.id.detail_cp_address_tx, product.getAddress());
+
+        ImageView headImg = (ImageView) findViewById(R.id.detail_user_head_img);
+        String url = "http://img1.3lian.com/img2011/w1/105/4/13.jpg";
+        ImageHelper.getInstance().load(url, headImg);
+    }
+
     boolean openCall;
 
     public void onClick_CallPhone(View view) {
-        if(AppParams.DEVICES_APP && !User.getInstance().isVIP()){
+        if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
             BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -126,7 +151,7 @@ public class DetailCompany extends BaseActivity {
             startActivity(LoginActivity.class);
             return;
         }
-        if(AppParams.DEVICES_APP && !User.getInstance().isVIP()){
+        if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
             BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -139,7 +164,7 @@ public class DetailCompany extends BaseActivity {
     }
 
     public void onClick_CollectAdd(View view) {
-        if(AppParams.DEVICES_APP && !User.getInstance().isVIP()){
+        if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
             BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -78,6 +78,7 @@ public class HomeActivity extends BaseActivity {
                 init();
             }
         });
+
     }
 
 
@@ -458,13 +459,14 @@ public class HomeActivity extends BaseActivity {
 
     public void onClick_Quit(View view) {
 
-    BaseDialog.showConfirmDialog(this, "是否退出?", "返回", "退出", new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            getApp().Exit(User.getInstance().isSave());
-        }
-    });
-}
+        BaseDialog.showConfirmDialog(this, "是否退出?", "返回", "退出", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getApp().Exit(User.getInstance().isSave());
+            }
+        });
+    }
+
     public void onClick_SafeQuit(View view) {
 
         BaseDialog.showConfirmDialog(this, "是否注销并退出程序?", "返回", "退出", new View.OnClickListener() {
@@ -489,10 +491,18 @@ public class HomeActivity extends BaseActivity {
     }
 
 
+    /**
+     * 我的车队
+     * @param view
+     */
     public void onClick_Fleet(View view) {
         startActivity(FleetActivity.class);
     }
 
+    /**
+     * 完善信息
+     * @param view
+     */
     public void onClick_gotoDetailPhoto(View view) {
         startActivity(DetailPhotoActivity.class);
     }

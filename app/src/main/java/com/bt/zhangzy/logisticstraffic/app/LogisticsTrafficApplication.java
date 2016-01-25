@@ -24,7 +24,6 @@ import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.tools.ContextTools;
-import com.bt.zhangzy.tools.Tools;
 import com.zhangzy.baidusdk.BaiduSDK;
 
 import org.json.JSONArray;
@@ -38,6 +37,8 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by ZhangZy on 2015/6/10.
@@ -58,9 +59,16 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
     @Override
     public void onCreate() {
         super.onCreate();
+        //JPush 推送
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(getApplicationContext());
+
+
         AppParams.getInstance().init(this);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
+
+
 
         //初始化Image loader
         ImageHelper.getInstance().init(this);
@@ -303,6 +311,7 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
      * 登陆后才能打电话
      */
     public void callPhone(String phoneNumber) {
+        //todo 接口 更新拨打电话的次数
         if (!User.getInstance().getLogin()) {
             BaseDialog.showConfirmDialog(currentAct, "您还没有登陆，是否登陆？", "返回", "登陆", new View.OnClickListener() {
                 @Override

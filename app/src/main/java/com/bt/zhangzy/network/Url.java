@@ -13,6 +13,8 @@ public final class Url {
 
     /*按ID获取用户基本信息  get */
     public static final String GetUserInfo = Host + "/users/";
+    //按ID修改用户基本信息
+    public static final String PutUserInfo = Host + "/users/";
 
     /* 获取用户列表*/
     public static final String GetUserList = Host + "/users/list";
@@ -35,16 +37,28 @@ public final class Url {
     public static final String UpLoadImage = Host+"/upload";
 
     /*企业身份认证*/
-    public static final String VerifyEnterprises = Host + "/enterprises/authenticate";
+    public static final String PostVerifyEnterprises = Host + "/enterprises/authenticate";
     /*信息部/物流公司身份认证*/
-    public static final String VerifyCompanies = Host + "/companies/authenticate";
+    public static final String PostVerifyCompanies = Host + "/companies/authenticate";
     /*司机身份认证*/
-    public static final String VerifyDrivers = Host + "/drivers/authenticate";
+    public static final String PostVerifyDrivers = Host + "/drivers/authenticate";
 
+    /* 根据用户id获取对应的司机信息*/
+    public static final String GetDriverInfo =Host +  "/drivers/user_id/";
     /*根据用户id获取对应的企业信息*/
     public static final String GetEnterprisesInfo =Host +  "/enterprises/user_id/";
     /*根据对应用户id获取 物流公司的详细信息*/
     public static final String GetCompaniesInfo =Host +  "/companies/user_id/";
+
+    //根据id值获取店铺信息
+    public static final String GetCompany = Host + "/companies/";
+
+    /* 按照id更新企业信息 */
+    public static final String PutEnterprisesInfo = Host + "/enterprises/";
+    public static final String PutCompaniesInfo = Host + "/companies/";
+    public static final String PutDrivers = Host + "/drivers/";
+
+    public static final String PostDriversAddCar = Host + "/drivers/add_car";
 
 
     /* 城市列表     */

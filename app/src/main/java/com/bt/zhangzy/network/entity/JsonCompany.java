@@ -4,15 +4,32 @@ package com.bt.zhangzy.network.entity;
  * Created by ZhangZy on 2016-1-21.
  */
 public class JsonCompany extends BaseEntity {
-    int userId;
-    String name,address;
+    int id, userId;
+    String name, address;
     String photoUrl;//门头照片URL
     String taxRegistrationCertificateUrl;//税务登记证URL
     String businessLicenseUrl;//营业执照URL
     String organizationCode;//组织机构代码
     String taxCode;//税号
+    int status;
 
     public JsonCompany() {
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getUserId() {

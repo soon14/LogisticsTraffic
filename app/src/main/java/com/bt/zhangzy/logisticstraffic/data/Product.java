@@ -29,6 +29,10 @@ public class Product implements Serializable {
         this.ID = ID;
     }
 
+    public int getID() {
+        return ID;
+    }
+
     public float getLevel() {
         return level;
     }
