@@ -84,7 +84,7 @@ public class PublishActivity extends BaseActivity {
         JsonDriver jsonDriver = User.getInstance().getJsonTypeEntity();
         requestJson.setDriver(jsonDriver);
         requestJson.setCar(requestCarJson);
-        requestCarJson.setDriver_id(jsonDriver.getId());
+        requestCarJson.setDriverId(jsonDriver.getId());
 
         HttpHelper.getInstance().post(Url.PostDriversAddCar, requestJson, new JsonCallback() {
             @Override

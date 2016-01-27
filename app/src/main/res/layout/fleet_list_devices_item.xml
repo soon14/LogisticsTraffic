@@ -14,6 +14,7 @@
         android:layout_weight="2"
         android:background="@color/white"
         android:orientation="horizontal"
+        android:gravity="center"
         android:paddingBottom="5dp"
         android:paddingTop="5dp">
 
@@ -32,8 +33,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:maxLines="1"
+            android:text="（内蒙古包头市青山区稀土路56号）"
             android:textSize="14sp"
-            android:text="（内蒙古包头市青山区稀土路56号）" />
+            android:visibility="gone" />
 
     </LinearLayout>
 

@@ -59,6 +59,18 @@ public final class Url {
     public static final String PutDrivers = Host + "/drivers/";
 
     public static final String PostDriversAddCar = Host + "/drivers/add_car";
+    //获取车队信息
+    public static final String GetMotorcades = Host + "/motorcades/";
+//    按角色和id获取车队列表
+    public static final String GetMotorcadesList = Host + "/motorcades/list/";
+    //获取归属车队列表   /drivers/list_motorcade
+    public static final String GetDriversListMotorcade = Host + "/drivers/list_motorcade";
+    //添加成员/加入车队   /motorcades/motorcade_driver
+    public static final String PostAddMotorcadeDriver = Host + "/motorcades/motorcade_driver";
+    //通过账号添加成员  /motorcades/{id}/{phoneNumber}  车队Id	 司机电话
+    public static final String PostAddMotorcadeDriverPhone = Host + "/motorcades/";
+    //退出车队/踢出车队  /motorcades/motorcade_driver
+    public static final String DeleteMotorcadeDriver = Host + "/motorcades/motorcade_driver";
 
 
     /* 城市列表     */

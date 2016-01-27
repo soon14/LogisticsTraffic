@@ -183,8 +183,8 @@ public class RegisterActivity extends BaseActivity {
         Log.e(TAG, "============================================");
         showProgress("注册中...");
         JsonUser jsonUser = new JsonUser();
-        jsonUser.setNickname(nickname);
-//        jsonUser.setName(phoneNum);
+//        jsonUser.setNickname(nickname);
+        jsonUser.setName(nickname);
         jsonUser.setPhoneNumber(phoneNum);
         jsonUser.setPassword(password);
         jsonUser.setRole(type == Type.DriverType ? 1 : type == Type.EnterpriseType ? 2 : type == Type.InformationType ? 3 : -1);
@@ -195,9 +195,11 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onFailed(String str) {
                 showToast("用户注册失败：" + str);
+                cancelProgress();
             }
 
             public void onSuccess(String msg, String jsonstr) {
+                cancelProgress();
                 if (TextUtils.isEmpty(jsonstr)) {
                     showToast("用户注册失败：" + msg);
                     return;
@@ -212,10 +214,11 @@ public class RegisterActivity extends BaseActivity {
                 user.setUserName(jsonUser.getName());
                 user.setPhoneNum(jsonUser.getPhoneNumber());
                 user.setNickName(jsonUser.getNickname());
+                user.setJsonUser(jsonUser);
 
                 //登录成功后保存一下信息；
                 getApp().saveUser();
-                cancelProgress();
+
                 if (type == Type.DriverType) {
                     startActivity(DetailPhotoActivity.class);
                 } else {

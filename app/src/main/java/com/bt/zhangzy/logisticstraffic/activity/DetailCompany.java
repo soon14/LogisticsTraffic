@@ -105,8 +105,10 @@ public class DetailCompany extends BaseActivity {
             findViewById(R.id.detail_order_btn).setVisibility(View.GONE);
         }
 
-        setTextView(R.id.detail_name_tx, product.getName());
-        setTextView(R.id.detail_cp_address_tx, product.getAddress());
+        if (product != null) {
+            setTextView(R.id.detail_name_tx, product.getName());
+            setTextView(R.id.detail_cp_address_tx, product.getAddress());
+        }
 
         ImageView headImg = (ImageView) findViewById(R.id.detail_user_head_img);
         String url = "http://img1.3lian.com/img2011/w1/105/4/13.jpg";

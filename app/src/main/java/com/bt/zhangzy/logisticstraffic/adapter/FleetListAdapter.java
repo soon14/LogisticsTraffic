@@ -19,10 +19,10 @@ public class FleetListAdapter extends BaseAdapter {
 
     private ArrayList<People> list = new ArrayList<People>();
     private DelBtnListener delBtnListener;
-    boolean isSelect;
+    boolean hide_delBtn;
 
     public FleetListAdapter(boolean isSelect) {
-        this.isSelect = isSelect;
+        this.hide_delBtn = isSelect;
     }
 
 
@@ -32,19 +32,29 @@ public class FleetListAdapter extends BaseAdapter {
 
     public void addPeople(ArrayList<People> array) {
         list.addAll(array);
-        notifyDataSetChanged();
+    }
+
+    public void setPeoples(ArrayList<People> array) {
+        list.clear();
+        list.addAll(array);
     }
 
     public void addPeople(People people) {
         list.add(people);
-        notifyDataSetChanged();
+    }
+
+    public void removePeople(People people) {
+        if (list == null || list.isEmpty())
+            return;
+        if (list.contains(people)) {
+            list.remove(people);
+        }
     }
 
     public void removePeople(int position) {
         if (list.isEmpty() || position >= list.size())
             return;
         list.remove(position);
-        notifyDataSetChanged();
     }
 
     public void setDelBtnListener(DelBtnListener delBtnListener) {
@@ -57,8 +67,8 @@ public class FleetListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
-        return list.get(position);
+    public People getItem(int position) {
+        return list == null || list.isEmpty() || position < 0 || position >= list.size() ? null : list.get(position);
     }
 
     @Override
@@ -77,7 +87,7 @@ public class FleetListAdapter extends BaseAdapter {
             holder.name = (TextView) convertView.findViewById(R.id.fleet_it_name_tx);
             holder.phone = (TextView) convertView.findViewById(R.id.fleet_it_phone_tx);
             holder.del = (ImageButton) convertView.findViewById(R.id.fleet_it_del_btn);
-            if (isSelect) {
+            if (hide_delBtn) {
                 holder.del.setVisibility(View.GONE);
             } else {
                 holder.del.setOnClickListener(holder);
@@ -110,12 +120,14 @@ public class FleetListAdapter extends BaseAdapter {
         public void onClick(View v) {
 //            removePeople(id);
             if (delBtnListener != null) {
-                delBtnListener.onClick(id);
+                People item = getItem(id);
+                if (item != null)
+                    delBtnListener.onClick(id, item);
             }
         }
     }
 
     public interface DelBtnListener {
-        void onClick(int id);
+        void onClick(int position, People people);
     }
 }

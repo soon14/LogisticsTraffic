@@ -4,15 +4,15 @@ package com.bt.zhangzy.network.entity;
  * Created by ZhangZy on 2016-1-23.
  */
 public class JsonCar extends BaseEntity {
-    int id,driver_id;
+    int id, driverId;
     //行驶证照片URL  汽车正面照片URL
-    String driving_license_photo_url,frontal_photo_url_1,frontal_photo_url_2;
+    String drivingLicensePhotoUrl, frontalPhotoUrl1, frontalPhotoUrl2;
     //汽车类型 车牌号
     String type,number;
     //车长 载重
     String length,capacity;
     //车辆状况  车辆常住地  始发地  目的地 当前位置
-    String situation,usual_residence ,start_city ,stop_city , current_location;
+    String situation,usual_residence , startCity, stopCity, currentLocation;
 
     String remark;//备注
 
@@ -27,36 +27,36 @@ public class JsonCar extends BaseEntity {
         this.id = id;
     }
 
-    public int getDriver_id() {
-        return driver_id;
+    public int getDriverId() {
+        return driverId;
     }
 
-    public void setDriver_id(int driver_id) {
-        this.driver_id = driver_id;
+    public void setDriverId(int driverId) {
+        this.driverId = driverId;
     }
 
-    public String getDriving_license_photo_url() {
-        return driving_license_photo_url;
+    public String getDrivingLicensePhotoUrl() {
+        return drivingLicensePhotoUrl;
     }
 
-    public void setDriving_license_photo_url(String driving_license_photo_url) {
-        this.driving_license_photo_url = driving_license_photo_url;
+    public void setDrivingLicensePhotoUrl(String drivingLicensePhotoUrl) {
+        this.drivingLicensePhotoUrl = drivingLicensePhotoUrl;
     }
 
-    public String getFrontal_photo_url_1() {
-        return frontal_photo_url_1;
+    public String getFrontalPhotoUrl1() {
+        return frontalPhotoUrl1;
     }
 
-    public void setFrontal_photo_url_1(String frontal_photo_url_1) {
-        this.frontal_photo_url_1 = frontal_photo_url_1;
+    public void setFrontalPhotoUrl1(String frontalPhotoUrl1) {
+        this.frontalPhotoUrl1 = frontalPhotoUrl1;
     }
 
-    public String getFrontal_photo_url_2() {
-        return frontal_photo_url_2;
+    public String getFrontalPhotoUrl2() {
+        return frontalPhotoUrl2;
     }
 
-    public void setFrontal_photo_url_2(String frontal_photo_url_2) {
-        this.frontal_photo_url_2 = frontal_photo_url_2;
+    public void setFrontalPhotoUrl2(String frontalPhotoUrl2) {
+        this.frontalPhotoUrl2 = frontalPhotoUrl2;
     }
 
     public String getType() {
@@ -107,28 +107,28 @@ public class JsonCar extends BaseEntity {
         this.usual_residence = usual_residence;
     }
 
-    public String getStart_city() {
-        return start_city;
+    public String getStartCity() {
+        return startCity;
     }
 
-    public void setStart_city(String start_city) {
-        this.start_city = start_city;
+    public void setStartCity(String startCity) {
+        this.startCity = startCity;
     }
 
-    public String getStop_city() {
-        return stop_city;
+    public String getStopCity() {
+        return stopCity;
     }
 
-    public void setStop_city(String stop_city) {
-        this.stop_city = stop_city;
+    public void setStopCity(String stopCity) {
+        this.stopCity = stopCity;
     }
 
-    public String getCurrent_location() {
-        return current_location;
+    public String getCurrentLocation() {
+        return currentLocation;
     }
 
-    public void setCurrent_location(String current_location) {
-        this.current_location = current_location;
+    public void setCurrentLocation(String currentLocation) {
+        this.currentLocation = currentLocation;
     }
 
     public String getRemark() {

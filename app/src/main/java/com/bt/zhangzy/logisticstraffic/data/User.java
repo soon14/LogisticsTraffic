@@ -7,10 +7,12 @@ import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
+import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonUser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ZhangZy on 2015/6/30.
@@ -50,7 +52,16 @@ public class User implements Serializable {
     private boolean isSave = true;//标记用户是否记住用户名
     private BaseEntity jsonTypeEntity;
     private JsonUser jsonUser;
+    private List<JsonMotorcades> motorcades;//车队列表
 
+
+    public List<JsonMotorcades> getMotorcades() {
+        return motorcades;
+    }
+
+    public void setMotorcades(List<JsonMotorcades> motorcades) {
+        this.motorcades = motorcades;
+    }
 
     public JsonUser getJsonUser() {
         return jsonUser;
@@ -60,7 +71,7 @@ public class User implements Serializable {
         this.jsonUser = jsonUser;
     }
 
-    public <T extends BaseEntity> void setJsonTypeEntity( T jsonTypeEntity) {
+    public void setJsonTypeEntity(BaseEntity jsonTypeEntity) {
         this.jsonTypeEntity = jsonTypeEntity;
     }
 
@@ -238,10 +249,7 @@ public class User implements Serializable {
     }
 
     public Type getUserType() {
-        if (AppParams.DEVICES_APP) {
-            return Type.DriverType;
-        } else
-            return userType;
+        return userType;
     }
 
     public void setUserType(Type userType) {

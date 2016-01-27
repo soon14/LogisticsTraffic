@@ -10,9 +10,42 @@ import java.io.Serializable;
  * Created by ZhangZy on 2015/7/10.
  */
 public class People implements Parcelable, Serializable {
+    private int id;
+    private int userId,driverId,motorcadeId;
     private String name;
     private String phoneNumber;
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(int driverId) {
+        this.driverId = driverId;
+    }
+
+    public int getMotorcadeId() {
+        return motorcadeId;
+    }
+
+    public void setMotorcadeId(int motorcadeId) {
+        this.motorcadeId = motorcadeId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

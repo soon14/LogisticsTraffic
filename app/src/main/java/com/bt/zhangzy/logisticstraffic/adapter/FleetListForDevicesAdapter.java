@@ -9,40 +9,20 @@ import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.data.People;
+import com.bt.zhangzy.network.entity.JsonMotorcades;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ZhangZy on 2015/6/24.
  */
 public class FleetListForDevicesAdapter extends BaseAdapter {
 
-    private ArrayList<People> list = new ArrayList<People>();
+    private List<JsonMotorcades> list = null;
 
-    public FleetListForDevicesAdapter() {
-
-    }
-
-
-    public ArrayList<People> getList() {
-        return list;
-    }
-
-    public void addPeople(ArrayList<People> array) {
-        list.addAll(array);
-        notifyDataSetChanged();
-    }
-
-    public void addPeople(People people) {
-        list.add(people);
-        notifyDataSetChanged();
-    }
-
-    public void removePeople(int position) {
-        if (list.isEmpty() || position >= list.size())
-            return;
-        list.remove(position);
-        notifyDataSetChanged();
+    public FleetListForDevicesAdapter(List<JsonMotorcades> array) {
+        list = array;
     }
 
 
@@ -52,7 +32,7 @@ public class FleetListForDevicesAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public JsonMotorcades getItem(int position) {
         return list.get(position);
     }
 
@@ -75,8 +55,8 @@ public class FleetListForDevicesAdapter extends BaseAdapter {
             holder = (Holder) convertView.getTag();
         }
         if (holder != null) {
-//                People people = list.get(position);
-//                holder.name.setText(people.getName());
+            JsonMotorcades people = list.get(position);
+            holder.name.setText(people.getName());
 //                holder.phone.setText(people.getPhoneNumber());
         }
 
@@ -84,23 +64,14 @@ public class FleetListForDevicesAdapter extends BaseAdapter {
         return convertView;
     }
 
-    class Holder implements View.OnClickListener {
+    class Holder {
         final int id;
         TextView name;
         TextView phone;
-        ImageButton del;
 
         Holder(int id) {
             this.id = id;
         }
-
-        @Override
-        public void onClick(View v) {
-//            removePeople(id);
-        }
     }
 
-    public interface DelBtnListener {
-        void onClick(int id);
-    }
 }

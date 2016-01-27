@@ -2,128 +2,74 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical"
-    tools:context=".activity.FleetDevicesActivity">
+    android:orientation="vertical">
 
-    <include layout="@layout/page_top" />
-
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <!-- 图片展示-->
+        <ImageView
+            android:id="@+id/fleet_devices_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:clickable="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/fake_detail_1" />
 
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <!-- 图片展示-->
-                <ImageView
-                    android:id="@+id/fleet_devices_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/fake_detail_1" />
-
-                <!-- 头像展示-->
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/fleet_devices_img"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/fake_cp_user" />
-
-
-            </RelativeLayout>
-
-            <TextView
-                style="@style/tx_black_df_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="德邦物流" />
-
-            <RelativeLayout
-                android:id="@+id/detail_cp_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:onClick="onClick_gotoMap"
-                android:paddingBottom="2dp"
-                android:paddingTop="2dp">
-
-                <TextView
-                    android:id="@+id/detail_cp_address_tx"
-                    style="@style/detail_df_tx_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="内蒙古包头市 稀土路 黄河大街 59号" />
-
-                <TextView
-                    style="@style/detail_smail_tx_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginTop="10dp"
-                    android:drawableLeft="@drawable/location_icon"
-                    android:text="距离1.5km" />
-            </RelativeLayout>
-
-            <TextView
-                style="@style/title_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/main_bg_color"
-                android:text="车队成员" />
-
-            <ListView
-                android:id="@+id/fleet_list"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:divider="@color/gray_line"
-                android:dividerHeight="2px"
-                android:listSelector="@color/transparent"></ListView>
-        </LinearLayout>
-    </ScrollView>
-
-
-    <LinearLayout
-        android:id="@+id/fleet_button_ly"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="4px"
-            android:background="@color/main_bg_color" />
-
-        <Button
-            style="@style/home_button_style"
+        <!-- 头像展示-->
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0"
-            android:onClick="onclick_QuitFleet"
-            android:padding="5dp"
-            android:text="退出此车队" />
+            android:layout_alignBottom="@id/fleet_devices_img"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/fake_cp_user" />
 
-    </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        style="@style/tx_black_df_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="德邦物流" />
+
+    <RelativeLayout
+        android:id="@+id/detail_cp_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:onClick="onClick_gotoMap"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp">
+
+        <TextView
+            android:id="@+id/detail_cp_address_tx"
+            style="@style/detail_df_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="内蒙古包头市 稀土路 黄河大街 59号" />
+
+        <TextView
+            style="@style/detail_smail_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/location_icon"
+            android:text="距离1.5km" />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/title_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_bg_color"
+        android:text="车队成员" />
 
 
 </LinearLayout>

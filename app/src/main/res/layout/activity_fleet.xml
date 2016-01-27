@@ -32,6 +32,7 @@
             android:background="@color/main_bg_color" />
 
         <Button
+            android:id="@+id/fleet_add_bt"
             style="@style/home_button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

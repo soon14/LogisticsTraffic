@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,10 @@ public class BaseActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getApp().setCurrentAct(this);
+        //避免弹出的键盘遮挡输入框的问题
+        //这样会让屏幕整体上移。如果加上的 是 android:windowSoftInputMode="adjustPan"这样键盘就会覆盖屏幕。
+        //AndroidManifest.xml的Activity设置属性：android:windowSoftInputMode = "adjustResize"
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
     @Override
@@ -87,6 +92,20 @@ public class BaseActivity extends FragmentActivity {
             progress.setMessage(msg);
             progress.show();
         }
+    }
+
+    /**
+     * 显示进度条 用户不可取消
+     * 并且放到UI线程中执行
+     * @param msg
+     */
+    public void showProgressOnUI(final CharSequence msg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showProgress(msg);
+            }
+        });
     }
 
     /**
@@ -141,6 +160,7 @@ public class BaseActivity extends FragmentActivity {
 
     /**
      * 设置网络图片
+     *
      * @param id
      * @param url
      */
@@ -187,8 +207,16 @@ public class BaseActivity extends FragmentActivity {
     }
 
     public void startActivity(Class<?> cls, Bundle bundle, boolean istop) {
+        startActivity(cls,bundle,Intent.FLAG_ACTIVITY_CLEAR_TOP,istop);
+    }
+
+    public void startNewActivity(Class<?> cls,Bundle bundle){
+        startActivity(cls,bundle,Intent.FLAG_ACTIVITY_NEW_TASK,false);
+    }
+
+    private void startActivity(Class<?> cls, Bundle bundle,int flags, boolean istop) {
         Intent intent = new Intent(this, cls);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(flags);
         if (bundle != null) {
             intent.putExtras(bundle);
         }

@@ -7,13 +7,13 @@ public class JsonDriver extends BaseEntity {
 
     int id , userId;
     String licensePhotoUrl;//驾驶证照片URL
-    String special_qualifications_photo_url;//特殊资质图片URL
-    String person_license_photo_url;//本人手持驾驶证照片URL
-    String my_wealth;//我的财富
+    String specialQualificationsPhotoUrl;//特殊资质图片URL
+    String personLicensePhotoUrl;//本人手持驾驶证照片URL
+    String myWealth;//我的财富
     int star;//星级
-    int comments_count;//评论数
-    int order_count;//接单数
-    int total_mileage;//总里程
+    int commentsCount;//评论数
+    int orderCount;//接单数
+    int totalMileage;//总里程
 
 
     public JsonDriver() {
@@ -43,28 +43,28 @@ public class JsonDriver extends BaseEntity {
         this.userId = userId;
     }
 
-    public String getSpecial_qualifications_photo_url() {
-        return special_qualifications_photo_url;
+    public String getSpecialQualificationsPhotoUrl() {
+        return specialQualificationsPhotoUrl;
     }
 
-    public void setSpecial_qualifications_photo_url(String special_qualifications_photo_url) {
-        this.special_qualifications_photo_url = special_qualifications_photo_url;
+    public void setSpecialQualificationsPhotoUrl(String specialQualificationsPhotoUrl) {
+        this.specialQualificationsPhotoUrl = specialQualificationsPhotoUrl;
     }
 
-    public String getPerson_license_photo_url() {
-        return person_license_photo_url;
+    public String getPersonLicensePhotoUrl() {
+        return personLicensePhotoUrl;
     }
 
-    public void setPerson_license_photo_url(String person_license_photo_url) {
-        this.person_license_photo_url = person_license_photo_url;
+    public void setPersonLicensePhotoUrl(String personLicensePhotoUrl) {
+        this.personLicensePhotoUrl = personLicensePhotoUrl;
     }
 
-    public String getMy_wealth() {
-        return my_wealth;
+    public String getMyWealth() {
+        return myWealth;
     }
 
-    public void setMy_wealth(String my_wealth) {
-        this.my_wealth = my_wealth;
+    public void setMyWealth(String myWealth) {
+        this.myWealth = myWealth;
     }
 
     public int getStar() {
@@ -75,27 +75,27 @@ public class JsonDriver extends BaseEntity {
         this.star = star;
     }
 
-    public int getComments_count() {
-        return comments_count;
+    public int getCommentsCount() {
+        return commentsCount;
     }
 
-    public void setComments_count(int comments_count) {
-        this.comments_count = comments_count;
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
     }
 
-    public int getOrder_count() {
-        return order_count;
+    public int getOrderCount() {
+        return orderCount;
     }
 
-    public void setOrder_count(int order_count) {
-        this.order_count = order_count;
+    public void setOrderCount(int orderCount) {
+        this.orderCount = orderCount;
     }
 
-    public int getTotal_mileage() {
-        return total_mileage;
+    public int getTotalMileage() {
+        return totalMileage;
     }
 
-    public void setTotal_mileage(int total_mileage) {
-        this.total_mileage = total_mileage;
+    public void setTotalMileage(int totalMileage) {
+        this.totalMileage = totalMileage;
     }
 }

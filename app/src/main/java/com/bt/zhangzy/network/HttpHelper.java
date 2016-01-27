@@ -1,9 +1,11 @@
 package com.bt.zhangzy.network;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.tools.UploadFileTask;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -14,12 +16,14 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -67,6 +71,72 @@ public class HttpHelper extends OkHttpClient {
             mInstance = new HttpHelper();
 
         return mInstance;
+    }
+
+    /**
+     * 拼接口参数  如：http://182.92.77.31:8080/motorcades/params1/params2
+     *
+     * @param params
+     * @return
+     */
+    public static String toString(String... params) {
+        StringBuffer stringBuffer = new StringBuffer();
+        for (String p : params) {
+            stringBuffer.append(params).append("/");
+        }
+        //删除最后一个 /
+        stringBuffer.deleteCharAt(stringBuffer.length() - 1);
+        return stringBuffer.toString();
+    }
+
+    /**
+     * 拼接口参数  如：http://www.baidu.com?param1&param2&....
+     *
+     * @param url
+     * @param params
+     * @return
+     */
+    @NonNull
+    public static String toString(String url, String[] params) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(url).append("?");
+        for (String p : params) {
+            stringBuffer.append(p).append("&");
+        }
+        return stringBuffer.toString();
+    }
+
+    @NonNull
+    public static String toString(String url, JSONObject json) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(url);
+        stringBuffer.append("?");
+        try {
+            Iterator<String> keys = json.keys();
+            String key, value;
+            while (keys.hasNext()) {
+                key = keys.next();
+                value = json.getString(key);
+                stringBuffer.append(key + "=" + value).append("&");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return stringBuffer.toString();
+    }
+
+    @NonNull
+    public static String toString(String url, BaseEntity entity) {
+        com.alibaba.fastjson.JSONObject jsonObject = (com.alibaba.fastjson.JSONObject) JSON.toJSON(entity);
+//        JSON.parseObject(JSON.toJSONString(entity));
+//        get(url, jsonObject, callback);
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(url);
+        stringBuffer.append("?");
+        for (String key : jsonObject.keySet()) {
+            stringBuffer.append(key).append("=").append(jsonObject.getString(key)).append("&");
+        }
+        return stringBuffer.toString();
     }
 
 
@@ -127,8 +197,17 @@ public class HttpHelper extends OkHttpClient {
             return;
         Log.i(TAG, "post url = " + url + " json = " + json.toString());
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json.toString());
-        post(url, body, callback);
+//        post(url, body, callback);
+        enqueue(new Request.Builder().url(url).post(body).build(), callback);
     }
+
+    public void get(String url, JSONObject json, NetCallback callback) {
+        if (json == null)
+            return;
+        Log.i(TAG, "get url = " + url + " json = " + json.toString());
+        get(toString(url, json), callback);
+    }
+
 
     /**
      * @param url
@@ -143,6 +222,15 @@ public class HttpHelper extends OkHttpClient {
         put(url, JSON.toJSONString(entity), callback);
     }
 
+    public void del(String url, BaseEntity entity, NetCallback callback) {
+        del(url, JSON.toJSONString(entity), callback);
+    }
+
+    public void get(String url, BaseEntity entity, NetCallback callback) {
+        get(toString(url, entity), callback);
+    }
+
+
     /**
      * 异步线程访问网络
      *
@@ -153,13 +241,31 @@ public class HttpHelper extends OkHttpClient {
     public void post(String url, String json, NetCallback callback) {
         Log.i(TAG, "post url = " + url + " json = " + json);
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
-        post(url, body, callback);
+//        post(url, body, callback);
+        enqueue(new Request.Builder().url(url).post(body).build(), callback);
+    }
+
+    public void get(String url, NetCallback callback) {
+        Log.i(TAG, "get url = " + url);
+        enqueue(new Request.Builder().url(url).get().build(), callback);
     }
 
     public void put(String url, String json, NetCallback callback) {
-        Log.i(TAG, "post url = " + url + " json = " + json);
+        Log.i(TAG, "put url = " + url + " json = " + json);
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
-        put(url, body, callback);
+//        put(url, body, callback);
+        enqueue(new Request.Builder().url(url).put(body).build(), callback);
+    }
+
+    public void del(String url, String json, NetCallback callback) {
+        Log.i(TAG, "del url = " + url + " json = " + json);
+        RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
+//        del(url, body, callback);
+        enqueue(new Request.Builder().url(url).delete(body).build(), callback);
+    }
+
+    public void del(String url, NetCallback callback) {
+        enqueue(new Request.Builder().url(url).delete().build(), callback);
     }
 
     /***
@@ -185,36 +291,31 @@ public class HttpHelper extends OkHttpClient {
                 }
             }
             RequestBody body = builder.build();
-            post(url, body, responseCallback);
+//            post(url, body, responseCallback);
+            enqueue(new Request.Builder().url(url).post(body).build(), responseCallback);
         } catch (Exception e) {
             Log.w(TAG, "post(" + url + "," + textParams == null ? "" : textParams.toString() + ")", e);
         }
     }
 
-    /***
-     * 异步线程访问网络
-     *
-     * @param url
-     * @param body
-     * @param responseCallback
-     * @throws IOException
-     */
-    private void post(String url, RequestBody body, NetCallback responseCallback) {
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
-        enqueue(request, responseCallback);
-
-    }
-
-    private void put(String url, RequestBody body, NetCallback responseCallback) {
-        Request request = new Request.Builder()
-                .url(url)
-                .put(body)
-                .build();
-        enqueue(request, responseCallback);
-
+    public void get(String url, HashMap textParams, NetCallback responseCallback) {
+        //表单
+        if (textParams != null && textParams.size() > 0) {
+            Log.i(TAG, "post url = " + url + " params = " + textParams.toString());
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append(url);
+            stringBuffer.append("?");
+            Set<String> keySet = textParams.keySet();
+            for (Iterator<String> it = keySet.iterator(); it.hasNext(); ) {
+                String name = it.next();
+                String value = (String) textParams.get(name);
+//                multBuilder.addFormDataPart(name,value);
+//                builder.add(name, value);
+                stringBuffer.append(name + "=" + value);
+            }
+//            get(stringBuffer.toString(), responseCallback);
+            enqueue(new Request.Builder().url(stringBuffer.toString()).get().build(), responseCallback);
+        }
     }
 
     /**
@@ -311,34 +412,16 @@ public class HttpHelper extends OkHttpClient {
         enqueue(request, rspCallback);
     }
 
-    public void get(String url, HashMap textParams, NetCallback responseCallback) {
-        //表单
-        if (textParams != null && textParams.size() > 0) {
-            Log.i(TAG, "post url = " + url + " params = " + textParams.toString());
-            StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append(url);
-            stringBuffer.append("?");
-            Set<String> keySet = textParams.keySet();
-            for (Iterator<String> it = keySet.iterator(); it.hasNext(); ) {
-                String name = it.next();
-                String value = (String) textParams.get(name);
-//                multBuilder.addFormDataPart(name,value);
-//                builder.add(name, value);
-                stringBuffer.append(name + "=" + value);
-            }
-            get(stringBuffer.toString(), responseCallback);
-        }
-    }
 
-    public void get(String url, NetCallback responseCallback) {
-        try {
-            Request request = new Request.Builder().url(url).get().build();
-            this.newCall(request).enqueue(responseCallback);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(TAG, "网络请求异常url=" + url, e);
-        }
-    }
+//    public void get(String url, NetCallback responseCallback) {
+//        try {
+//            Request request = new Request.Builder().url(url).get().build();
+//            this.newCall(request).enqueue(responseCallback);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            Log.e(TAG, "网络请求异常url=" + url, e);
+//        }
+//    }
 
     /**
      * 该不会开启异步线程。
@@ -347,18 +430,24 @@ public class HttpHelper extends OkHttpClient {
      * @return
      * @throws IOException
      */
-    public Response execute(Request request) throws IOException {
+    private Response execute(Request request) throws IOException {
         return this.newCall(request).execute();
     }
 
     /**
      * 开启异步线程访问网络
+     * 底层封装
      *
      * @param request
      * @param responseCallback
      */
-    public void enqueue(Request request, NetCallback responseCallback) {
-        this.newCall(request).enqueue(responseCallback);
+    private void enqueue(Request request, NetCallback responseCallback) {
+        try {
+            this.newCall(request).enqueue(responseCallback);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "网络请求异常url=" + request.toString(), e);
+        }
     }
 
 

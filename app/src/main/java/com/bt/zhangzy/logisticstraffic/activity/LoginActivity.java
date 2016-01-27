@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.alibaba.fastjson.JSON;
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
@@ -107,10 +108,10 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSuccess(String msg, String jsonstr) {
                 if (TextUtils.isEmpty(jsonstr)) {
-                    showToast("用户注册失败：" + msg);
+                    showToast("用户登录失败：" + msg);
                     return;
                 }
-                showToast("用户登录成功");
+
                 ResponseLogin json = ParseJson_Object(jsonstr, ResponseLogin.class);
 //                JsonUser jsonUser = ParseJson_Object(jsonstr, JsonUser.class);
                 JsonUser jsonUser = json.getUser();
@@ -119,7 +120,7 @@ public class LoginActivity extends BaseActivity {
 //                showToast(JSON.toJSONString(jsonUser));
                 user.setId(jsonUser.getId());
                 user.setUserName(jsonUser.getName());
-                user.setPhoneNum(jsonUser.getName());
+                user.setPhoneNum(jsonUser.getPhoneNumber());
                 user.setNickName(jsonUser.getNickname());
                 user.setJsonUser(jsonUser);
                 switch (jsonUser.getRole()) {
@@ -142,7 +143,13 @@ public class LoginActivity extends BaseActivity {
                         }
                         break;
                 }
-
+                if(AppParams.DEVICES_APP){
+                    if(user.getUserType() != Type.DriverType){
+                        showToast("不是司机用户");
+                        return ;
+                    }
+                }
+                showToast("用户登录成功");
 
                 loginSusses();
             }

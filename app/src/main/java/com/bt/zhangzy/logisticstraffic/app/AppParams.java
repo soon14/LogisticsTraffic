@@ -77,4 +77,9 @@ public final class AppParams {
      * product 在 bundle中的key值
      */
     public static final String BUNDLE_PRODUCT_KEY = "BUNDLE_PRODUCT_KEY";
+
+    /**
+     * 车队列表 跳转到 车队详情页 所需要传递的 车队ID
+     */
+    public static final String BUNDLE_MOTOCARDE_ID = "BUNDLE_MOTOCARDE_ID";
 }

@@ -16,8 +16,11 @@ import com.bt.zhangzy.network.Url;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
+import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseUserInfo;
+
+import java.util.List;
 
 /**
  * Created by ZhangZy on 2015/6/18.
@@ -53,43 +56,7 @@ public class UserFragment extends BaseHomeFragment {
         initView();
 
         if (User.getInstance().getLogin()) {
-            //如果登陆成功  更新用户的基本信息；
-            HttpHelper.getInstance().get(Url.GetUserInfo + User.getInstance().getId(), new JsonCallback() {
-                @Override
-                public void onSuccess(String msg, String result) {
-                    if (TextUtils.isEmpty(result)) {
-                        Log.i(TAG, "用户信息更新失败：" + msg);
-                        return;
-                    }
-                    Log.i(TAG, "用户信息更新成功");
-                    JsonUser jsonUser = ParseJson_Object(result, JsonUser.class);
-                    User user = User.getInstance();
-//                    user.setLogin(true);
-//                    showToast(JSON.toJSONString(jsonUser));
-                    user.setId(jsonUser.getId());
-                    user.setUserName(jsonUser.getName());
-                    user.setPhoneNum(jsonUser.getName());
-                    user.setNickName(jsonUser.getNickname());
-                    user.setJsonUser(jsonUser);
-                    switch (jsonUser.getRole()) {
-                        case 1:
-                            user.setUserType(Type.DriverType);
-                            break;
-                        case 2:
-                            user.setUserType(Type.EnterpriseType);
-                            break;
-                        case 3:
-                            user.setUserType(Type.InformationType);
-                            break;
-                    }
-
-                }
-
-                @Override
-                public void onFailed(String str) {
-
-                }
-            });
+            requestUserInfo();
         }
         if (User.getInstance().getUserType() == Type.EnterpriseType) {
             requestEnterpriseInfo();
@@ -98,6 +65,46 @@ public class UserFragment extends BaseHomeFragment {
         } else if (User.getInstance().getUserType() == Type.DriverType) {
             requestDriverInfo();
         }
+    }
+
+    private void requestUserInfo() {
+        //如果登陆成功  更新用户的基本信息；
+        HttpHelper.getInstance().get(Url.GetUserInfo + User.getInstance().getId(), new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                if (TextUtils.isEmpty(result)) {
+                    Log.i(TAG, "用户信息更新失败：" + msg);
+                    return;
+                }
+                Log.i(TAG, "用户信息更新成功");
+                JsonUser jsonUser = ParseJson_Object(result, JsonUser.class);
+                User user = User.getInstance();
+//                    user.setLogin(true);
+//                    showToast(JSON.toJSONString(jsonUser));
+                user.setId(jsonUser.getId());
+                user.setUserName(jsonUser.getName());
+                user.setPhoneNum(jsonUser.getPhoneNumber());
+                user.setNickName(jsonUser.getNickname());
+                user.setJsonUser(jsonUser);
+                switch (jsonUser.getRole()) {
+                    case 1:
+                        user.setUserType(Type.DriverType);
+                        break;
+                    case 2:
+                        user.setUserType(Type.EnterpriseType);
+                        break;
+                    case 3:
+                        user.setUserType(Type.InformationType);
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
     }
 
     private void initView() {
@@ -122,7 +129,7 @@ public class UserFragment extends BaseHomeFragment {
         HttpHelper.getInstance().get(Url.GetDriverInfo + User.getInstance().getId(), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
-                Log.i(TAG,"司机信息更新成功："+msg);
+                Log.i(TAG, "司机信息更新成功：" + msg);
                 JsonDriver json = ParseJson_Object(result, JsonDriver.class);
                 User user = User.getInstance();
                 user.setDriverID(json.getId());
@@ -135,7 +142,7 @@ public class UserFragment extends BaseHomeFragment {
 
             @Override
             public void onFailed(String str) {
-                Log.i(TAG,"司机信息更新失败："+str);
+                Log.i(TAG, "司机信息更新失败：" + str);
             }
         });
     }
@@ -175,6 +182,9 @@ public class UserFragment extends BaseHomeFragment {
                 user.setUserName(json.getCompany().getName());
                 user.setAddress(json.getCompany().getAddress());
                 user.setJsonTypeEntity(json.getCompany());
+
+                List<JsonMotorcades> motorcades = json.getMotorcades();
+                user.setMotorcades(motorcades);
 
                 refreshView();
             }

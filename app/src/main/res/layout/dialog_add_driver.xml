@@ -5,14 +5,14 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/add_driver_dl_name_ed"
-        style="@style/edit_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:maxLength="6"
-        android:hint="姓名" />
+    <!--<TextView-->
+        <!--android:id="@+id/add_driver_dl_name_ed"-->
+        <!--style="@style/edit_style"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:maxLength="6"-->
+        <!--android:hint="姓名" />-->
 
     <EditText
         android:id="@+id/add_driver_dl_phone_ed"

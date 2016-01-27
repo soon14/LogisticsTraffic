@@ -58,14 +58,6 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //避免弹出的键盘遮挡输入框的问题
-        //这样会让屏幕整体上移。如果加上的 是 android:windowSoftInputMode="adjustPan"这样键盘就会覆盖屏幕。
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        /*关于android:windowSoftInputMode
-    　　activity主窗口与软键盘的交互模式，可以用来避免输入法面板遮挡问题，Android1.5后的一个新特性。
-    　　这个属性能影响两件事情：
-　　　　【一】当有焦点产生时，软键盘是隐藏还是显示
-　　　　【二】是否减少活动主窗口大小以便腾出空间放软键盘*/
 
         setContentView(R.layout.activity_home);
 

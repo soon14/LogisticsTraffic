@@ -92,7 +92,6 @@
         <activity android:name=".activity.PublishActivity" />
         <activity android:name=".activity.ServicesActivity" />
         <activity android:name=".activity.SourceGoodsActivity" />
-        <activity android:name=".activity.FleetDevicesActivity" />
         <activity android:name=".activity.PayActivity" />
         <activity android:name=".activity.WebViewActivity" />
 

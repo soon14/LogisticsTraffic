@@ -76,10 +76,10 @@ public class DetailPhotoActivity extends BaseActivity {
         JsonUser jsonUser = user.getJsonUser();
         setImageUrl(R.id.devices_sfz_img, jsonUser.getIdCardPhotoUrl());
 //        setImageUrl(R.id.devices_jsz_img, jsonUser.getPersonPhotoUrl());
-        if(user.getJsonTypeEntity() != null){
+        if (user.getJsonTypeEntity() != null) {
             JsonDriver jsonDriver = user.getJsonTypeEntity();
-            setImageUrl(R.id.devices_jsz_img,jsonDriver.getLicensePhotoUrl());
-            setImageUrl(R.id.devices_tszz_img,jsonDriver.getSpecial_qualifications_photo_url());
+            setImageUrl(R.id.devices_jsz_img, jsonDriver.getLicensePhotoUrl());
+            setImageUrl(R.id.devices_tszz_img, jsonDriver.getSpecialQualificationsPhotoUrl());
 
             requestJsonDriver = jsonDriver;
             //todo 车的信息更新
@@ -100,21 +100,22 @@ public class DetailPhotoActivity extends BaseActivity {
         JsonUser jsonUser = user.getJsonUser();
         frsfzUrl = jsonUser.getIdCardPhotoUrl();
         ImageHelper.getInstance().load(frsfzUrl, frsfzImg);
-
-        if (user.getUserType() == Type.EnterpriseType) {
-            JsonEnterprise enterprise = user.getJsonTypeEntity();
-            yyzzUrl = enterprise.getBusinessLicenseUrl();
-            swdjzUrl = enterprise.getTaxRegistrationCertificateUrl();
-            mtzpUrl = enterprise.getPhotoUrl();
-        } else if (user.getUserType() == Type.InformationType) {
-            JsonCompany company = user.getJsonTypeEntity();
-            yyzzUrl = company.getBusinessLicenseUrl();
-            swdjzUrl = company.getTaxRegistrationCertificateUrl();
-            mtzpUrl = company.getPhotoUrl();
+        if (user.getJsonTypeEntity() != null) {
+            if (user.getUserType() == Type.EnterpriseType) {
+                JsonEnterprise enterprise = user.getJsonTypeEntity();
+                yyzzUrl = enterprise.getBusinessLicenseUrl();
+                swdjzUrl = enterprise.getTaxRegistrationCertificateUrl();
+                mtzpUrl = enterprise.getPhotoUrl();
+            } else if (user.getUserType() == Type.InformationType) {
+                JsonCompany company = user.getJsonTypeEntity();
+                yyzzUrl = company.getBusinessLicenseUrl();
+                swdjzUrl = company.getTaxRegistrationCertificateUrl();
+                mtzpUrl = company.getPhotoUrl();
+            }
+            ImageHelper.getInstance().load(yyzzUrl, yyzzImg);
+            ImageHelper.getInstance().load(swdjzUrl, swdjzImg);
+            ImageHelper.getInstance().load(mtzpUrl, mtzpImg);
         }
-        ImageHelper.getInstance().load(yyzzUrl, yyzzImg);
-        ImageHelper.getInstance().load(swdjzUrl, swdjzImg);
-        ImageHelper.getInstance().load(mtzpUrl, mtzpImg);
     }
 
 
@@ -150,16 +151,16 @@ public class DetailPhotoActivity extends BaseActivity {
                             requestJsonDriver.setLicensePhotoUrl(uploadImgURL);
                             break;
                         case R.id.devices_tszz_img:
-                            requestJsonDriver.setSpecial_qualifications_photo_url(uploadImgURL);
+                            requestJsonDriver.setSpecialQualificationsPhotoUrl(uploadImgURL);
                             break;
                         case R.id.devices_xxz_img:
-                            requestJsonCar.setDriving_license_photo_url(uploadImgURL);
+                            requestJsonCar.setDrivingLicensePhotoUrl(uploadImgURL);
                             break;
                         case R.id.devices_clzp_img:
-                            requestJsonCar.setFrontal_photo_url_1(uploadImgURL);
+                            requestJsonCar.setFrontalPhotoUrl1(uploadImgURL);
                             break;
                         case R.id.devices_clzp_two_img:
-                            requestJsonCar.setFrontal_photo_url_2(uploadImgURL);
+                            requestJsonCar.setFrontalPhotoUrl2(uploadImgURL);
                             break;
 
                     }
