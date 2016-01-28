@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.network.entity.BaseEntity;
+import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
@@ -53,7 +54,15 @@ public class User implements Serializable {
     private BaseEntity jsonTypeEntity;
     private JsonUser jsonUser;
     private List<JsonMotorcades> motorcades;//车队列表
+    private JsonCar jsonCar;//司机 所属的 车辆；
 
+    public JsonCar getJsonCar() {
+        return jsonCar;
+    }
+
+    public void setJsonCar(JsonCar jsonCar) {
+        this.jsonCar = jsonCar;
+    }
 
     public List<JsonMotorcades> getMotorcades() {
         return motorcades;

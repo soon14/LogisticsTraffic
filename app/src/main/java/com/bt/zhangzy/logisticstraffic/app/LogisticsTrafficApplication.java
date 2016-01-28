@@ -22,6 +22,7 @@ import com.bt.zhangzy.logisticstraffic.adapter.LocationListAdapter;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.tools.ContextTools;
 import com.zhangzy.baidusdk.BaiduSDK;
@@ -43,17 +44,14 @@ import cn.jpush.android.api.JPushInterface;
 /**
  * Created by ZhangZy on 2015/6/10.
  */
-public class LogisticsTrafficApplication extends Application implements BaiduSDK.LocationListener {
+public class LogisticsTrafficApplication extends Application  {
 
     private static final String TAG = LogisticsTrafficApplication.class.getSimpleName();
 
-    private PopupWindow popupWindow;
-    private ListView listView;
+
     private BaseActivity currentAct;
-    private LocationCallback locationCallback;
-    private TextView locationNetworkTx;
-    private Location location;//用于缓存已经定位的信息
-    private JSONArray jsonCityList;
+
+//    private JSONArray jsonCityList;
 
 
     @Override
@@ -67,7 +65,6 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
         AppParams.getInstance().init(this);
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
-
 
 
         //初始化Image loader
@@ -89,38 +86,8 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
             User.getInstance().loadUser((User) obj);
             Log.i(TAG, "读取文件：User=" + User.getInstance());
         }
-        //读取城市列表
-        new AsyncTask<String, Integer, JSONArray>() {
-
-            @Override
-            protected JSONArray doInBackground(String... params) {
-                try {
-                    InputStream is = getResources().getAssets().open(params[0]);
-                    int size = is.available();
-                    // Read the entire asset into a local byte buffer.
-                    byte[] buffer = new byte[size];
-                    is.read(buffer);
-                    is.close();
-                    // Convert the buffer into a string.
-                    String text = new String(buffer, "UTF-8");
-                    JSONArray jsonObject = new JSONArray(text.trim());
-//                    Log.d(TAG, "json=" + jsonObject.toJsonString());
-                    return jsonObject;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(JSONArray jsonArray) {
-                super.onPostExecute(jsonArray);
-                if (jsonArray != null)
-                    jsonCityList = jsonArray;
-            }
-        }.execute("cityList.json");
+        //触发城市列表获取
+        LocationView.getInstance();
 
     }
 
@@ -129,6 +96,8 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
         currentAct = act;
         Log.w(TAG, "设置当前Activity=" + act.TAG);
     }
+
+
 
     public void Exit(boolean isSave) {
         //定位服务推出
@@ -208,104 +177,11 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
     }
 
 
-    public void showLoacaitonList(View view) {
-        if (popupWindow == null) {
 
-        }
-        PopupWindow popupWindow = creatPopupWindow(currentAct);
-        if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        } else {
-            popupWindow.showAtLocation(view, Gravity.LEFT | Gravity.TOP, 0, 0);
-            WindowManager.LayoutParams lp = currentAct.getWindow().getAttributes();
-            lp.alpha = 0.3f;
-            currentAct.getWindow().setAttributes(lp);
-        }
-    }
 
-    /**
-     * 地址选择对话框
-     */
-    private PopupWindow creatPopupWindow(Context context) {
-        //        Context context = this.getBaseContext();
-        View tmp_view = LayoutInflater.from(this).inflate(R.layout.location_popupwindow, null);
-        final PopupWindow popupWindow = new PopupWindow(tmp_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        //设置颜色值 修正奇葩错误
-        tmp_view.findViewById(R.id.location_pop_ly).setBackgroundColor(getResources().getColor(R.color.main_bg_color));
-        // 设置动画效果
-        popupWindow.setAnimationStyle(R.style.AnimationFadeRight);
-//        popupWindow.setOutsideTouchable(true);
-//        popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.mask_black)));
-        Button backBtn = (Button) tmp_view.findViewById(R.id.popupwindow_back);
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (popupWindow != null) {
-                    popupWindow.dismiss();
-                }
-            }
-        });
 
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                WindowManager.LayoutParams lp = currentAct.getWindow().getAttributes();
-                lp.alpha = 1f;
-                currentAct.getWindow().setAttributes(lp);
-            }
-        });
 
-        //用于显示网络定位的结果
-        locationNetworkTx = (TextView) tmp_view.findViewById(R.id.location_network_tx);
-        if (location != null) {
-            locationNetworkTx.setText(location.getCityName());
-        }
 
-        listView = (ListView) tmp_view.findViewById(R.id.location_city_list);
-
-        LocationListAdapter adapter = new LocationListAdapter(jsonCityList);
-        listView.setAdapter(adapter);
-        adapter.setItemOnClickCallback(new LocationListAdapter.ItemOnClickCallback() {
-            @Override
-            public void onClickItem(Location loc) {
-                Log.d(TAG, "点击了：" + loc.toString());
-//                Toast.makeText(getBaseContext(),"点击了："+
-                if (locationCallback != null) {
-                    location = loc;
-                    if (locationNetworkTx != null)
-                        locationNetworkTx.setText(location.getCityName());
-                    locationCallback.chooseLocation(loc);
-                }
-            }
-        });
-
-        return popupWindow;
-
-    }
-
-    /**
-     * 共用一个请求接口
-     */
-    public void requestLocation(LocationCallback locationCallback) {
-        this.locationCallback = locationCallback;
-        BaiduSDK.getInstance().setLocationListener(this);
-        BaiduSDK.getInstance().requestLocationServer(getApplicationContext());
-    }
-
-    @Override
-    public void callbackCityName(String cityname, String latitude, String langitude) {
-        location = new Location();
-        location.setCityName(cityname);
-        location.setLatitude(latitude);
-        location.setLangitude(langitude);
-
-        if (locationNetworkTx != null) {
-            locationNetworkTx.setText(cityname);
-        }
-        if (locationCallback != null) {
-            locationCallback.networkLocation(location);
-        }
-    }
 
     /**
      * 登陆后才能打电话
@@ -352,15 +228,5 @@ public class LogisticsTrafficApplication extends Application implements BaiduSDK
         new TimePickerDialog(currentAct, callback, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
     }
 
-    public interface LocationCallback {
-        /**
-         * 网络定位 回调
-         */
-        public void networkLocation(Location location);
 
-        /**
-         * 用户选择位置 回调
-         */
-        public void chooseLocation(Location location);
-    }
 }

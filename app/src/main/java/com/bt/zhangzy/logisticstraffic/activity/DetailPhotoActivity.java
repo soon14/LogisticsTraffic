@@ -27,6 +27,8 @@ import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonUser;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 
 /**
@@ -82,7 +84,16 @@ public class DetailPhotoActivity extends BaseActivity {
             setImageUrl(R.id.devices_tszz_img, jsonDriver.getSpecialQualificationsPhotoUrl());
 
             requestJsonDriver = jsonDriver;
-            //todo 车的信息更新
+            //to do 车的信息更新
+            if(user.getJsonCar() != null){
+                JsonCar jsonCar = user.getJsonCar();
+                setImageUrl(R.id.devices_xxz_img,jsonCar.getDrivingLicensePhotoUrl());
+                setImageUrl(R.id.devices_clzp_img,jsonCar.getFrontalPhotoUrl1());
+                setImageUrl(R.id.devices_clzp_two_img,jsonCar.getFrontalPhotoUrl2());
+
+
+                requestJsonCar = jsonCar;
+            }
         }
 
     }
@@ -209,7 +220,21 @@ public class DetailPhotoActivity extends BaseActivity {
                 showToast("请填写" + nameEd.getHint() + "和" + phoneEd.getHint());
                 return;
             }
-            requestVerifyDriver(nameEd.getText().toString(), phoneEd.getText().toString());
+            EditText carTypeEd = (EditText) findViewById(R.id.devices_type_ed);
+            EditText carLengthEd = (EditText) findViewById(R.id.devices_length_ed);
+            EditText carWidthEd = (EditText) findViewById(R.id.devices_width_ed);
+            EditText carHeightEd = (EditText) findViewById(R.id.devices_height_ed);
+            EditText carWeightEd = (EditText) findViewById(R.id.devices_weight_ed);
+            if (!TextUtils.isEmpty(carTypeEd.getText()))
+                requestJsonCar.setType(carTypeEd.getText().toString());
+            if (!TextUtils.isEmpty(carLengthEd.getText()))
+                requestJsonCar.setLength(carLengthEd.getText().toString());
+            if (!TextUtils.isEmpty(carWeightEd.getText()))
+                requestJsonCar.setCapacity(carWeightEd.getText().toString());
+//            if(!TextUtils.isEmpty(carWidthEd.getText()))
+//                requestJsonCar.set
+
+            requestVerifyDriver();
         }
 
 //        showSuccessDialog();
@@ -236,7 +261,7 @@ public class DetailPhotoActivity extends BaseActivity {
     JsonDriver requestJsonDriver = new JsonDriver();
     JsonCar requestJsonCar = new JsonCar();
 
-    private void requestVerifyDriver(String name, String phoneNum) {
+    private void requestVerifyDriver() {
 
         requestJsonDriver.setUserId((int) User.getInstance().getId());
 

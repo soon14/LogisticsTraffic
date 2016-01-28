@@ -19,6 +19,7 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.tools.ContextTools;
 import com.bt.zhangzy.logisticstraffic.app.LogisticsTrafficApplication;
 import com.bt.zhangzy.logisticstraffic.data.Location;
@@ -216,16 +217,14 @@ public class HomeActivity extends BaseActivity {
             }
         }
 
-        getApp().requestLocation(new LogisticsTrafficApplication.LocationCallback() {
+        LocationView.getInstance().requestLocation(this, new LocationView.LocationCallback() {
             @Override
             public void networkLocation(Location location) {
-                User.getInstance().setLocation(location);
                 setCityName(location.getCityName());
             }
 
             @Override
             public void chooseLocation(Location location) {
-                User.getInstance().setLocation(location);
                 setCityName(location.getCityName());
             }
         });
@@ -382,8 +381,9 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void onClick_CityList(View view) {
-        getApp().showLoacaitonList(view);
-
+//        getApp().showLoacaitonList(view);
+        View topView = findViewById(R.id.home_top_ly);
+        LocationView.getInstance().showLoacaitonList(this, topView);
     }
 
     private View lastSelectBtn;//记录上一次选中的按钮
@@ -485,6 +485,7 @@ public class HomeActivity extends BaseActivity {
 
     /**
      * 我的车队
+     *
      * @param view
      */
     public void onClick_Fleet(View view) {
@@ -493,6 +494,7 @@ public class HomeActivity extends BaseActivity {
 
     /**
      * 完善信息
+     *
      * @param view
      */
     public void onClick_gotoDetailPhoto(View view) {

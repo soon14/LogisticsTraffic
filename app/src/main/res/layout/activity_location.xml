@@ -51,19 +51,22 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <View
+        <ImageView
+            android:id="@+id/location_city_img"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_margin="10dp"
             android:background="@color/main_bg_color" />
 
         <TextView
+            android:id="@+id/location_city_tx"
             style="@style/location_info_title_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="包头" />
 
         <TextView
+            android:id="@+id/location_city_info_tx"
             style="@style/location_info_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -14,12 +14,18 @@ import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.data.Location;
+import com.bt.zhangzy.network.entity.JsonLocationCity;
+import com.bt.zhangzy.network.entity.JsonLocationProvince;
+import com.bt.zhangzy.tools.Tools;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by ZhangZy on 2015/6/18.
@@ -31,44 +37,38 @@ public class LocationListAdapter extends BaseAdapter {
     private ItemOnClickCallback itemOnClickCallback;
     private ArrayList<ArrayList<Location>> locationList;
 
-    public LocationListAdapter(JSONArray jsonArray) {
+    public LocationListAdapter(List<JsonLocationProvince> jsonArray) {
         if (jsonArray == null)
             return;
-        listView = new ArrayList<View>(jsonArray.length());
-        locationList = new ArrayList<ArrayList<Location>>(jsonArray.length());
+        listView = new ArrayList<View>(jsonArray.size());
+        locationList = new ArrayList<ArrayList<Location>>(jsonArray.size());
 
-        new AsyncTask<JSONArray, Integer, ArrayList<ArrayList<Location>>>() {
+        new AsyncTask<List<JsonLocationProvince>, Integer, ArrayList<ArrayList<Location>>>() {
             @Override
-            protected ArrayList<ArrayList<Location>> doInBackground(JSONArray... params) {
+            protected ArrayList<ArrayList<Location>> doInBackground(List<JsonLocationProvince>... params) {
                 // 增加异步操作 保证页面流畅性
                 if (params == null || params.length == 0)
                     return null;
 
-                JSONArray jsonArray = params[0];
-                ArrayList<ArrayList<Location>> locationList = new ArrayList<ArrayList<Location>>(jsonArray.length());
-                try {
-                    JSONObject jsonObject;
-                    JSONArray array;
-                    ArrayList<Location> list;
-                    String province;
-                    Location location;
-                    for (int k = 0; k < jsonArray.length(); k++) {
-
-                        jsonObject = jsonArray.getJSONObject(k);
-                        province = jsonObject.getString("province");
-                        list = new ArrayList<Location>();
-                        array = jsonObject.getJSONArray("list");
-                        if (array != null) {
-                            for (int j = 0; j < array.length(); j++) {
-                                location = new Location(province, array.getString(j));
-                                list.add(location);
-//                        Log.d(TAG, "location=" + location.toJsonString());
-                            }
-                            locationList.add(list);
-                        }
+                List<JsonLocationProvince> listProvince = params[0];
+                Collections.sort(listProvince, new Comparator<JsonLocationProvince>() {
+                    @Override
+                    public int compare(JsonLocationProvince lhs, JsonLocationProvince rhs) {
+                        return lhs.getFirstLetter() - rhs.getFirstLetter();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                });
+                ArrayList<ArrayList<Location>> locationList = new ArrayList<ArrayList<Location>>(listProvince.size());
+//                    JsonLocationProvince jsonLocationProvince;
+                ArrayList<Location> list;
+                String province;
+                Location location;
+                for (JsonLocationProvince jsonLocationProvince : listProvince) {
+                    province = jsonLocationProvince.getProvince();
+                    list = new ArrayList<Location>();
+                    locationList.add(list);
+                    for (JsonLocationCity city : jsonLocationProvince.getCity()) {
+                        list.add(new Location(province, city.getCity()));
+                    }
                 }
                 return locationList;
             }
@@ -77,7 +77,7 @@ public class LocationListAdapter extends BaseAdapter {
             protected void onPostExecute(ArrayList<ArrayList<Location>> arrayLists) {
 //                super.onPostExecute(arrayLists);
                 if (arrayLists != null && !arrayLists.isEmpty()) {
-                    locationList = arrayLists;
+                    locationList.addAll(arrayLists);
                     notifyDataSetChanged();
                 }
             }
@@ -100,6 +100,8 @@ public class LocationListAdapter extends BaseAdapter {
         return position;
     }
 
+    char lastChar;
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -109,6 +111,7 @@ public class LocationListAdapter extends BaseAdapter {
         } else {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.location_list_item, null);
+            holder.top = (TextView) convertView.findViewById(R.id.location_list_item_char);
             holder.title = (TextView) convertView.findViewById(R.id.location_list_item_title);
             holder.title.setOnClickListener(holder.listener);
             holder.ly = (LinearLayout) convertView.findViewById(R.id.location_list_item_ly);
@@ -118,9 +121,17 @@ public class LocationListAdapter extends BaseAdapter {
 
         if (position < locationList.size()) {
             ArrayList<Location> tmpArray = locationList.get(position);
-            holder.locationArray = locationList.get(position);
+//            holder.locationArray = tmpArray;
             if (tmpArray != null && !tmpArray.isEmpty()) {
-                holder.setData(tmpArray.get(0).getProvinceName(), tmpArray);
+                Location location = tmpArray.get(0);
+                holder.setData(location.getProvinceName(), tmpArray);
+                char topChar = location.getFistLatter();
+                if (topChar != lastChar) {
+                    holder.setTopChar(String.valueOf(topChar).toUpperCase());
+                    lastChar = topChar;
+                } else {
+                    holder.setTopChar(null);
+                }
 //                holder.setTitle(tmpArray.get(0).getProvinceName());
 //                holder.clearItem();
 
@@ -153,12 +164,14 @@ public class LocationListAdapter extends BaseAdapter {
     });
 
     class ViewHolder {
+        TextView top;
         TextView title;
         LinearLayout ly;
         ArrayList<Location> locationArray;
 
         /**
          * 设置数据
+         *
          * @param titleStr
          * @param list
          */
@@ -174,6 +187,16 @@ public class LocationListAdapter extends BaseAdapter {
                 return;
             ly.removeAllViews();
             ly.setTag(this);
+        }
+
+        private void setTopChar(String topChar) {
+            if (topChar == null) {
+                top.setVisibility(View.GONE);
+            } else {
+//            char topchar = Tools.getFirstLetter(titleStr.charAt(0));
+                top.setText(topChar);
+                top.setVisibility(View.VISIBLE);
+            }
         }
 
 

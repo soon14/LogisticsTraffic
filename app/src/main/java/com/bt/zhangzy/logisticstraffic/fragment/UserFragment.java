@@ -13,6 +13,7 @@ import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
@@ -136,13 +137,36 @@ public class UserFragment extends BaseHomeFragment {
 //                user.setUserName(json.getName());
 //                user.setAddress(json.getAddress());
                 user.setJsonTypeEntity(json);
-
+                requestCarInfo();
                 refreshView();
             }
 
             @Override
             public void onFailed(String str) {
                 Log.i(TAG, "司机信息更新失败：" + str);
+            }
+        });
+    }
+
+    private void requestCarInfo() {
+        HttpHelper.getInstance().get(HttpHelper.toString(Url.GetCarInfo, new String[]{"driverID=" + User.getInstance().getDriverID()}), new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                Log.i(TAG, "司机-车辆信息更新成功：" + msg);
+                if (TextUtils.isEmpty(result))
+                    return;
+                List<JsonCar> list = ParseJson_Array(result, JsonCar.class);
+//                JsonCar jsonCar = ParseJson_Object(result, JsonCar.class);
+                if (list.isEmpty())
+                    return;
+                JsonCar jsonCar = list.get(0);
+                User.getInstance().setJsonCar(jsonCar);
+
+            }
+
+            @Override
+            public void onFailed(String str) {
+                Log.i(TAG, "司机-车辆信息更新失败：" + str);
             }
         });
     }

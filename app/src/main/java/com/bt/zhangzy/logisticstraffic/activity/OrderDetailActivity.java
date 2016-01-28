@@ -90,7 +90,7 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     final int[] edit_ids = {R.id.order_detail_phone, R.id.order_detail_kg_bt, R.id.order_detail_check_phone_ed, R.id.order_detail_start_bt,
-            R.id.order_detail_end_bt, R.id.order_detail_type_bt, R.id.order_detail_name_bt,R.id.order_detail_truck_type_bt};
+            R.id.order_detail_end_bt, R.id.order_detail_type_bt, R.id.order_detail_name_bt, R.id.order_detail_truck_type_bt};
 
     private void initView() {
         TextView textView;
@@ -141,16 +141,18 @@ public class OrderDetailActivity extends BaseActivity {
                 //更改按钮功能  定位改成车队列表选择；
                 button = (Button) findViewById(R.id.order_detail_phone_btn);
 //                button.setText("");
-                button.setBackgroundResource(R.drawable.add_devices);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                if (button != null) {
+                    button.setBackgroundResource(R.drawable.add_devices);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 //                        startActivity(FleetActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putInt(AppParams.RESULT_CODE_KEY, AppParams.RESULT_CODE_SELECT_DEVICES);
-                        startActivityForResult(FleetActivity.class, bundle, AppParams.RESULT_CODE_SELECT_DEVICES);
-                    }
-                });
+                            Bundle bundle = new Bundle();
+                            bundle.putInt(AppParams.RESULT_CODE_KEY, AppParams.RESULT_CODE_SELECT_DEVICES);
+                            startActivityForResult(FleetActivity.class, bundle, AppParams.RESULT_CODE_SELECT_DEVICES);
+                        }
+                    });
+                }
                 break;
             case DriverMode://司机
 //                findViewById(R.id.order_detail_no).setVisibility(View.GONE);

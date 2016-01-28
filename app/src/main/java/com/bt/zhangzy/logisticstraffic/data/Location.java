@@ -1,5 +1,7 @@
 package com.bt.zhangzy.logisticstraffic.data;
 
+import com.bt.zhangzy.tools.Tools;
+
 import java.io.Serializable;
 
 /**
@@ -11,6 +13,7 @@ public class Location implements Serializable {
     private String provinceName;//省
     private String latitude;//纬度
     private String langitude;//经度
+    private char fistLatter;
 
     public Location() {
     }
@@ -18,6 +21,11 @@ public class Location implements Serializable {
     public Location(String provinceName, String cityName) {
         this.provinceName = provinceName;
         this.cityName = cityName;
+        fistLatter = Tools.getFirstLetter(provinceName.charAt(0));
+    }
+
+    public char getFistLatter() {
+        return fistLatter;
     }
 
     @Override
