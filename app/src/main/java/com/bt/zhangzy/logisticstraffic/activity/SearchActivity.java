@@ -13,6 +13,9 @@ import android.widget.ListView;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.network.HttpHelper;
+import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.Url;
 import com.bt.zhangzy.tools.ContextTools;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Product;
@@ -111,7 +114,7 @@ public class SearchActivity extends BaseActivity {
             BaiduSDK.getInstance().setVoiceListener(new BaiduSDK.VoiceListener() {
                 @Override
                 public void callbackVoice(String string) {
-                    if(searchKeyWord != null){
+                    if (searchKeyWord != null) {
                         searchKeyWord.setText(string);
                         onClick_Search(searchKeyWord);
                     }
@@ -136,7 +139,24 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
-    //点击了搜索按钮
+    //搜索接口
+    private void requestSearch(String searchStr) {
+        //// TODO: 2016-1-28  关键词搜索
+        HttpHelper.getInstance().get(HttpHelper.toString(Url.GetSearch, new String[]{"name=" + searchStr}), new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                showToast("搜索成功");
+
+            }
+
+            @Override
+            public void onFailed(String str) {
+            showToast("搜索失败");
+            }
+        });
+    }
+
+    //点击了搜索按钮 // TODO: 2016-1-28 搜索接口
     public void onClick_Search(View view) {
         if (shopListLy != null)
             shopListLy.setVisibility(View.GONE);
@@ -145,6 +165,7 @@ public class SearchActivity extends BaseActivity {
             searchKeyWord.clearFocus();
             String keyWord = searchKeyWord.getText().toString();
             User.getInstance().addSearchKeyWord(keyWord);
+            requestSearch(keyWord);
         } else {
 
         }

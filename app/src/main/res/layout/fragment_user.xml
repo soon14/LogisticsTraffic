@@ -167,21 +167,22 @@
                     android:background="@color/gray_line" />
             </LinearLayout>
 
-            <Button
-                style="@style/setting_item_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/push_icon"
-                android:drawableRight="@drawable/right_gray_arrow"
-                android:onClick="onClick_SettingShare"
-                android:text="设置" />
+            <!-- todo 暂时先去掉设置功能 -->
+            <!--<Button-->
+                <!--style="@style/setting_item_style"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:drawableLeft="@drawable/push_icon"-->
+                <!--android:drawableRight="@drawable/right_gray_arrow"-->
+                <!--android:onClick="onClick_SettingShare"-->
+                <!--android:text="设置" />-->
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/gray_line" />
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="2px"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:background="@color/gray_line" />-->
 
             <Button
                 style="@style/setting_item_style"

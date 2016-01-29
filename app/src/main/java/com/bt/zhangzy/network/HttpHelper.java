@@ -441,7 +441,7 @@ public class HttpHelper extends OkHttpClient {
      * @param request
      * @param responseCallback
      */
-    private void enqueue(Request request, NetCallback responseCallback) {
+    public void enqueue(Request request, NetCallback responseCallback) {
         try {
             this.newCall(request).enqueue(responseCallback);
         } catch (Exception e) {

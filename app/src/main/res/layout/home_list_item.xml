@@ -34,6 +34,7 @@
             android:src="@drawable/phone_icon" />
 
         <TextView
+            android:id="@+id/list_item_call_times_tx"
             style="@style/tx_gray_12sp_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,6 +45,7 @@
 
 
         <TextView
+            android:id="@+id/list_item_times_count_tx"
             style="@style/tx_gray_12sp_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

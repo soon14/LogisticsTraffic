@@ -25,7 +25,7 @@ public class SourceDetailActivity extends BaseActivity {
     }
 
     public void onClick_Join(View view) {
-        //加入车队
+        //加入车队 // TODO: 2016-1-28  车源详情中 加入车队接口
         People devices = new People();
         devices.setName("卢爱华");
         devices.setPhoneNumber("18202268826");

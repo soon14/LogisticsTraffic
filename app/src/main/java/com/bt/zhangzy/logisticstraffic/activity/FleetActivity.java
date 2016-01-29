@@ -164,7 +164,7 @@ public class FleetActivity extends BaseActivity {
         if (AppParams.DEVICES_APP) {
 
         } else {
-            User.getInstance().setDriverList(((FleetListAdapter) listView.getAdapter()).getList());
+//            User.getInstance().setDriverList(((FleetListAdapter) listView.getAdapter()).getList());
         }
     }
 
@@ -205,12 +205,13 @@ public class FleetActivity extends BaseActivity {
     }
 
     private void requestGetMotorcades(int motorcadeId) {
-        showProgressOnUI("正在获取车队列表");
+        showProgressOnUI("正在获取车队列表...");
         //获取车队信息
 
         HttpHelper.getInstance().get(Url.GetMotorcades + motorcadeId, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
+                cancelProgress();
                 ResponseMotorcades json = ParseJson_Object(result, ResponseMotorcades.class);
                 json.getCompany();
                 json.getMotorcade();
@@ -229,6 +230,7 @@ public class FleetActivity extends BaseActivity {
                         people.setPhoneNumber(driver.getPhoneNumber());
                         list.add(people);
                     }
+                    User.getInstance().setDriverList(list);
                     if (adapter == null)
                         adapter = new FleetListAdapter(AppParams.DEVICES_APP ? true : isSelectDriver);
                     adapter.setPeoples(list);
@@ -239,17 +241,20 @@ public class FleetActivity extends BaseActivity {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            cancelProgress();
                             initView();
                         }
                     });
 
+                } else {
+                    showToast("车队还没有添加过成员哦！");
                 }
 
             }
 
             @Override
             public void onFailed(String str) {
+
+                cancelProgress();
                 showToast("车队信息获取失败");
             }
         });

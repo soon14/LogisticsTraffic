@@ -11,12 +11,17 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Product;
+import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.network.entity.JsonFavorite;
+import com.bt.zhangzy.network.entity.JsonUser;
+
+import java.util.Iterator;
 
 /**
  * Created by ZhangZy on 2015/6/11.
@@ -24,6 +29,7 @@ import com.bt.zhangzy.network.Url;
 public class DetailCompany extends BaseActivity {
 
     private Product product;
+    int favoritesId;//收藏id  标识是否被收藏；
 
     //testData
 //        product = new Product(102);
@@ -38,17 +44,25 @@ public class DetailCompany extends BaseActivity {
 
         setContentView(R.layout.activity_detail_cp);
         setPageName("门企详情");
-        if (getIntent().getExtras() != null) {
-            Bundle bundle = getIntent().getExtras();
-            if (bundle.containsKey(AppParams.BUNDLE_PRODUCT_KEY)) {
-                product = (Product) bundle.get(AppParams.BUNDLE_PRODUCT_KEY);
-            }
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null && bundle.containsKey(AppParams.BUNDLE_PRODUCT_KEY)) {
+            product = (Product) bundle.get(AppParams.BUNDLE_PRODUCT_KEY);
+            requestGetCompany(product.getID());
+            View collectBtn = findViewById(R.id.detail_colletion);
+            favoritesId = User.getInstance().checkFavoritesId(product.getID());
+            collectBtn.setSelected(favoritesId > 0);
+        } else {
+            showToast("product = null");
+            finish();
         }
 
         initView();
+        setTelephonyListen();
 
-        requestGetCompany(product.getID());
 
+    }
+
+    private void setTelephonyListen() {
         //TODO 设置电话监听
         TelephonyManager mTelephonyMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
         mTelephonyMgr.listen(new PhoneStateListener() {
@@ -100,7 +114,7 @@ public class DetailCompany extends BaseActivity {
     }
 
     private void initView() {
-        if (AppParams.DEVICES_APP) {
+        if (AppParams.DEVICES_APP || User.getInstance().getUserType() == Type.InformationType) {
             findViewById(R.id.detail_gray_line).setVisibility(View.GONE);
             findViewById(R.id.detail_order_btn).setVisibility(View.GONE);
         }
@@ -111,8 +125,8 @@ public class DetailCompany extends BaseActivity {
         }
 
         ImageView headImg = (ImageView) findViewById(R.id.detail_user_head_img);
-        String url = "http://img1.3lian.com/img2011/w1/105/4/13.jpg";
-        ImageHelper.getInstance().load(url, headImg);
+//        String url = "http://img1.3lian.com/img2011/w1/105/4/13.jpg";
+//        ImageHelper.getInstance().load(url, headImg);
     }
 
     boolean openCall;
@@ -162,6 +176,7 @@ public class DetailCompany extends BaseActivity {
             });
             return;
         }
+        //// TODO: 2016-1-29  考虑是否直接跳转到 OrderDetailActivity
         startActivity(OrderActivity.class);
     }
 
@@ -175,7 +190,73 @@ public class DetailCompany extends BaseActivity {
             });
             return;
         }
-        User.getInstance().addCollectionProduct(product);
-        showToast("收藏成功");
+        if (findViewById(R.id.detail_colletion).isSelected()) {
+            requestFavoritesDel();
+        } else {
+            //// TO DO: 2016-1-28  收藏接口
+            requestFavorites();
+
+        }
+    }
+
+    private void requestFavoritesDel() {
+        HttpHelper.getInstance().del(Url.DelFavourite + favoritesId, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                showToast("取消收藏成功");
+                Iterator<JsonFavorite> iterator = User.getInstance().getJsonFavorites().iterator();
+                while (iterator.hasNext()) {
+                    if (iterator.next().getId() == favoritesId) {
+                        iterator.remove();
+                        break;
+                    }
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        findViewById(R.id.detail_colletion).setSelected(false);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailed(String str) {
+                showToast("取消收藏失败");
+            }
+        });
+    }
+
+    private void requestFavorites() {
+        //传4个参数 fromRole,fromRoleId,toRole,toRoleId
+        JsonUser jsonUser = User.getInstance().getJsonUser();
+        int fromRole = jsonUser.getRole();
+        int fromRoleId = jsonUser.getId();
+        int toRole = 3;//默认只能显示信息部
+        int toRoleId = product.getID();
+        HttpHelper.getInstance().get(
+                HttpHelper.toString(Url.GetFavourite,
+                        new String[]{"fromRole=" + fromRole, "fromRoleId=" + fromRoleId, "toRole=" + toRole, "toRoleId=" + toRoleId}),
+                new JsonCallback() {
+                    @Override
+                    public void onSuccess(String msg, String result) {
+                        JsonFavorite favorite = ParseJson_Object(result, JsonFavorite.class);
+                        favoritesId = favorite.getId();
+                        User.getInstance().getJsonFavorites().add(favorite);
+                        User.getInstance().addCollectionProduct(product);
+                        showToast("收藏成功");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                findViewById(R.id.detail_colletion).setSelected(true);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailed(String str) {
+                        showToast("收藏失败");
+                    }
+                });
     }
 }

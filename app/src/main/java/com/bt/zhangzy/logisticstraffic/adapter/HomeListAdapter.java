@@ -16,6 +16,8 @@ import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.tools.ViewUtils;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +69,8 @@ public class HomeListAdapter extends BaseAdapter {
             holder.levelBar = (RatingBar) convertView.findViewById(R.id.list_item_lv_rating);
             holder.vipImg = (ImageView) convertView.findViewById(R.id.list_item_vip_img);
             holder.layout = convertView.findViewById(R.id.list_item_ly);
+            holder.call_times_tx = (TextView)convertView.findViewById(R.id.list_item_times_count_tx);
+            holder.times_tx = (TextView)convertView.findViewById(R.id.list_item_times_tx);
             listView.add(holder);
 
             holder.img.setImageResource(fakeImgId[position % fakeImgId.length]);
@@ -88,6 +92,12 @@ public class HomeListAdapter extends BaseAdapter {
             if(holder.vipImg != null) {
                 holder.vipImg.setVisibility(product.isVip() ? View.VISIBLE : View.INVISIBLE);
             }
+            if(!TextUtils.isEmpty(product.getCallTimes())){
+                holder.call_times_tx.setText(product.getCallTimes());
+            }
+            if(!TextUtils.isEmpty(product.getTimes())){
+                holder.times_tx.setText(product.getTimes());
+            }
         }
         return convertView;
     }
@@ -96,6 +106,7 @@ public class HomeListAdapter extends BaseAdapter {
         int position;
         ImageView img;
         TextView textView;
+        TextView call_times_tx , times_tx;
         ImageButton button;
         View layout;
         RatingBar levelBar;

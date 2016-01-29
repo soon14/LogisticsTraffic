@@ -126,14 +126,17 @@
 
             <!-- todo 键盘遮挡问题-->
             <EditText
+                android:id="@+id/services_id_ed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:layout_weight="1" />
 
             <Button
                 style="@style/orange_btn_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onClick_SearchID"
                 android:text="查询" />
         </LinearLayout>
 
@@ -149,6 +152,7 @@
             android:background="@color/mask_black">
 
             <TextView
+                android:id="@+id/services_search_result_tx"
                 style="@style/black_tx_18_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

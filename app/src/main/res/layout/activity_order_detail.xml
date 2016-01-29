@@ -319,6 +319,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="5dp"
+            android:onClick="onClick_SubmitOrder"
             android:text="提交订单" />
     </LinearLayout>
 

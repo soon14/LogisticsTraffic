@@ -9,6 +9,10 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.CollectListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.network.HttpHelper;
+import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.tools.Json;
 
 /**
  * Created by ZhangZy on 2015/7/7.
@@ -32,8 +36,24 @@ public class CollectActivity extends BaseActivity implements AdapterView.OnItemC
         setContentView(R.layout.activity_collect);
         setPageName("收藏夹");
         setPageState(MY_COLLECT);
+        //// TODO: 2016-1-28  收藏夹列表
+        requestFavouriteList();
     }
 
+    private void requestFavouriteList(){
+
+        HttpHelper.getInstance().get(Url.GetFavouriteList, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
+    }
 
 
     public void setPageState(boolean pageState) {

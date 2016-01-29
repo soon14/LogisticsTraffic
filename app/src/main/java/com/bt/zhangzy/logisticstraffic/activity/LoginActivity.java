@@ -149,6 +149,9 @@ public class LoginActivity extends BaseActivity {
                         return ;
                     }
                 }
+
+                user.setJsonFavorites(json.getFavorites());
+                user.setMotorcades(json.getMotorcades());
                 showToast("用户登录成功");
 
                 loginSusses();

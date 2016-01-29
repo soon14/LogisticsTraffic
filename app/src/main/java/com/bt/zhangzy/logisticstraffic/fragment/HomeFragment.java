@@ -20,6 +20,7 @@ import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.Url;
 import com.bt.zhangzy.network.entity.JsonUser;
+import com.bt.zhangzy.network.entity.ResponseCompany;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -277,6 +278,7 @@ public class HomeFragment extends BaseHomeFragment {
         if (User.getInstance().getUserType() == Type.EnterpriseType) {
             url += "?role=3";
         }
+        url = Url.GetCompanyList;
         HttpHelper.getInstance().get(url, new JsonCallback() {
             @Override
             public void onFailed(String str) {
@@ -286,17 +288,20 @@ public class HomeFragment extends BaseHomeFragment {
             @Override
             public void onSuccess(String msg, String json) {
 
-                List<JsonUser> list = ParseJson_Array(json, JsonUser.class);
+                List<ResponseCompany> list = ParseJson_Array(json, ResponseCompany.class);
 //                Log.w(TAG, "Test==>>>>" + toJsonString(list));
                 ArrayList<Product> arrayList = new ArrayList<Product>();
                 Product product;
-                for (JsonUser user : list) {
+                for (ResponseCompany user : list) {
                     product = new Product(user.getId());
-                    product.setName(user.getNickname());
-                    product.setPhoneNumber(user.getName());
-                    product.setType(user.getType());
+                    product.setName(user.getName());
+//                    product.setPhoneNumber(user.getName());
+//                    product.setType(user.getType());
                     //设置 认证用户或者 付费用户
-                    product.setIsVip(user.getStatus() == 0 || user.getStatus() == 3);
+                    product.setIsVip(user.getStatus() != -1);
+//                    product.setLevel(user.getStar());
+                    product.setTimes(user.getViewCount());
+                    product.setCallTimes(user.getCallCount());
                     arrayList.add(product);
                 }
                 setListAdapter(arrayList);

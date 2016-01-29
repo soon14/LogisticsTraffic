@@ -323,7 +323,7 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
     /**
      * ======= 侧边栏城市列表 ==============================
      */
-    private PopupWindow popupWindowSide;
+//    private PopupWindow popupWindowSide;
     private ListView listView;
     private TextView locationNetworkTx;
     private LocationCallback locationCallback;
@@ -331,6 +331,7 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
     private Window shadowWindow;
 
     /**
+     * TODO 2016年1月28日 城市选择的三级列表 效率低，待优化；
      * 地址选择对话框
      */
     private PopupWindow creatPopupWindow(Activity act) {

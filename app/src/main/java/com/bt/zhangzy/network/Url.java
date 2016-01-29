@@ -29,7 +29,7 @@ public final class Url {
     public static final String GetVerificationCode = Host + "/commons/getVerificationCode/";
 
     /*图片上传接口*/
-    public static final String UpLoadImage = Host+"/upload";
+    public static final String UpLoadImage = Host + "/upload";
     /*========= 验证 司机/企业/信息部 的接口 =====================================================*/
     /*企业身份认证*/
     public static final String PostVerifyEnterprises = Host + "/enterprises/authenticate";
@@ -40,25 +40,27 @@ public final class Url {
     /*========== 获取角色信息 ====================================================*/
     public static final String GetCarInfo = Host + "/drivers/list_car/";//传driverID
     /* 根据用户id获取对应的司机信息*/
-    public static final String GetDriverInfo =Host +  "/drivers/user_id/";
+    public static final String GetDriverInfo = Host + "/drivers/user_id/";
     /*根据用户id获取对应的企业信息*/
-    public static final String GetEnterprisesInfo =Host +  "/enterprises/user_id/";
+    public static final String GetEnterprisesInfo = Host + "/enterprises/user_id/";
     /*根据对应用户id获取 物流公司的详细信息*/
-    public static final String GetCompaniesInfo =Host +  "/companies/user_id/";
-
-    //根据id值获取店铺信息
-    public static final String GetCompany = Host + "/companies/";
+    public static final String GetCompaniesInfo = Host + "/companies/user_id/";
 
     /* 按照id更新企业信息 */
     public static final String PutEnterprisesInfo = Host + "/enterprises/";
     public static final String PutCompaniesInfo = Host + "/companies/";
     public static final String PutDrivers = Host + "/drivers/";
 
+    /*=========== 首页相关 ==============================*/
+    //根据id值获取店铺信息
+    public static final String GetCompany = Host + "/companies/";
+    public static final String GetCompanyList = Host + "/companies/list";
+
     /*============ 车队相关 ==================================================*/
     public static final String PostDriversAddCar = Host + "/drivers/add_car";
     //获取车队信息
     public static final String GetMotorcades = Host + "/motorcades/";
-//    按角色和id获取车队列表
+    //    按角色和id获取车队列表
     public static final String GetMotorcadesList = Host + "/motorcades/list/";
     //获取归属车队列表   /drivers/list_motorcade
     public static final String GetDriversListMotorcade = Host + "/drivers/list_motorcade";
@@ -81,4 +83,18 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
     /*=============== 订单接口 ====================================*/
     public static final String PostCreatOrders = Host + "/orders/create";
     public static final String PostSendToCompany = Host + "/orders/send_to_company";
+    public static final String GetOrder = Host + "/orders/";//按ID获取订单
+    public static final String PutOrder = Host + "/orders/";
+    public static final String GetMyOrderList = Host + "/orders/show_user_order";//获取用户所属的订单列表
+    public static final String GetOrderList  = Host + "/orders/list";//获取可抢订单列表
+
+    /*=========== 收藏 ============================*/
+    public static final String GetFavourite = Host + "/users/favourite";///users/ favour  get方式，传4个参数 fromRole,fromRoleId,toRole,toRoleId
+    public static final String DelFavourite = Host + "/users/favourite/";///users/favourite/{id} //取消 和 获取收藏;
+    public static final String GetFavouriteList = Host+"/users/list_favourite";//收藏夹
+
+    /*============= 搜索 =================================*/
+    public static final String GetSearch = Host + "/companies/search";//在认证公司信息或者修改公司信息时对name、address、area字段做索引，通过关键词对公司名称进行检索
+
+
 }

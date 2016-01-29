@@ -31,13 +31,12 @@ public class OrderActivity extends BaseActivity {
             setContentView(R.layout.order_place);
             setPageName("订单详情");
         } else if (User.getInstance().getUserType() == Type.InformationType) {
-            setContentView(R.layout.order_submit);
-            setPageName("货物详情");
-        } else {
-
-
+            //信息部 不能 给别的信息部下单
+            showToast("信息部 不能 给别的信息部下单");
+            finish();
+//            setContentView(R.layout.order_submit);
+//            setPageName("货物详情");
         }
-
 
     }
 
@@ -56,6 +55,7 @@ public class OrderActivity extends BaseActivity {
 
     /**
      * 货物类型 选择事件
+     *
      * @param view
      */
     public void onClick_ChangeType(View view) {
@@ -69,12 +69,13 @@ public class OrderActivity extends BaseActivity {
                     textView.setText(tx.getText());
                 }
             }
-        },getResources().getStringArray(R.array.order_change_type_items));
+        }, getResources().getStringArray(R.array.order_change_type_items));
 
     }
 
     /**
      * 车型 选择事件
+     *
      * @param view
      */
     public void onClick_ChangeTruckType(View view) {
@@ -87,11 +88,12 @@ public class OrderActivity extends BaseActivity {
                     textView.setText(tx.getText());
                 }
             }
-        },getResources().getStringArray(R.array.order_change_truck_type_items));
+        }, getResources().getStringArray(R.array.order_change_truck_type_items));
     }
 
     /**
      * 车长选择
+     *
      * @param view
      */
     public void onClick_ChangeTruckLength(View view) {
@@ -108,18 +110,15 @@ public class OrderActivity extends BaseActivity {
     }
 
 
-
-
-
-
     /**
      * 货物重量选择
+     *
      * @param view
      */
     public void onClick_ChangeWeight(View view) {
         final TextView textView = (TextView) view;
         BaseDialog dialog = new BaseDialog(this);
-        dialog.setView(R.layout.order_dialog_weight).setOnClickListener(R.id.order_dialog_weight_btn,new View.OnClickListener() {
+        dialog.setView(R.layout.order_dialog_weight).setOnClickListener(R.id.order_dialog_weight_btn, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textView.setText("20");

@@ -18,6 +18,7 @@ public class Product implements Serializable {
     private String describe;
     private String address;//地址
     private String times;//被浏览的次数
+    private String callTimes;//拨打次数
     private float level;//评分等级
     private boolean isVip;// 是否是认证用户
     private Location location;//地理位置
@@ -27,6 +28,14 @@ public class Product implements Serializable {
 
     public Product(int ID) {
         this.ID = ID;
+    }
+
+    public String getCallTimes() {
+        return callTimes;
+    }
+
+    public void setCallTimes(String callTimes) {
+        this.callTimes = callTimes;
     }
 
     public int getID() {

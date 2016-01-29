@@ -17,6 +17,11 @@ import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.network.HttpHelper;
+import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.network.entity.BaseEntity;
+import com.bt.zhangzy.network.entity.JsonOrder;
 
 import static com.bt.zhangzy.logisticstraffic.data.OrderDetailMode.EnterpriseMode;
 
@@ -287,6 +292,28 @@ public class OrderDetailActivity extends BaseActivity {
             }
         });
         dialog.show();
+    }
+
+    //提交订单按钮
+    public void onClick_SubmitOrder(View view){
+
+    }
+
+    private void requestCreateOrder(){
+        //企业向信息部下单，生成的临时订单会推送的信息部，由信息部完善订单信息
+
+        JsonOrder entity  = new JsonOrder();
+        HttpHelper.getInstance().post(Url.PostCreatOrders, entity, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
     }
 
 

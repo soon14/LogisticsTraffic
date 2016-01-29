@@ -8,6 +8,7 @@ import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
+import com.bt.zhangzy.network.entity.JsonFavorite;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonUser;
 
@@ -23,22 +24,7 @@ public class User implements Serializable {
 
     private static User instance = new User();
     private String registrationID;//推送标识符
-
-    public static User getInstance() {
-        return instance;
-    }
-
-    /**
-     * 加载用回对象，用于数据存储；
-     *
-     * @param user
-     */
-    public void loadUser(User user) {
-        if (user == null)
-            return;
-        instance = user;
-    }
-
+    private List<JsonFavorite> jsonFavorites;//收藏标识 // TODO: 2016-1-29 拿到收藏列表后要根据列表内容判断 是否已收藏
 
     private boolean isLogin = false;
     private Type userType = Type.EmptyType;
@@ -55,6 +41,22 @@ public class User implements Serializable {
     private JsonUser jsonUser;
     private List<JsonMotorcades> motorcades;//车队列表
     private JsonCar jsonCar;//司机 所属的 车辆；
+
+    public static User getInstance() {
+        return instance;
+    }
+
+    /**
+     * 加载用回对象，用于数据存储；
+     *
+     * @param user
+     */
+    public void loadUser(User user) {
+        if (user == null)
+            return;
+        instance = user;
+    }
+
 
     public JsonCar getJsonCar() {
         return jsonCar;
@@ -157,12 +159,12 @@ public class User implements Serializable {
 
     private User() {
         //test data
-        driverList = new ArrayList<People>();
-        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
-        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
-        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
-        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
-        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
+//        driverList = new ArrayList<People>();
+//        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
+//        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
+//        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
+//        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
+//        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
 
         searchKeyWordList.add("测试测试");
         searchKeyWordList.add("测试1");
@@ -304,4 +306,29 @@ public class User implements Serializable {
     public String getRegistrationID() {
         return registrationID;
     }
+
+    public void setJsonFavorites(List<JsonFavorite> jsonFavorites) {
+        this.jsonFavorites = jsonFavorites;
+    }
+
+    public List<JsonFavorite> getJsonFavorites() {
+        return jsonFavorites;
+    }
+
+    //检查 是否在收藏列表中
+    public int checkFavoritesId(int id){
+        if(jsonFavorites == null || jsonFavorites.isEmpty())
+            return -1;
+        for(JsonFavorite json : jsonFavorites){
+            if(id == json.getFavoritedRoleId()){
+                return json.getId();
+            }
+        }
+
+        return -1;
+    }
+
+
+
+
 }

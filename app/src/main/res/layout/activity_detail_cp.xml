@@ -8,14 +8,14 @@
     tools:context="com.bt.zhangzy.logisticstraffic.activity.DetailCompany">
 
     <RelativeLayout
+        android:id="@+id/page_top_ly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/page_top_ly"
         android:background="@color/main_bg_color">
 
         <TextView
-            style="@style/title_style"
             android:id="@+id/page_top_name"
+            style="@style/title_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="门企详情" />
@@ -26,9 +26,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
             android:background="@color/transparent"
             android:onClick="onClick_CollectAdd"
-            android:src="@drawable/colletion_icon" />
+            android:src="@drawable/collection_selector" />
 
         <ImageView
             android:layout_width="wrap_content"
