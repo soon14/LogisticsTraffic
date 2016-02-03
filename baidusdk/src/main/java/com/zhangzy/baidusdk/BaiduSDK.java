@@ -1,6 +1,7 @@
 package com.zhangzy.baidusdk;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -67,7 +68,7 @@ public class BaiduSDK extends BDNotifyListener implements BDLocationListener {
                         //此处处理识别结果，识别结果可能有多个，按置信度从高到低排列，第一个元素是置信度最高的结果。
                         Log.d(TAG, "语音输入结果：" + Arrays.toString(rs.toArray(new String[0])));
                         if (voiceListener != null) {
-                            voiceListener.callbackVoice(rs.get(0).replace("。",""));
+                            voiceListener.callbackVoice(rs.get(0).replace("。", ""));
                         }
                     }
                 }
@@ -189,13 +190,13 @@ public class BaiduSDK extends BDNotifyListener implements BDLocationListener {
         Log.i(TAG, "百度地图定位 --结果：" + sb.toString());
         stopLocationServer();
         if (listener != null) {
-            listener.callbackCityName(bdLocation.getCity(), String.valueOf(bdLocation.getLatitude()), String.valueOf(bdLocation.getLongitude()));
+            listener.callbackCityName(bdLocation.getProvince(), bdLocation.getCity(), String.valueOf(bdLocation.getLatitude()), String.valueOf(bdLocation.getLongitude()));
         }
     }
 
     public interface LocationListener {
 
-        public void callbackCityName(String cityname, String latitude, String longitude);
+        public void callbackCityName(String province, String cityname, String latitude, String longitude);
     }
 
     public interface VoiceListener {
