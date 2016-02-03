@@ -10,9 +10,9 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.LicenceKeyboardPopupWindow;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.Url;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.RequestAddCar;
@@ -86,7 +86,7 @@ public class PublishActivity extends BaseActivity {
         requestJson.setCar(requestCarJson);
         requestCarJson.setDriverId(jsonDriver.getId());
 
-        HttpHelper.getInstance().post(Url.PostDriversAddCar, requestJson, new JsonCallback() {
+        HttpHelper.getInstance().post(AppURL.PostDriversAddCar, requestJson, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("发布成功");

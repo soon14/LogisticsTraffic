@@ -7,15 +7,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-import com.alibaba.fastjson.JSON;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.Url;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseLogin;
 import com.bt.zhangzy.tools.Tools;
@@ -79,6 +78,8 @@ public class LoginActivity extends BaseActivity {
 //        startActivity(new Intent(LoginActivity.this,UserActivity.class));
         //登录成功后保存一下信息；
         getApp().saveUser();
+        getApp().setAliasAndTag();
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null)
             startActivity(HomeActivity.class, bundle);
@@ -92,14 +93,8 @@ public class LoginActivity extends BaseActivity {
 //        user.setName(username);
         user.setPhoneNumber(username);
         user.setPassword(password);
-//        user.setRole(2);
-//        if(Constant.DEVICES_APP) {
-//            user.setRole(1);
-//        }else{
-//
-//        }
 
-        HttpHelper.getInstance().post(Url.Login, user, new JsonCallback() {
+        HttpHelper.getInstance().post(AppURL.Login, user, new JsonCallback() {
             @Override
             public void onFailed(String str) {
                 showToast("用户登录失败：" + str);

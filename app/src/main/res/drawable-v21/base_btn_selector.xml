@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/base_btn_focus">
+    <item android:drawable="@drawable/base_btn_def_shape" />
+    <item android:drawable="@drawable/base_btn_def_shape" />
+
+</ripple>

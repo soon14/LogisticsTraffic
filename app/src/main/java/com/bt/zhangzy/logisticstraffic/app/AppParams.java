@@ -12,6 +12,7 @@ import com.bt.zhangzy.tools.Tools;
 public final class AppParams {
 
 
+
     static AppParams instance = new AppParams();
 
     private AppParams() {
@@ -47,6 +48,10 @@ public final class AppParams {
     public static boolean DEVICES_APP = false;
 
     /*=============activity跳转请求常量 =================*/
+    /*  web页面 的页面名称 */
+    public static final String WEB_PAGE_NAME = "WEB_PAGE_NAME";
+    public static final String WEB_PAGE_URL = "WEB_PAGE_URL";//加载的地址
+
     /**
      * 注册页跳转请求常量
      */
@@ -61,6 +66,8 @@ public final class AppParams {
      * 订单页面选择车队司机时的请求码
      */
     public static final int RESULT_CODE_SELECT_DEVICES = 0x001;//订单页面选择车队司机时的请求码
+    public static final String SELECT_DEVICES_SIZE_KEY = "SELECT_DEVICES_SIZE_KEY";//订单页面选择车队司机时的司机数量
+
 
     /**
      * 跳转到通讯录时的请求码
@@ -72,6 +79,7 @@ public final class AppParams {
      * 跳转到订单详情页 请求码
      * */
     public static final String ORDER_DETAIL_KEY_TYPE = "ORDER_DETAIL_KEY_TYPE";
+    public static final String ORDER_DETAIL_KEY_ORDER = "ORDER_DETAIL_KEY_ORDER";//跳转时传的 订单对象
 
     /**
      * product 在 bundle中的key值

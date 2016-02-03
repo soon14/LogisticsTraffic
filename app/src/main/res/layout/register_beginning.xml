@@ -142,11 +142,12 @@
         android:paddingTop="10dp"
         android:text="已阅读并同意法律申明"
         android:textColor="@color/black"
+        android:onClick="onClick_OpenLaw"
         android:textSize="11sp" />
 
     <Button
         style="@style/home_button_style"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="5dp"

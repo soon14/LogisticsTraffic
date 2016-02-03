@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
@@ -70,12 +71,19 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+//        updateFragment(position, fragment);
+        return fragment;
+    }
+
+    @Override
     public Fragment getItem(int position) {
         return fragments.get(position);
     }
 
     @Override
     public int getCount() {
-        return fragments.size();
+        return fragments == null ? 0 : fragments.size();
     }
 }

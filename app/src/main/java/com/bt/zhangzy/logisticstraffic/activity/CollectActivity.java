@@ -9,10 +9,9 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.CollectListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.Url;
-import com.bt.zhangzy.tools.Json;
 
 /**
  * Created by ZhangZy on 2015/7/7.
@@ -42,7 +41,7 @@ public class CollectActivity extends BaseActivity implements AdapterView.OnItemC
 
     private void requestFavouriteList(){
 
-        HttpHelper.getInstance().get(Url.GetFavouriteList, new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetFavouriteList, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
 

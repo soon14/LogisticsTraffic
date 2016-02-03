@@ -31,24 +31,28 @@
         android:visibility="gone" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="司机端"
+        style="@style/while_orange_btn_style"
         android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="158dp"
         android:onClick="onClick_Driver"
-        android:layout_marginBottom="158dp" />
+        android:text="司机端" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="企业端"
+        style="@style/while_orange_btn_style"
         android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:onClick="onClick_Enterprise"
+        android:text="企业端"
         android:layout_alignTop="@+id/button4"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="35dp" />
+
 
 
 </RelativeLayout>

@@ -15,7 +15,7 @@ import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.tools.ContextTools;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Product;
@@ -142,7 +142,7 @@ public class SearchActivity extends BaseActivity {
     //搜索接口
     private void requestSearch(String searchStr) {
         //// TODO: 2016-1-28  关键词搜索
-        HttpHelper.getInstance().get(HttpHelper.toString(Url.GetSearch, new String[]{"name=" + searchStr}), new JsonCallback() {
+        HttpHelper.getInstance().get(HttpHelper.toString(AppURL.GetSearch, new String[]{"name=" + searchStr}), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("搜索成功");

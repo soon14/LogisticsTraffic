@@ -11,6 +11,7 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.data.People;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by ZhangZy on 2015/6/24.
@@ -20,11 +21,48 @@ public class FleetListAdapter extends BaseAdapter {
     private ArrayList<People> list = new ArrayList<People>();
     private DelBtnListener delBtnListener;
     boolean hide_delBtn;
+    private ArrayList<Integer> selectedList = new ArrayList<>();
+    int needSize;
 
-    public FleetListAdapter(boolean isSelect) {
+    public FleetListAdapter(boolean isSelect,int size) {
         this.hide_delBtn = isSelect;
+        selectedList= new ArrayList<>(size);
+        needSize = size;
     }
 
+    public boolean selected(int position) {
+
+        Iterator it = selectedList.iterator();
+        while (it.hasNext()) {
+            if (position == it.next()) {
+                //如果已经选中则删除
+                it.remove();
+                notifyDataSetChanged();
+                return true;
+            }
+        }
+        if(selectedList.size() == needSize){
+            //如果已经数量已经足够 则不能继续添加
+            return  false;
+        }
+        //如果没有选中则选中
+        selectedList.add(position);
+        notifyDataSetChanged();
+        return true;
+    }
+
+    public int getSelectedListSize(){
+        return selectedList.size();
+    }
+
+    public ArrayList<People> getSelectedList() {
+        ArrayList<People> select_list = new ArrayList<People>();
+        for (int s : selectedList) {
+            select_list.add(list.get(s));
+        }
+
+        return select_list;
+    }
 
     public ArrayList<People> getList() {
         return list;
@@ -87,9 +125,12 @@ public class FleetListAdapter extends BaseAdapter {
             holder.name = (TextView) convertView.findViewById(R.id.fleet_it_name_tx);
             holder.phone = (TextView) convertView.findViewById(R.id.fleet_it_phone_tx);
             holder.del = (ImageButton) convertView.findViewById(R.id.fleet_it_del_btn);
+            holder.select = convertView.findViewById(R.id.fleet_it_select_btn);
             if (hide_delBtn) {
+                holder.select.setVisibility(View.INVISIBLE);
                 holder.del.setVisibility(View.GONE);
             } else {
+                holder.select.setVisibility(View.GONE);
                 holder.del.setOnClickListener(holder);
             }
             convertView.setTag(holder);
@@ -100,6 +141,13 @@ public class FleetListAdapter extends BaseAdapter {
             People people = list.get(position);
             holder.name.setText(people.getName());
             holder.phone.setText(people.getPhoneNumber());
+            holder.select.setVisibility(View.INVISIBLE);
+            for (int s : selectedList) {
+                if (position == s) {
+                    holder.select.setVisibility(View.VISIBLE);
+                    break;
+                }
+            }
         }
 
 
@@ -111,6 +159,7 @@ public class FleetListAdapter extends BaseAdapter {
         TextView name;
         TextView phone;
         ImageButton del;
+        View select;
 
         Holder(int id) {
             this.id = id;

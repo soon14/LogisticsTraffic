@@ -89,6 +89,23 @@ public class HttpHelper extends OkHttpClient {
         return stringBuffer.toString();
     }
 
+    @NonNull
+    public static String toString(String url, HashMap textParams) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(url);
+        stringBuffer.append("?");
+        Iterator<String> it = textParams.keySet().iterator();
+        String key;
+        while (it.hasNext()) {
+            key = it.next();
+            stringBuffer.append(key);
+            stringBuffer.append("=");
+            stringBuffer.append(textParams.get(key));
+            stringBuffer.append("&");
+        }
+        return stringBuffer.toString();
+    }
+
     /**
      * 拼接口参数  如：http://www.baidu.com?param1&param2&....
      *
@@ -302,21 +319,12 @@ public class HttpHelper extends OkHttpClient {
         //表单
         if (textParams != null && textParams.size() > 0) {
             Log.i(TAG, "post url = " + url + " params = " + textParams.toString());
-            StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append(url);
-            stringBuffer.append("?");
-            Set<String> keySet = textParams.keySet();
-            for (Iterator<String> it = keySet.iterator(); it.hasNext(); ) {
-                String name = it.next();
-                String value = (String) textParams.get(name);
-//                multBuilder.addFormDataPart(name,value);
-//                builder.add(name, value);
-                stringBuffer.append(name + "=" + value);
-            }
-//            get(stringBuffer.toString(), responseCallback);
-            enqueue(new Request.Builder().url(stringBuffer.toString()).get().build(), responseCallback);
+            String stringBuffer = toString(url, textParams);
+
+            enqueue(new Request.Builder().url(stringBuffer).get().build(), responseCallback);
         }
     }
+
 
     /**
      * 文件上传 待测试

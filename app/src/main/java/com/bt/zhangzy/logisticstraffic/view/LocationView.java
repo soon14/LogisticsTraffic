@@ -5,10 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,34 +20,21 @@ import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.LocationListAdapter;
-import com.bt.zhangzy.logisticstraffic.app.LocationXmlParserHandler;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.Url;
 import com.bt.zhangzy.network.entity.JsonLocationCity;
 import com.bt.zhangzy.network.entity.JsonLocationProvince;
+import com.bt.zhangzy.network.entity.ResponseOpenCity;
 import com.zhangzy.baidusdk.BaiduSDK;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
@@ -63,6 +47,7 @@ import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationListener {
     public LocationView() {
         requestCityList();
+        requestOpenCityList();
     }
 
     public interface ChangingListener {
@@ -94,6 +79,7 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
     private Dialog dialog;
 
     private ChangingListener listener;
+    private Location currentLocation;
 
 
     public void init(Context context, PopupWindow view) {
@@ -158,9 +144,11 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
     }
 
     List<JsonLocationProvince> cityList;//城市列表
+    ArrayList<ArrayList<Location>> cityListOpen;//城市列表
+
 
     private void requestCityList() {
-        HttpHelper.getInstance().get(Url.GetCityList, new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetCityList, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 List<JsonLocationProvince> list = ParseJson_Array(result, JsonLocationProvince.class);
@@ -177,100 +165,45 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
         });
     }
 
-    /*private void loadXmlData(Context context, String fileName) {
-
-        HashMap<String, ArrayList<String>> array;
-        InputStream input = null;
-        try {
-            input = context.getAssets().open(fileName);
-
-            // 创建一个解析xml的工厂对象
-            SAXParserFactory spf = SAXParserFactory.newInstance();
-            // 解析xml
-            SAXParser parser = spf.newSAXParser();
-            LocationXmlParserHandler handler = new LocationXmlParserHandler();
-            parser.parse(input, handler);
-            input.close();
-
-            HashMap<String, ArrayList<String>> provinceMap = handler.getProvinceMap();
-            Set<String> strings = provinceMap.keySet();
-            mProvinceArray = new String[strings.size()];
-            strings.toArray(mProvinceArray);
-            //排序
-            Comparator cmp = Collator.getInstance(Locale.CHINESE);
-//            Collections.sort((List) strings,cmp);
-            Arrays.sort(mProvinceArray, cmp);
-
-            for (String str : strings) {
-                ArrayList<String> tmp_array = provinceMap.get(str);
-                String[] cities = new String[tmp_array.size()];
-                tmp_array.toArray(cities);
-                mCitiesMap.put(str, cities);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }*/
-
-//    /**
-//     * 读取json数据
-//     *
-//     * @param context
-//     */
-  /*  public static void loadData(final Context context) {
-        //读取城市列表
-        new AsyncTask<String, Integer, JSONArray>() {
-
+    private void requestOpenCityList() {
+        HttpHelper.getInstance().get(AppURL.GetOpenCityList, new JsonCallback() {
             @Override
-            protected JSONArray doInBackground(String... params) {
-                try {
-                    InputStream is = context.getResources().getAssets().open(params[0]);
-                    int size = is.available();
-                    // Read the entire asset into a local byte buffer.
-                    byte[] buffer = new byte[size];
-                    is.read(buffer);
-                    is.close();
-                    // Convert the buffer into a string.
-                    String text = new String(buffer, "UTF-8");
-                    JSONArray jsonObject = new JSONArray(text.trim());
-//                    Log.d(TAG, "json=" + jsonObject.toJsonString());
-                    if (jsonObject == null)
-                        return null;
-                    mProvinceArray = new String[jsonObject.length()];
-                    JSONObject json;
-                    JSONArray jsonArray;
-                    String[] tmpCitys;
-                    for (int k = 0; k < jsonObject.length(); k++) {
-                        json = jsonObject.getJSONObject(k);
-                        mProvinceArray[k] = json.getString("province");
-                        jsonArray = json.getJSONArray("list");
-                        tmpCitys = new String[jsonArray.length()];
-                        for (int j = 0; j < jsonArray.length(); j++) {
-                            tmpCitys[j] = jsonArray.getString(j);
+            public void onSuccess(String msg, String result) {
+                List<ResponseOpenCity> list = ParseJson_Array(result, ResponseOpenCity.class);
+                //// TO DO: 2016-1-27
+                if (list != null && !list.isEmpty()) {
+//                    cityListOpen = list;
+
+                    Collections.sort(list, new Comparator<ResponseOpenCity>() {
+                        @Override
+                        public int compare(ResponseOpenCity lhs, ResponseOpenCity rhs) {
+                            return lhs.getFirstLetter() - rhs.getFirstLetter();
                         }
-                        mCitiesMap.put(mProvinceArray[k], tmpCitys);
+                    });
+                    ArrayList<ArrayList<Location>> locationList = new ArrayList<ArrayList<Location>>(list.size());
+//                    JsonLocationProvince jsonLocationProvince;
+                    ArrayList<Location> tmp_list;
+                    String province;
+                    Location location;
+                    for (ResponseOpenCity jsonLocationProvince : list) {
+                        province = jsonLocationProvince.getProvince();
+                        tmp_list = new ArrayList<Location>();
+                        locationList.add(tmp_list);
+                        for (String city : jsonLocationProvince.getCity()) {
+                            tmp_list.add(new Location(province, city));
+                        }
                     }
-                    return jsonObject;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    cityListOpen = locationList;
                 }
-                return null;
             }
 
             @Override
-            protected void onPostExecute(JSONArray jsonArray) {
-                super.onPostExecute(jsonArray);
-                if (jsonArray != null) {
-//                    jsonCityList = jsonArray;
-//                    init();
-                }
+            public void onFailed(String str) {
+
             }
-        }.execute("cityList.json");
-    }*/
+        });
+    }
+
 
     private void init() {
         if (cityList == null || cityList.isEmpty()) {
@@ -287,6 +220,30 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
         mProvinceView.setViewAdapter(new ArrayWheelAdapter<JsonLocationProvince>(context, array));
         mProvinceView.setCurrentItem(0);
         updateCities();
+    }
+
+    public void setCurrentLocation(Location location) {
+        this.currentLocation = location;
+        if (location != null) {
+            if (!TextUtils.isEmpty(location.getProvinceName())) {
+
+                JsonLocationProvince province;
+                for (int k = 0; k < cityList.size(); k++) {
+                    province = cityList.get(k);
+                    if (location.getProvinceName().startsWith(province.getProvince())) {
+                        mProvinceView.setCurrentItem(k);
+                        updateCities();
+                        for (int j = 0; j < province.getCity().size(); j++) {
+                            if (location.getCityName().startsWith(province.getCity().get(j).getCity())) {
+                                mCityView.setCurrentItem(j);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     private void updateCities() {
@@ -373,7 +330,7 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
 
         listView = (ListView) tmp_view.findViewById(R.id.location_city_list);
 
-        LocationListAdapter adapter = new LocationListAdapter(cityList);
+        LocationListAdapter adapter = new LocationListAdapter(cityListOpen);
         listView.setAdapter(adapter);
         adapter.setItemOnClickCallback(new LocationListAdapter.ItemOnClickCallback() {
             @Override
@@ -417,11 +374,13 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
     }
 
     @Override
-    public void callbackCityName(String cityname, String latitude, String langitude) {
+    public void callbackCityName(String province, String cityname, String latitude, String langitude) {
         location = new Location();
+        location.setProvinceName(province);
         location.setCityName(cityname);
         location.setLatitude(latitude);
         location.setLangitude(langitude);
+        Log.i(TAG, "定位信息：" + location);
         //更新用户的定位信息
         User.getInstance().setLocation(location);
         if (locationNetworkTx != null) {

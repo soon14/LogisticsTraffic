@@ -24,10 +24,11 @@
             android:text="交易订单号" />
 
         <TextView
+            android:id="@+id/order_detail_number_tx"
             style="@style/tx_black_df_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2045-06-26-110-555" />
+            android:text="" />
     </TableRow>
 
     <View
@@ -54,12 +55,12 @@
                 android:text="货物来源" />
 
             <TextView
-                android:id="@+id/order_detail_open_ed"
+                android:id="@+id/order_detail_enterprise_tx"
                 style="@style/tx_black_df_style"
                 android:layout_margin="3dp"
                 android:background="@color/white"
-                android:padding="5dp"
-                android:text="戴尔科技" />
+                android:hint="戴尔科技"
+                android:padding="5dp" />
         </TableRow>
 
         <View
@@ -75,12 +76,12 @@
                 android:text="接单企业" />
 
             <TextView
-                android:id="@+id/order_detail_finish_ed"
+                android:id="@+id/order_detail_company_tx"
                 style="@style/tx_black_df_style"
                 android:layout_margin="3dp"
                 android:background="@color/white"
-                android:padding="5dp"
-                android:text="德邦物流" />
+                android:hint="德邦物流"
+                android:padding="5dp" />
         </TableRow>
 
     </TableLayout>
@@ -105,7 +106,8 @@
 
         <TextView
             style="@style/tx_black_df_style"
-            android:text="货物详情" />
+            android:text="货物详情"
+            android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"
@@ -124,12 +126,12 @@
                 android:text="始  发  地" />
 
             <TextView
-                android:id="@+id/order_detail_start_bt"
+                android:id="@+id/order_detail_start_city_tx"
                 style="@style/tx_black_df_style"
                 android:background="@color/white"
                 android:clickable="true"
-                android:onClick="onClick_ChangeLocation"
-                android:text="包头" />
+                android:hint="出发城市"
+                android:onClick="onClick_ChangeLocation" />
         </TableRow>
 
         <View
@@ -149,12 +151,12 @@
                 android:text="目  的  地" />
 
             <TextView
-                android:id="@+id/order_detail_end_bt"
+                android:id="@+id/order_detail_stop_city_tx"
                 style="@style/tx_black_df_style"
                 android:background="@color/white"
                 android:clickable="true"
-                android:onClick="onClick_ChangeLocation"
-                android:text="北京" />
+                android:hint="到达城市"
+                android:onClick="onClick_ChangeLocation" />
         </TableRow>
 
         <View
@@ -174,12 +176,12 @@
                 android:text="类        型" />
 
             <TextView
-                android:id="@+id/order_detail_type_bt"
+                android:id="@+id/order_detail_type_tx"
                 style="@style/tx_black_df_style"
                 android:layout_marginRight="5dp"
                 android:clickable="true"
-                android:onClick="onClick_ChangeType"
-                android:text="电子原件" />
+                android:hint="货物的类型"
+                android:onClick="onClick_ChangeType" />
 
         </TableRow>
 
@@ -200,12 +202,12 @@
                 android:text="名        称" />
 
             <TextView
-                android:id="@+id/order_detail_truck_type_bt"
+                android:id="@+id/order_detail_goods_name_tx"
                 style="@style/tx_black_df_style"
                 android:layout_marginRight="5dp"
                 android:clickable="true"
-                android:onClick="onClick_ChangeTruckType"
-                android:text="集装箱" />
+                android:hint="货物的名称"
+                android:onClick="onClick_InputGoodsName" />
 
         </TableRow>
 
@@ -226,11 +228,11 @@
                 android:text="重        量" />
 
             <TextView
-                android:id="@+id/order_detail_name_bt"
+                android:id="@+id/order_detail_goods_weight_tx"
                 style="@style/tx_black_df_style"
                 android:clickable="true"
-                android:onClick="onClick_ChangeWeight"
-                android:text="10吨" />
+                android:hint="货物的重量"
+                android:onClick="onClick_ChangeWeight" />
         </TableRow>
 
         <View
@@ -250,12 +252,12 @@
                 android:text="体        积" />
 
             <TextView
-                android:id="@+id/order_detail_kg_bt"
+                android:id="@+id/order_detail_volume_tx"
                 style="@style/tx_black_df_style"
                 android:layout_marginRight="5dp"
                 android:clickable="true"
-                android:onClick="onClick_ChangeTruckType"
-                android:text="10x20x30M" />
+                android:hint="货物的体积"
+                android:onClick="onClick_InputVolume" />
 
         </TableRow>
 
@@ -276,29 +278,56 @@
                 android:text="收  货  人" />
 
             <EditText
-                android:id="@+id/order_detail_check_phone_ed"
+                android:id="@+id/order_detail_receiver_name"
                 style="@style/tx_black_df_style"
                 android:background="@color/transparent"
-                android:inputType="phone"
-                android:text="13945678914" />
+                android:hint="收货人名称"
+                android:inputType="phone" />
         </TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/editpage_bg_color" />
 
-        <TableRow>
+        <TableRow
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp">
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:paddingRight="20dp"
+                android:text="电        话" />
+
+            <EditText
+                android:id="@+id/order_detail_receiver_phone_tx"
+                style="@style/tx_black_df_style"
+                android:background="@color/transparent"
+                android:hint="收货人电话"
+                android:inputType="phone" />
+        </TableRow>
+        <TableRow
+            android:gravity="center">
 
             <TextView
                 style="@style/tx_black_df_style"
                 android:text="需要车辆数：" />
 
             <EditText
+                android:id="@+id/order_detail_driver_size_ed"
                 style="@style/tx_black_df_style"
                 android:background="@color/transparent"
-                android:inputType="phone"
-                android:text="1" />
+                android:inputType="number"
+                android:maxLength="2"
+                android:hint="需要的车辆总数" />
             <!-- 选择 车队司机 -->
             <Button
+                android:id="@+id/order_detail_select_driver_bt"
                 style="@style/tx_black_df_style"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="15dp"
+                android:onClick="onClick_SelectDriverBtn"
                 android:background="@drawable/add_devices" />
         </TableRow>
 
@@ -311,15 +340,15 @@
         android:orientation="horizontal">
         <!-- todo 添加按钮跳转到选择司机页面 order_select_drivers -->
         <Button
-            android:id="@+id/order_detail_yes"
+            android:id="@+id/order_detail_submit"
             style="@style/orange_btn_noPadding_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onClick_SubmitOrder"
             android:paddingBottom="5dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="5dp"
-            android:onClick="onClick_SubmitOrder"
             android:text="提交订单" />
     </LinearLayout>
 

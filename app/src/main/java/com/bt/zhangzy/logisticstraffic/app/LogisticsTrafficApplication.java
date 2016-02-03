@@ -24,6 +24,7 @@ import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.ImageHelper;
+import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.tools.ContextTools;
 import com.zhangzy.baidusdk.BaiduSDK;
 
@@ -38,13 +39,15 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by ZhangZy on 2015/6/10.
  */
-public class LogisticsTrafficApplication extends Application  {
+public class LogisticsTrafficApplication extends Application {
 
     private static final String TAG = LogisticsTrafficApplication.class.getSimpleName();
 
@@ -76,6 +79,33 @@ public class LogisticsTrafficApplication extends Application  {
     }
 
     /**
+     * 设置推送标签
+     * alias 用户注册的手机号
+     * setTag 车队id，司机，企业，信息部/物流公司
+     */
+    public void setAliasAndTag() {
+        //上传推送标签
+        String alias = User.getInstance().getPhoneNum();
+        Set<String> set = new LinkedHashSet<String>();
+        switch (User.getInstance().getUserType()) {
+            case InformationType:
+                set.add("信息部/物流公司");
+                break;
+            case EnterpriseType:
+                set.add("企业");
+                break;
+            case DriverType:
+                set.add("司机");
+                break;
+        }
+//        List<JsonMotorcades> motorcades = User.getInstance().getMotorcades();
+        for (JsonMotorcades motorcades : User.getInstance().getMotorcades()) {
+            set.add("车队：" + motorcades.getId());
+        }
+        JPushInterface.setAliasAndTags(getApplicationContext(), alias, set);
+    }
+
+    /**
      * 加载APP数据
      */
     public void LoadAppData() {
@@ -96,7 +126,6 @@ public class LogisticsTrafficApplication extends Application  {
         currentAct = act;
         Log.w(TAG, "设置当前Activity=" + act.TAG);
     }
-
 
 
     public void Exit(boolean isSave) {
@@ -175,12 +204,6 @@ public class LogisticsTrafficApplication extends Application  {
         Log.i(TAG, "读取文件：内容=" + string);
         return string;
     }
-
-
-
-
-
-
 
 
     /**

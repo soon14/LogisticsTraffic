@@ -1,6 +1,7 @@
 package com.bt.zhangzy.logisticstraffic.data;
 
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.network.entity.ResponseCompany;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -23,11 +24,21 @@ public class Product implements Serializable {
     private boolean isVip;// 是否是认证用户
     private Location location;//地理位置
     private int iconImg;//图标
+    private String photoUrl;
+    private ResponseCompany company;
     private int[] photoImg = {R.drawable.fake_1,//相册
             R.drawable.fake_2, R.drawable.fake_3, R.drawable.fake_4, R.drawable.fake_5, R.drawable.fake_6, R.drawable.fake_7, R.drawable.fake_8, R.drawable.fake_9, R.drawable.fake_10};
 
     public Product(int ID) {
         this.ID = ID;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public String getCallTimes() {
@@ -136,5 +147,13 @@ public class Product implements Serializable {
 
     public void setDescribe(String describe) {
         this.describe = describe;
+    }
+
+    public void setCompany(ResponseCompany company) {
+        this.company = company;
+    }
+
+    public ResponseCompany getCompany() {
+        return company;
     }
 }

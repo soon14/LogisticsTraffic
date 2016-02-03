@@ -10,19 +10,24 @@
     android:outAnimation="@anim/slide_out_left">
 
     <ImageView
+        android:id="@+id/home_flipper_about"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
-        android:src="@drawable/fake_ad_1"
-         />
+        android:clickable="true"
+        android:src="@drawable/fake_ad_1" />
 
     <ImageView
+        android:id="@+id/home_flipper_about_company"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:src="@drawable/fake_ad_2" />
 
     <ImageView
+        android:id="@+id/home_flipper_about_app"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:src="@drawable/fake_ad_3" />
 </com.bt.zhangzy.logisticstraffic.view.AdViewFlipper>

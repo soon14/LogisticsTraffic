@@ -37,51 +37,11 @@ public class LocationListAdapter extends BaseAdapter {
     private ItemOnClickCallback itemOnClickCallback;
     private ArrayList<ArrayList<Location>> locationList;
 
-    public LocationListAdapter(List<JsonLocationProvince> jsonArray) {
+    public LocationListAdapter(ArrayList<ArrayList<Location>> jsonArray) {
         if (jsonArray == null)
             return;
         listView = new ArrayList<View>(jsonArray.size());
-        locationList = new ArrayList<ArrayList<Location>>(jsonArray.size());
-
-        new AsyncTask<List<JsonLocationProvince>, Integer, ArrayList<ArrayList<Location>>>() {
-            @Override
-            protected ArrayList<ArrayList<Location>> doInBackground(List<JsonLocationProvince>... params) {
-                // 增加异步操作 保证页面流畅性
-                if (params == null || params.length == 0)
-                    return null;
-
-                List<JsonLocationProvince> listProvince = params[0];
-                Collections.sort(listProvince, new Comparator<JsonLocationProvince>() {
-                    @Override
-                    public int compare(JsonLocationProvince lhs, JsonLocationProvince rhs) {
-                        return lhs.getFirstLetter() - rhs.getFirstLetter();
-                    }
-                });
-                ArrayList<ArrayList<Location>> locationList = new ArrayList<ArrayList<Location>>(listProvince.size());
-//                    JsonLocationProvince jsonLocationProvince;
-                ArrayList<Location> list;
-                String province;
-                Location location;
-                for (JsonLocationProvince jsonLocationProvince : listProvince) {
-                    province = jsonLocationProvince.getProvince();
-                    list = new ArrayList<Location>();
-                    locationList.add(list);
-                    for (JsonLocationCity city : jsonLocationProvince.getCity()) {
-                        list.add(new Location(province, city.getCity()));
-                    }
-                }
-                return locationList;
-            }
-
-            @Override
-            protected void onPostExecute(ArrayList<ArrayList<Location>> arrayLists) {
-//                super.onPostExecute(arrayLists);
-                if (arrayLists != null && !arrayLists.isEmpty()) {
-                    locationList.addAll(arrayLists);
-                    notifyDataSetChanged();
-                }
-            }
-        }.execute(jsonArray);
+        locationList = jsonArray;
 
     }
 

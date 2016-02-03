@@ -15,7 +15,7 @@ import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.NetCallback;
-import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.tools.Tools;
@@ -81,7 +81,7 @@ public class RegisterActivity extends BaseActivity {
 //        Json json = new Json();
 //        json.put("phoneNumber", phoneNum);
 
-        HttpHelper.getInstance().get(Url.SendVerificationCode + phoneNum, new NetCallback() {
+        HttpHelper.getInstance().get(AppURL.SendVerificationCode + phoneNum, new NetCallback() {
 
             @Override
             public void onFailed(String str) {
@@ -216,25 +216,34 @@ public class RegisterActivity extends BaseActivity {
                 user.setNickName(jsonUser.getNickname());
                 user.setJsonUser(jsonUser);
 
-                //登录成功后保存一下信息；
-                getApp().saveUser();
+                registerSuccess();
 
-                if (type == Type.DriverType) {
-                    startActivity(DetailPhotoActivity.class);
-                } else {
-                    Bundle bundle = getIntent().getExtras();
-                    if (bundle != null) {
-                        startActivity(HomeActivity.class, bundle);
-                    }
-                }
-                finish();
             }
 
         };
-        HttpHelper.getInstance().post(Url.Register, jsonUser, responseCallback);
+        HttpHelper.getInstance().post(AppURL.Register, jsonUser, responseCallback);
 
         Log.e(TAG, "====>> end");
 
+    }
+
+    /**
+     * 注册成功
+     */
+    private void registerSuccess() {
+        //登录成功后保存一下信息；
+        getApp().saveUser();
+        getApp().setAliasAndTag();
+
+        if (type == Type.DriverType) {
+            startActivity(DetailPhotoActivity.class);
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                startActivity(HomeActivity.class, bundle);
+            }
+        }
+        finish();
     }
 
     int verificationCode;
@@ -242,7 +251,7 @@ public class RegisterActivity extends BaseActivity {
     /*获取手机验证码*/
     private void requestVerificationCode(String phoneNum) {
 
-        HttpHelper.getInstance().get(Url.GetVerificationCode + phoneNum, new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetVerificationCode + phoneNum, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 if (TextUtils.isEmpty(result)) {
@@ -257,5 +266,12 @@ public class RegisterActivity extends BaseActivity {
 
             }
         });
+    }
+
+    public void onClick_OpenLaw(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString(AppParams.WEB_PAGE_NAME, "法律申明");
+        bundle.putString(AppParams.WEB_PAGE_URL, AppURL.REGISTER_LAW);
+        startActivity(WebViewActivity.class, bundle);
     }
 }

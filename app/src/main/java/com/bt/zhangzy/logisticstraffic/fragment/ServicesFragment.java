@@ -1,5 +1,7 @@
 package com.bt.zhangzy.logisticstraffic.fragment;
 
+import android.view.View;
+
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
@@ -20,8 +22,8 @@ public class ServicesFragment extends BaseHomeFragment {
     }
 
     @Override
-    void init() {
-        super.init();
+    void init(View view) {
+//        super.init();
 
     }
 

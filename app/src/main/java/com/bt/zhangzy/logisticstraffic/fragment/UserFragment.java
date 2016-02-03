@@ -5,22 +5,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.Url;
 import com.bt.zhangzy.network.entity.JsonCar;
-import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
-import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseUserInfo;
+import com.bt.zhangzy.tools.Tools;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,11 +39,11 @@ public class UserFragment extends BaseHomeFragment {
     }
 
     @Override
-    void init() {
-        super.init();
+    void init(View view) {
+//        super.init();
         if (User.getInstance().getUserType() == Type.EnterpriseType) {
-            findViewById(R.id.user_services_item).setVisibility(View.GONE);
-            findViewById(R.id.user_fleet_item).setVisibility(View.GONE);
+            view.findViewById(R.id.user_services_item).setVisibility(View.GONE);
+            view.findViewById(R.id.user_fleet_item).setVisibility(View.GONE);
         } else if (AppParams.DEVICES_APP) {
 //            findViewById(R.id.user_services_item).setVisibility(View.GONE);
         }
@@ -70,7 +69,7 @@ public class UserFragment extends BaseHomeFragment {
 
     private void requestUserInfo() {
         //如果登陆成功  更新用户的基本信息；
-        HttpHelper.getInstance().get(Url.GetUserInfo + User.getInstance().getId(), new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetUserInfo + User.getInstance().getId(), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 if (TextUtils.isEmpty(result)) {
@@ -113,10 +112,22 @@ public class UserFragment extends BaseHomeFragment {
         nickTx.setText(User.getInstance().getNickName());
         TextView name = (TextView) findViewById(R.id.user_name_tx);
         name.setText(User.getInstance().getUserName());
+
+        if (User.getInstance().getLogin()) {
+            Date registerDate = User.getInstance().getJsonUser().getRegisterDate();
+            TextView regdate = (TextView) findViewById(R.id.user_reg_date_tx);
+            if (registerDate != null) {
+                regdate.setText(Tools.toStringDate(registerDate));
+            } else {
+                regdate.setVisibility(View.GONE);
+            }
+        }
     }
 
     /*刷新 页面上的信息 在UI线程中*/
     private void refreshView() {
+        if(getActivity() == null)
+            return;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -127,7 +138,7 @@ public class UserFragment extends BaseHomeFragment {
 
     //更新司机信息
     private void requestDriverInfo() {
-        HttpHelper.getInstance().get(Url.GetDriverInfo + User.getInstance().getId(), new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetDriverInfo + User.getInstance().getId(), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 Log.i(TAG, "司机信息更新成功：" + msg);
@@ -149,7 +160,7 @@ public class UserFragment extends BaseHomeFragment {
     }
 
     private void requestCarInfo() {
-        HttpHelper.getInstance().get(HttpHelper.toString(Url.GetCarInfo, new String[]{"driverID=" + User.getInstance().getDriverID()}), new JsonCallback() {
+        HttpHelper.getInstance().get(HttpHelper.toString(AppURL.GetCarInfo, new String[]{"driverID=" + User.getInstance().getDriverID()}), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 Log.i(TAG, "司机-车辆信息更新成功：" + msg);
@@ -174,7 +185,7 @@ public class UserFragment extends BaseHomeFragment {
     //更新企业信息
     private void requestEnterpriseInfo() {
 
-        HttpHelper.getInstance().get(Url.GetEnterprisesInfo + User.getInstance().getId(), new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetEnterprisesInfo + User.getInstance().getId(), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 ResponseUserInfo json = ParseJson_Object(result, ResponseUserInfo.class);
@@ -196,7 +207,7 @@ public class UserFragment extends BaseHomeFragment {
 
     //更新物流公司信息
     private void requestCompaniesInfo() {
-        HttpHelper.getInstance().get(Url.GetCompaniesInfo + User.getInstance().getId(), new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetCompaniesInfo + User.getInstance().getId(), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 ResponseUserInfo json = ParseJson_Object(result, ResponseUserInfo.class);

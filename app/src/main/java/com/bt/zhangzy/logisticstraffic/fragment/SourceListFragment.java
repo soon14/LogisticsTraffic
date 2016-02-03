@@ -41,9 +41,9 @@ public class SourceListFragment extends BaseHomeFragment {
     ListView listView;
 
     @Override
-    void init() {
-        super.init();
-        listView = (ListView) findViewById(R.id.source_list);
+    void init(View view) {
+//        super.init();
+        listView = (ListView) view.findViewById(R.id.source_list);
         listView.setAdapter(new SourceListAdapter());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

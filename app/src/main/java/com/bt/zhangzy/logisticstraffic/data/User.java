@@ -11,6 +11,7 @@ import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonFavorite;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonUser;
+import com.bt.zhangzy.network.entity.ResponseFavorites;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -307,8 +308,9 @@ public class User implements Serializable {
         return registrationID;
     }
 
-    public void setJsonFavorites(List<JsonFavorite> jsonFavorites) {
-        this.jsonFavorites = jsonFavorites;
+    public void setJsonFavorites(ResponseFavorites jsonFavorites) {
+        //// TODO: 2016-1-30 返回收藏列表中 带有角色信息
+        this.jsonFavorites = jsonFavorites.getFavorites();
     }
 
     public List<JsonFavorite> getJsonFavorites() {

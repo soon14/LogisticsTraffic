@@ -11,6 +11,7 @@ public class Location implements Serializable {
 
     private String cityName;//市
     private String provinceName;//省
+    private String district;
     private String latitude;//纬度
     private String langitude;//经度
     private char fistLatter;
@@ -22,6 +23,14 @@ public class Location implements Serializable {
         this.provinceName = provinceName;
         this.cityName = cityName;
         fistLatter = Tools.getFirstLetter(provinceName.charAt(0));
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public char getFistLatter() {

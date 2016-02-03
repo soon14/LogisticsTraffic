@@ -35,6 +35,10 @@ public class HomeListAdapter extends BaseAdapter {
         this.list = list;
     }
 
+    public void addList(List<Product> list) {
+        list.addAll(list);
+    }
+
     public void setOnClickItemListener(OnClickItemListener listener) {
         this.itemListener = listener;
     }
@@ -69,8 +73,8 @@ public class HomeListAdapter extends BaseAdapter {
             holder.levelBar = (RatingBar) convertView.findViewById(R.id.list_item_lv_rating);
             holder.vipImg = (ImageView) convertView.findViewById(R.id.list_item_vip_img);
             holder.layout = convertView.findViewById(R.id.list_item_ly);
-            holder.call_times_tx = (TextView)convertView.findViewById(R.id.list_item_times_count_tx);
-            holder.times_tx = (TextView)convertView.findViewById(R.id.list_item_times_tx);
+            holder.call_times_tx = (TextView) convertView.findViewById(R.id.list_item_times_count_tx);
+            holder.times_tx = (TextView) convertView.findViewById(R.id.list_item_times_tx);
             listView.add(holder);
 
             holder.img.setImageResource(fakeImgId[position % fakeImgId.length]);
@@ -89,24 +93,25 @@ public class HomeListAdapter extends BaseAdapter {
                     holder.levelBar.setRating(product.getLevel());
                 }
             }
-            if(holder.vipImg != null) {
+            if (holder.vipImg != null) {
                 holder.vipImg.setVisibility(product.isVip() ? View.VISIBLE : View.INVISIBLE);
             }
-            if(!TextUtils.isEmpty(product.getCallTimes())){
+            if (!TextUtils.isEmpty(product.getCallTimes())) {
                 holder.call_times_tx.setText(product.getCallTimes());
             }
-            if(!TextUtils.isEmpty(product.getTimes())){
+            if (!TextUtils.isEmpty(product.getTimes())) {
                 holder.times_tx.setText(product.getTimes());
             }
         }
         return convertView;
     }
 
+
     class ViewHolder {
         int position;
         ImageView img;
         TextView textView;
-        TextView call_times_tx , times_tx;
+        TextView call_times_tx, times_tx;
         ImageButton button;
         View layout;
         RatingBar levelBar;

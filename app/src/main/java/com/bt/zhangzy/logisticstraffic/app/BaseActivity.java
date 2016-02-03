@@ -3,6 +3,7 @@ package com.bt.zhangzy.logisticstraffic.app;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -15,12 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.activity.DetailCompany;
+import com.bt.zhangzy.logisticstraffic.activity.PayActivity;
+import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.receiver.MessageReceiver;
+import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 import com.bt.zhangzy.logisticstraffic.view.CustomProgress;
-import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.ImageHelper;
-import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.network.AppURL;
 import com.zhangzy.baidusdk.BaiduMapActivity;
 
 import cn.jpush.android.api.JPushInterface;
@@ -34,6 +38,8 @@ public class BaseActivity extends FragmentActivity {
     protected Context context;
 
     CustomProgress progress;
+    Toast toast;//统一管理toast  防止一个页面上多个toast的显示；
+    String toastMsg;
 
 
     protected BaseActivity() {
@@ -99,6 +105,7 @@ public class BaseActivity extends FragmentActivity {
     /**
      * 显示进度条 用户不可取消
      * 并且放到UI线程中执行
+     *
      * @param msg
      */
     public void showProgressOnUI(final CharSequence msg) {
@@ -167,26 +174,45 @@ public class BaseActivity extends FragmentActivity {
      * @param url
      */
     protected void setImageUrl(int id, String url) {
-        if (TextUtils.isEmpty(url) || !url.startsWith(Url.Host))
+        if (TextUtils.isEmpty(url) || !url.startsWith(AppURL.Host))
             return;
         ImageView img = (ImageView) findViewById(id);
         if (img != null)
             ImageHelper.getInstance().load(url, img);
     }
 
+    Runnable showToast = new Runnable() {
+        @Override
+        public void run() {
+            showToastOnUI();
+        }
+    };
+
     /**
      * 显示提示信息
      *
      * @param msg
      */
-    protected void showToast(final String msg) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+    public void showToast(String msg) {
+        if (TextUtils.isEmpty(msg))
+            return;
+        toastMsg = msg;
+        if (Looper.myLooper() == getMainLooper()) {
+            showToastOnUI();
+        } else {
+            runOnUiThread(showToast);
+        }
+    }
 
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void showToastOnUI() {
+        if (toast == null) {
+            toast = Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT);
+        } else {
+//            toast.cancel();
+        }
+//        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setText(toastMsg);
+        toast.show();
     }
 
 
@@ -209,14 +235,14 @@ public class BaseActivity extends FragmentActivity {
     }
 
     public void startActivity(Class<?> cls, Bundle bundle, boolean istop) {
-        startActivity(cls,bundle,Intent.FLAG_ACTIVITY_CLEAR_TOP,istop);
+        startActivity(cls, bundle, Intent.FLAG_ACTIVITY_CLEAR_TOP, istop);
     }
 
-    public void startNewActivity(Class<?> cls,Bundle bundle){
-        startActivity(cls,bundle,Intent.FLAG_ACTIVITY_NEW_TASK,false);
+    public void startNewActivity(Class<?> cls, Bundle bundle) {
+        startActivity(cls, bundle, Intent.FLAG_ACTIVITY_NEW_TASK, false);
     }
 
-    private void startActivity(Class<?> cls, Bundle bundle,int flags, boolean istop) {
+    private void startActivity(Class<?> cls, Bundle bundle, int flags, boolean istop) {
         Intent intent = new Intent(this, cls);
         intent.setFlags(flags);
         if (bundle != null) {
@@ -279,21 +305,40 @@ public class BaseActivity extends FragmentActivity {
 //        startActivity(WebViewActivity.class);
     }
 
-    /**
-     * 地址选择
-     *
-     * @param view
-     */
-    public void onClick_ChangeLocation(final View view) {
-        LocationView.createDialog(this).setListener(new LocationView.ChangingListener() {
+    public void gotoDetail(Product product) {
+//        startActivity(new Intent(this,DetailCompany.class));
+        if (product != null) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(AppParams.BUNDLE_PRODUCT_KEY, product);
+            startActivity(DetailCompany.class, bundle);
+        } else {
+            startActivity(DetailCompany.class);
+        }
+    }
+
+    public void showDialogCallPhone(final String phoneNum) {
+        Log.d(TAG, ">>>showDialogCallPhone " + phoneNum);
+        if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
+            BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(PayActivity.class);
+                }
+            });
+            return;
+        }
+        BaseDialog dialog = BaseDialog.CreateChoosePhoneDialog(this, phoneNum);
+        dialog.setOnClickListener(R.id.dialog_btn_no, null).setOnClickListener(R.id.dialog_btn_yes, new View.OnClickListener() {
             @Override
-            public void onChanged(String province, String city) {
-                if (TextUtils.isEmpty(city))
-                    return;
-                if (view != null && view instanceof TextView) {
-                    ((TextView) view).setText(city);
+            public void onClick(View v) {
+                if (v.getId() == R.id.dialog_btn_yes) {
+                    getApp().callPhone(phoneNum);
                 }
             }
-        }).show();
+        });
+        dialog.show();
+
     }
+
+
 }

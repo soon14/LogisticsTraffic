@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
@@ -20,17 +21,24 @@ import com.bt.zhangzy.logisticstraffic.data.User;
 public class WebViewActivity extends BaseActivity {
 
     WebView webView;
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_web);
-        setPageName("web页");
-        Location location = User.getInstance().getLocation();
-        if (location == null) {
-            return;
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            setPageName(bundle.getString(AppParams.WEB_PAGE_NAME));
+
+            url = bundle.getString(AppParams.WEB_PAGE_URL);
         }
+//        Location location = User.getInstance().getLocation();
+//        if (location == null) {
+//            return;
+//        }
 //            String url = "http://192.168.1.115:8080/mall/qiantai/ditu.html?a=" + location.getLangitude() + "&b=" + location.getLatitude();
 //
 //            Uri uri = Uri.parse(url);
@@ -49,7 +57,7 @@ public class WebViewActivity extends BaseActivity {
         webView.getSettings().setDomStorageEnabled(true);
 
         //http://192.168.1.115:8080/mall/qiantai/ditu.html?a=116.39&b=39.116
-        String url = "http://192.168.1.115:8080/mall/qiantai/ditu.html?longitude=" + location.getLangitude() + "&latitude=" + location.getLatitude();
+//        String url = "http://192.168.1.115:8080/mall/qiantai/ditu.html?longitude=" + location.getLangitude() + "&latitude=" + location.getLatitude();
 //        url = "http://map.baidu.com/";
         webView.loadUrl(url);
         webView.setWebViewClient(new WebViewClient() {

@@ -13,7 +13,7 @@ public class ResponseLogin extends BaseEntity {
     JsonDriver driver;
     JsonCompany company;
     JsonEnterprise enterprise;
-    List<JsonFavorite> favorites;
+    ResponseFavorites favorites;
     List<JsonMotorcades> motorcades;
 
     public List<JsonMotorcades> getMotorcades() {
@@ -24,11 +24,11 @@ public class ResponseLogin extends BaseEntity {
         this.motorcades = motorcades;
     }
 
-    public List<JsonFavorite> getFavorites() {
+    public ResponseFavorites getFavorites() {
         return favorites;
     }
 
-    public void setFavorites(List<JsonFavorite> favorites) {
+    public void setFavorites(ResponseFavorites favorites) {
         this.favorites = favorites;
     }
 

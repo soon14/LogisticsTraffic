@@ -20,14 +20,12 @@ import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonUser;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 
@@ -133,13 +131,13 @@ public class DetailPhotoActivity extends BaseActivity {
     private void uploadFile(File file) {
         showProgress("图片上传中...");
         //  照片上传逻辑
-//        UploadFileTask task = new UploadFileTask(Url.UpLoadImage);
+//        UploadFileTask task = new UploadFileTask(AppURL.UpLoadImage);
 //        task.execute(file);
         JsonCallback rspCallback = new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("图片上传成功");
-                String uploadImgURL = Url.Host + result;
+                String uploadImgURL = AppURL.Host + result;
                 ImageHelper.getInstance().loadImgOnUiThread(getActivity(), uploadImgURL, userImage);
                 if (userImage != null)
                     switch (userImage.getId()) {
@@ -184,9 +182,9 @@ public class DetailPhotoActivity extends BaseActivity {
                 cancelProgress();
             }
         };
-//        HttpHelper.getInstance().postImage(Url.UpLoadImage, file, rspCallback);
+//        HttpHelper.getInstance().postImage(AppURL.UpLoadImage, file, rspCallback);
 
-        HttpHelper.uploadImagePost(Url.UpLoadImage, file, rspCallback);
+        HttpHelper.uploadImagePost(AppURL.UpLoadImage, file, rspCallback);
     }
 
 
@@ -244,7 +242,7 @@ public class DetailPhotoActivity extends BaseActivity {
         JsonUser jsonUser = User.getInstance().getJsonUser();
         jsonUser.setIdCardPhotoUrl(frsfzUrl);
 
-        HttpHelper.getInstance().put(Url.PutUserInfo + jsonUser.getId(), jsonUser, new JsonCallback() {
+        HttpHelper.getInstance().put(AppURL.PutUserInfo + jsonUser.getId(), jsonUser, new JsonCallback() {
             @Override
             public void onFailed(String str) {
                 showToast("身份证照修改失败");
@@ -277,9 +275,9 @@ public class DetailPhotoActivity extends BaseActivity {
             }
         };
         if (isFirstVerify)
-            HttpHelper.getInstance().post(Url.PostVerifyDrivers, requestJsonDriver, callback);
+            HttpHelper.getInstance().post(AppURL.PostVerifyDrivers, requestJsonDriver, callback);
         else
-            HttpHelper.getInstance().put(Url.PutDrivers, requestJsonDriver, callback);
+            HttpHelper.getInstance().put(AppURL.PutDrivers, requestJsonDriver, callback);
     }
 
     private void showSuccessDialog() {
@@ -330,9 +328,9 @@ public class DetailPhotoActivity extends BaseActivity {
             }
         };
         if (isFirstVerify)
-            HttpHelper.getInstance().post(Url.PostVerifyCompanies, company, callback);
+            HttpHelper.getInstance().post(AppURL.PostVerifyCompanies, company, callback);
         else
-            HttpHelper.getInstance().put(Url.PutCompaniesInfo + User.getInstance().getCompanyID(), company, callback);
+            HttpHelper.getInstance().put(AppURL.PutCompaniesInfo + User.getInstance().getCompanyID(), company, callback);
     }
 
     private void requestVerifyEnterprise(String name, String address) {
@@ -361,9 +359,9 @@ public class DetailPhotoActivity extends BaseActivity {
             }
         };
         if (isFirstVerify)
-            HttpHelper.getInstance().post(Url.PostVerifyEnterprises, enterprise, callback);
+            HttpHelper.getInstance().post(AppURL.PostVerifyEnterprises, enterprise, callback);
         else
-            HttpHelper.getInstance().put(Url.PutEnterprisesInfo + User.getInstance().getEnterpriseID(), enterprise, callback);
+            HttpHelper.getInstance().put(AppURL.PutEnterprisesInfo + User.getInstance().getEnterpriseID(), enterprise, callback);
     }
 
     public void onClick_Photo(View view) {

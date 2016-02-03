@@ -2,6 +2,8 @@ package com.bt.zhangzy.network.entity;
 
 import com.bt.zhangzy.logisticstraffic.data.Type;
 
+import java.util.Date;
+
 /**
  * Created by ZhangZy on 2016-1-15.
  */
@@ -12,7 +14,7 @@ public class JsonUser extends BaseEntity {
     String name, nickname ,password, recommendCode, phoneNumber;
     //个人正面照片URL  个人身份证URL 个人头像URL
     String personPhotoUrl, idCardPhotoUrl, portraitUrl;
-    String registerDate;
+    Date registerDate;
     int recommendUserId;
 
     public JsonUser() {
@@ -26,11 +28,11 @@ public class JsonUser extends BaseEntity {
         this.nickname = nickname;
     }
 
-    public String getRegisterDate() {
+    public Date getRegisterDate() {
         return registerDate;
     }
 
-    public void setRegisterDate(String registerDate) {
+    public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
     }
 

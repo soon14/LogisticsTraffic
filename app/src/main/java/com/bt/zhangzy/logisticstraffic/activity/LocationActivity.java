@@ -9,13 +9,11 @@ import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.app.LogisticsTrafficApplication;
 import com.bt.zhangzy.logisticstraffic.data.Location;
-import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.Url;
 import com.bt.zhangzy.network.entity.JsonLocationCity;
 
 /**
@@ -67,7 +65,7 @@ public class LocationActivity extends BaseActivity {
     JsonLocationCity cityInfo;
 
     private void requestCityInfo(String cityname) {
-        HttpHelper.getInstance().get(Url.GetCityInfo + cityname, new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetCityInfo + cityname, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 cityInfo = ParseJson_Object(result, JsonLocationCity.class);

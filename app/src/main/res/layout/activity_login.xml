@@ -21,20 +21,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:background="@color/transparent"
         android:src="@drawable/user_icon_df" />
 
     <LinearLayout
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
         android:orientation="vertical">
 
 
         <EditText
             android:id="@+id/login_username_ed"
             style="@style/edit_style"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="20dp"
@@ -46,7 +48,7 @@
         <EditText
             android:id="@+id/login_password_ed"
             style="@style/edit_style"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:hint="请输入密码"

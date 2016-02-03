@@ -31,13 +31,13 @@ public final class Tools {
     private static final String TAG = Tools.class.getSimpleName();
     static final int GB_SP_DIFF = 160;
     // 存放国标一级汉字不同读音的起始区位码
-    static final int[] secPosValueList = { 1601, 1637, 1833, 2078, 2274, 2302,
+    static final int[] secPosValueList = {1601, 1637, 1833, 2078, 2274, 2302,
             2433, 2594, 2787, 3106, 3212, 3472, 3635, 3722, 3730, 3858, 4027,
-            4086, 4390, 4558, 4684, 4925, 5249, 5600 };
+            4086, 4390, 4558, 4684, 4925, 5249, 5600};
     // 存放国标一级汉字不同读音的起始区位码对应读音
-    static final char[] firstLetter = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+    static final char[] firstLetter = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'w', 'x',
-            'y', 'z' };
+            'y', 'z'};
 
     public static String getSpells(String characters) {
         StringBuffer buffer = new StringBuffer();
@@ -94,6 +94,21 @@ public final class Tools {
         return result;
     }
 
+
+    static SimpleDateFormat DefaultDateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.getDefault());
+
+    /**
+     * 转换显示日期
+     * @param date
+     * @return
+     */
+    public static String toStringDate(Date date) {
+        return DefaultDateFormat.format(date);
+    }
+
+    public static String toStringDate(Date date, String format) {
+        return new SimpleDateFormat(format, Locale.getDefault()).format(date);
+    }
 
     /**
      * @param format 格式

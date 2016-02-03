@@ -57,6 +57,7 @@
                             android:layout_margin="5dp"
                             android:hint="用户名" />
 
+
                         <Button
                             style="@style/button_style"
                             android:layout_width="wrap_content"
@@ -66,6 +67,14 @@
                             android:onClick="onClick_gotoDetailPhoto"
                             android:text="" />
                     </LinearLayout>
+                    <TextView
+                        android:id="@+id/user_reg_date_tx"
+                        style="@style/tx_gray_12sp_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_gravity="bottom|right"
+                        android:hint="注册日期" />
                 </LinearLayout>
 
                 <LinearLayout

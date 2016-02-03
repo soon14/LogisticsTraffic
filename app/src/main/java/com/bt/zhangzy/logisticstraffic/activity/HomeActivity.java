@@ -19,6 +19,7 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.tools.ContextTools;
 import com.bt.zhangzy.logisticstraffic.app.LogisticsTrafficApplication;
@@ -40,7 +41,6 @@ import java.util.ArrayList;
  */
 public class HomeActivity extends BaseActivity {
 
-    private final static String Tag = HomeActivity.class.getSimpleName();
 
     private static final int INDEX_HOME = 0;
     //    private static final int INDEX_SERVICES = 1;
@@ -54,7 +54,7 @@ public class HomeActivity extends BaseActivity {
 
     //中间的按钮
     private Button customBtn;
-    boolean lastLogin = User.getInstance().getLogin();
+//    boolean lastLogin = User.getInstance().getLogin();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +111,7 @@ public class HomeActivity extends BaseActivity {
         if (floatView != null) {
             // 在程序退出(Activity销毁）时销毁悬浮窗口
             windowManager.removeView(floatView);
-            Log.d(Tag, "浮窗 删除");
+            Log.d(TAG, "浮窗 删除");
         }
     }
 
@@ -135,7 +135,7 @@ public class HomeActivity extends BaseActivity {
         }*/
         if (floatView != null) {
             floatView.setVisibility(View.VISIBLE);
-            Log.d(Tag, "浮窗 显示");
+            Log.d(TAG, "浮窗 显示");
         } else {
             runOnUiThread(new Runnable() {
                 @Override
@@ -151,7 +151,7 @@ public class HomeActivity extends BaseActivity {
         super.onPause();
         if (floatView != null) {
             floatView.setVisibility(View.INVISIBLE);
-            Log.d(Tag, "浮窗 隐藏");
+            Log.d(TAG, "浮窗 隐藏");
         }
     }
 
@@ -305,6 +305,20 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 点击浮窗
+     * @param view
+     */
+    public void onClick_FloatView(View view) {
+//                startActivity(OrderDetailActivity.class);
+        if (User.getInstance().getUserType() == Type.DriverType) {
+            startActivity(PublishActivity.class);
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE,  OrderDetailMode.CreateMode.ordinal());
+            startActivity(OrderDetailActivity.class);
+        }
+    }
 
     /**
      * 浮窗 创建
@@ -312,25 +326,20 @@ public class HomeActivity extends BaseActivity {
     private void createView() {
         //TODO 浮窗音效 小汽车下单加入音效
         if (!User.getInstance().getLogin() || User.getInstance().getUserType() == Type.EnterpriseType) {
-            Log.w(Tag, "用户 不符合浮窗创建条件");
+            Log.w(TAG, "用户 不符合浮窗创建条件");
             floatView = null;
             return;
         }
-        Log.d(Tag, "浮窗 创建");
+        Log.d(TAG, "浮窗 创建");
         // 获取WindowManager
         windowManager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         floatView = FloatView.CreateView(getApplicationContext(), new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(HomeActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
+                onClick_FloatView(v);
 
-//                startActivity(OrderDetailActivity.class);
-                if (User.getInstance().getUserType() == Type.DriverType) {
-                    startActivity(PublishActivity.class);
-                } else {
-                    startActivity(OrderDetailActivity.class);
-                }
             }
         });
         floatView.setWindowManager(windowManager);
@@ -340,40 +349,7 @@ public class HomeActivity extends BaseActivity {
     }
 
 
-    public void gotoDetail(Product product) {
-//        startActivity(new Intent(this,DetailCompany.class));
-        if (product != null) {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(AppParams.BUNDLE_PRODUCT_KEY, product);
-            startActivity(DetailCompany.class, bundle);
-        } else {
-            startActivity(DetailCompany.class);
-        }
-    }
 
-    public void showDialogCallPhone(final String phoneNum) {
-        Log.d(Tag, ">>>showDialogCallPhone " + phoneNum);
-        if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
-            BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(PayActivity.class);
-                }
-            });
-            return;
-        }
-        BaseDialog dialog = BaseDialog.CreateChoosePhoneDialog(HomeActivity.this, phoneNum);
-        dialog.setOnClickListener(R.id.dialog_btn_no, null).setOnClickListener(R.id.dialog_btn_yes, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getId() == R.id.dialog_btn_yes) {
-                    getApp().callPhone(phoneNum);
-                }
-            }
-        });
-        dialog.show();
-
-    }
 
 
     public void onClick_gotoDetail(View view) {

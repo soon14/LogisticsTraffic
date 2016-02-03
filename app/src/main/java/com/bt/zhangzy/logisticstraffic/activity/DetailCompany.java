@@ -5,19 +5,18 @@ import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
-import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.Url;
 import com.bt.zhangzy.network.entity.JsonFavorite;
 import com.bt.zhangzy.network.entity.JsonUser;
 
@@ -59,6 +58,8 @@ public class DetailCompany extends BaseActivity {
         initView();
         setTelephonyListen();
 
+        //更新用户的浏览历史
+        User.getInstance().addHistoryList(product);
 
     }
 
@@ -100,7 +101,7 @@ public class DetailCompany extends BaseActivity {
     //更新店铺信息
     private void requestGetCompany(int id) {
         // todo 店铺信息没有返回
-        HttpHelper.getInstance().get(Url.GetCompany + id, new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetCompany + id, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
 
@@ -123,8 +124,8 @@ public class DetailCompany extends BaseActivity {
             setTextView(R.id.detail_name_tx, product.getName());
             setTextView(R.id.detail_cp_address_tx, product.getAddress());
         }
-
-        ImageView headImg = (ImageView) findViewById(R.id.detail_user_head_img);
+        setImageUrl(R.id.detail_user_head_img, product.getPhotoUrl());
+//            ImageView headImg = (ImageView) findViewById(R.id.detail_user_head_img);
 //        String url = "http://img1.3lian.com/img2011/w1/105/4/13.jpg";
 //        ImageHelper.getInstance().load(url, headImg);
     }
@@ -177,7 +178,15 @@ public class DetailCompany extends BaseActivity {
             return;
         }
         //// TODO: 2016-1-29  考虑是否直接跳转到 OrderDetailActivity
-        startActivity(OrderActivity.class);
+//        startActivity(OrderActivity.class);
+        if(User.getInstance().getJsonTypeEntity() == null){
+            showToast("请先完成企业认证");
+            return;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE,  OrderDetailMode.CreateMode.ordinal());
+        bundle.putSerializable(AppParams.BUNDLE_PRODUCT_KEY, product);
+        startActivity(OrderDetailActivity.class, bundle);
     }
 
     public void onClick_CollectAdd(View view) {
@@ -200,7 +209,7 @@ public class DetailCompany extends BaseActivity {
     }
 
     private void requestFavoritesDel() {
-        HttpHelper.getInstance().del(Url.DelFavourite + favoritesId, new JsonCallback() {
+        HttpHelper.getInstance().del(AppURL.DelFavourite + favoritesId, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("取消收藏成功");
@@ -235,7 +244,7 @@ public class DetailCompany extends BaseActivity {
         int toRole = 3;//默认只能显示信息部
         int toRoleId = product.getID();
         HttpHelper.getInstance().get(
-                HttpHelper.toString(Url.GetFavourite,
+                HttpHelper.toString(AppURL.GetFavourite,
                         new String[]{"fromRole=" + fromRole, "fromRoleId=" + fromRoleId, "toRole=" + toRole, "toRoleId=" + toRoleId}),
                 new JsonCallback() {
                     @Override

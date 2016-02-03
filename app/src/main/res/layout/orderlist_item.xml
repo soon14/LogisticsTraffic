@@ -22,40 +22,46 @@
                 android:text="交易定单号" />
 
             <TextView
+                android:id="@+id/orderlist_item_num_tx"
                 style="@style/tx_black_df_style"
                 android:gravity="right"
-                android:text="2015-06-20-064-253" />
+                android:hint="00000" />
         </TableRow>
 
         <TableRow>
 
             <TextView
+                android:id="@+id/orderlist_item_enterprise_tx"
                 style="@style/tx_black_df_style"
-                android:text="戴尔科技" />
+                android:hint="企业名称" />
 
             <TextView
+                android:id="@+id/orderlist_item_start_end_tx"
                 style="@style/tx_black_df_style"
                 android:gravity="right"
-                android:text="包头-北京" />
+                android:hint="发到站" />
         </TableRow>
 
         <TableRow>
 
             <TextView
+                android:id="@+id/orderlist_item_company_tx"
                 style="@style/tx_black_df_style"
-                android:text="德邦物流" />
+                android:hint="物流公司" />
         </TableRow>
 
         <TableRow>
 
             <TextView
+                android:id="@+id/orderlist_item_driver_tx"
                 style="@style/tx_black_df_style"
-                android:text="货运司机" />
+                android:hint="货运司机" />
 
             <TextView
+                android:id="@+id/orderlist_item_driver_phone_tx"
                 style="@style/tx_black_df_style"
                 android:gravity="right"
-                android:text="18600280340" />
+                android:hint="手机号" />
         </TableRow>
     </TableLayout>
 
@@ -63,7 +69,7 @@
         android:id="@+id/orderlist_item_blankout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_alignBottom="@id/orderlist_item_ly"
         android:layout_alignRight="@id/orderlist_item_ly"
         android:src="@drawable/blankout"/>

@@ -9,7 +9,7 @@ import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.Url;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.entity.JsonCompany;
 
 /**
@@ -41,7 +41,7 @@ public class SettingShopActivity extends BaseActivity {
         //// TODO: 2016-1-25  店铺设置接口
         JsonCompany company = new JsonCompany();
 
-        HttpHelper.getInstance().put(Url.PutCompaniesInfo, company, new JsonCallback() {
+        HttpHelper.getInstance().put(AppURL.PutCompaniesInfo, company, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
 

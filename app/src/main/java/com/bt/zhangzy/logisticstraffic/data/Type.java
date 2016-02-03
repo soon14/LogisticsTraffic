@@ -7,10 +7,29 @@ package com.bt.zhangzy.logisticstraffic.data;
 public enum Type {
 
     EmptyType,
-    /**司机*/
+    /**
+     * 司机
+     */
     DriverType,
-    /**企业*/
+    /**
+     * 企业
+     */
     EnterpriseType,
-    /**信息部*/
-    InformationType
+    /**
+     * 信息部
+     */
+    InformationType;
+
+    /**
+     * 转化为服务器所需要的 int值
+     *
+     * @return
+     */
+    public int toRole() {
+        return this.ordinal();
+    }
+
+    public Type parseRole(int role) {
+        return role < 0 || role >= Type.values().length ? EmptyType : Type.values()[role];
+    }
 }

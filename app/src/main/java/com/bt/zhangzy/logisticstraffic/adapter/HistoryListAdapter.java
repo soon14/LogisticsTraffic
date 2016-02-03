@@ -6,19 +6,29 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.data.Product;
+import com.bt.zhangzy.logisticstraffic.data.User;
+
+import java.util.List;
 
 /**
  * Created by ZhangZy on 2015/6/25.
  */
 public class HistoryListAdapter extends BaseAdapter {
+
+    List<Product> list;
+    public HistoryListAdapter() {
+        list = User.getInstance().getHistoryList();
+    }
+
     @Override
     public int getCount() {
-        return 20;
+        return list==null? 0 : list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return list==null ? null : list.get(position);
     }
 
     @Override

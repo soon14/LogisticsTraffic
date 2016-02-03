@@ -11,6 +11,9 @@ import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.network.AppURL;
+import com.bt.zhangzy.network.HttpHelper;
+import com.bt.zhangzy.network.JsonCallback;
 
 /**
  * Created by ZhangZy on 2015/8/26.
@@ -25,6 +28,28 @@ public class SourceGoodsActivity extends BaseActivity {
 
         setContentView(R.layout.activity_source_goods);
         setPageName("货源信息");
+        initListView();
+        lastSelectBtn = findViewById(R.id.source_goods_type1);
+        lastSelectBtn.setSelected(true);
+        requestOrderList();
+    }
+
+    private void requestOrderList(){
+        //// TODO: 2016-1-30  可抢订单列表获取失败
+        HttpHelper.getInstance().get(AppURL.GetOrderList+"?userId="+User.getInstance().getId(), new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
+
+    }
+    private void initListView() {
         listView = (ListView) findViewById(R.id.source_list);
         listView.setAdapter(new SourceGoodsListAdapter());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -33,8 +58,6 @@ public class SourceGoodsActivity extends BaseActivity {
                 gotoDetail();
             }
         });
-        lastSelectBtn = findViewById(R.id.source_goods_type1);
-        lastSelectBtn.setSelected(true);
     }
 
 

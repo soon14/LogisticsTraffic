@@ -1,14 +1,20 @@
 package com.bt.zhangzy.network.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.alibaba.fastjson.JSON;
+
 import java.util.Date;
 
 /**
  * Created by ZhangZy on 2016-1-27.
  */
-public class JsonOrder extends BaseEntity {
+public class JsonOrder extends BaseEntity implements Parcelable {
     public JsonOrder() {
     }
-    int  id;
+
+    int id;
     Date publishDate;//订单发布日期
     int status;//订单状态（已提交/交易中/已完成/取消）
     String describe;//订单描述（作废原因）
@@ -29,8 +35,43 @@ public class JsonOrder extends BaseEntity {
     //收货人姓名  收货人电话  收货人地址
     String receiverName, receiverPhone, receiverAddress;
     String insurancePolicyNumber;//保险单号
-//    int orderType;//订单类型（车队货源/公共货源）
+    //    int orderType;//订单类型（车队货源/公共货源）
+    int driverCount;
 
+    /*===============================*/
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(JSON.toJSONString(this));
+    }
+
+    //实例化静态内部对象CREATOR实现接口Parcelable.Creator
+    public static final Parcelable.Creator<JsonOrder> CREATOR = new Creator<JsonOrder>() {
+        @Override
+        public JsonOrder createFromParcel(Parcel source) {
+
+            return JSON.parseObject(source.readString(), JsonOrder.class);
+        }
+
+        @Override
+        public JsonOrder[] newArray(int size) {
+            return new JsonOrder[size];
+        }
+    };
+
+    /*==================================*/
+
+    public int getDriverCount() {
+        return driverCount;
+    }
+
+    public void setDriverCount(int driverCount) {
+        this.driverCount = driverCount;
+    }
 
     public int getId() {
         return id;

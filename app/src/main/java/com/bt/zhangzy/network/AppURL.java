@@ -3,10 +3,16 @@ package com.bt.zhangzy.network;
 /**
  * Created by ZhangZy on 2016-1-5.
  */
-public final class Url {
+public final class AppURL {
 
     /*服务器端口  例：http://182.92.77.31:8080/freight/users/1  */
     public static final String Host = "http://182.92.77.31:8080";
+
+    public static final String ABOUT_APP = Host + "/html/software.html";//软件
+    public static final String REGISTER_LAW = Host + "/html/law.html";//法律
+    public static final String DOWNLOAD_APP = Host + "/html/download.html";//下载
+    public static final String ABOUT_COMPANY = Host + "/html/company.html";//公司介绍
+    public static final String LOCATION_MAP = Host + "/mall/qiantai/ditu.html?longitude=%d1&latitude=%d2";
 
     /* 注册   用户列表： http://182.92.77.31:8080/users/list  */
     public static final String Register = Host + "/users/register";
@@ -86,12 +92,12 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
     public static final String GetOrder = Host + "/orders/";//按ID获取订单
     public static final String PutOrder = Host + "/orders/";
     public static final String GetMyOrderList = Host + "/orders/show_user_order";//获取用户所属的订单列表
-    public static final String GetOrderList  = Host + "/orders/list";//获取可抢订单列表
+    public static final String GetOrderList = Host + "/orders/list";//获取可抢订单列表
 
     /*=========== 收藏 ============================*/
     public static final String GetFavourite = Host + "/users/favourite";///users/ favour  get方式，传4个参数 fromRole,fromRoleId,toRole,toRoleId
     public static final String DelFavourite = Host + "/users/favourite/";///users/favourite/{id} //取消 和 获取收藏;
-    public static final String GetFavouriteList = Host+"/users/list_favourite";//收藏夹
+    public static final String GetFavouriteList = Host + "/users/list_favourite";//收藏夹
 
     /*============= 搜索 =================================*/
     public static final String GetSearch = Host + "/companies/search";//在认证公司信息或者修改公司信息时对name、address、area字段做索引，通过关键词对公司名称进行检索

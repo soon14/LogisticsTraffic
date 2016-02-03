@@ -157,7 +157,7 @@
     </style>
 
     <style name="while_orange_btn_style">
-        <item name="android:background">@drawable/while_orange_selector</item>
+        <item name="android:background">@drawable/white_orange_selector</item>
         <item name="android:textSize">18sp</item>
         <item name="android:padding">1dp</item>
         <item name="android:textColor">@color/black_while_color_selector</item>
@@ -178,7 +178,7 @@
 
     <style name="register_button_style" parent="button_style">
         <item name="android:textColor">@color/main_bg_color</item>
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@drawable/white_orange_selector</item>
     </style>
 
     <style name="tip_small">
@@ -242,7 +242,7 @@
     </style>
 
     <style name="select_licence_btn_style">
-        <item name="android:background">@drawable/while_orange_selector</item>
+        <item name="android:background">@drawable/white_orange_selector</item>
         <item name="android:textSize">18sp</item>
         <item name="android:padding">10dp</item>
         <item name="android:layout_margin">10dp</item>

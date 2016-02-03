@@ -1,5 +1,7 @@
 package com.bt.zhangzy.logisticstraffic.fragment;
 
+import android.view.View;
+
 import com.bt.zhangzy.logisticstraffic.R;
 
 /**
@@ -18,8 +20,8 @@ public class HappyFragment extends BaseHomeFragment {
     }
 
     @Override
-    void init() {
-        super.init();
+    void init(View view) {
+//        super.init();
 
     }
 

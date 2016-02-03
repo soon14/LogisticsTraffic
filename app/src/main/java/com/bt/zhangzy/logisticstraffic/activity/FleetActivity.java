@@ -18,9 +18,9 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.Url;
 import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonMotocardesDriver;
@@ -40,6 +40,7 @@ public class FleetActivity extends BaseActivity {
     FleetListAdapter adapter;
     boolean isSelectDriver = false;
     int motorcadeId = -1;
+    private int needSelectDriverSize;//需要选择的司机数量
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class FleetActivity extends BaseActivity {
                 if (bundle.getInt(AppParams.RESULT_CODE_KEY) == AppParams.RESULT_CODE_SELECT_DEVICES) {
                     isSelectDriver = true;
                 }
+                needSelectDriverSize = bundle.getInt(AppParams.SELECT_DEVICES_SIZE_KEY);
             }
             // 标记是否为车队详情页
             if (bundle.containsKey(AppParams.BUNDLE_MOTOCARDE_ID)) {
@@ -87,6 +89,8 @@ public class FleetActivity extends BaseActivity {
             }
         } else {
             setPageName("我的车队");
+            if (!isSelectDriver)
+                findViewById(R.id.fleet_finish_bt).setVisibility(View.GONE);
             List<JsonMotorcades> motorcades = User.getInstance().getMotorcades();
             if (motorcades != null && !motorcades.isEmpty()) {
                 //信息部只能有一个车队，所以直接取第一个元素
@@ -121,21 +125,42 @@ public class FleetActivity extends BaseActivity {
         if (isSelectDriver) {
             if (onItemSelectClickListener == null)
                 onItemSelectClickListener = new AdapterView.OnItemClickListener() {
+
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        //// TO DO: 2016-1-30  这里的司机选择要改成多选
+                        if (!adapter.selected(position)) {
+                            showToast(getString(R.string.select_driver_failed, needSelectDriverSize));
+                        }
 //                    People people = (People) listView.getItemAtPosition(position);
-                        People people = adapter.getItem(position);
-                        Intent intent = new Intent();
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable(AppParams.RESULT_CODE_KEY, people);
-//                    intent.putExtra(Constant.RESULT_CODE_KEY,people);
-                        intent.putExtras(bundle);
-                        setResult(AppParams.RESULT_CODE_SELECT_DEVICES, intent);
-                        finish();
+//                        People people = adapter.getItem(position);
+//                        returnOrderDetial(people);
                     }
                 };
             listView.setOnItemClickListener(onItemSelectClickListener);
         }
+    }
+
+    public void onClick_FinishSelect(View view) {
+        int select_size = adapter.getSelectedListSize();
+//        ArrayList<People> peoples = adapter.getSelectedList();
+        if (select_size != needSelectDriverSize) {
+            int tmp = needSelectDriverSize - select_size;
+            showToast(getString(R.string.need_driver_size, tmp));
+            return;
+        }
+        returnOrderDetial(adapter.getSelectedList());
+    }
+
+    //选择完成
+    private void returnOrderDetial(ArrayList<People> peoples) {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(AppParams.RESULT_CODE_KEY, peoples);
+//                    intent.putExtra(Constant.RESULT_CODE_KEY,people);
+        intent.putExtras(bundle);
+        setResult(AppParams.RESULT_CODE_SELECT_DEVICES, intent);
+        finish();
     }
 
     private void initDriverView(List<JsonMotorcades> list) {
@@ -170,7 +195,7 @@ public class FleetActivity extends BaseActivity {
 
     private void requestGetMotorcadesList(JsonDriver jsonDriver) {
         showProgress("正在获取车队列表...");
-        HttpHelper.getInstance().get(Url.GetDriversListMotorcade, jsonDriver, new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetDriversListMotorcade, jsonDriver, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 //// TODO: 2016-1-26  司机所属的车队列表更新
@@ -191,7 +216,7 @@ public class FleetActivity extends BaseActivity {
     private void reuqestGetMotorcadesList() {
         //按角色和id获取车队列表
         String params = "" + User.getInstance().getId();
-        HttpHelper.getInstance().get(Url.GetMotorcadesList + params, new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetMotorcadesList + params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
 
@@ -208,7 +233,7 @@ public class FleetActivity extends BaseActivity {
         showProgressOnUI("正在获取车队列表...");
         //获取车队信息
 
-        HttpHelper.getInstance().get(Url.GetMotorcades + motorcadeId, new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetMotorcades + motorcadeId, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 cancelProgress();
@@ -232,7 +257,7 @@ public class FleetActivity extends BaseActivity {
                     }
                     User.getInstance().setDriverList(list);
                     if (adapter == null)
-                        adapter = new FleetListAdapter(AppParams.DEVICES_APP ? true : isSelectDriver);
+                        adapter = new FleetListAdapter(AppParams.DEVICES_APP ? true : isSelectDriver, needSelectDriverSize);
                     adapter.setPeoples(list);
 //                    adapter.addPeople(User.getInstance().getDriverList());
 
@@ -295,7 +320,7 @@ public class FleetActivity extends BaseActivity {
     //删除车队司机
     private void requestDelDriver(int driverId) {
 
-        HttpHelper.getInstance().del(HttpHelper.toString(Url.DeleteMotorcadeDriver, new String[]{"id=" + driverId}), new JsonCallback() {
+        HttpHelper.getInstance().del(HttpHelper.toString(AppURL.DeleteMotorcadeDriver, new String[]{"id=" + driverId}), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("删除成功");
@@ -367,7 +392,7 @@ public class FleetActivity extends BaseActivity {
 
     private void requestAddDriver(final String phone) {
 
-        HttpHelper.getInstance().post(Url.PostAddMotorcadeDriverPhone + motorcadeId + "/" + phone, new BaseEntity(), new JsonCallback() {
+        HttpHelper.getInstance().post(AppURL.PostAddMotorcadeDriverPhone + motorcadeId + "/" + phone, new BaseEntity(), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("司机添加成功");

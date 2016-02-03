@@ -18,6 +18,7 @@ import com.bt.zhangzy.logisticstraffic.activity.HomeActivity;
 public abstract class BaseHomeFragment extends Fragment {
 
     private String pageName;
+    private View contentView;
 
     public BaseHomeFragment(String pageName) {
         this.pageName = pageName;
@@ -25,28 +26,36 @@ public abstract class BaseHomeFragment extends Fragment {
 
     abstract int getLayoutID();
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        return super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(getLayoutID(), container, false);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        contentView = getActivity().getLayoutInflater().inflate(getLayoutID(), null, false);
         if (pageName != null) {
-            TextView pageTopName = (TextView) view.findViewById(R.id.page_top_name);
+            TextView pageTopName = (TextView) contentView.findViewById(R.id.page_top_name);
             pageTopName.setText(pageName);
         }
-        if (view.findViewById(R.id.page_top_ly) != null) {
-            view.findViewById(R.id.page_top_ly).setBackgroundColor(getResources().getColor(R.color.main_bg_color));
+        if (contentView.findViewById(R.id.page_top_ly) != null) {
+            contentView.findViewById(R.id.page_top_ly).setBackgroundColor(getResources().getColor(R.color.main_bg_color));
         }
-        return view;
+        init(contentView);
+    }
+
+    /* 使用FragmentPagerAdapter 时，onCreateView 会被在切换时调用，不适合在这个方法中创建view ,只适用于更新view数据*/
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (contentView != null)
+            return contentView;
+        else
+            return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        init();
+//        init();
     }
 
-    void init() {
+    void init(View view) {
 
     }
 
