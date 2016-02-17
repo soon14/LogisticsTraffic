@@ -17,10 +17,10 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.PictureHelper;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
@@ -83,11 +83,11 @@ public class DetailPhotoActivity extends BaseActivity {
 
             requestJsonDriver = jsonDriver;
             //to do 车的信息更新
-            if(user.getJsonCar() != null){
+            if (user.getJsonCar() != null) {
                 JsonCar jsonCar = user.getJsonCar();
-                setImageUrl(R.id.devices_xxz_img,jsonCar.getDrivingLicensePhotoUrl());
-                setImageUrl(R.id.devices_clzp_img,jsonCar.getFrontalPhotoUrl1());
-                setImageUrl(R.id.devices_clzp_two_img,jsonCar.getFrontalPhotoUrl2());
+                setImageUrl(R.id.devices_xxz_img, jsonCar.getDrivingLicensePhotoUrl());
+                setImageUrl(R.id.devices_clzp_img, jsonCar.getFrontalPhotoUrl1());
+                setImageUrl(R.id.devices_clzp_two_img, jsonCar.getFrontalPhotoUrl2());
 
 
                 requestJsonCar = jsonCar;
@@ -136,8 +136,9 @@ public class DetailPhotoActivity extends BaseActivity {
         JsonCallback rspCallback = new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
-                showToast("图片上传成功");
+                showToast("图片上传成功" + msg);
                 String uploadImgURL = AppURL.Host + result;
+                Log.i(TAG, "上传图片地址：" + uploadImgURL);
                 ImageHelper.getInstance().loadImgOnUiThread(getActivity(), uploadImgURL, userImage);
                 if (userImage != null)
                     switch (userImage.getId()) {

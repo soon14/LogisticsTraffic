@@ -39,6 +39,8 @@ public class JsonOrder extends BaseEntity implements Parcelable {
     int driverCount;
 
     /*===============================*/
+
+
     @Override
     public int describeContents() {
         return 0;

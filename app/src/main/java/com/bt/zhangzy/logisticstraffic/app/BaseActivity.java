@@ -22,6 +22,7 @@ import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.receiver.MessageReceiver;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.CustomProgress;
 import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.AppURL;
@@ -319,7 +320,7 @@ public class BaseActivity extends FragmentActivity {
     public void showDialogCallPhone(final String phoneNum) {
         Log.d(TAG, ">>>showDialogCallPhone " + phoneNum);
         if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
-            BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+            ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(PayActivity.class);

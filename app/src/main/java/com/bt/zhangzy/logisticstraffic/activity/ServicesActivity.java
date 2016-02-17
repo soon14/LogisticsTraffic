@@ -1,8 +1,6 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +11,6 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.network.HttpHelper;
-import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.NetCallback;
 import com.bt.zhangzy.tools.Json;
 import com.squareup.okhttp.Request;
@@ -21,7 +18,6 @@ import com.squareup.okhttp.Request;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 

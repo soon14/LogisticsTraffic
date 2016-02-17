@@ -4,38 +4,22 @@ import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.activity.LoginActivity;
-import com.bt.zhangzy.logisticstraffic.adapter.LocationListAdapter;
-import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.tools.ContextTools;
 import com.zhangzy.baidusdk.BaiduSDK;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
@@ -43,6 +27,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * Created by ZhangZy on 2015/6/10.
@@ -87,22 +72,28 @@ public class LogisticsTrafficApplication extends Application {
         //上传推送标签
         String alias = User.getInstance().getPhoneNum();
         Set<String> set = new LinkedHashSet<String>();
-        switch (User.getInstance().getUserType()) {
-            case InformationType:
-                set.add("信息部/物流公司");
-                break;
-            case EnterpriseType:
-                set.add("企业");
-                break;
-            case DriverType:
-                set.add("司机");
-                break;
-        }
+//        switch (User.getInstance().getUserType()) {
+//            case InformationType:
+//                set.add("信息部");
+//                break;
+//            case EnterpriseType:
+//                set.add("企业");
+//                break;
+//            case DriverType:
+//                set.add("司机");
+//                break;
+//        }
 //        List<JsonMotorcades> motorcades = User.getInstance().getMotorcades();
-        for (JsonMotorcades motorcades : User.getInstance().getMotorcades()) {
-            set.add("车队：" + motorcades.getId());
-        }
-        JPushInterface.setAliasAndTags(getApplicationContext(), alias, set);
+        if (User.getInstance().getMotorcades() != null)
+            for (JsonMotorcades motorcades : User.getInstance().getMotorcades()) {
+                set.add("车队_" + motorcades.getId());
+            }
+        JPushInterface.setAliasAndTags(getApplicationContext(), alias, set, new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> set) {
+                Log.i(TAG, "JPush 标签设置结果：状态码：" + i + " 别名：" + s + " 标签：" + set.toString());
+            }
+        });
     }
 
     /**
@@ -212,7 +203,7 @@ public class LogisticsTrafficApplication extends Application {
     public void callPhone(String phoneNumber) {
         //todo 接口 更新拨打电话的次数
         if (!User.getInstance().getLogin()) {
-            BaseDialog.showConfirmDialog(currentAct, "您还没有登陆，是否登陆？", "返回", "登陆", new View.OnClickListener() {
+            ConfirmDialog.showConfirmDialog(currentAct, "您还没有登陆，是否登陆？", "返回", "登陆", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     currentAct.startActivity(LoginActivity.class);

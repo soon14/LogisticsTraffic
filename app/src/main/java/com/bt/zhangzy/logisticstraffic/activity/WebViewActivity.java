@@ -1,7 +1,5 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.GeolocationPermissions;
@@ -12,8 +10,6 @@ import android.webkit.WebViewClient;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.data.Location;
-import com.bt.zhangzy.logisticstraffic.data.User;
 
 /**
  * Created by ZhangZy on 2016-1-15.

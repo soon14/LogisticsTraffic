@@ -1,5 +1,7 @@
 package com.bt.zhangzy.network.entity;
 
+import com.bt.zhangzy.logisticstraffic.data.People;
+
 /**
  * Created by ZhangZy on 2016-1-25.
  */
@@ -7,6 +9,14 @@ public class JsonMotocardesDriver extends BaseEntity {
     public JsonMotocardesDriver() {
     }
 
+    public JsonMotocardesDriver(People people) {
+        id = people.getId();
+        driverId = people.getDriverId();
+        motorcadeId = people.getMotorcadeId();
+        userId = people.getUserId();
+        name = people.getName();
+        phoneNumber = people.getPhoneNumber();
+    }
     int id,userId;
     int motorcadeId;
     int driverId;

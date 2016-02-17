@@ -123,25 +123,28 @@ public class LoginActivity extends BaseActivity {
                         user.setUserType(Type.DriverType);
                         if (json.getDriver() != null) {
                             user.setJsonTypeEntity(json.getDriver());
+                            user.setDriverID(json.getDriver().getId());
                         }
                         break;
                     case 2:
                         user.setUserType(Type.EnterpriseType);
                         if (json.getEnterprise() != null) {
                             user.setJsonTypeEntity(json.getEnterprise());
+                            user.setEnterpriseID(json.getEnterprise().getId());
                         }
                         break;
                     case 3:
                         user.setUserType(Type.InformationType);
                         if (json.getCompany() != null) {
                             user.setJsonTypeEntity(json.getCompany());
+                            user.setCompanyID(json.getCompany().getId());
                         }
                         break;
                 }
-                if(AppParams.DEVICES_APP){
-                    if(user.getUserType() != Type.DriverType){
+                if (AppParams.DEVICES_APP) {
+                    if (user.getUserType() != Type.DriverType) {
                         showToast("不是司机用户");
-                        return ;
+                        return;
                     }
                 }
 

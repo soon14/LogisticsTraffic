@@ -1,6 +1,7 @@
 package com.bt.zhangzy.logisticstraffic.data;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.network.entity.BaseEntity;
@@ -22,10 +23,11 @@ import java.util.List;
  */
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static final String TAG = User.class.getSimpleName();
 
     private static User instance = new User();
     private String registrationID;//推送标识符
-    private List<JsonFavorite> jsonFavorites;//收藏标识 // TODO: 2016-1-29 拿到收藏列表后要根据列表内容判断 是否已收藏
+    private List<JsonFavorite> jsonFavorites;//收藏标识 // TO DO: 2016-1-29 拿到收藏列表后要根据列表内容判断 是否已收藏
 
     private boolean isLogin = false;
     private Type userType = Type.EmptyType;
@@ -310,7 +312,10 @@ public class User implements Serializable {
 
     public void setJsonFavorites(ResponseFavorites jsonFavorites) {
         //// TODO: 2016-1-30 返回收藏列表中 带有角色信息
-        this.jsonFavorites = jsonFavorites.getFavorites();
+        if (jsonFavorites != null)
+            this.jsonFavorites = jsonFavorites.getFavorites();
+        else
+            Log.w(TAG, "返回收藏列表中 没有角色信息");
     }
 
     public List<JsonFavorite> getJsonFavorites() {
@@ -318,19 +323,17 @@ public class User implements Serializable {
     }
 
     //检查 是否在收藏列表中
-    public int checkFavoritesId(int id){
-        if(jsonFavorites == null || jsonFavorites.isEmpty())
+    public int checkFavoritesId(int id) {
+        if (jsonFavorites == null || jsonFavorites.isEmpty())
             return -1;
-        for(JsonFavorite json : jsonFavorites){
-            if(id == json.getFavoritedRoleId()){
+        for (JsonFavorite json : jsonFavorites) {
+            if (id == json.getFavoritedRoleId()) {
                 return json.getId();
             }
         }
 
         return -1;
     }
-
-
 
 
 }

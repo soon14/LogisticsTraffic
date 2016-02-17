@@ -10,7 +10,7 @@ import com.bt.zhangzy.logisticstraffic.adapter.SourceGoodsListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -79,7 +79,7 @@ public class SourceGoodsActivity extends BaseActivity {
     private void gotoDetail() {
         if (User.getInstance().getLogin()) {
             if(AppParams.DEVICES_APP && !User.getInstance().isVIP()){
-                BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+                ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         startActivity(PayActivity.class);
@@ -91,7 +91,7 @@ public class SourceGoodsActivity extends BaseActivity {
 //                bundle.putInt(Constant.ORDER_DETAIL_KEY_TYPE, ordinal);
             startActivity(OrderDetailActivity.class);
         } else {
-            BaseDialog.showConfirmDialog(this, "您还没有登录，是否登录？", new View.OnClickListener() {
+            ConfirmDialog.showConfirmDialog(this, "您还没有登录，是否登录？", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(LoginActivity.class);

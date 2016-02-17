@@ -93,6 +93,12 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
     public static final String PutOrder = Host + "/orders/";
     public static final String GetMyOrderList = Host + "/orders/show_user_order";//获取用户所属的订单列表
     public static final String GetOrderList = Host + "/orders/list";//获取可抢订单列表
+    public static final String CallDriver = Host + "/orders/call_driver";// call车接口
+    public static final String CallMotorcade = Host + "/orders/call_motorcade";// call 车队
+    public static final String CallPublic = Host + "/orders/call_public";// call 所有车
+    public static final String Accept = Host + "/orders/accept";//接单  orderId  role roleId
+    public static final String Reject = Host + "/orders/reject";//拒绝接单
+
 
     /*=========== 收藏 ============================*/
     public static final String GetFavourite = Host + "/users/favourite";///users/ favour  get方式，传4个参数 fromRole,fromRoleId,toRole,toRoleId

@@ -2,6 +2,9 @@ package com.bt.zhangzy.logisticstraffic.app;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -10,8 +13,10 @@ import android.util.Log;
 import com.bt.zhangzy.tools.Tools;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,6 +26,7 @@ import java.util.Date;
 public class PictureHelper {
 
     private static final String TAG = PictureHelper.class.getSimpleName();
+    static final boolean IS_CUT_PHOTO = false;//标记 是否需要切图的步骤
 
     public interface CallBack {
         void handlerImage(File file);
@@ -63,15 +69,33 @@ public class PictureHelper {
 //                userImage.setImageURI(Uri.fromFile(new File(path)));
 //            }
         } else if (requestCode == REQUEST_TAKE_PHOTO) {
-            // 从照相机返回，去剪裁页面
-            cropPicture(activity, Uri.fromFile(photoFile));
+            if (IS_CUT_PHOTO) {
+                // 从照相机返回，去剪裁页面
+                cropPicture(activity, Uri.fromFile(photoFile));
+            } else {
+                if (callBack != null) {
+                    callBack.handlerImage(photoFile);
+                    return true;
+                }
+            }
             return true;
         } else if (requestCode == SELECT_PHOTO) {// 来自头像页面 从相册返回，去剪裁页面
             if (data == null) {
                 return false;
             } else {
                 Uri selectedImage = data.getData();
-                cropPicture(activity, selectedImage);
+                if (IS_CUT_PHOTO) {
+                    cropPicture(activity, selectedImage);
+                } else {
+                    if (callBack != null) {
+                        try {
+                            photoFile = new File(new URI(selectedImage.toString()));
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                        callBack.handlerImage(photoFile);
+                    }
+                }
                 return true;
             }
         }
@@ -145,6 +169,7 @@ public class PictureHelper {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
+                //下面这句指定调用相机拍照后的照片存储的路径
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                 ctx.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
@@ -160,6 +185,7 @@ public class PictureHelper {
      */
     public void pickFromGallery(Activity activity) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        // 如果朋友们要限制上传到服务器的图片类型时可以直接写如："image/jpeg 、 image/png等的类型"
         photoPickerIntent.setType("image/*");
         activity.startActivityForResult(photoPickerIntent, SELECT_PHOTO);
 

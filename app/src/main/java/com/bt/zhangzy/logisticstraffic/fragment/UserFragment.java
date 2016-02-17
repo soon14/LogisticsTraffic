@@ -9,6 +9,7 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -47,16 +48,13 @@ public class UserFragment extends BaseHomeFragment {
         } else if (AppParams.DEVICES_APP) {
 //            findViewById(R.id.user_services_item).setVisibility(View.GONE);
         }
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        initView();
-
+        //跟新用户信息
         if (User.getInstance().getLogin()) {
             requestUserInfo();
+            if (AppParams.DEVICES_APP ^ User.getInstance().getUserType() == Type.DriverType) {
+//                getHomeActivity().showToast("登录用户与客户端类型不统一");
+                ConfirmDialog.showConfirmDialog(getActivity(), "登录用户与客户端类型不统一,请重新启动APP", null);
+            }
         }
         if (User.getInstance().getUserType() == Type.EnterpriseType) {
             requestEnterpriseInfo();
@@ -65,6 +63,14 @@ public class UserFragment extends BaseHomeFragment {
         } else if (User.getInstance().getUserType() == Type.DriverType) {
             requestDriverInfo();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initView();
+
+
     }
 
     private void requestUserInfo() {
@@ -126,7 +132,7 @@ public class UserFragment extends BaseHomeFragment {
 
     /*刷新 页面上的信息 在UI线程中*/
     private void refreshView() {
-        if(getActivity() == null)
+        if (getActivity() == null)
             return;
         getActivity().runOnUiThread(new Runnable() {
             @Override

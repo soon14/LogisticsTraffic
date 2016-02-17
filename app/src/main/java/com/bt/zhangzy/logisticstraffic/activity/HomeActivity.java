@@ -13,26 +13,23 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
-import com.bt.zhangzy.logisticstraffic.view.LocationView;
-import com.bt.zhangzy.tools.ContextTools;
-import com.bt.zhangzy.logisticstraffic.app.LogisticsTrafficApplication;
 import com.bt.zhangzy.logisticstraffic.data.Location;
-import com.bt.zhangzy.logisticstraffic.data.Product;
+import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.fragment.BaseHomeFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.HomeFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.SourceListFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.UserFragment;
-import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.FloatView;
+import com.bt.zhangzy.logisticstraffic.view.LocationView;
+import com.bt.zhangzy.tools.ContextTools;
 
 import java.util.ArrayList;
 
@@ -307,6 +304,7 @@ public class HomeActivity extends BaseActivity {
 
     /**
      * 点击浮窗
+     *
      * @param view
      */
     public void onClick_FloatView(View view) {
@@ -315,8 +313,8 @@ public class HomeActivity extends BaseActivity {
             startActivity(PublishActivity.class);
         } else {
             Bundle bundle = new Bundle();
-            bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE,  OrderDetailMode.CreateMode.ordinal());
-            startActivity(OrderDetailActivity.class);
+            bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE, OrderDetailMode.CreateMode.ordinal());
+            startActivity(OrderDetailActivity.class, bundle);
         }
     }
 
@@ -347,9 +345,6 @@ public class HomeActivity extends BaseActivity {
         // 显示myFloatView图像
         windowManager.addView(floatView, floatView.getWindowManagerParams());
     }
-
-
-
 
 
     public void onClick_gotoDetail(View view) {
@@ -427,7 +422,7 @@ public class HomeActivity extends BaseActivity {
 
     public void onClick_Quit(View view) {
 
-        BaseDialog.showConfirmDialog(this, "是否退出?", "返回", "退出", new View.OnClickListener() {
+        ConfirmDialog.showConfirmDialog(this, "是否退出?", "返回", "退出", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getApp().Exit(User.getInstance().isSave());
@@ -437,7 +432,7 @@ public class HomeActivity extends BaseActivity {
 
     public void onClick_SafeQuit(View view) {
 
-        BaseDialog.showConfirmDialog(this, "是否注销并退出程序?", "返回", "退出", new View.OnClickListener() {
+        ConfirmDialog.showConfirmDialog(this, "是否注销并退出程序?", "返回", "退出", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getApp().Exit(false);

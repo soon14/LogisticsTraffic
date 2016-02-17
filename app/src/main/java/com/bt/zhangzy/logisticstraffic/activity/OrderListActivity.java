@@ -14,9 +14,9 @@ import com.bt.zhangzy.logisticstraffic.data.OrderStatus;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.fragment.OrderListFragment;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.entity.JsonOrder;
 
 import java.util.ArrayList;
@@ -49,6 +49,11 @@ public class OrderListActivity extends BaseActivity {
             findViewById(R.id.orderlist_tab_untreated).setVisibility(View.GONE);
         }
         initViewPager();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         requestOrderList();
     }
 
@@ -112,7 +117,11 @@ public class OrderListActivity extends BaseActivity {
             showToast("数据列表为空");
             return;
         }
-
+        //clear history
+        untreatedList.clear();
+        submittedList.clear();
+        completedList.clear();
+        //add new data
         for (JsonOrder order : list) {
             switch (OrderStatus.parseStatus(order.getStatus())) {
                 case TempOrder:
@@ -140,7 +149,10 @@ public class OrderListActivity extends BaseActivity {
         User user = User.getInstance();
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("role", String.valueOf(user.getUserType().toRole()));
-        long roleId = user.getUserType() == Type.InformationType ? user.getCompanyID() : user.getUserType() == Type.EnterpriseType ? user.getEnterpriseID() : user.getId();
+        long roleId = user.getUserType() == Type.InformationType ? user.getCompanyID()
+                : user.getUserType() == Type.EnterpriseType ? user.getEnterpriseID()
+                : user.getUserType() == Type.DriverType ? user.getDriverID()
+                : user.getId();
         params.put("roleId", String.valueOf(roleId));
 //        params.put("orderStatus","0");
         HttpHelper.getInstance().get(AppURL.GetMyOrderList, params, new JsonCallback() {
@@ -198,7 +210,7 @@ public class OrderListActivity extends BaseActivity {
         if (AppParams.DEVICES_APP) {
             currentPage -= 1;
         }
-        if (currentPage > 0 && viewPager != null) {
+        if (currentPage >= 0 && viewPager != null) {
             if (viewPager.getCurrentItem() != currentPage)
                 viewPager.setCurrentItem(currentPage);
 //            viewPager.getAdapter().notifyDataSetChanged();

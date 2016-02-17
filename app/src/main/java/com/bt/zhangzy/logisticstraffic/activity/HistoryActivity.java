@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.bt.zhangzy.logisticstraffic.R;
-import com.bt.zhangzy.logisticstraffic.adapter.HistoryListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Product;

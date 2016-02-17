@@ -13,7 +13,7 @@ import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -123,8 +123,8 @@ public class DetailCompany extends BaseActivity {
         if (product != null) {
             setTextView(R.id.detail_name_tx, product.getName());
             setTextView(R.id.detail_cp_address_tx, product.getAddress());
+            setImageUrl(R.id.detail_user_head_img, product.getPhotoUrl());
         }
-        setImageUrl(R.id.detail_user_head_img, product.getPhotoUrl());
 //            ImageView headImg = (ImageView) findViewById(R.id.detail_user_head_img);
 //        String url = "http://img1.3lian.com/img2011/w1/105/4/13.jpg";
 //        ImageHelper.getInstance().load(url, headImg);
@@ -134,7 +134,7 @@ public class DetailCompany extends BaseActivity {
 
     public void onClick_CallPhone(View view) {
         if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
-            BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+            ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(PayActivity.class);
@@ -169,7 +169,7 @@ public class DetailCompany extends BaseActivity {
             return;
         }
         if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
-            BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+            ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(PayActivity.class);
@@ -179,19 +179,19 @@ public class DetailCompany extends BaseActivity {
         }
         //// TODO: 2016-1-29  考虑是否直接跳转到 OrderDetailActivity
 //        startActivity(OrderActivity.class);
-        if(User.getInstance().getJsonTypeEntity() == null){
+        if (User.getInstance().getJsonTypeEntity() == null) {
             showToast("请先完成企业认证");
             return;
         }
         Bundle bundle = new Bundle();
-        bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE,  OrderDetailMode.CreateMode.ordinal());
+        bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE, OrderDetailMode.CreateMode.ordinal());
         bundle.putSerializable(AppParams.BUNDLE_PRODUCT_KEY, product);
         startActivity(OrderDetailActivity.class, bundle);
     }
 
     public void onClick_CollectAdd(View view) {
         if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
-            BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+            ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(PayActivity.class);

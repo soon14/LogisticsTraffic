@@ -138,39 +138,7 @@ public class BaseDialog extends Dialog implements View.OnClickListener {
         return dialog;
     }
 
-    /**
-     * 常用对话框方法封装  二次确认对话框
-     *
-     * @param act      上下文
-     * @param msg      提示内容
-     * @param listener 确认按钮执行的事件
-     */
-    public static void showConfirmDialog(Activity act, String msg, View.OnClickListener listener) {
-        showConfirmDialog(act, msg, null, null, listener);
-    }
 
-    /**
-     * 常用对话框方法封装  二次确认对话框
-     *
-     * @param act      上下文
-     * @param msg      提示内容
-     * @param cancel   取消按钮描述
-     * @param confirm  确认按钮描述
-     * @param listener 执行事件
-     */
-    public static void showConfirmDialog(Activity act, String msg, String cancel, String confirm, View.OnClickListener listener) {
-        BaseDialog dialog = new BaseDialog(act);
-        dialog.setView(R.layout.dialog_confirm);
-        dialog.setTextView(R.id.confirm_dl_msg_tx, msg);
-        if (!TextUtils.isEmpty(cancel)) {
-            dialog.setTextView(R.id.dl_cancel_bt, cancel);
-        }
-        if (!TextUtils.isEmpty(confirm)) {
-            dialog.setTextView(R.id.dl_confirm_bt, confirm);
-        }
-        dialog.setOnClickListener(R.id.dl_cancel_bt, null).setOnClickListener(R.id.dl_confirm_bt, listener);
-        dialog.show();
-    }
 
 
     /**

@@ -8,7 +8,7 @@ import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 
 /**
  * Created by ZhangZy on 2015/7/23.
@@ -36,7 +36,7 @@ public class SourceDetailActivity extends BaseActivity {
     public void onClick_CallPhone(View view) {
 //        ContextTools.callPhone(this, "10010");
         if(AppParams.DEVICES_APP && !User.getInstance().isVIP()){
-            BaseDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+            ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(PayActivity.class);

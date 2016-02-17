@@ -21,7 +21,7 @@ public class OrderListAdapter extends BaseAdapter {
 
     List<JsonOrder> list;
 
-    public OrderListAdapter(List<JsonOrder> list){
+    public OrderListAdapter(List<JsonOrder> list) {
         this.list = list;
     }
 
@@ -53,7 +53,7 @@ public class OrderListAdapter extends BaseAdapter {
 //            }
             holder = new Holder();
             convertView.setTag(holder);
-            holder.blankOut =  convertView.findViewById(R.id.orderlist_item_blankout);
+            holder.blankOut = convertView.findViewById(R.id.orderlist_item_blankout);
             holder.ly = convertView.findViewById(R.id.orderlist_item_ly);
             holder.orderNum = (TextView) convertView.findViewById(R.id.orderlist_item_num_tx);
             holder.enterpriseTx = (TextView) convertView.findViewById(R.id.orderlist_item_enterprise_tx);
@@ -62,29 +62,32 @@ public class OrderListAdapter extends BaseAdapter {
             holder.driverTx = (TextView) convertView.findViewById(R.id.orderlist_item_driver_tx);
             holder.driverPhoneTx = (TextView) convertView.findViewById(R.id.orderlist_item_driver_phone_tx);
 
-        }else{
+        } else {
             holder = (Holder) convertView.getTag();
         }
         JsonOrder order = list.get(position);
-        ViewUtils.setTextView(holder.orderNum,String.valueOf(order.getId()));
-        ViewUtils.setTextView(holder.enterpriseTx,String.valueOf(order.getEnterpriseId()));
-        ViewUtils.setTextView(holder.companyTx,String.valueOf(order.getCompanyId()));
-        ViewUtils.setTextView(holder.start_end_Tx,order.getStartCity()+"-"+order.getStopCity());
-        ViewUtils.setTextView(holder.driverTx,order.getReceiverName());
-        ViewUtils.setTextView(holder.driverPhoneTx,order.getReceiverPhone());
-        if(OrderStatus.parseStatus(order.getStatus()) == OrderStatus.DiscardOrder){
+        ViewUtils.setTextView(holder.orderNum, String.valueOf(order.getId()));
+        ViewUtils.setTextView(holder.enterpriseTx, String.valueOf(order.getEnterpriseId()));
+        ViewUtils.setTextView(holder.companyTx, String.valueOf(order.getCompanyId()));
+        ViewUtils.setTextView(holder.start_end_Tx, order.getStartCity() + "-" + order.getStopCity());
+        ViewUtils.setTextView(holder.driverTx, order.getReceiverName());
+        ViewUtils.setTextView(holder.driverPhoneTx, order.getReceiverPhone());
+        if (OrderStatus.parseStatus(order.getStatus()) == OrderStatus.DiscardOrder) {
             holder.blankOut.setVisibility(View.VISIBLE);
-            holder.ly.setBackgroundColor(parent.getResources().getColor(R.color.editpage_bg_color));
-        }else{
+//            holder.ly.setBackgroundColor(parent.getResources().getColor(R.color.editpage_bg_color));
+            holder.ly.setBackgroundResource(R.color.editpage_bg_color);
+        } else {
             holder.blankOut.setVisibility(View.INVISIBLE);
-            holder.ly.setBackgroundColor(parent.getResources().getColor(R.color.white,null));
+//            holder.ly.setBackgroundColor(parent.getResources().getColor(R.color.white));
+            holder.ly.setBackgroundResource(R.color.white);
+
         }
 
 
         return convertView;
     }
 
-    class Holder{
+    class Holder {
         TextView orderNum;
         TextView enterpriseTx;
         TextView companyTx;

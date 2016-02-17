@@ -18,6 +18,7 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -291,7 +292,7 @@ public class FleetActivity extends BaseActivity {
     }
 
     private void showDelDialog(final People people) {
-        BaseDialog.showConfirmDialog(this, "确认删除车队司机", new View.OnClickListener() {
+        ConfirmDialog.showConfirmDialog(this, "确认删除车队司机", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                FleetListAdapter adp = (FleetListAdapter) listView.getAdapter();
@@ -366,7 +367,7 @@ public class FleetActivity extends BaseActivity {
     }
 
     private void showQuitDialog() {
-        BaseDialog.showConfirmDialog(this, "确认退出车队？", new View.OnClickListener() {
+        ConfirmDialog.showConfirmDialog(this, "确认退出车队？", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                    ArrayList<People> list = adapter.getList();
