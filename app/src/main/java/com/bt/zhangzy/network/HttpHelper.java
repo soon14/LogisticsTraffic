@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.tools.UploadFileTask;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -23,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -56,7 +54,7 @@ public class HttpHelper extends OkHttpClient {
     /**
      * 单例实体
      */
-    private static HttpHelper mInstance;
+    private static HttpHelper instance;
 
     private HttpHelper() {
         this.setConnectTimeout(TIMEOUT, TimeUnit.SECONDS);
@@ -67,10 +65,10 @@ public class HttpHelper extends OkHttpClient {
     }
 
     public static HttpHelper getInstance() {
-        if (mInstance == null)
-            mInstance = new HttpHelper();
+        if (instance == null)
+            instance = new HttpHelper();
 
-        return mInstance;
+        return instance;
     }
 
     /**
@@ -89,6 +87,13 @@ public class HttpHelper extends OkHttpClient {
         return stringBuffer.toString();
     }
 
+    /**
+     * 拼接口参数  如：http://www.baidu.com?param1&param2&....
+     *
+     * @param url
+     * @param textParams
+     * @return
+     */
     @NonNull
     public static String toString(String url, HashMap textParams) {
         StringBuffer stringBuffer = new StringBuffer();
@@ -101,8 +106,11 @@ public class HttpHelper extends OkHttpClient {
             stringBuffer.append(key);
             stringBuffer.append("=");
             stringBuffer.append(textParams.get(key));
-            stringBuffer.append("&");
+            if (it.hasNext())
+                stringBuffer.append("&");
         }
+        //删除最后一个 &
+//        stringBuffer.deleteCharAt(stringBuffer.length() - 1);
         return stringBuffer.toString();
     }
 
@@ -123,6 +131,13 @@ public class HttpHelper extends OkHttpClient {
         return stringBuffer.toString();
     }
 
+    /**
+     * 拼接口参数  如：http://www.baidu.com?param1&param2&....
+     *
+     * @param url
+     * @param json
+     * @return
+     */
     @NonNull
     public static String toString(String url, JSONObject json) {
         StringBuffer stringBuffer = new StringBuffer();
@@ -142,6 +157,13 @@ public class HttpHelper extends OkHttpClient {
         return stringBuffer.toString();
     }
 
+    /**
+     * 拼接口参数  如：http://www.baidu.com?param1&param2&....
+     *
+     * @param url
+     * @param entity
+     * @return
+     */
     @NonNull
     public static String toString(String url, BaseEntity entity) {
         com.alibaba.fastjson.JSONObject jsonObject = (com.alibaba.fastjson.JSONObject) JSON.toJSON(entity);
@@ -157,6 +179,7 @@ public class HttpHelper extends OkHttpClient {
     }
 
 
+    /*=================== 单线程请求 ===========================*/
     private String get(String url) throws IOException {
         Request request = new Request.Builder().url(url).build();
         Response response = this.newCall(request).execute();
@@ -207,6 +230,7 @@ public class HttpHelper extends OkHttpClient {
             throw new IOException("Unexpected code " + response);
         }
     }
+    /*=======================================*/
 
 
     public void post(String url, JSONObject json, NetCallback callback) {
@@ -223,6 +247,61 @@ public class HttpHelper extends OkHttpClient {
             return;
         Log.i(TAG, "get url = " + url + " json = " + json.toString());
         get(toString(url, json), callback);
+    }
+
+    /**
+     * =========== Url 用枚举类封装 =================================================
+     **/
+    public void post(AppURL url, BaseEntity entity, NetCallback callback) {
+        post(url.toString(), entity, callback);
+    }
+
+    public void post(AppURL url, HashMap entity, NetCallback callback) {
+        post(url.toString(), entity, callback);
+    }
+
+    public void post(AppURL url, String params, BaseEntity entity, NetCallback callback) {
+        post(url.toString() + params, entity, callback);
+    }
+
+    public void put(AppURL url, BaseEntity entity, NetCallback callback) {
+        put(url.toString(), entity, callback);
+    }
+
+    //简单的参数拼接
+    public void put(AppURL url, String params, BaseEntity entity, NetCallback callback) {
+        put(url.toString() + params, entity, callback);
+    }
+
+    public void del(AppURL url, BaseEntity entity, NetCallback callback) {
+        del(url.toString(), entity, callback);
+    }
+
+    public void get(AppURL url, BaseEntity entity, NetCallback callback) {
+        get(url.toString(), entity, callback);
+    }
+
+    public void get(AppURL url, String[] params, NetCallback callback) {
+        get(toString(url.toString(), params), callback);
+    }
+
+    //简单参数拼接
+    public void get(AppURL url, String params, NetCallback callback) {
+        get(url.toString() + params, callback);
+    }
+
+    public void get(AppURL url, long params, NetCallback callback) {
+        get(url.toString() + params, callback);
+    }
+
+    //get 无参数
+    public void get(AppURL url, NetCallback callback) {
+        get(url.toString(), callback);
+    }
+
+    //get 参数拼接
+    public void get(AppURL url, HashMap params, NetCallback callback) {
+        get(toString(url.toString(), params), callback);
     }
 
 
@@ -342,6 +421,10 @@ public class HttpHelper extends OkHttpClient {
         enqueue(request, rspCallback);
     }
 
+    public static void uploadImagePost(AppURL url, File file, NetCallback rspCallback) {
+        uploadImagePost(url.toString(), file, rspCallback);
+    }
+
     /**
      * 图片上传  使用HttpURLConnection 上传；
      *
@@ -456,12 +539,6 @@ public class HttpHelper extends OkHttpClient {
             e.printStackTrace();
             Log.e(TAG, "网络请求异常url=" + request.toString(), e);
         }
-    }
-
-
-    public void uploadImage() {
-//        LinkedHashMap<String ,Object> map = new LinkedHashMap<>();
-//        map.add("file", new File());
     }
 
 

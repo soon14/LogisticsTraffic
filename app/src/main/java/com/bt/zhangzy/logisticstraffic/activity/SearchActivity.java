@@ -142,7 +142,7 @@ public class SearchActivity extends BaseActivity {
     //搜索接口
     private void requestSearch(String searchStr) {
         //// TODO: 2016-1-28  关键词搜索
-        HttpHelper.getInstance().get(HttpHelper.toString(AppURL.GetSearch, new String[]{"name=" + searchStr}), new JsonCallback() {
+        HttpHelper.getInstance().get(HttpHelper.toString(AppURL.GetSearch.toString(), new String[]{"name=" + searchStr}), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("搜索成功");

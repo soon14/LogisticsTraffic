@@ -123,7 +123,7 @@ public class HomeFragment extends BaseHomeFragment {
             @Override
             public void onClick(View v) {
                 ViewFlipper flipper = (ViewFlipper) v;
-                String url = null;
+                AppURL url = null;
                 String page_name = null;
                 switch (flipper.getCurrentView().getId()) {
                     case R.id.home_flipper_about:
@@ -142,7 +142,7 @@ public class HomeFragment extends BaseHomeFragment {
                 if (!TextUtils.isEmpty(page_name)) {
                     Bundle bundle = new Bundle();
                     bundle.putString(AppParams.WEB_PAGE_NAME, page_name);
-                    bundle.putString(AppParams.WEB_PAGE_URL, url);
+                    bundle.putString(AppParams.WEB_PAGE_URL, url.toString());
                     getHomeActivity().startActivity(WebViewActivity.class, bundle);
                 }
             }
@@ -390,7 +390,7 @@ public class HomeFragment extends BaseHomeFragment {
 //        if (User.getInstance().getUserType() == Type.EnterpriseType) {
 //            url += "?role=3";
 //        }
-        String url = AppURL.GetCompanyList;
+//        String url = AppURL.GetCompanyList;
         HashMap<String, String> params = new HashMap<>();
         params.put("pageSize", "10");//每次20条数据
         params.put("pageNum", String.valueOf(currentPageNum));
@@ -398,7 +398,7 @@ public class HomeFragment extends BaseHomeFragment {
         if (location != null) {
 //            params.put("area", location.getProvinceName() + "_" + location.getCityName() + "_" + location.getDistrict());//内蒙古_包头市_青山区 这样的格式
         }
-        HttpHelper.getInstance().get(url, params, new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetCompanyList, params, new JsonCallback() {
             @Override
             public void onFailed(String str) {
 

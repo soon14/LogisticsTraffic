@@ -243,7 +243,7 @@ public class DetailPhotoActivity extends BaseActivity {
         JsonUser jsonUser = User.getInstance().getJsonUser();
         jsonUser.setIdCardPhotoUrl(frsfzUrl);
 
-        HttpHelper.getInstance().put(AppURL.PutUserInfo + jsonUser.getId(), jsonUser, new JsonCallback() {
+        HttpHelper.getInstance().put(AppURL.PutUserInfo ,String.valueOf(jsonUser.getId()), jsonUser, new JsonCallback() {
             @Override
             public void onFailed(String str) {
                 showToast("身份证照修改失败");
@@ -331,7 +331,7 @@ public class DetailPhotoActivity extends BaseActivity {
         if (isFirstVerify)
             HttpHelper.getInstance().post(AppURL.PostVerifyCompanies, company, callback);
         else
-            HttpHelper.getInstance().put(AppURL.PutCompaniesInfo + User.getInstance().getCompanyID(), company, callback);
+            HttpHelper.getInstance().put(AppURL.PutCompaniesInfo , String.valueOf(User.getInstance().getCompanyID()), company, callback);
     }
 
     private void requestVerifyEnterprise(String name, String address) {
@@ -362,7 +362,7 @@ public class DetailPhotoActivity extends BaseActivity {
         if (isFirstVerify)
             HttpHelper.getInstance().post(AppURL.PostVerifyEnterprises, enterprise, callback);
         else
-            HttpHelper.getInstance().put(AppURL.PutEnterprisesInfo + User.getInstance().getEnterpriseID(), enterprise, callback);
+            HttpHelper.getInstance().put(AppURL.PutEnterprisesInfo ,String.valueOf( User.getInstance().getEnterpriseID()), enterprise, callback);
     }
 
     public void onClick_Photo(View view) {

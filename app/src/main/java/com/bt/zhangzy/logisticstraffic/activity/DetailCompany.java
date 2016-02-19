@@ -20,6 +20,7 @@ import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonFavorite;
 import com.bt.zhangzy.network.entity.JsonUser;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 /**
@@ -101,7 +102,7 @@ public class DetailCompany extends BaseActivity {
     //更新店铺信息
     private void requestGetCompany(int id) {
         // todo 店铺信息没有返回
-        HttpHelper.getInstance().get(AppURL.GetCompany + id, new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetCompany.toString() + id, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
 
@@ -209,7 +210,7 @@ public class DetailCompany extends BaseActivity {
     }
 
     private void requestFavoritesDel() {
-        HttpHelper.getInstance().del(AppURL.DelFavourite + favoritesId, new JsonCallback() {
+        HttpHelper.getInstance().del(AppURL.DelFavourite.toString() + favoritesId, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("取消收藏成功");
@@ -243,9 +244,15 @@ public class DetailCompany extends BaseActivity {
         int fromRoleId = jsonUser.getId();
         int toRole = 3;//默认只能显示信息部
         int toRoleId = product.getID();
-        HttpHelper.getInstance().get(
-                HttpHelper.toString(AppURL.GetFavourite,
-                        new String[]{"fromRole=" + fromRole, "fromRoleId=" + fromRoleId, "toRole=" + toRole, "toRoleId=" + toRoleId}),
+
+        HashMap<String ,Integer> params = new HashMap<>();
+        params.put("fromRole",fromRole);
+        params.put("fromRoleId",fromRoleId);
+        params.put("toRole",toRole);
+        params.put("toRoleId",toRoleId);
+
+
+        HttpHelper.getInstance().get(AppURL.GetFavourite,params,
                 new JsonCallback() {
                     @Override
                     public void onSuccess(String msg, String result) {

@@ -17,6 +17,7 @@ import com.bt.zhangzy.logisticstraffic.fragment.OrderListFragment;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.network.entity.JsonOrder;
 
 import java.util.ArrayList;
@@ -126,6 +127,7 @@ public class OrderListActivity extends BaseActivity {
             switch (OrderStatus.parseStatus(order.getStatus())) {
                 case TempOrder:
                 case UncommittedOrder:
+                case AllocationOrder:
                     untreatedList.add(order);
                     break;
                 case CommitOrder:
@@ -149,12 +151,22 @@ public class OrderListActivity extends BaseActivity {
         User user = User.getInstance();
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("role", String.valueOf(user.getUserType().toRole()));
-        long roleId = user.getUserType() == Type.InformationType ? user.getCompanyID()
-                : user.getUserType() == Type.EnterpriseType ? user.getEnterpriseID()
-                : user.getUserType() == Type.DriverType ? user.getDriverID()
-                : user.getId();
-        params.put("roleId", String.valueOf(roleId));
+        params.put("roleId", String.valueOf(user.getRoleId()));
 //        params.put("orderStatus","0");
+//        class JsonParams extends BaseEntity {
+//            int role, roleId;
+//
+//            public int getRole() {
+//                return role;
+//            }
+//
+//            public int getRoleId() {
+//                return roleId;
+//            }
+//        }
+//        JsonParams params = new JsonParams();
+//        params.role = user.getUserType().toRole();
+//        params.roleId = (int) roleId;
         HttpHelper.getInstance().get(AppURL.GetMyOrderList, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {

@@ -271,7 +271,7 @@ public class RegisterActivity extends BaseActivity {
     public void onClick_OpenLaw(View view) {
         Bundle bundle = new Bundle();
         bundle.putString(AppParams.WEB_PAGE_NAME, "法律申明");
-        bundle.putString(AppParams.WEB_PAGE_URL, AppURL.REGISTER_LAW);
+        bundle.putString(AppParams.WEB_PAGE_URL, AppURL.REGISTER_LAW.toString());
         startActivity(WebViewActivity.class, bundle);
     }
 }

@@ -32,6 +32,7 @@ import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonOrder;
 import com.bt.zhangzy.network.entity.RequestCallDriver;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -63,6 +64,13 @@ public class OrderDetailActivity extends BaseActivity {
             jsonOrder = new JsonOrder();//如果没有则创建一个订单
         else
             initView_JsonOrder();
+
+        //物流公司看到企业派送的订单后自动调用 同意接单的接口
+        if (orderStatus == OrderStatus.UncommittedOrder) {
+            if (User.getInstance().getUserType() == Type.InformationType) {
+                requestAccept_Reject(true);
+            }
+        }
     }
 
     private void initData() {
@@ -165,10 +173,15 @@ public class OrderDetailActivity extends BaseActivity {
 
                 break;
             case UntreatedMode://信息部模式
-                setTextView(R.id.order_detail_submit, "提交订单");
+
                 if (userType == Type.DriverType) {
                     findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                     setTextView(R.id.order_detail_submit, "抢单");
+                } else if (userType == Type.InformationType) {
+                    setTextView(R.id.order_detail_submit, "提交订单");
+                } else {
+                    findViewById(R.id.order_detail_submit).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                 }
                 break;
             case CompletedMode:
@@ -384,6 +397,11 @@ public class OrderDetailActivity extends BaseActivity {
 
     //选择 司机 call车
     public void onClick_SelectDriverBtn(View view) {
+        if (orderStatus == OrderStatus.AllocationOrder) {
+            //todo 订单分配中 这里需要请求 抢单成功的司机列表
+            showToast("订单分配中 这里需要请求 抢单成功的司机列表");
+            return;
+        }
         int needDriverNum = getNeedDriverNum();
         if (needDriverNum < 0) {
             showToast("请先填写车辆数");
@@ -397,11 +415,11 @@ public class OrderDetailActivity extends BaseActivity {
 
     //提交订单按钮
     public void onClick_SubmitOrder(View view) {
+        User user = User.getInstance();
 //        TextView editText = (TextView) findViewById(R.id.order_detail_open_ed);
         switch (currentMode) {
             case CreateMode:
                 //企业 向 信息部下单
-
                 requestCreateOrder();
                 break;
             case UntreatedMode:
@@ -410,7 +428,7 @@ public class OrderDetailActivity extends BaseActivity {
                     return;
                 }
                 //司机抢单
-                if (User.getInstance().getUserType() == Type.DriverType) {
+                if (user.getUserType() == Type.DriverType) {
                     new ConfirmDialog(this)
                             .setMessage("是否同意接单？")
                             .setConfirm("同意")
@@ -429,30 +447,32 @@ public class OrderDetailActivity extends BaseActivity {
                             })
                             .show();
 //                    requestAccept_Reject(true);
-                    return;
+                } else if (user.getUserType() == Type.InformationType) {
+                    TextView need_driver_size = (TextView) findViewById(R.id.order_detail_driver_size_ed);
+                    if (TextUtils.isEmpty(need_driver_size.getText())) {
+                        showToast("司机数量未填写");
+                        return;
+                    }
+                    int driverCount = Integer.valueOf(need_driver_size.getText().toString());
+                    if (driverCount != jsonOrder.getDriverCount()) {
+                        updateJsonOrder = true;
+                        jsonOrder.setDriverCount(driverCount);
+                    }
+                    if (updateJsonOrder) {
+                        //先修改订单内容
+                        requestUpdateOrder();
+                    }
+//                //先判断有没有选司机
+                    if (selectedDrivers == null) {
+//                  没有选择司机，弹出CALL车选项
+                        showChooseCallDialog();
+                    } else {
+                        requestCallDriver();
+                    }
+                } else {
+                    showToast("无权操作订单");
                 }
 
-                TextView need_driver_size = (TextView) findViewById(R.id.order_detail_driver_size_ed);
-                if (TextUtils.isEmpty(need_driver_size.getText())) {
-                    showToast("司机数量未填写");
-                    return;
-                }
-                int driverCount = Integer.valueOf(need_driver_size.getText().toString());
-                if (driverCount != jsonOrder.getDriverCount()) {
-                    updateJsonOrder = true;
-                    jsonOrder.setDriverCount(driverCount);
-                }
-                if (updateJsonOrder) {
-                    //先修改订单内容
-                    requestUpdateOrder();
-                }
-//                //先判断有没有选司机
-                if (selectedDrivers == null) {
-//                  没有选择司机，弹出CALL车选项
-                    showChooseCallDialog();
-                } else {
-                    requestCallDriver();
-                }
 
                 break;
             default:
@@ -481,16 +501,16 @@ public class OrderDetailActivity extends BaseActivity {
         RequestAccept_Reject params = new RequestAccept_Reject();
         params.orderId = jsonOrder.getId();
         params.role = User.getInstance().getUserType().toRole();
-        params.roleId = (int) User.getInstance().getId();
-        HttpHelper.getInstance().post(accept ? AppURL.Accept : AppURL.Reject, params, new JsonCallback() {
+        params.roleId = (int) User.getInstance().getRoleId();
+        HttpHelper.getInstance().post(accept ? AppURL.PostAccept : AppURL.PostReject, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
-
+                showToast("接单成功");
             }
 
             @Override
             public void onFailed(String str) {
-
+                showToast("接单失败" + str);
             }
         });
     }
@@ -499,15 +519,16 @@ public class OrderDetailActivity extends BaseActivity {
         RequestCallDriver params = new RequestCallDriver();
         params.setOrderId(jsonOrder.getId());
         params.setDrivesFromPeople(selectedDrivers);
-        HttpHelper.getInstance().post(AppURL.CallDriver, params, new JsonCallback() {
+        HttpHelper.getInstance().post(AppURL.PostCallDriver, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("CALL车成功");
+                finish();
             }
 
             @Override
             public void onFailed(String str) {
-                showToast("CALL车失败");
+                showToast("CALL车失败" + str);
             }
         });
     }
@@ -517,15 +538,16 @@ public class OrderDetailActivity extends BaseActivity {
         params.setOrderId(jsonOrder.getId());
 //        HashMap<String ,String > params = new HashMap<String ,String >();
 //        params.put("orderId",String.valueOf(jsonOrder.getId()));
-        HttpHelper.getInstance().post(AppURL.CallPublic, params, new JsonCallback() {
+        HttpHelper.getInstance().post(AppURL.PostCallPublic, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("CALL车成功");
+                finish();
             }
 
             @Override
             public void onFailed(String str) {
-                showToast("CALL车失败");
+                showToast("CALL车失败" + str);
             }
         });
     }
@@ -541,22 +563,23 @@ public class OrderDetailActivity extends BaseActivity {
         params.setOrderId(jsonOrder.getId());
         params.setMotorcadeId(motorcadeId);
 
-        HttpHelper.getInstance().post(AppURL.CallMotorcade, params, new JsonCallback() {
+        HttpHelper.getInstance().post(AppURL.PostCallMotorcade, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
-
+                showToast("CALL车成功");
+                finish();
             }
 
             @Override
             public void onFailed(String str) {
-
+                showToast("CALL车失败" + str);
             }
         });
     }
 
     private void requestUpdateOrder() {
         //信息部修改订单
-        HttpHelper.getInstance().put(AppURL.PutOrder + jsonOrder.getId(), jsonOrder, new JsonCallback() {
+        HttpHelper.getInstance().put(AppURL.PutOrder ,String.valueOf( jsonOrder.getId()), jsonOrder, new JsonCallback() {
             @Override
             public void onFailed(String str) {
                 showToast("订单更新失败" + str);
@@ -585,6 +608,7 @@ public class OrderDetailActivity extends BaseActivity {
             if (product != null)
                 jsonOrder.setCompanyId(product.getID());
         } else if (user.getUserType() == Type.InformationType) {
+            //信息部直接下单
             jsonOrder.setCompanyId(user.getCompanyID());
         }
 //        jsonOrder.setPublishDate(new Date(2015,));
@@ -593,12 +617,40 @@ public class OrderDetailActivity extends BaseActivity {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("下单成功" + msg);
-                finish();
+                requestSendToCompany(result);
+//                finish();
             }
 
             @Override
             public void onFailed(String str) {
                 showToast("下单失败" + str);
+            }
+        });
+    }
+
+    //企业将订单指派到物流公司
+    private void requestSendToCompany(String orderId) {
+        User user = User.getInstance();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("orderId", orderId);
+        if (user.getUserType() == Type.EnterpriseType) {
+            if (product != null)
+                params.put("companyId", String.valueOf(product.getID()));
+        } else if (user.getUserType() == Type.InformationType) {
+            params.put("companyId", String.valueOf(user.getCompanyID()));
+        }
+
+        HttpHelper.getInstance().post(AppURL.PostSendToCompany, params, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                showToast("指派成功" + msg);
+                //退出下单页面
+                finish();
+            }
+
+            @Override
+            public void onFailed(String str) {
+                showToast("指派失败" + str);
             }
         });
     }

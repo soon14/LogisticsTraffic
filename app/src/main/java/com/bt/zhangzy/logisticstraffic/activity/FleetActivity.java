@@ -234,7 +234,7 @@ public class FleetActivity extends BaseActivity {
         showProgressOnUI("正在获取车队列表...");
         //获取车队信息
 
-        HttpHelper.getInstance().get(AppURL.GetMotorcades + motorcadeId, new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetMotorcades, String.valueOf(motorcadeId), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 cancelProgress();
@@ -321,7 +321,7 @@ public class FleetActivity extends BaseActivity {
     //删除车队司机
     private void requestDelDriver(int driverId) {
 
-        HttpHelper.getInstance().del(HttpHelper.toString(AppURL.DeleteMotorcadeDriver, new String[]{"id=" + driverId}), new JsonCallback() {
+        HttpHelper.getInstance().del(HttpHelper.toString(AppURL.DeleteMotorcadeDriver.toString(), new String[]{"id=" + driverId}), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("删除成功");
@@ -393,7 +393,7 @@ public class FleetActivity extends BaseActivity {
 
     private void requestAddDriver(final String phone) {
 
-        HttpHelper.getInstance().post(AppURL.PostAddMotorcadeDriverPhone + motorcadeId + "/" + phone, new BaseEntity(), new JsonCallback() {
+        HttpHelper.getInstance().post(AppURL.PostAddMotorcadeDriverPhone , motorcadeId + "/" + phone, new BaseEntity(), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("司机添加成功");

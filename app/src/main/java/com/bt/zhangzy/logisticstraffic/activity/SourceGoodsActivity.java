@@ -15,6 +15,8 @@ import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 
+import java.util.HashMap;
+
 /**
  * Created by ZhangZy on 2015/8/26.
  */
@@ -36,7 +38,11 @@ public class SourceGoodsActivity extends BaseActivity {
 
     private void requestOrderList(){
         //// TODO: 2016-1-30  可抢订单列表获取失败
-        HttpHelper.getInstance().get(AppURL.GetOrderList+"?userId="+User.getInstance().getId(), new JsonCallback() {
+        //http://182.92.77.31:8080/orders/list?orderType=1&status=3
+        HashMap<String ,String> params = new HashMap<>();
+        params.put("orderType","0");
+        params.put("status","3");
+        HttpHelper.getInstance().get(AppURL.GetOrderList,params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
 

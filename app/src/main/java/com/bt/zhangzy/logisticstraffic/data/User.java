@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by ZhangZy on 2015/6/30.
  */
-public class User implements Serializable {
+public class  User implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String TAG = User.class.getSimpleName();
 
@@ -91,6 +91,18 @@ public class User implements Serializable {
 
     public <T extends BaseEntity> T getJsonTypeEntity() {
         return (T) jsonTypeEntity;
+    }
+
+    /**
+     * 获取对应的角色id
+     * @return
+     */
+    public int getRoleId(){
+        int roleId = getUserType() == Type.InformationType ? getCompanyID()
+                : getUserType() == Type.EnterpriseType ? getEnterpriseID()
+                : getUserType() == Type.DriverType ? getDriverID()
+                : (int)getId();
+        return roleId;
     }
 
     public int getCompanyID() {

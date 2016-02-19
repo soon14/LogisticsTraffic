@@ -75,7 +75,7 @@ public class UserFragment extends BaseHomeFragment {
 
     private void requestUserInfo() {
         //如果登陆成功  更新用户的基本信息；
-        HttpHelper.getInstance().get(AppURL.GetUserInfo + User.getInstance().getId(), new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetUserInfo, String.valueOf(User.getInstance().getId()), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 if (TextUtils.isEmpty(result)) {
@@ -144,7 +144,7 @@ public class UserFragment extends BaseHomeFragment {
 
     //更新司机信息
     private void requestDriverInfo() {
-        HttpHelper.getInstance().get(AppURL.GetDriverInfo + User.getInstance().getId(), new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetDriverInfo, User.getInstance().getId(), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 Log.i(TAG, "司机信息更新成功：" + msg);
@@ -166,7 +166,7 @@ public class UserFragment extends BaseHomeFragment {
     }
 
     private void requestCarInfo() {
-        HttpHelper.getInstance().get(HttpHelper.toString(AppURL.GetCarInfo, new String[]{"driverID=" + User.getInstance().getDriverID()}), new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetCarInfo, new String[]{"driverID=" + User.getInstance().getDriverID()}, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 Log.i(TAG, "司机-车辆信息更新成功：" + msg);
@@ -191,7 +191,7 @@ public class UserFragment extends BaseHomeFragment {
     //更新企业信息
     private void requestEnterpriseInfo() {
 
-        HttpHelper.getInstance().get(AppURL.GetEnterprisesInfo + User.getInstance().getId(), new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetEnterprisesInfo, User.getInstance().getId(), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 ResponseUserInfo json = ParseJson_Object(result, ResponseUserInfo.class);
@@ -213,7 +213,7 @@ public class UserFragment extends BaseHomeFragment {
 
     //更新物流公司信息
     private void requestCompaniesInfo() {
-        HttpHelper.getInstance().get(AppURL.GetCompaniesInfo + User.getInstance().getId(), new JsonCallback() {
+        HttpHelper.getInstance().get(AppURL.GetCompaniesInfo, User.getInstance().getId(), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 ResponseUserInfo json = ParseJson_Object(result, ResponseUserInfo.class);
