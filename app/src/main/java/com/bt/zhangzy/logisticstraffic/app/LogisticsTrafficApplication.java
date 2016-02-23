@@ -4,6 +4,8 @@ import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.View;
 
@@ -45,6 +47,9 @@ public class LogisticsTrafficApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        loadAppParams();
+
         //JPush 推送
         JPushInterface.setDebugMode(true);
         JPushInterface.init(getApplicationContext());
@@ -61,6 +66,21 @@ public class LogisticsTrafficApplication extends Application {
         //先放在这里，后期如果数据加载时间过长 可以考虑放到别的位置！或者增加异步线程
         LoadAppData();
 
+
+    }
+
+    private void loadAppParams() {
+        try {
+            ApplicationInfo appInfo = getPackageManager()
+                    .getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+
+            String type = appInfo.metaData.getString("APP_TYPE");
+            Log.w(TAG, "读取客户端类型" + type);
+            AppParams.DRIVER_APP = type.equals("driver");
+//            System.out.println("myMsg:" + msg);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

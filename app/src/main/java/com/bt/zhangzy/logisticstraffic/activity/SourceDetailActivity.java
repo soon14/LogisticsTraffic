@@ -35,7 +35,7 @@ public class SourceDetailActivity extends BaseActivity {
 
     public void onClick_CallPhone(View view) {
 //        ContextTools.callPhone(this, "10010");
-        if(AppParams.DEVICES_APP && !User.getInstance().isVIP()){
+        if(AppParams.DRIVER_APP && !User.getInstance().isVIP()){
             ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

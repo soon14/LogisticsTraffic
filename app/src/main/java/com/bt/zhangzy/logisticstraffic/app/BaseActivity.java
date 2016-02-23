@@ -319,7 +319,7 @@ public class BaseActivity extends FragmentActivity {
 
     public void showDialogCallPhone(final String phoneNum) {
         Log.d(TAG, ">>>showDialogCallPhone " + phoneNum);
-        if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
+        if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
             ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

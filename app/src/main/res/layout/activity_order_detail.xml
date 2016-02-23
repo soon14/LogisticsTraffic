@@ -277,13 +277,16 @@
                 android:paddingRight="20dp"
                 android:text="收  货  人" />
 
-            <EditText
+            <TextView
                 android:id="@+id/order_detail_receiver_name"
                 style="@style/tx_black_df_style"
                 android:background="@color/transparent"
+                android:clickable="true"
                 android:hint="收货人名称"
-                android:inputType="phone" />
+                android:inputType="text"
+                android:onClick="onClick_InputReceiverName" />
         </TableRow>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
@@ -300,35 +303,37 @@
                 android:paddingRight="20dp"
                 android:text="电        话" />
 
-            <EditText
+            <TextView
                 android:id="@+id/order_detail_receiver_phone_tx"
                 style="@style/tx_black_df_style"
                 android:background="@color/transparent"
                 android:hint="收货人电话"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:onClick="onClick_InputPhone" />
         </TableRow>
-        <TableRow
-            android:gravity="center">
+
+        <TableRow android:gravity="center">
 
             <TextView
                 style="@style/tx_black_df_style"
                 android:text="需要车辆数：" />
 
-            <EditText
+            <TextView
                 android:id="@+id/order_detail_driver_size_ed"
                 style="@style/tx_black_df_style"
                 android:background="@color/transparent"
+                android:hint="需要的车辆总数"
                 android:inputType="number"
                 android:maxLength="2"
-                android:hint="需要的车辆总数" />
+                android:onClick="onClick_InputDriverCount" />
             <!-- 选择 车队司机 -->
             <Button
                 android:id="@+id/order_detail_select_driver_bt"
                 style="@style/tx_black_df_style"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="15dp"
-                android:onClick="onClick_SelectDriverBtn"
-                android:background="@drawable/add_devices" />
+                android:background="@drawable/add_devices"
+                android:onClick="onClick_SelectDriverBtn" />
         </TableRow>
 
     </TableLayout>
@@ -338,7 +343,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="horizontal">
-        <!-- todo 添加按钮跳转到选择司机页面 order_select_drivers -->
+
         <Button
             android:id="@+id/order_detail_submit"
             style="@style/orange_btn_noPadding_style"
@@ -350,6 +355,19 @@
             android:paddingRight="20dp"
             android:paddingTop="5dp"
             android:text="提交订单" />
+
+        <Button
+            android:id="@+id/order_detail_call_phone_bt"
+            style="@style/orange_btn_noPadding_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:onClick="onClick_CallPhone"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:text="联系客服" />
     </LinearLayout>
 
 </LinearLayout>

@@ -13,6 +13,7 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.activity.OrderDetailActivity;
 import com.bt.zhangzy.logisticstraffic.activity.OrderListActivity;
 import com.bt.zhangzy.logisticstraffic.adapter.OrderListAdapter;
+import com.bt.zhangzy.logisticstraffic.adapter.SourceGoodsListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
@@ -24,25 +25,24 @@ import java.util.List;
  * 未提交订单， 已提交订单，已完成订单
  * Created by ZhangZy on 2015/7/16.
  */
-public class OrderListFragment extends Fragment {
+public class SourceGoodsListFragment extends Fragment {
+    public interface OnItemClickListener {
+        void OnItemClick(JsonOrder order);
+    }
 
-    final String TAG = OrderListFragment.class.getSimpleName();
-    private int TAG_INDEX;
+    final String TAG = SourceGoodsListFragment.class.getSimpleName();
+
     private ListView listView;
-    private OrderListAdapter adapter;
+    private SourceGoodsListAdapter adapter;
     private View layoutView;
+    private OnItemClickListener listener;
 
-    public OrderListFragment() {
+    public SourceGoodsListFragment() {
         super();
     }
 
-    public OrderListFragment initTAG_INDEX(int TAG_INDEX) {
-        this.TAG_INDEX = TAG_INDEX;
-        return this;
-    }
-
-    public int getTAG_INDEX() {
-        return TAG_INDEX;
+    public void setListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -72,48 +72,23 @@ public class OrderListFragment extends Fragment {
 
     private void initListView(View view) {
         listView = (ListView) view.findViewById(R.id.orderlist_listview);
-//        listView.setAdapter(new OrderListAdapter(false));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (adapter != null)
-                    openOrderDetail(adapter.getItem(position));
+                if (adapter != null && position < adapter.getCount()) {
+//                    gotoDetail((JsonOrder) adapter.getItem(position));
+                    if (listener != null) {
+                        listener.OnItemClick((JsonOrder) adapter.getItem(position));
+                    }
+                }
             }
         });
-
-    }
-
-    private void openOrderDetail(JsonOrder item) {
-
-        int ordinal = -1;
-        switch (TAG_INDEX) {
-            case OrderListActivity.PAGE_UNTREATED:
-                ordinal = OrderDetailMode.UntreatedMode.ordinal();
-                break;
-            case OrderListActivity.PAGE_SUBMITTED:
-                ordinal = OrderDetailMode.SubmittedMode.ordinal();
-                break;
-            case OrderListActivity.PAGE_COMPLETED:
-                ordinal = OrderDetailMode.CompletedMode.ordinal();
-                break;
-        }
-        if (ordinal > 0) {
-            Bundle bundle = new Bundle();
-            bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE, ordinal);
-            bundle.putParcelable(AppParams.ORDER_DETAIL_KEY_ORDER, item);
-            getBaseActivity().startActivity(OrderDetailActivity.class, bundle);
-        }
-    }
-
-
-    private BaseActivity getBaseActivity() {
-        return (BaseActivity) getActivity();
     }
 
     public void setAdapter(List<JsonOrder> list) {
         if (list == null || list.isEmpty())
             return;
-        adapter = new OrderListAdapter(list);
+        adapter = new SourceGoodsListAdapter(list);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

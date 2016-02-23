@@ -35,11 +35,18 @@ public class JsonOrder extends BaseEntity implements Parcelable {
     //收货人姓名  收货人电话  收货人地址
     String receiverName, receiverPhone, receiverAddress;
     String insurancePolicyNumber;//保险单号
-    //    int orderType;//订单类型（车队货源/公共货源）
+    int orderType;//订单类型（车队货源/公共货源）
     int driverCount;
 
     /*===============================*/
 
+    public int getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(int orderType) {
+        this.orderType = orderType;
+    }
 
     @Override
     public int describeContents() {

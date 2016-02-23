@@ -4,21 +4,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.network.entity.JsonOrder;
+import com.bt.zhangzy.tools.Tools;
+import com.bt.zhangzy.tools.ViewUtils;
+
+import java.util.List;
 
 /**
  * Created by ZhangZy on 2015/7/23.
  */
 public class SourceGoodsListAdapter extends BaseAdapter {
+
+    List<JsonOrder> list;
+
+    public SourceGoodsListAdapter(List<JsonOrder> list) {
+        this.list = list;
+    }
+
     @Override
     public int getCount() {
-        return 10;
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return list.get(position);
     }
 
     @Override
@@ -31,6 +44,33 @@ public class SourceGoodsListAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.source_goods_list_item, null);
         }
+        Holder holder;
+        if (convertView.getTag() == null) {
+            holder = new Holder();
+            holder.startCity = (TextView) convertView.findViewById(R.id.sg_item_start_tx);
+            holder.stopCity = (TextView) convertView.findViewById(R.id.sg_item_stop_tx);
+            holder.goodsType = (TextView) convertView.findViewById(R.id.sg_item_type_tx);
+            holder.goodsWeight = (TextView) convertView.findViewById(R.id.sg_item_weight_tx);
+            holder.creatTime = (TextView) convertView.findViewById(R.id.sg_item_date_tx);
+
+        } else {
+            holder = (Holder) convertView.getTag();
+        }
+
+        JsonOrder order = list.get(position);
+        ViewUtils.setTextView(holder.startCity, order.getStartCity());
+        ViewUtils.setTextView(holder.stopCity, order.getStopCity());
+        ViewUtils.setTextView(holder.goodsType, order.getGoodsType());
+        ViewUtils.setTextView(holder.goodsWeight, order.getGoodsWeight());
+        ViewUtils.setTextView(holder.creatTime, Tools.toStringDate(order.getPublishDate()));
+
+
         return convertView;
+    }
+
+    class Holder {
+        TextView startCity, stopCity;
+        TextView goodsType, goodsWeight;
+        TextView creatTime;
     }
 }

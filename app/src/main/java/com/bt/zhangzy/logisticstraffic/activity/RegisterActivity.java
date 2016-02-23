@@ -33,7 +33,7 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (AppParams.DEVICES_APP) {
+        if (AppParams.DRIVER_APP) {
             type = Type.DriverType;
             setContentView(R.layout.register_beginning);
             setPageName("司机用户注册");
@@ -44,7 +44,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     public void onClick_Back(View view) {
-        if (!AppParams.DEVICES_APP) {
+        if (!AppParams.DRIVER_APP) {
 
         }
         super.onClick_Back(view);
@@ -162,11 +162,12 @@ public class RegisterActivity extends BaseActivity {
         }
         verfication = verficationEd.getText().toString().trim();
         //test 万能验证码
-        if (!verfication.equals("0000"))
-            if (!verfication.equals(String.valueOf(verificationCode))) {
-                showToast("验证码错误");
-                return;
-            }
+        if (AppParams.DEBUG && verfication.equals("0000")) {
+
+        } else if (!verfication.equals(String.valueOf(verificationCode))) {
+            showToast("验证码错误");
+            return;
+        }
 
         nickname = nicknameEd.getText().toString();
 

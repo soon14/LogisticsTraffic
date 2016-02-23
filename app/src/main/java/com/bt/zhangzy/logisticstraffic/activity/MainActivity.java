@@ -137,12 +137,12 @@ public class MainActivity extends BaseActivity {
     }
 
     public void onClick_Enterprise(View view) {
-        AppParams.DEVICES_APP = false;
+        AppParams.DRIVER_APP = false;
         loginHome();
     }
 
     public void onClick_Driver(View view) {
-        AppParams.DEVICES_APP = true;
+        AppParams.DRIVER_APP = true;
         loginHome();
     }
 

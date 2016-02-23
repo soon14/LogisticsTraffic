@@ -45,13 +45,13 @@ public class UserFragment extends BaseHomeFragment {
         if (User.getInstance().getUserType() == Type.EnterpriseType) {
             view.findViewById(R.id.user_services_item).setVisibility(View.GONE);
             view.findViewById(R.id.user_fleet_item).setVisibility(View.GONE);
-        } else if (AppParams.DEVICES_APP) {
+        } else if (AppParams.DRIVER_APP) {
 //            findViewById(R.id.user_services_item).setVisibility(View.GONE);
         }
         //跟新用户信息
         if (User.getInstance().getLogin()) {
             requestUserInfo();
-            if (AppParams.DEVICES_APP ^ User.getInstance().getUserType() == Type.DriverType) {
+            if (AppParams.DRIVER_APP ^ User.getInstance().getUserType() == Type.DriverType) {
 //                getHomeActivity().showToast("登录用户与客户端类型不统一");
                 ConfirmDialog.showConfirmDialog(getActivity(), "登录用户与客户端类型不统一,请重新启动APP", null);
             }

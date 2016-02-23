@@ -96,6 +96,9 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
     PostAccept("/orders/accept"),//接单  orderId  role roleId
     PostReject("/orders/reject"),//拒绝接单
     PostAllocationDriverList("/orders/list_orderhistory"),//抢单成功的司机列表（订单推送列表）
+    PostAllocation("/orders/allocate"),//物流公司选择接受订单的司机并分配订单
+    PostSaveOrderHistory("/orders/save_order_history"),//公共货源里，司机点抢单调用这个接口save_order_history    这个接口里会调用accept
+    PostFinishOrder("/orders/finish"),//根据订单号将订单修改成完成
 
 
     /*=========== 收藏 ============================*/
@@ -112,6 +115,9 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
     public static final String Host = "http://182.92.77.31:8080";
     private String url;
 
+    /**
+     * @param url
+     */
     AppURL(String url) {
         this.url = Host + url;
     }

@@ -11,13 +11,11 @@ import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.OrderStatus;
-import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.fragment.OrderListFragment;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.network.entity.JsonOrder;
 
 import java.util.ArrayList;
@@ -46,7 +44,7 @@ public class OrderListActivity extends BaseActivity {
         setContentView(R.layout.activity_orderlist);
         setPageName("我的订单");
 //        initTabHost();
-        if (AppParams.DEVICES_APP) {
+        if (AppParams.DRIVER_APP) {
             findViewById(R.id.orderlist_tab_untreated).setVisibility(View.GONE);
         }
         initViewPager();
@@ -62,7 +60,7 @@ public class OrderListActivity extends BaseActivity {
         viewPager = (ViewPager) findViewById(R.id.orderlist_viewpager);
 
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
-        if (!AppParams.DEVICES_APP) {
+        if (!AppParams.DRIVER_APP) {
             untreatedFragment = new OrderListFragment().initTAG_INDEX(PAGE_UNTREATED);
             fragments.add(untreatedFragment);
         }
@@ -76,7 +74,7 @@ public class OrderListActivity extends BaseActivity {
         viewPager.setAdapter(adapter);
         //解决方案 使用setOffscreenPageLimit来设置ViewPager的预加载页数，可以同样保存数据。 也可以更改Fragment里的页面初始化逻辑
 //        viewPager.setOffscreenPageLimit(3);
-        if (AppParams.DEVICES_APP) {
+        if (AppParams.DRIVER_APP) {
             onClick_SelectBtn(findViewById(R.id.orderlist_tab_submitted));
         } else {
             onClick_SelectBtn(findViewById(R.id.orderlist_tab_untreated));
@@ -89,7 +87,7 @@ public class OrderListActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (AppParams.DEVICES_APP) {
+                if (AppParams.DRIVER_APP) {
                     position += 1;
                 }
                 switch (position) {
@@ -214,12 +212,14 @@ public class OrderListActivity extends BaseActivity {
                 break;
             case R.id.orderlist_tab_submitted:
                 currentPage = PAGE_SUBMITTED;
+                //自动刷新
+                requestOrderList();
                 break;
             case R.id.orderlist_tab_completed:
                 currentPage = PAGE_COMPLETED;
                 break;
         }
-        if (AppParams.DEVICES_APP) {
+        if (AppParams.DRIVER_APP) {
             currentPage -= 1;
         }
         if (currentPage >= 0 && viewPager != null) {

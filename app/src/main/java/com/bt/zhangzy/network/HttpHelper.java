@@ -37,8 +37,8 @@ public class HttpHelper extends OkHttpClient {
 
     private static final String TAG = HttpHelper.class.getSimpleName();
 
-    public static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
     public static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");
+    public static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
     public static final MediaType MEDIA_TYPE_IMAGE = MediaType.parse("image/png");
 
     /**

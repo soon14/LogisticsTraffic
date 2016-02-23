@@ -44,7 +44,7 @@ public class DetailPhotoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         isFirstVerify = User.getInstance().getJsonTypeEntity() == null;
-        if (AppParams.DEVICES_APP) {
+        if (AppParams.DRIVER_APP) {
             setContentView(R.layout.activity_detail_devices);
             initDriverView();
         } else {

@@ -42,6 +42,7 @@ public class FleetActivity extends BaseActivity {
     boolean isSelectDriver = false;
     int motorcadeId = -1;
     private int needSelectDriverSize;//需要选择的司机数量
+    private ArrayList<People> selectDriverListFromOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,9 @@ public class FleetActivity extends BaseActivity {
                     isSelectDriver = true;
                 }
                 needSelectDriverSize = bundle.getInt(AppParams.SELECT_DEVICES_SIZE_KEY);
+                if(bundle.containsKey(AppParams.SELECT_DRIVES_LIST_KEY)){
+                    selectDriverListFromOrder = bundle.getParcelableArrayList(AppParams.SELECT_DRIVES_LIST_KEY);
+                }
             }
             // 标记是否为车队详情页
             if (bundle.containsKey(AppParams.BUNDLE_MOTOCARDE_ID)) {
@@ -67,7 +71,7 @@ public class FleetActivity extends BaseActivity {
         listView = (ListView) findViewById(R.id.fleet_list);
 
         //TODO 接口 更新车队信息；
-        if (AppParams.DEVICES_APP) {
+        if (AppParams.DRIVER_APP) {
             if (motorcadeId < 0) {
                 if (User.getInstance().getJsonTypeEntity() == null) {
                     showToast("请先完善信息");
@@ -89,19 +93,28 @@ public class FleetActivity extends BaseActivity {
                 requestGetMotorcades(motorcadeId);
             }
         } else {
-            setPageName("我的车队");
             if (!isSelectDriver)
                 findViewById(R.id.fleet_finish_bt).setVisibility(View.GONE);
-            List<JsonMotorcades> motorcades = User.getInstance().getMotorcades();
-            if (motorcades != null && !motorcades.isEmpty()) {
-                //信息部只能有一个车队，所以直接取第一个元素
-                motorcadeId = motorcades.get(0).getId();
-                requestGetMotorcades(motorcadeId);
-            } else {
-                showToast("没有车队");
-                finish();
-                return;
+            if(selectDriverListFromOrder == null) {
+                setPageName("我的车队");
+                List<JsonMotorcades> motorcades = User.getInstance().getMotorcades();
+                if (motorcades != null && !motorcades.isEmpty()) {
+                    //信息部只能有一个车队，所以直接取第一个元素
+                    motorcadeId = motorcades.get(0).getId();
+                    requestGetMotorcades(motorcadeId);
+                } else {
+                    showToast("没有车队");
+                    finish();
+                    return;
+                }
+            }else{
+                setPageName("接单司机列表");
+                if (adapter == null)
+                    adapter = new FleetListAdapter(AppParams.DRIVER_APP ? true : isSelectDriver, needSelectDriverSize);
+                adapter.setPeoples(selectDriverListFromOrder);
+                initView();
             }
+
         }
 
     }
@@ -187,7 +200,7 @@ public class FleetActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (AppParams.DEVICES_APP) {
+        if (AppParams.DRIVER_APP) {
 
         } else {
 //            User.getInstance().setDriverList(((FleetListAdapter) listView.getAdapter()).getList());
@@ -258,7 +271,7 @@ public class FleetActivity extends BaseActivity {
                     }
                     User.getInstance().setDriverList(list);
                     if (adapter == null)
-                        adapter = new FleetListAdapter(AppParams.DEVICES_APP ? true : isSelectDriver, needSelectDriverSize);
+                        adapter = new FleetListAdapter(AppParams.DRIVER_APP ? true : isSelectDriver, needSelectDriverSize);
                     adapter.setPeoples(list);
 //                    adapter.addPeople(User.getInstance().getDriverList());
 
@@ -337,7 +350,7 @@ public class FleetActivity extends BaseActivity {
     }
 
     public void onclick_AddDriver(View view) {
-        if (AppParams.DEVICES_APP) {
+        if (AppParams.DRIVER_APP) {
             showQuitDialog();
             return;
         }

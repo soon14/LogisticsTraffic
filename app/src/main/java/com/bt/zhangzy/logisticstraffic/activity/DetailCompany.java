@@ -116,7 +116,7 @@ public class DetailCompany extends BaseActivity {
     }
 
     private void initView() {
-        if (AppParams.DEVICES_APP || User.getInstance().getUserType() == Type.InformationType) {
+        if (AppParams.DRIVER_APP || User.getInstance().getUserType() == Type.InformationType) {
             findViewById(R.id.detail_gray_line).setVisibility(View.GONE);
             findViewById(R.id.detail_order_btn).setVisibility(View.GONE);
         }
@@ -134,7 +134,7 @@ public class DetailCompany extends BaseActivity {
     boolean openCall;
 
     public void onClick_CallPhone(View view) {
-        if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
+        if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
             ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -169,7 +169,7 @@ public class DetailCompany extends BaseActivity {
             startActivity(LoginActivity.class);
             return;
         }
-        if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
+        if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
             ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -191,7 +191,7 @@ public class DetailCompany extends BaseActivity {
     }
 
     public void onClick_CollectAdd(View view) {
-        if (AppParams.DEVICES_APP && !User.getInstance().isVIP()) {
+        if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
             ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -248,7 +248,7 @@ public class DetailCompany extends BaseActivity {
         HashMap<String ,Integer> params = new HashMap<>();
         params.put("fromRole",fromRole);
         params.put("fromRoleId",fromRoleId);
-        params.put("toRole",toRole);
+        params.put("toRole", toRole);
         params.put("toRoleId",toRoleId);
 
 

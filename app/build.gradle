@@ -1,21 +1,50 @@
 apply plugin: 'com.android.application'
 
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion '23.0.0 rc3'
 
     defaultConfig {
+        buildConfigField "boolean", "APP_DEBUG", "true"
+
         applicationId "com.bt.zhangzy.logisticstraffic"
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+
+        // dex突破65535的限制
+//        multiDexEnabled true
+        //默认 的客户单类型
+        manifestPlaceholders = [APP_TYPE_VALUE: "company"]
     }
     buildTypes {
+        debug {
+            buildConfigField "boolean", "APP_DEBUG", "true"
+        }
         release {
+            buildConfigField "boolean", "APP_DEBUG", "false"
+            // 是否进行混淆
             minifyEnabled false
+            // 移除无用的resource文件
 //            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            //调试时关闭
+//            applicationVariants.all { variant ->
+//                variant.outputs.each { output ->
+//                    def outputFile = output.outputFile
+//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
+//                        def fileName = "YYTwllm_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+//                        output.outputFile = new File(outputFile.parent, fileName)
+//                    }
+//                }
+//            }
         }
     }
     sourceSets {
@@ -23,7 +52,15 @@ android {
             resources.srcDirs = ['anim']
         }
     }
+    //多渠道打包
     productFlavors {
+        driver {
+            manifestPlaceholders = [APP_TYPE_VALUE: "driver"]
+        }
+        company {
+            manifestPlaceholders = [APP_TYPE_VALUE: "company"]
+        }
+
     }
 
 }

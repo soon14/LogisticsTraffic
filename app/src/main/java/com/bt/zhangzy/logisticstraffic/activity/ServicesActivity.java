@@ -33,7 +33,7 @@ public class ServicesActivity extends BaseActivity {
         setContentView(R.layout.fragment_services);
         setPageName("服务");
 
-        if (AppParams.DEVICES_APP) {
+        if (AppParams.DRIVER_APP) {
             findViewById(R.id.services_check_ly).setVisibility(View.GONE);
         }
     }

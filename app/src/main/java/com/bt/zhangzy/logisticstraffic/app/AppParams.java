@@ -2,6 +2,7 @@ package com.bt.zhangzy.logisticstraffic.app;
 
 import android.content.Context;
 
+import com.bt.zhangzy.logisticstraffic.BuildConfig;
 import com.bt.zhangzy.tools.ContextTools;
 import com.bt.zhangzy.tools.Tools;
 
@@ -10,7 +11,6 @@ import com.bt.zhangzy.tools.Tools;
  * Created by ZhangZy on 2016-1-20.
  */
 public final class AppParams {
-
 
 
     static AppParams instance = new AppParams();
@@ -25,9 +25,10 @@ public final class AppParams {
     private String crashLogDir;
     private String cacheImageDir;
     private String paramsDir;
+
     public void init(Context ctx) {
         String path = ContextTools.getCacheDir(ctx);
-        cacheImageDir = path+"/Image/";
+        cacheImageDir = path + "/Image/";
         crashLogDir = path + "/Crash/";
         paramsDir = path + "/params/";
     }
@@ -45,7 +46,9 @@ public final class AppParams {
     }
 
     /* 标记是否为司机端 */
-    public static boolean DEVICES_APP = false;
+    public static boolean DRIVER_APP = false;
+    /* 标记调试模式 */
+    public static boolean DEBUG = BuildConfig.APP_DEBUG;
 
     /*=============activity跳转请求常量 =================*/
     /*  web页面 的页面名称 */
@@ -67,6 +70,7 @@ public final class AppParams {
      */
     public static final int RESULT_CODE_SELECT_DEVICES = 0x001;//订单页面选择车队司机时的请求码
     public static final String SELECT_DEVICES_SIZE_KEY = "SELECT_DEVICES_SIZE_KEY";//订单页面选择车队司机时的司机数量
+    public static final String SELECT_DRIVES_LIST_KEY = "SELECT_DRIVES_LIST_KEY";//订单页面 跳转到 选择已接单司机的列表key值；
 
 
     /**
@@ -77,7 +81,7 @@ public final class AppParams {
 
     /**
      * 跳转到订单详情页 请求码
-     * */
+     */
     public static final String ORDER_DETAIL_KEY_TYPE = "ORDER_DETAIL_KEY_TYPE";
     public static final String ORDER_DETAIL_KEY_ORDER = "ORDER_DETAIL_KEY_ORDER";//跳转时传的 订单对象
 
@@ -90,4 +94,10 @@ public final class AppParams {
      * 车队列表 跳转到 车队详情页 所需要传递的 车队ID
      */
     public static final String BUNDLE_MOTOCARDE_ID = "BUNDLE_MOTOCARDE_ID";
+
+    /**
+     * 验证收货 页面 手机号
+     */
+    public static final String BUNDLE_VERIFICATION_ORDER_PHONE_KEY = "BUNDLE_VERIFICATION_ORDER_PHONE_KEY";
+    public static final String BUNDLE_VERIFICATION_ORDER_ID_KEY = "BUNDLE_VERIFICATION_ORDER_ID_KEY";
 }

@@ -141,7 +141,7 @@ public class LoginActivity extends BaseActivity {
                         }
                         break;
                 }
-                if (AppParams.DEVICES_APP) {
+                if (AppParams.DRIVER_APP) {
                     if (user.getUserType() != Type.DriverType) {
                         showToast("不是司机用户");
                         return;
