@@ -1,5 +1,6 @@
 package com.bt.zhangzy.logisticstraffic.fragment;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.service.UpDataLocationService;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
@@ -17,6 +19,7 @@ import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonUser;
+import com.bt.zhangzy.network.entity.ResponseLogin;
 import com.bt.zhangzy.network.entity.ResponseUserInfo;
 import com.bt.zhangzy.tools.Tools;
 
@@ -42,27 +45,36 @@ public class UserFragment extends BaseHomeFragment {
     @Override
     void init(View view) {
 //        super.init();
-        if (User.getInstance().getUserType() == Type.EnterpriseType) {
+        User user = User.getInstance();
+        if (user.getUserType() == Type.EnterpriseType) {
             view.findViewById(R.id.user_services_item).setVisibility(View.GONE);
             view.findViewById(R.id.user_fleet_item).setVisibility(View.GONE);
         } else if (AppParams.DRIVER_APP) {
 //            findViewById(R.id.user_services_item).setVisibility(View.GONE);
         }
-        //跟新用户信息
-        if (User.getInstance().getLogin()) {
-            requestUserInfo();
-            if (AppParams.DRIVER_APP ^ User.getInstance().getUserType() == Type.DriverType) {
-//                getHomeActivity().showToast("登录用户与客户端类型不统一");
-                ConfirmDialog.showConfirmDialog(getActivity(), "登录用户与客户端类型不统一,请重新启动APP", null);
+        //更新用户信息
+        if (user.getLogin()) {
+            if (user.isSave() && !TextUtils.isEmpty(user.getPassword())) {
+                //如果保存了密码 则自动登录
+                request_Login(user.getPhoneNum(), user.getPassword());
+            }else{
+                //更新用户信息；
+                User.getInstance().requestUserInfo();
+            }
+
+            //启动服务 上传坐标 仅限司机用户
+            if (user.getUserType() == Type.DriverType) {
+                Log.i(TAG, "启动位置上传服务");
+                Intent intent = new Intent(getActivity(), UpDataLocationService.class);
+                getActivity().startService(intent);
             }
         }
-        if (User.getInstance().getUserType() == Type.EnterpriseType) {
-            requestEnterpriseInfo();
-        } else if (User.getInstance().getUserType() == Type.InformationType) {
-            requestCompaniesInfo();
-        } else if (User.getInstance().getUserType() == Type.DriverType) {
-            requestDriverInfo();
+
+        if (AppParams.DRIVER_APP ^ user.getUserType() == Type.DriverType) {
+//                getHomeActivity().showToast("登录用户与客户端类型不统一");
+            ConfirmDialog.showConfirmDialog(getActivity(), "登录用户与客户端类型不统一,请重新启动APP", null);
         }
+
     }
 
     @Override
@@ -73,51 +85,49 @@ public class UserFragment extends BaseHomeFragment {
 
     }
 
-    private void requestUserInfo() {
-        //如果登陆成功  更新用户的基本信息；
-        HttpHelper.getInstance().get(AppURL.GetUserInfo, String.valueOf(User.getInstance().getId()), new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-                if (TextUtils.isEmpty(result)) {
-                    Log.i(TAG, "用户信息更新失败：" + msg);
-                    return;
-                }
-                Log.i(TAG, "用户信息更新成功");
-                JsonUser jsonUser = ParseJson_Object(result, JsonUser.class);
-                User user = User.getInstance();
-//                    user.setLogin(true);
-//                    showToast(JSON.toJSONString(jsonUser));
-                user.setId(jsonUser.getId());
-                user.setUserName(jsonUser.getName());
-                user.setPhoneNum(jsonUser.getPhoneNumber());
-                user.setNickName(jsonUser.getNickname());
-                user.setJsonUser(jsonUser);
-                switch (jsonUser.getRole()) {
-                    case 1:
-                        user.setUserType(Type.DriverType);
-                        break;
-                    case 2:
-                        user.setUserType(Type.EnterpriseType);
-                        break;
-                    case 3:
-                        user.setUserType(Type.InformationType);
-                        break;
-                }
+    // 发起登录请求
+    private void request_Login(String username, String password) {
 
-            }
+        JsonUser user = new JsonUser();
+//        user.setName(username);
+        user.setPhoneNumber(username);
+        user.setPassword(password);
 
+        HttpHelper.getInstance().post(AppURL.Login, user, new JsonCallback() {
             @Override
             public void onFailed(String str) {
+                getHomeActivity().showToast("自动登录失败：" + str);
+            }
+
+            @Override
+            public void onSuccess(String msg, String jsonstr) {
+                if (TextUtils.isEmpty(jsonstr)) {
+                    getHomeActivity().showToast("自动登录失败：" + msg);
+                    return;
+                }
+                ResponseLogin json = ParseJson_Object(jsonstr, ResponseLogin.class);
+                User.getInstance().setLoginResponse(json);
+//                JsonUser jsonUser = ParseJson_Object(jsonstr, JsonUser.class);
+                if (AppParams.DRIVER_APP) {
+                    if (User.getInstance().getUserType() != Type.DriverType) {
+                        getHomeActivity().showToast("不是司机用户");
+                        return;
+                    }
+                }
+                getHomeActivity().showToast("自动登录成功");
 
             }
+
         });
+
     }
 
+
     private void initView() {
-        TextView nickTx = (TextView) findViewById(R.id.user_nick_tx);
-        nickTx.setText(User.getInstance().getNickName());
-        TextView name = (TextView) findViewById(R.id.user_name_tx);
-        name.setText(User.getInstance().getUserName());
+        TextView nickTx = (TextView) findViewById(R.id.user_name_tx);
+        nickTx.setText(User.getInstance().getUserName());
+        TextView name = (TextView) findViewById(R.id.user_phone_tx);
+        name.setText(User.getInstance().getPhoneNum());
 
         if (User.getInstance().getLogin()) {
             Date registerDate = User.getInstance().getJsonUser().getRegisterDate();
@@ -142,98 +152,4 @@ public class UserFragment extends BaseHomeFragment {
         });
     }
 
-    //更新司机信息
-    private void requestDriverInfo() {
-        HttpHelper.getInstance().get(AppURL.GetDriverInfo, User.getInstance().getId(), new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-                Log.i(TAG, "司机信息更新成功：" + msg);
-                JsonDriver json = ParseJson_Object(result, JsonDriver.class);
-                User user = User.getInstance();
-                user.setDriverID(json.getId());
-//                user.setUserName(json.getName());
-//                user.setAddress(json.getAddress());
-                user.setJsonTypeEntity(json);
-                requestCarInfo();
-                refreshView();
-            }
-
-            @Override
-            public void onFailed(String str) {
-                Log.i(TAG, "司机信息更新失败：" + str);
-            }
-        });
-    }
-
-    private void requestCarInfo() {
-        HttpHelper.getInstance().get(AppURL.GetCarInfo, new String[]{"driverID=" + User.getInstance().getDriverID()}, new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-                Log.i(TAG, "司机-车辆信息更新成功：" + msg);
-                if (TextUtils.isEmpty(result))
-                    return;
-                List<JsonCar> list = ParseJson_Array(result, JsonCar.class);
-//                JsonCar jsonCar = ParseJson_Object(result, JsonCar.class);
-                if (list.isEmpty())
-                    return;
-                JsonCar jsonCar = list.get(0);
-                User.getInstance().setJsonCar(jsonCar);
-
-            }
-
-            @Override
-            public void onFailed(String str) {
-                Log.i(TAG, "司机-车辆信息更新失败：" + str);
-            }
-        });
-    }
-
-    //更新企业信息
-    private void requestEnterpriseInfo() {
-
-        HttpHelper.getInstance().get(AppURL.GetEnterprisesInfo, User.getInstance().getId(), new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-                ResponseUserInfo json = ParseJson_Object(result, ResponseUserInfo.class);
-                User user = User.getInstance();
-                user.setEnterpriseID(json.getEnterprise().getId());
-                user.setUserName(json.getEnterprise().getName());
-                user.setAddress(json.getEnterprise().getAddress());
-                user.setJsonTypeEntity(json.getEnterprise());
-
-                refreshView();
-            }
-
-            @Override
-            public void onFailed(String str) {
-
-            }
-        });
-    }
-
-    //更新物流公司信息
-    private void requestCompaniesInfo() {
-        HttpHelper.getInstance().get(AppURL.GetCompaniesInfo, User.getInstance().getId(), new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-                ResponseUserInfo json = ParseJson_Object(result, ResponseUserInfo.class);
-                User user = User.getInstance();
-
-                user.setCompanyID(json.getCompany().getId());
-                user.setUserName(json.getCompany().getName());
-                user.setAddress(json.getCompany().getAddress());
-                user.setJsonTypeEntity(json.getCompany());
-
-                List<JsonMotorcades> motorcades = json.getMotorcades();
-                user.setMotorcades(motorcades);
-
-                refreshView();
-            }
-
-            @Override
-            public void onFailed(String str) {
-
-            }
-        });
-    }
 }

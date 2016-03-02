@@ -16,24 +16,78 @@
 
     <string-array name="order_change_type_items">
         <item>建材</item>
-        <item>化工</item>
-        <item>药品</item>
         <item>矿产</item>
-        <item>食品蔬菜</item>
         <item>设备</item>
         <item>生鲜</item>
+        <item>食品蔬菜</item>
+        <item>药品</item>
+        <item>化工</item>
+        <item>木材</item>
+        <item>日用放置</item>
+        <item>家畜</item>
+        <item>农副产品</item>
+        <item>电子电器</item>
+        <item>其他</item>
     </string-array>
+
     <string-array name="order_change_truck_type_items">
         <item>平板车</item>
         <item>高低板车</item>
+        <item>厢式车</item>
+        <item>低栏车</item>
+        <item>中栏车</item>
+        <item>高栏车</item>
+        <item>保温车</item>
+        <item>冷藏车</item>
+        <item>罐式车</item>
+        <item>集装箱</item>
+        <item>铁笼车</item>
+        <item>危险品车</item>
+        <item>自卸车</item>
+        <item>其他</item>
     </string-array>
+
     <string-array name="order_change_truck_length_items">
-        <item>4米</item>
-        <item>5米</item>
-        <item>6米</item>
+        <item>4.2米</item>
+        <item>5.2米</item>
+        <item>5.8米</item>
+        <item>6.2米</item>
+        <item>6.5米</item>
+        <item>6.8米</item>
+        <item>7.2米</item>
         <item>8米</item>
+        <item>9.6米</item>
+        <item>12米</item>
+        <item>13米</item>
+        <item>13.5米</item>
+        <item>15米</item>
+        <item>16.5米</item>
+        <item>17.5米</item>
+        <item>18.5米</item>
+        <item>20米</item>
+        <item>22米</item>
+        <item>24米</item>
+    </string-array>
+    <string-array name="order_change_truck_weight_items">
+        <item>2吨</item>
+        <item>3吨</item>
+        <item>5吨</item>
+        <item>8吨</item>
+        <item>10吨</item>
+        <item>12吨</item>
+        <item>15吨</item>
+        <item>20吨</item>
+        <item>25吨</item>
+        <item>30吨</item>
 
     </string-array>
 
+    <string-array name="car_status_items">
+        <item>闲置</item>
+        <item>回程</item>
+        <item>半挂</item>
+        <item>其他</item>
+
+    </string-array>
 
 </resources>

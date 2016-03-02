@@ -17,20 +17,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/evaluate_list_user_img"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="1dp"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/evaluate_list_user_img"
         android:gravity="bottom">
 
         <TextView
+            android:id="@+id/item_name_tx"
             style="@style/detail_df_tx_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:drawableRight="@drawable/vip_icon"
-            android:text="小李子" />
+            android:hint="名称"
+            android:maxLength="10"
+            android:singleLine="true" />
+
+        <ImageView
+            android:id="@+id/item_vip_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/vip_icon" />
 
         <RatingBar
+            android:id="@+id/item_star_bar"
             style="@style/RatingBar_small_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,8 +46,10 @@
             android:rating="3.5" />
 
         <TextView
+            android:id="@+id/item_date_tx"
             android:layout_marginLeft="10dp"
-            android:text="2015.07.07"
+            android:hint="评论时间"
+            android:singleLine="true"
             android:textColor="@color/mask_black"
             android:textSize="11sp" />
     </TableRow>
@@ -55,6 +65,7 @@
 
 
     <TextView
+        android:id="@+id/item_content_tx"
         style="@style/detail_smail_tx_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,6 +73,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
-        android:text="评价不错 的顶顶顶顶顶，评价不错 的顶顶顶顶顶，评价不错 的顶顶顶顶顶，评价不错 的顶顶顶顶顶" />
+        android:hint="评价内容" />
 
 </RelativeLayout>

@@ -356,7 +356,6 @@ public class HomeFragment extends BaseHomeFragment {
                 public void onItemClick(View v, int position) {
                     Log.d(getTag(), "onItemClick>>>>>");
                     if (v != null)
-                        //TODO 从adapter中获取数据
 //                    Product product = adapter.getItem(position);
                         if (v.getId() == R.id.list_item_ly) {
                             Log.d(getTag(), "    >>>>>点击了item" + position);

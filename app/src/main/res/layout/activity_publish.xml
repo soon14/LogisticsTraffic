@@ -5,26 +5,27 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".activity.PublishActivity">
+    tools:context=".activity.PublishCarActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <include layout="@layout/page_top" />
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
-        <include layout="@layout/page_top" />
+        <!-- -->
 
-        <Button
-            style="@style/orange_btn_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:onClick="onClick_Reset"
-            android:text="重置"
-            android:textSize="16sp" />
+        <!--<Button-->
+            <!--style="@style/orange_btn_style"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginEnd="10dp"-->
+            <!--android:onClick="onClick_Reset"-->
+            <!--android:text="重置"-->
+            <!--android:textSize="16sp" />-->
 
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
 
     <TableLayout
         android:layout_width="match_parent"
@@ -40,12 +41,14 @@
                 style="@style/black_tx_12_style.source_detail"
                 android:text="车 牌 号：" />
 
-            <EditText
+            <TextView
                 android:id="@+id/publish_licence_ed"
                 style="@style/black_tx_12_style.source_detail"
+                android:clickable="true"
                 android:hint="请输入车牌号"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp" />
+                android:onClick="onClick_ShowLicence"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp" />
 
             <ImageButton
                 style="@style/while_orange_btn_style"
@@ -66,19 +69,21 @@
                 style="@style/black_tx_12_style.source_detail"
                 android:text="车      长：" />
 
-            <EditText
+            <TextView
                 android:id="@+id/publish_length_ed"
                 style="@style/black_tx_12_style.source_detail"
-                android:hint="长度"
+                android:clickable="true"
+                android:hint="车辆长度"
                 android:inputType="number"
                 android:minWidth="40dp"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp" />
+                android:onClick="onClick_Length"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp" />
 
-            <TextView
-                style="@style/black_tx_12_style.source_detail"
-                android:minWidth="20dp"
-                android:text="米" />
+            <!--<TextView-->
+            <!--style="@style/black_tx_12_style.source_detail"-->
+            <!--android:minWidth="20dp"-->
+            <!--android:text="米" />-->
 
 
         </TableRow>
@@ -94,18 +99,20 @@
                 style="@style/black_tx_12_style.source_detail"
                 android:text="载      重：" />
 
-            <EditText
+            <TextView
                 android:id="@+id/publish_weight_ed"
                 style="@style/black_tx_12_style.source_detail"
-                android:hint="40"
+                android:clickable="true"
+                android:hint="车辆的有效载荷数"
                 android:inputType="number"
                 android:minWidth="40dp"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp" />
+                android:onClick="onClick_Weight"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp" />
 
-            <TextView
-                style="@style/black_tx_12_style.source_detail"
-                android:text="吨" />
+            <!--<TextView-->
+            <!--style="@style/black_tx_12_style.source_detail"-->
+            <!--android:text="吨" />-->
         </TableRow>
 
         <View
@@ -119,13 +126,15 @@
                 style="@style/black_tx_12_style.source_detail"
                 android:text="车辆类型：" />
 
-            <EditText
+            <TextView
                 android:id="@+id/publish_type_ed"
                 style="@style/black_tx_12_style.source_detail"
                 android:layout_span="2"
-                android:hint="货车"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp" />
+                android:clickable="true"
+                android:hint="车辆类型"
+                android:onClick="onClick_Type"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp" />
 
 
         </TableRow>
@@ -142,20 +151,41 @@
                 style="@style/black_tx_12_style.source_detail"
                 android:text="车辆状况：" />
 
-            <EditText
+            <TextView
                 android:id="@+id/publish_status_ed"
                 style="@style/black_tx_12_style.source_detail"
                 android:layout_span="2"
-                android:hint="半挂"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp" />
+                android:clickable="true"
+                android:hint="车辆状况"
+                android:onClick="onClick_Status"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp" />
         </TableRow>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
             android:background="@color/gray_line" />
+        <TableRow>
 
+            <TextView
+                style="@style/black_tx_12_style.source_detail"
+                android:text="车辆常驻地：" />
+
+            <TextView
+                android:id="@+id/publish_address_ed"
+                style="@style/black_tx_12_style.source_detail"
+                android:clickable="true"
+                android:hint="常驻地址"
+                android:onClick="onClick_ChangeLocation"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_line" />
         <TableRow>
 
             <TextView
@@ -165,9 +195,9 @@
             <TextView
                 android:id="@+id/publish_name_tx"
                 style="@style/black_tx_12_style.source_detail"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
-                android:text="卢爱华（车主）" />
+                android:hint="车主姓名"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp" />
         </TableRow>
 
         <View
@@ -184,34 +214,36 @@
             <TextView
                 android:id="@+id/publish_tel_tx"
                 style="@style/black_tx_12_style.source_detail"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
-                android:text="18600268826" />
+                android:hint="车主联系电话"
+                android:inputType="phone"
+                android:maxLength="11"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp" />
         </TableRow>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
             android:background="@color/gray_line" />
-
         <TableRow>
 
             <TextView
                 style="@style/black_tx_12_style.source_detail"
-                android:text="车辆常驻地：" />
+                android:text="备注：" />
 
             <EditText
-                android:id="@+id/publish_address_ed"
+                android:id="@+id/publish_remark_tx"
                 style="@style/black_tx_12_style.source_detail"
-                android:hint="北京市"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp" />
+                android:hint="备注信息"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp" />
         </TableRow>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
             android:background="@color/gray_line" />
+
     </TableLayout>
 
 
@@ -228,33 +260,49 @@
         android:layout_height="wrap_content">
 
         <TableRow
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
             android:gravity="center">
 
             <ImageView
                 android:id="@+id/publish_car_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:background="@color/white"
+                android:onClick="onClick_Photo"
+                android:scaleType="fitCenter"
+                android:src="@drawable/upimg" />
+
+            <ImageView
+                android:id="@+id/publish_car_2_img"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:background="@color/white"
-                android:minHeight="95dp"
-                android:minWidth="95dp"
+                android:onClick="onClick_Photo"
+                android:scaleType="fitCenter"
                 android:src="@drawable/upimg" />
 
             <ImageView
                 android:id="@+id/publish_licence_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
                 android:background="@color/white"
-                android:minHeight="95dp"
-                android:minWidth="95dp"
+                android:onClick="onClick_Photo"
+                android:scaleType="fitCenter"
                 android:src="@drawable/upimg" />
         </TableRow>
 
         <TableRow
             android:layout_marginTop="20dp"
             android:gravity="center">
+
+            <TextView
+                style="@style/black_tx_12_style"
+                android:gravity="center"
+                android:text="车辆照" />
 
             <TextView
                 style="@style/black_tx_12_style"
@@ -273,7 +321,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:onClick="onClick_Publish"
         android:padding="10dp"
         android:text="立即发布" />

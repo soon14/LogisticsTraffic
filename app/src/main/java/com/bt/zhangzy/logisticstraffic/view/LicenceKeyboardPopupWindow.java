@@ -1,9 +1,12 @@
 package com.bt.zhangzy.logisticstraffic.view;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +24,7 @@ import com.bt.zhangzy.logisticstraffic.R;
  */
 public class LicenceKeyboardPopupWindow extends PopupWindow implements View.OnClickListener {
 
-    public interface ConfirmListener{
+    public interface ConfirmListener {
         void confirm(String string);
     }
 
@@ -43,6 +46,27 @@ public class LicenceKeyboardPopupWindow extends PopupWindow implements View.OnCl
 
     private LicenceKeyboardPopupWindow(View contentView) {
         super(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+
+        setOutsideTouchable(true);
+        setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        contentView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK) {
+                    dismiss();
+                }
+                return false;
+            }
+        });
+        setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if (listener != null) {
+                    if (!TextUtils.isEmpty(showText.getText()) && showText.getText().length()== 8)
+                        listener.confirm(showText.getText().toString());
+                }
+            }
+        });
     }
 
     public static LicenceKeyboardPopupWindow create(Context context) {
@@ -53,7 +77,7 @@ public class LicenceKeyboardPopupWindow extends PopupWindow implements View.OnCl
         return popup;
     }
 
-    public LicenceKeyboardPopupWindow setListener(ConfirmListener ls){
+    public LicenceKeyboardPopupWindow setListener(ConfirmListener ls) {
         listener = ls;
         return this;
     }
@@ -103,6 +127,7 @@ public class LicenceKeyboardPopupWindow extends PopupWindow implements View.OnCl
         setStatus(KeyboardStatus.Province);
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -119,11 +144,11 @@ public class LicenceKeyboardPopupWindow extends PopupWindow implements View.OnCl
                 dismiss();
                 break;
             case R.id.licence_confirm_btn:
-                if(showText.length()<8){
-                    Toast.makeText(getContentView().getContext(),"填写不完整",Toast.LENGTH_SHORT).show();
+                if (showText.length() < 8) {
+                    Toast.makeText(getContentView().getContext(), "填写不完整", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(listener != null){
+                if (listener != null) {
                     listener.confirm(showText.getText().toString());
                 }
                 dismiss();

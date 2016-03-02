@@ -4,9 +4,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.adapter.EvaluationListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
@@ -17,11 +23,16 @@ import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.entity.JsonComment;
+import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonFavorite;
 import com.bt.zhangzy.network.entity.JsonUser;
+import com.bt.zhangzy.tools.Tools;
+import com.bt.zhangzy.tools.ViewUtils;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by ZhangZy on 2015/6/11.
@@ -30,12 +41,11 @@ public class DetailCompany extends BaseActivity {
 
     private Product product;
     int favoritesId;//收藏id  标识是否被收藏；
-
-    //testData
-//        product = new Product(102);
-//        product.setName("测试数据名称");
-//        product.setPhoneNumber("10010");
-//        product.setAddress("黄河大街以北重工路xxx号");
+    JsonCompany jsonCompany;//更新的物流公司信息
+    String jsonCommentList;//用于传递数据；
+//    List<JsonComment> commentList;//评价列表
+//    ListView listView;
+//    EvaluationListAdapter adapter;
 
 
     @Override
@@ -56,6 +66,7 @@ public class DetailCompany extends BaseActivity {
             finish();
         }
 
+//        listView = (ListView) findViewById(R.id.evaluation_list);
         initView();
         setTelephonyListen();
 
@@ -105,12 +116,36 @@ public class DetailCompany extends BaseActivity {
         HttpHelper.getInstance().get(AppURL.GetCompany.toString() + id, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
-
+                jsonCompany = ParseJson_Object(result, JsonCompany.class);
+                if (jsonCompany != null) {
+                    product.setUserId(jsonCompany.getUserId());
+                    product.setName(jsonCompany.getName());
+                    product.setAddress(jsonCompany.getAddress());
+                    product.setPhotoUrl(jsonCompany.getPhotoUrl());
+//                    product.setPhoneNumber(jsonCompany.getp);
+                    //获取评论列表
+                    requestCommentList();
+                    initView_JsonCompany();
+                }
             }
 
             @Override
             public void onFailed(String str) {
+                showToast("店铺信息返回错误" + str);
+            }
+        });
+    }
 
+    private void initView_JsonCompany() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (jsonCompany != null) {
+                    setTextView(R.id.detail_name_tx, jsonCompany.getName());
+                    setTextView(R.id.detail_cp_address_tx, jsonCompany.getAddress());
+                    setImageUrl(R.id.detail_user_head_img, jsonCompany.getPhotoUrl());
+
+                }
             }
         });
     }
@@ -150,7 +185,13 @@ public class DetailCompany extends BaseActivity {
 
 
     public void onClick_Evaluation(View view) {
-        startActivity(EvaluationListActivity.class);
+        if (TextUtils.isEmpty(jsonCommentList)) {
+            showToast("评价列表为空");
+            return;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString(AppParams.BUNDLE_EVALUATION_JSON_LIST, jsonCommentList);
+        startActivity(EvaluationListActivity.class, bundle);
     }
 
     public void onClick_OpenPicture(View view) {
@@ -245,14 +286,14 @@ public class DetailCompany extends BaseActivity {
         int toRole = 3;//默认只能显示信息部
         int toRoleId = product.getID();
 
-        HashMap<String ,Integer> params = new HashMap<>();
-        params.put("fromRole",fromRole);
-        params.put("fromRoleId",fromRoleId);
+        HashMap<String, Integer> params = new HashMap<>();
+        params.put("fromRole", fromRole);
+        params.put("fromRoleId", fromRoleId);
         params.put("toRole", toRole);
-        params.put("toRoleId",toRoleId);
+        params.put("toRoleId", toRoleId);
 
 
-        HttpHelper.getInstance().get(AppURL.GetFavourite,params,
+        HttpHelper.getInstance().get(AppURL.GetFavourite, params,
                 new JsonCallback() {
                     @Override
                     public void onSuccess(String msg, String result) {
@@ -274,5 +315,69 @@ public class DetailCompany extends BaseActivity {
                         showToast("收藏失败");
                     }
                 });
+    }
+
+
+    private void requestCommentList() {
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("role", String.valueOf(Type.InformationType.toRole()));
+        params.put("roleId", String.valueOf(product.getID()));
+
+        HttpHelper.getInstance().get(AppURL.GetCommentList, params, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                List<JsonComment> commentList = ParseJson_Array(result, JsonComment.class);
+                if (commentList == null || commentList.isEmpty()) {
+                    showToast("评价列表为空");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            findViewById(R.id.dl_evaluate_ly).setVisibility(View.GONE);
+                        }
+                    });
+                    return;
+                }
+                jsonCommentList = result;
+//                adapter = new EvaluationListAdapter(commentList);
+                setSampleList(commentList);
+            }
+
+            @Override
+            public void onFailed(String str) {
+                showToast("评价列表获取失败" + str);
+            }
+        });
+    }
+
+    private void setSampleList(final List<JsonComment> commentList) {
+
+        if (commentList != null && !commentList.isEmpty()) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    final int[] ly_ids = {R.id.detail_evaluate_1_ly, R.id.detail_evaluate_2_ly};
+                    int index = 0;
+                    View view_ly;
+                    RatingBar starBar;
+                    for (JsonComment json : commentList) {
+                        if (index < ly_ids.length) {
+                            view_ly = findViewById(ly_ids[index]);
+                            index++;
+                            ViewUtils.setTextView((TextView) view_ly.findViewById(R.id.item_name_tx), "name=" + json.getId());
+                            ViewUtils.setTextView((TextView) view_ly.findViewById(R.id.item_content_tx), json.getContent());
+                            ViewUtils.setTextView((TextView) view_ly.findViewById(R.id.item_date_tx), Tools.toStringDate(json.getDate()));
+                            starBar = (RatingBar) view_ly.findViewById(R.id.item_star_bar);
+                            starBar.setRating((float) json.getRate());
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            });
+
+        }
+
+
     }
 }

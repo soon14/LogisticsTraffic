@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/editpage_bg_color"
     android:orientation="vertical"
-    tools:context=".activity.SettingShopActivity">
+    tools:context=".activity.SetCompanyActivity">
 
     <include layout="@layout/page_top" />
 
@@ -17,6 +17,7 @@
         android:text="公司介绍" />
 
     <EditText
+        android:id="@+id/set_introduce_ed"
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -26,6 +26,7 @@ import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.CustomProgress;
 import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.AppURL;
+import com.bt.zhangzy.tools.ViewUtils;
 import com.zhangzy.baidusdk.BaiduMapActivity;
 
 import cn.jpush.android.api.JPushInterface;
@@ -155,6 +156,22 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
+     * 返回页面上一个TextView的内容
+     *
+     * @param id
+     * @return
+     */
+    protected String getStringFromTextView(int id) {
+        View view = findViewById(id);
+        if (view != null && view instanceof TextView) {
+            CharSequence text = ((TextView) view).getText();
+            if (!TextUtils.isEmpty(text))
+                return text.toString();
+        }
+        return null;
+    }
+
+    /**
      * 设置页面内容
      *
      * @param id     内容标识
@@ -175,11 +192,12 @@ public class BaseActivity extends FragmentActivity {
      * @param url
      */
     protected void setImageUrl(int id, String url) {
-        if (TextUtils.isEmpty(url) || !url.startsWith(AppURL.Host))
+        if (TextUtils.isEmpty(url)) {
             return;
-        ImageView img = (ImageView) findViewById(id);
-        if (img != null)
-            ImageHelper.getInstance().load(url, img);
+        }
+        View viewById = findViewById(id);
+        if (viewById != null && viewById instanceof ImageView)
+            ViewUtils.setImageUrl((ImageView) viewById, url);
     }
 
     Runnable showToast = new Runnable() {

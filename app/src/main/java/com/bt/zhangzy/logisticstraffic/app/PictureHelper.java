@@ -1,6 +1,7 @@
 package com.bt.zhangzy.logisticstraffic.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -92,6 +93,9 @@ public class PictureHelper {
                             photoFile = new File(new URI(selectedImage.toString()));
                         } catch (URISyntaxException e) {
                             e.printStackTrace();
+                        } catch (IllegalArgumentException e) {
+                            Log.w(TAG, e);
+                            photoFile = new File(getRealPathFromURI(activity, selectedImage));
                         }
                         callBack.handlerImage(photoFile);
                     }
@@ -100,6 +104,18 @@ public class PictureHelper {
             }
         }
         return false;
+    }
+
+    private String getRealPathFromURI(Context context, Uri contentUri) {
+        String res = null;
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+        if (cursor.moveToFirst()) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+        }
+        cursor.close();
+        return res;
     }
 
     // 去剪裁图片

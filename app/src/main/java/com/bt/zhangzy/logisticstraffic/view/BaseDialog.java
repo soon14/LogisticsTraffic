@@ -86,11 +86,15 @@ public class BaseDialog extends Dialog implements View.OnClickListener {
 
     private BaseDialog setOnClickObj(int id, Object listener) {
         View view = findViewById(id);
+        setOnClickObj(view, listener);
+        return this;
+    }
+
+    public void setOnClickObj(View view, Object listener) {
         if (view != null) {
             view.setOnClickListener(this);
             view.setTag(listener);
         }
-        return this;
     }
 
     @Override
@@ -141,34 +145,7 @@ public class BaseDialog extends Dialog implements View.OnClickListener {
 
 
 
-    /**
-     * 项目选择dialog封装
-     * @param act  上下文
-     * @param title 标题
-     * @param listener 监听事件
-     * @param items  选择的项目 最多16项
-     */
-    public static void showChooseItemsDialog(Activity act, String title, View.OnClickListener listener, String... items) {
-        BaseDialog dialog = new BaseDialog(act);
-        dialog.setView(R.layout.dialog_choose_items);
-        dialog.setTextView(R.id.dialog_choose_title,title);
-//        GridLayout layout = (GridLayout) dialog.findViewById(R.id.dialog_choose_item_ly);
-        final int[] ids = {R.id.dialog_choose_item_1, R.id.dialog_choose_item_2, R.id.dialog_choose_item_3, R.id.dialog_choose_item_4, R.id.dialog_choose_item_5,
-                R.id.dialog_choose_item_6, R.id.dialog_choose_item_7, R.id.dialog_choose_item_8, R.id.dialog_choose_item_9, R.id.dialog_choose_item_10,
-                R.id.dialog_choose_item_11, R.id.dialog_choose_item_12, R.id.dialog_choose_item_13, R.id.dialog_choose_item_14, R.id.dialog_choose_item_15,
-                R.id.dialog_choose_item_16};
-        for (int k = 0, id = -1; k < ids.length; k++) {
-            id = ids[k];
-            if (k < items.length) {
-                dialog.setOnClickListener(id, listener);
-                dialog.setTextView(id, items[k]);
-            } else {
-                dialog.findViewById(id).setVisibility(View.GONE);
-            }
-        }
 
-        dialog.show();
-    }
 
 
 

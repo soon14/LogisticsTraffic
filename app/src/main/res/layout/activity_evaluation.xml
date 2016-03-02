@@ -7,21 +7,8 @@
     tools:context=".activity.EvaluationActivity">
 
     <!--评价订单 -->
+    <include layout="@layout/page_top" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/main_bg_color"
-        android:padding="5dp">
-
-        <TextView
-            style="@style/title_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="评价订单" />
-
-    </RelativeLayout>
 
     <include
         layout="@layout/orderlist_item"
@@ -36,65 +23,72 @@
         android:padding="5dp">
 
         <TableRow
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp">
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
 
             <TextView
                 style="@style/tx_black_df_style"
                 android:text="信息部满意度：" />
 
             <RatingBar
-                android:paddingBottom="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/evaluation_ratingbar1"
                 style="@style/RatingBar_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:isIndicator="false"
-                android:rating="4"
-                android:stepSize="1" />
-        </TableRow>
-
-        <EditText
-            style="@style/edit_style"
-            android:gravity="left|top"
-            android:hint="长度在10-500个字之间\n写下体会或者使用过程中带来的帮助等,可以为其他小伙伴提供参考" />
-    </TableLayout>
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@color/white"
-        android:padding="5dp">
-
-        <TableRow
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                style="@style/tx_black_df_style"
-                android:text="司机满意度：" />
-
-            <RatingBar
-                android:id="@+id/evaluation_ratingbar2"
-                style="@style/RatingBar_style"
                 android:paddingBottom="20dp"
-                android:isIndicator="false"
                 android:rating="4"
                 android:stepSize="1" />
         </TableRow>
 
         <EditText
+            android:id="@+id/evaluation_content_ed"
             style="@style/edit_style"
             android:gravity="left|top"
             android:hint="长度在10-500个字之间\n写下体会或者使用过程中带来的帮助等,可以为其他小伙伴提供参考" />
     </TableLayout>
+
+    <!--<TableLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_margin="5dp"-->
+    <!--android:background="@color/white"-->
+    <!--android:padding="5dp">-->
+
+    <!--<TableRow-->
+    <!--android:paddingTop="5dp"-->
+    <!--android:paddingBottom="5dp">-->
+
+    <!--<TextView-->
+    <!--style="@style/tx_black_df_style"-->
+    <!--android:text="司机满意度：" />-->
+
+    <!--<RatingBar-->
+    <!--android:id="@+id/evaluation_ratingbar2"-->
+    <!--style="@style/RatingBar_style"-->
+    <!--android:paddingBottom="20dp"-->
+    <!--android:isIndicator="false"-->
+    <!--android:rating="4"-->
+    <!--android:stepSize="1" />-->
+    <!--</TableRow>-->
+
+    <!--<EditText-->
+    <!--style="@style/edit_style"-->
+    <!--android:gravity="left|top"-->
+    <!--android:hint="长度在10-500个字之间\n写下体会或者使用过程中带来的帮助等,可以为其他小伙伴提供参考" />-->
+    <!--</TableLayout>-->
 
     <Button
-        style="@style/button_style"
+        style="@style/orange_btn_noPadding_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp"
+        android:onClick="onClick_SubmitEvaluation"
         android:text="确认评价" />
 
 </LinearLayout>

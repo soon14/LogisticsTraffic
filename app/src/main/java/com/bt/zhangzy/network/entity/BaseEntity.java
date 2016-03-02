@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.alibaba.fastjson.JSON;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by ZhangZy on 2016-1-15.
@@ -45,5 +46,21 @@ public class BaseEntity implements Serializable {
     }
 
 
+    @Override
+    public String toString() {
+//        return super.toString();
+        return JSON.toJSONString(this);
+    }
 
+    public static <T extends BaseEntity> T ParseEntity(String str, Class<T> tClass) {
+        return JSON.parseObject(str, tClass);
+    }
+
+    public static <T extends BaseEntity> List<T> ParseArray(String str, Class<T> tClass) {
+        return JSON.parseArray(str, tClass);
+    }
+
+//    public static String toStringArray(){
+//        return JSON.toJSONString()
+//    }
 }

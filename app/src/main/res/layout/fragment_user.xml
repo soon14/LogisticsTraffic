@@ -42,20 +42,20 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/user_nick_tx"
-                            style="@style/tx_black_df_style"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:hint="昵称" />
-
-                        <TextView
                             android:id="@+id/user_name_tx"
                             style="@style/tx_black_df_style"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:hint="用户名" />
+
+                        <TextView
+                            android:id="@+id/user_phone_tx"
+                            style="@style/tx_black_df_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:hint="手机号" />
 
 
                         <Button

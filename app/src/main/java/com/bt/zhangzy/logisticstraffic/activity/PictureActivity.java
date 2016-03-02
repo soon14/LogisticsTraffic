@@ -9,6 +9,7 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.view.ZoomImageView;
 
 /**
+ * 图片展示页 有缩放功能
  * Created by ZhangZy on 2015/7/7.
  */
 public class PictureActivity extends BaseActivity {

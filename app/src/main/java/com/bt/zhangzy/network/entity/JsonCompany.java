@@ -12,8 +12,107 @@ public class JsonCompany extends BaseEntity {
     String organizationCode;//组织机构代码
     String taxCode;//税号
     int status;
+    String oftenRoute;//常发线路
+    String validationMessage;//验证返回信息
+    double longitude,latitude;//经度信息 纬度信息
+    String area;//所属区域
+    String myWealth;//我的财富
+    double star;//星级
+    int commentsCount;//评论数
+    int orderCount;//接单数
+    int totalMileage;//总里程
+    int numberOfTeams;//车队人数
+
 
     public JsonCompany() {
+    }
+
+    public String getOftenRoute() {
+        return oftenRoute;
+    }
+
+    public void setOftenRoute(String oftenRoute) {
+        this.oftenRoute = oftenRoute;
+    }
+
+    public String getValidationMessage() {
+        return validationMessage;
+    }
+
+    public void setValidationMessage(String validationMessage) {
+        this.validationMessage = validationMessage;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getMyWealth() {
+        return myWealth;
+    }
+
+    public void setMyWealth(String myWealth) {
+        this.myWealth = myWealth;
+    }
+
+    public double getStar() {
+        return star;
+    }
+
+    public void setStar(double star) {
+        this.star = star;
+    }
+
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    public int getOrderCount() {
+        return orderCount;
+    }
+
+    public void setOrderCount(int orderCount) {
+        this.orderCount = orderCount;
+    }
+
+    public int getTotalMileage() {
+        return totalMileage;
+    }
+
+    public void setTotalMileage(int totalMileage) {
+        this.totalMileage = totalMileage;
+    }
+
+    public int getNumberOfTeams() {
+        return numberOfTeams;
+    }
+
+    public void setNumberOfTeams(int numberOfTeams) {
+        this.numberOfTeams = numberOfTeams;
     }
 
     public int getStatus() {

@@ -4,6 +4,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
+import com.bt.zhangzy.network.AppURL;
+import com.bt.zhangzy.network.HttpHelper;
+import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonCompany;
@@ -13,6 +16,8 @@ import com.bt.zhangzy.network.entity.JsonFavorite;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseFavorites;
+import com.bt.zhangzy.network.entity.ResponseLogin;
+import com.bt.zhangzy.network.entity.ResponseUserInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,7 +39,7 @@ public class User implements Serializable {
     private long id;
     private int companyID, enterpriseID, driverID;
     private String userName, nickName;
-    private String phoneNum;
+    private String phoneNum, password;
     private String address;
     private Location location;//保存用户的定位信息
     private boolean isFirstOpen = true;
@@ -44,6 +49,7 @@ public class User implements Serializable {
     private JsonUser jsonUser;
     private List<JsonMotorcades> motorcades;//车队列表
     private JsonCar jsonCar;//司机 所属的 车辆；
+    private ArrayList<Integer> orderIdList;
 
     public static User getInstance() {
         return instance;
@@ -60,6 +66,29 @@ public class User implements Serializable {
         instance = user;
     }
 
+    /**
+     * 重置用户 但是保留必要信息
+     */
+    public void resetUser() {
+        String userName = getUserName();
+        String phone = getPhoneNum();
+        String password = isSave ? getPassword() : null;
+        boolean is_save = isSave;
+        instance = new User();
+        instance.setUserName(userName);
+        instance.setPhoneNum(phone);
+        instance.setPassword(password);
+        instance.setIsSave(is_save);
+    }
+
+
+    public ArrayList<Integer> getOrderIdList() {
+        return orderIdList;
+    }
+
+    public void setOrderIdList(ArrayList<Integer> orderIdList) {
+        this.orderIdList = orderIdList;
+    }
 
     public JsonCar getJsonCar() {
         return jsonCar;
@@ -72,6 +101,7 @@ public class User implements Serializable {
     public List<JsonMotorcades> getMotorcades() {
         return motorcades;
     }
+
 
     public void setMotorcades(List<JsonMotorcades> motorcades) {
         this.motorcades = motorcades;
@@ -160,7 +190,7 @@ public class User implements Serializable {
     /**
      * 司机列表
      */
-    private ArrayList<People> driverList;
+//    private ArrayList<People> driverList;
     /**
      * 浏览历史
      */
@@ -185,21 +215,28 @@ public class User implements Serializable {
 //        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
 //        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
 
-        searchKeyWordList.add("测试测试");
-        searchKeyWordList.add("测试1");
+//        searchKeyWordList.add("测试测试");
+//        searchKeyWordList.add("测试1");
 
-        Product p = new Product(12343);
-        p.setName("到底多大多大的");
-        collectionList.add(p);
+//        Product p = new Product(12343);
+//        p.setName("到底多大多大的");
+//        collectionList.add(p);
 
     }
 
     @Override
     public String toString() {
-        return super.toString();
-//        StringBuffer stringBuffer = new StringBuffer();
-//        driverList.toJsonString();
-//        return stringBuffer.toJsonString();
+        return "User{" +
+                "isLogin=" + isLogin +
+                ", id=" + id +
+                ", userType=" + userType +
+                ", userName='" + userName + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", password='" + password + '\'' +
+                ", isSave=" + isSave +
+                ", jsonUser=" + jsonUser +
+                '}';
     }
 
     public ArrayList<String> getSearchKeyWordList() {
@@ -236,9 +273,6 @@ public class User implements Serializable {
         this.location = location;
     }
 
-    public ArrayList<People> getDriverList() {
-        return driverList;
-    }
 
     public ArrayList<Product> getCollectionList() {
         return collectionList;
@@ -262,9 +296,6 @@ public class User implements Serializable {
         historyList.add(product);
     }
 
-    public void setDriverList(ArrayList<People> driverList) {
-        this.driverList = driverList;
-    }
 
     public boolean getLogin() {
         return isLogin;
@@ -300,6 +331,14 @@ public class User implements Serializable {
 
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getAddress() {
@@ -352,4 +391,186 @@ public class User implements Serializable {
     }
 
 
+    public void setLoginResponse(ResponseLogin json) {
+        JsonUser jsonUser = json.getUser();
+        User user = User.getInstance();
+        user.setLogin(true);
+//                showToast(JSON.toJSONString(jsonUser));
+        user.setId(jsonUser.getId());
+        user.setUserName(jsonUser.getName());
+        user.setPhoneNum(jsonUser.getPhoneNumber());
+        user.setNickName(jsonUser.getNickname());
+        user.setJsonUser(jsonUser);
+        switch (jsonUser.getRole()) {
+            case 1:
+                user.setUserType(Type.DriverType);
+                if (json.getDriver() != null) {
+                    user.setJsonTypeEntity(json.getDriver());
+                    user.setDriverID(json.getDriver().getId());
+                }
+                break;
+            case 2:
+                user.setUserType(Type.EnterpriseType);
+                if (json.getEnterprise() != null) {
+                    user.setJsonTypeEntity(json.getEnterprise());
+                    user.setEnterpriseID(json.getEnterprise().getId());
+                }
+                break;
+            case 3:
+                user.setUserType(Type.InformationType);
+                if (json.getCompany() != null) {
+                    user.setJsonTypeEntity(json.getCompany());
+                    user.setCompanyID(json.getCompany().getId());
+                }
+                break;
+        }
+
+
+        user.setJsonFavorites(json.getFavorites());
+        user.setMotorcades(json.getMotorcades());
+    }
+
+    /**
+     * 更新用户信息 和 角色信息
+     */
+    public void requestUserInfo() {
+        //如果登陆成功  更新用户的基本信息；AppURL.GetUserInfo
+        //这里改为 自动登录
+
+        HttpHelper.getInstance().get(AppURL.GetUserInfo, String.valueOf(User.getInstance().getId()), new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                if (TextUtils.isEmpty(result)) {
+                    Log.i(TAG, "用户信息更新失败：" + msg);
+                    return;
+                }
+                Log.i(TAG, "用户信息更新成功");
+                JsonUser jsonUser = ParseJson_Object(result, JsonUser.class);
+                User user = User.getInstance();
+//                    user.setLogin(true);
+//                    showToast(JSON.toJSONString(jsonUser));
+                user.setId(jsonUser.getId());
+                user.setUserName(jsonUser.getName());
+                user.setPhoneNum(jsonUser.getPhoneNumber());
+                user.setNickName(jsonUser.getNickname());
+                user.setJsonUser(jsonUser);
+                switch (jsonUser.getRole()) {
+                    case 1:
+                        user.setUserType(Type.DriverType);
+                        requestDriverInfo();
+                        break;
+                    case 2:
+                        user.setUserType(Type.EnterpriseType);
+                        requestEnterpriseInfo();
+                        break;
+                    case 3:
+                        user.setUserType(Type.InformationType);
+                        requestCompaniesInfo();
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
+    }
+
+
+    //更新司机信息
+    private void requestDriverInfo() {
+        HttpHelper.getInstance().get(AppURL.GetDriverInfo, User.getInstance().getId(), new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                Log.i(TAG, "司机信息更新成功：" + msg);
+                JsonDriver json = ParseJson_Object(result, JsonDriver.class);
+                User user = User.getInstance();
+                user.setDriverID(json.getId());
+//                user.setUserName(json.getName());
+//                user.setAddress(json.getAddress());
+                user.setJsonTypeEntity(json);
+                requestCarInfo();
+//                refreshView();
+            }
+
+            @Override
+            public void onFailed(String str) {
+                Log.i(TAG, "司机信息更新失败：" + str);
+            }
+        });
+    }
+
+    private void requestCarInfo() {
+        HttpHelper.getInstance().get(AppURL.GetCarInfo, new String[]{"driverID=" + User.getInstance().getDriverID()}, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                Log.i(TAG, "司机-车辆信息更新成功：" + msg);
+                if (TextUtils.isEmpty(result))
+                    return;
+                List<JsonCar> list = ParseJson_Array(result, JsonCar.class);
+//                JsonCar jsonCar = ParseJson_Object(result, JsonCar.class);
+                if (list.isEmpty())
+                    return;
+                JsonCar jsonCar = list.get(0);
+                User.getInstance().setJsonCar(jsonCar);
+
+            }
+
+            @Override
+            public void onFailed(String str) {
+                Log.i(TAG, "司机-车辆信息更新失败：" + str);
+            }
+        });
+    }
+
+    //更新企业信息
+    private void requestEnterpriseInfo() {
+
+        HttpHelper.getInstance().get(AppURL.GetEnterprisesInfo, User.getInstance().getId(), new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                ResponseUserInfo json = ParseJson_Object(result, ResponseUserInfo.class);
+                User user = User.getInstance();
+                user.setEnterpriseID(json.getEnterprise().getId());
+                user.setUserName(json.getEnterprise().getName());
+                user.setAddress(json.getEnterprise().getAddress());
+                user.setJsonTypeEntity(json.getEnterprise());
+
+//                refreshView();
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
+    }
+
+    //更新物流公司信息
+    private void requestCompaniesInfo() {
+        HttpHelper.getInstance().get(AppURL.GetCompaniesInfo, User.getInstance().getId(), new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                ResponseUserInfo json = ParseJson_Object(result, ResponseUserInfo.class);
+                User user = User.getInstance();
+
+                user.setCompanyID(json.getCompany().getId());
+                user.setUserName(json.getCompany().getName());
+                user.setAddress(json.getCompany().getAddress());
+                user.setJsonTypeEntity(json.getCompany());
+
+                List<JsonMotorcades> motorcades = json.getMotorcades();
+                user.setMotorcades(motorcades);
+
+//                refreshView();
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
+    }
 }

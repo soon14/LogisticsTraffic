@@ -10,6 +10,8 @@ public enum AppURL {
     DOWNLOAD_APP("/html/download.html"),//下载
     ABOUT_COMPANY("/html/company.html"),//公司介绍
     LOCATION_MAP("/mall/qiantai/ditu.html?longitude=%d1&latitude=%d2"),
+    //周边服务
+    LOCATION_MAP_SERVERS("/freight/html/ditu2.html?longitude=%f1&latitude=%f2&zf=%s"),
 
     /* 注册   用户列表： http://182.92.77.31:8080/users/list  */
     Register("/users/register"),
@@ -33,6 +35,7 @@ public enum AppURL {
 
     /*图片上传接口*/
     UpLoadImage("/upload"),
+
     /*========= 验证 司机/企业/信息部 的接口 =====================================================*/
     /*企业身份认证*/
     PostVerifyEnterprises("/enterprises/authenticate"),
@@ -58,9 +61,14 @@ public enum AppURL {
     //根据id值获取店铺信息
     GetCompany("/companies/"),
     GetCompanyList("/companies/list"),
+    GetCommentList("/comments/get_role"),//获取被评论对象的评论列表
+    GetCommentListForMe("/comments/get_comment_role"),//获取论对象的评论列表
+    PostComment("/comments/post"),//发布评论
 
     /*============ 车队相关 ==================================================*/
     PostDriversAddCar("/drivers/add_car"),
+    PutDrviersCar("/cars/"),// /cars/{id} 修改车辆信息
+    PostDriversPublishCar("/drivers/publish_car"),
     //获取车队信息
     GetMotorcades("/motorcades/"),
     //    按角色和id获取车队列表
@@ -108,6 +116,15 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
 
     /*============= 搜索 =================================*/
     GetSearch("/companies/search"),//在认证公司信息或者修改公司信息时对name、address、area字段做索引，通过关键词对公司名称进行检索
+
+    /*============== 车源 ================================*/
+    GetPublicCarList("/cars/list"),
+    GetCarSearch("/cars/search"),
+    GetMotorcadeCarList("/motorcades/list_car"),
+
+    /*=============== 位置上传 ==================================*/
+    PostUploadLocation("/drivers/upload_coordinate"),//post方法，传carTrack对象
+    GetDriverLocationList("/drivers/list_coordinate"),//get方法，传orderId对象
 
     Empty("NULL");
     //  枚举类 URL 的自定义

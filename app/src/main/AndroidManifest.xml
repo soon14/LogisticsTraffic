@@ -54,6 +54,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
+        <service
+            android:name="com.bt.zhangzy.logisticstraffic.service.UpDataLocationService"
+            android:enabled="true"></service>
+
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name">
@@ -75,7 +80,7 @@
         <activity android:name=".activity.DetailCompany" />
         <activity android:name=".activity.FleetActivity" />
         <activity android:name=".activity.SettingShareActivity" />
-        <activity android:name=".activity.SettingShopActivity" />
+        <activity android:name=".activity.SetCompanyActivity" />
         <activity android:name=".activity.OrderListActivity" />
         <activity android:name=".activity.OrderDetailActivity" />
         <activity android:name=".activity.HistoryActivity" />
@@ -87,14 +92,15 @@
         <activity android:name=".activity.PictureActivity" />
         <activity android:name=".activity.OrderActivity" />
         <activity android:name=".activity.LocationListActivity" />
-        <activity android:name=".activity.SourceActivity" />
-        <activity android:name=".activity.SourceDetailActivity" />
-        <activity android:name=".activity.PublishActivity" />
+        <activity android:name=".activity.SourceCarActivity" />
+        <activity android:name=".activity.SourceCarDetailActivity" />
+        <activity android:name=".activity.PublishCarActivity" />
         <activity android:name=".activity.ServicesActivity" />
         <activity android:name=".activity.SourceGoodsActivity" />
         <activity android:name=".activity.PayActivity" />
         <activity android:name=".activity.WebViewActivity" />
-        <activity android:name=".activity.VerificationActivity"/>
+        <activity android:name=".activity.VerificationActivity" />
+        <activity android:name=".activity.TestActivity" />
 
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
@@ -227,17 +233,16 @@
 
         <!-- 标记客户端的类型  司机版 和 企业版 -->
         <!--<meta-data-->
-            <!--android:name="APP_TYPE"-->
-            <!--android:value="${APP_TYPE_VALUE}"-->
-            <!--/>-->
+        <!--android:name="APP_TYPE"-->
+        <!--android:value="${APP_TYPE_VALUE}"-->
+        <!--/>-->
         <!--<meta-data-->
-            <!--android:name="APP_TYPE"-->
-            <!--android:value="driver"-->
-            <!--/>-->
+        <!--android:name="APP_TYPE"-->
+        <!--android:value="driver"-->
+        <!--/>-->
         <meta-data
             android:name="APP_TYPE"
-            android:value="company"
-            />
+            android:value="company" />
     </application>
 
 </manifest>

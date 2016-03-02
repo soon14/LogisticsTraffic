@@ -20,6 +20,7 @@ import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.logisticstraffic.view.ChooseItemsDialog;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.InputDialog;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
@@ -116,7 +117,7 @@ public class OrderDetailActivity extends BaseActivity {
         setTextView(R.id.order_detail_start_city_tx, jsonOrder.getStartCity());
         setTextView(R.id.order_detail_stop_city_tx, jsonOrder.getStopCity());
         setTextView(R.id.order_detail_type_tx, jsonOrder.getGoodsType());
-        setTextView(R.id.order_detail_goods_name_tx, jsonOrder.getGoodsName());
+//        setTextView(R.id.order_detail_goods_name_tx, jsonOrder.getGoodsName());
         setTextView(R.id.order_detail_goods_weight_tx, jsonOrder.getGoodsWeight());
         setTextView(R.id.order_detail_volume_tx, jsonOrder.getGoodsVolume());
         setTextView(R.id.order_detail_receiver_name, jsonOrder.getReceiverName());
@@ -182,8 +183,8 @@ public class OrderDetailActivity extends BaseActivity {
                 break;
             case CompletedMode:
                 findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
-                findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
-//                setTextView(R.id.order_detail_submit, "联系客服");
+//                findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
+                setTextView(R.id.order_detail_submit, "评价");
                 break;
         }
     }
@@ -329,7 +330,7 @@ public class OrderDetailActivity extends BaseActivity {
             return;
         final TextView textView = (TextView) view;
 
-        BaseDialog.showChooseItemsDialog(this, getString(R.string.order_change_type_title), new View.OnClickListener() {
+        ChooseItemsDialog.showChooseItemsDialog(this, getString(R.string.order_change_type_title), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (v != null && v instanceof TextView) {
@@ -346,22 +347,22 @@ public class OrderDetailActivity extends BaseActivity {
 
     }
 
-    public void onClick_InputGoodsName(View view) {
-        //司机只能查看 不能编辑
-        if (AppParams.DRIVER_APP)
-            return;
-        InputDialog dialog = new InputDialog(this);
-        dialog.setEditHintString("请输入货物名称");
-        dialog.setCallback(new InputDialog.Callback() {
-            @Override
-            public void inputCallback(String string) {
-                jsonOrder.setGoodsName(string);
-                updateJsonOrder = true;
-                setTextView(R.id.order_detail_goods_name_tx, string);
-            }
-        });
-        dialog.show();
-    }
+//    public void onClick_InputGoodsName(View view) {
+//        //司机只能查看 不能编辑
+//        if (AppParams.DRIVER_APP)
+//            return;
+//        InputDialog dialog = new InputDialog(this);
+//        dialog.setEditHintString("请输入货物名称");
+//        dialog.setCallback(new InputDialog.Callback() {
+//            @Override
+//            public void inputCallback(String string) {
+//                jsonOrder.setGoodsName(string);
+//                updateJsonOrder = true;
+//                setTextView(R.id.order_detail_goods_name_tx, string);
+//            }
+//        });
+//        dialog.show();
+//    }
 
     public void onClick_InputDriverCount(View view) {
         //司机只能查看 不能编辑
@@ -375,8 +376,8 @@ public class OrderDetailActivity extends BaseActivity {
                     @Override
                     public void inputCallback(String string) {
                         updateJsonOrder = true;
-                        jsonOrder.setReceiverName(string);
-                        setTextView(R.id.order_detail_receiver_name, string);
+                        setTextView(R.id.order_detail_driver_size_ed, string);
+                        jsonOrder.setDriverCount(Integer.valueOf(string));
                     }
                 }).show();
     }
@@ -464,7 +465,7 @@ public class OrderDetailActivity extends BaseActivity {
         if (AppParams.DRIVER_APP)
             return;
         final TextView textView = (TextView) view;
-        BaseDialog.showChooseItemsDialog(this, getString(R.string.order_change_truck_length_title), new View.OnClickListener() {
+        ChooseItemsDialog.showChooseItemsDialog(this, getString(R.string.order_change_truck_length_title), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (v != null && v instanceof TextView) {
@@ -604,6 +605,13 @@ public class OrderDetailActivity extends BaseActivity {
                 }
                 break;
             case CompletedMode:// 已完成订单
+                //跳转评价
+                if (user.getUserType() == Type.DriverType) {
+                    Bundle bundle = new Bundle();
+//                    bundle.putInt(AppParams.BUNDLE_EVALUATION_ROLE,Type.InformationType.toRole());
+                    bundle.putString(AppParams.BUNDLE_EVALUATION_ORDER, jsonOrder.toString());
+                    startActivity(EvaluationActivity.class, bundle);
+                }
                 break;
             default:
                 Log.w(TAG, "提交订单 当前模式:" + currentMode);
@@ -619,16 +627,17 @@ public class OrderDetailActivity extends BaseActivity {
             showToast("司机数量未填写");
             return;
         }
-        int driverCount = Integer.valueOf(need_driver_size.getText().toString());
-        if (driverCount != jsonOrder.getDriverCount()) {
-            updateJsonOrder = true;
-            jsonOrder.setDriverCount(driverCount);
-        }
+
         if (updateJsonOrder) {
             //先修改订单内容
             requestUpdateOrder();
         }
-//                //先判断有没有选司机
+        submitOrder_Company_Call();
+
+    }
+
+    private void submitOrder_Company_Call() {
+        //                //先判断有没有选司机
         if (selectedDrivers == null) {
             if (orderStatus == OrderStatus.AllocationOrder
                     && allocationList != null) {
@@ -639,7 +648,7 @@ public class OrderDetailActivity extends BaseActivity {
                 showChooseCallDialog();
             }
         } else {
-            //
+            //已经选择了司机 直接进行call车
             requestCallDriver();
 //                        requestAllocation();
         }
@@ -724,7 +733,7 @@ public class OrderDetailActivity extends BaseActivity {
                 //筛选 接单成功的列表
                 People people;
                 for (JsonOrderHistory json : list) {
-                    if (json.getStatus() == 3) {
+                    if (json.getStatus() == 1) {
                         people = new People();
                         people.setId(json.getRoleId());
                         people.setDriverId(json.getRoleId());
@@ -892,12 +901,35 @@ public class OrderDetailActivity extends BaseActivity {
             public void onSuccess(String msg, String result) {
                 showToast("下单成功" + msg);
                 requestSendToCompany(result);
+                if (User.getInstance().getUserType() == Type.InformationType) {
+                    requestOrder(result);
+                }
 //                finish();
             }
 
             @Override
             public void onFailed(String str) {
                 showToast("下单失败" + str);
+            }
+        });
+    }
+
+    //创建订单后 获取订单
+    private void requestOrder(String orderId) {
+
+        HttpHelper.getInstance().get(AppURL.GetOrder + orderId, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                JsonOrder tmp_json = ParseJson_Object(result, JsonOrder.class);
+                jsonOrder = tmp_json;
+                if (User.getInstance().getUserType() == Type.InformationType) {
+                    submitOrder_Company_Call();
+                }
+            }
+
+            @Override
+            public void onFailed(String str) {
+                Log.w(TAG, "订单获取失败" + str);
             }
         });
     }
@@ -917,24 +949,25 @@ public class OrderDetailActivity extends BaseActivity {
         HttpHelper.getInstance().post(AppURL.PostSendToCompany, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
-                showToast("指派成功" + msg);
+                Log.i(TAG, "通知信息部成功" + msg + " ; result=" + result);
+//                showToast("指派成功" + msg);
                 //退出下单页面
-                finish();
+//                finish();
             }
 
             @Override
             public void onFailed(String str) {
-                showToast("指派失败" + str);
+                showToast("通知信息部失败" + str);
             }
         });
     }
 
     private int getNeedDriverNum() {
-        EditText needDriverNum = (EditText) findViewById(R.id.order_detail_driver_size_ed);
-        if (TextUtils.isEmpty(needDriverNum.getText())) {
+        String num_str = getStringFromTextView(R.id.order_detail_driver_size_ed);
+        if (TextUtils.isEmpty(num_str)) {
             return -1;
         }
-        return Integer.valueOf(needDriverNum.getText().toString());
+        return Integer.valueOf(num_str);
     }
 
 

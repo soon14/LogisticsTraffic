@@ -51,9 +51,13 @@ public final class AppParams {
     public static boolean DEBUG = BuildConfig.APP_DEBUG;
 
     /*=============activity跳转请求常量 =================*/
+
+    /* 车源跳转 */
+    public static final String SOURCE_PAGE_CAR_KEY = "SOURCE_PAGE_CAR_KEY";
     /*  web页面 的页面名称 */
     public static final String WEB_PAGE_NAME = "WEB_PAGE_NAME";
     public static final String WEB_PAGE_URL = "WEB_PAGE_URL";//加载的地址
+    public static final String WEB_PAGE_HTML_DATA = "WEB_PAGE_HTML_DATA";//页面内容
 
     /**
      * 注册页跳转请求常量
@@ -100,4 +104,14 @@ public final class AppParams {
      */
     public static final String BUNDLE_VERIFICATION_ORDER_PHONE_KEY = "BUNDLE_VERIFICATION_ORDER_PHONE_KEY";
     public static final String BUNDLE_VERIFICATION_ORDER_ID_KEY = "BUNDLE_VERIFICATION_ORDER_ID_KEY";
+
+
+    /**
+     * 评价列表数据传递
+     */
+    public static final String BUNDLE_EVALUATION_JSON_LIST = "BUNDLE_EVALUATION_JSON_LIST";
+    public static final String BUNDLE_EVALUATION_ROLE = "BUNDLE_EVALUATION_ROLE";//评价角色
+    public static final String BUNDLE_EVALUATION_ROLE_ID = "BUNDLE_EVALUATION_ROLE_ID";//评价角色 ID
+    public static final String BUNDLE_EVALUATION_ORDER = "BUNDLE_EVALUATION_ORDER";//评价的 订单对象
+
 }

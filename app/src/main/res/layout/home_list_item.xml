@@ -14,7 +14,7 @@
 
         <ImageView
 
-            android:id="@+id/list_item_img"
+            android:id="@+id/item_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_toLeftOf="@id/list_item_phone"
-            android:layout_toRightOf="@id/list_item_img"
+            android:layout_toRightOf="@id/item_img"
             android:orientation="vertical">
 
             <LinearLayout

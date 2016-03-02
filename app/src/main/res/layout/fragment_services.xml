@@ -45,7 +45,7 @@
             android:src="@drawable/icon_wuliuyuanqu" />
 
         <ImageView
-            android:id="@+id/services_xinxibu_btn"
+            android:id="@+id/services_cangchu_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -65,6 +65,7 @@
         android:paddingTop="1dp">
 
         <ImageView
+            android:id="@+id/services_jiudian_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -72,6 +73,7 @@
             android:src="@drawable/icon_jiudian" />
 
         <ImageView
+            android:id="@+id/services_canyin_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -79,6 +81,7 @@
             android:src="@drawable/icon_canying" />
 
         <ImageView
+            android:id="@+id/services_xiyu_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -86,6 +89,7 @@
             android:src="@drawable/icon_xiyu" />
 
         <ImageView
+            android:id="@+id/services_chaoshi_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

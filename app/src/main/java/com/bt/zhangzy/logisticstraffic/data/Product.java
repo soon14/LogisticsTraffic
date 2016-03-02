@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class Product implements Serializable {
     final int ID;
-
+    int userId;
     private Type type = Type.EmptyType;
     private String name;
     private String phoneNumber;
@@ -31,6 +31,14 @@ public class Product implements Serializable {
 
     public Product(int ID) {
         this.ID = ID;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getPhotoUrl() {

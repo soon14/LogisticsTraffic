@@ -10,6 +10,9 @@ import android.widget.TextView;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.Location;
+import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.NetCallback;
 import com.bt.zhangzy.tools.Json;
@@ -146,24 +149,50 @@ public class ServicesActivity extends BaseActivity {
     public void onClick_InfoLocation(View view) {
 
         String pageName = null;
+        String url = null;
+        Location location = User.getInstance().getLocation();
         switch (view.getId()) {
             case R.id.services_qiye_btn:
                 pageName = "信息部";
-                break;
-            case R.id.services_wuliu_btn:
-                pageName = "物流园区";
-                break;
-            case R.id.services_xinxibu_btn:
-                pageName = "仓储";
+                url = "xxb";
                 break;
             case R.id.services_jiayouzhan_btn:
                 pageName = "加油站";
+                url = "jyz";
+                break;
+            case R.id.services_wuliu_btn:
+                pageName = "物流园区";
+                url = "wly";
+                break;
+            case R.id.services_cangchu_btn:
+                pageName = "仓储";
+                url = "jd";
+                break;
+            case R.id.services_canyin_btn:
+                pageName = "餐饮";
+                url = "cy";
+                break;
+            case R.id.services_jiudian_btn:
+                pageName = "酒店";
+                url = "cc";
+                break;
+            case R.id.services_xiyu_btn:
+                pageName = "洗浴";
+                url = "xy";
+                break;
+            case R.id.services_chaoshi_btn:
+                pageName = "超市";
+                url = "cs";
                 break;
         }
+
         if (pageName != null) {
+            url = String.format(AppURL.LOCATION_MAP_SERVERS.toString(), Float.valueOf(location.getLangitude()), Float.valueOf(location.getLatitude()), url);
             Bundle bundle = new Bundle();
-            bundle.putString("pageName", pageName);
-            startActivity(LocationListActivity.class, bundle);
+            bundle.putString(AppParams.WEB_PAGE_NAME, pageName);
+            bundle.putString(AppParams.WEB_PAGE_URL, url);
+            startActivity(WebViewActivity.class, bundle);
+//            startActivity(LocationListActivity.class, bundle);
         }
     }
 }

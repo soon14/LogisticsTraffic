@@ -25,8 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
             android:background="@color/transparent"
             android:onClick="onClick_CollectAdd"
             android:src="@drawable/collection_selector" />
@@ -249,6 +249,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/dl_evaluate_ly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -269,14 +270,18 @@
                     android:layout_height="2px"
                     android:background="@color/main_bg_color" />
 
-                <include layout="@layout/evaluate_list_item" />
+                <include
+                    android:id="@+id/detail_evaluate_1_ly"
+                    layout="@layout/evaluate_list_item" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
                     android:background="@color/gray_line" />
 
-                <include layout="@layout/evaluate_list_item" />
+                <include
+                    android:id="@+id/detail_evaluate_2_ly"
+                    layout="@layout/evaluate_list_item" />
 
                 <Button
                     style="@style/while_orange_btn_style"

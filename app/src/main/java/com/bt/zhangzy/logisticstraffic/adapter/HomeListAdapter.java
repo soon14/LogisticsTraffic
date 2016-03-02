@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -13,10 +12,7 @@ import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.data.Product;
-import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.tools.ViewUtils;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +63,7 @@ public class HomeListAdapter extends BaseAdapter {
             final int[] fakeImgId = {R.drawable.fake_1, R.drawable.fake_2, R.drawable.fake_3, R.drawable.fake_4, R.drawable.fake_5, R.drawable.fake_6, R.drawable.fake_7, R.drawable.fake_8, R.drawable.fake_9, R.drawable.fake_10};
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_list_item, null);
             holder.position = position;
-            holder.img = (ImageView) convertView.findViewById(R.id.list_item_img);
+            holder.img = (ImageView) convertView.findViewById(R.id.item_img);
             holder.button = (ImageButton) convertView.findViewById(R.id.list_item_phone);
             holder.textView = (TextView) convertView.findViewById(R.id.list_item_name_tx);
             holder.levelBar = (RatingBar) convertView.findViewById(R.id.list_item_lv_rating);

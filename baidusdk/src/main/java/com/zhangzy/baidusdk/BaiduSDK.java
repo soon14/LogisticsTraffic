@@ -188,7 +188,7 @@ public class BaiduSDK extends BDNotifyListener implements BDLocationListener {
         sb.append(bdLocation.getLatitude() + "," + bdLocation.getLongitude());//
 
         Log.i(TAG, "百度地图定位 --结果：" + sb.toString());
-        stopLocationServer();
+//        stopLocationServer();
         if (listener != null) {
             listener.callbackCityName(bdLocation.getProvince(), bdLocation.getCity(), String.valueOf(bdLocation.getLatitude()), String.valueOf(bdLocation.getLongitude()));
         }

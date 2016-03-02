@@ -57,7 +57,7 @@ public class FleetActivity extends BaseActivity {
                     isSelectDriver = true;
                 }
                 needSelectDriverSize = bundle.getInt(AppParams.SELECT_DEVICES_SIZE_KEY);
-                if(bundle.containsKey(AppParams.SELECT_DRIVES_LIST_KEY)){
+                if (bundle.containsKey(AppParams.SELECT_DRIVES_LIST_KEY)) {
                     selectDriverListFromOrder = bundle.getParcelableArrayList(AppParams.SELECT_DRIVES_LIST_KEY);
                 }
             }
@@ -95,7 +95,7 @@ public class FleetActivity extends BaseActivity {
         } else {
             if (!isSelectDriver)
                 findViewById(R.id.fleet_finish_bt).setVisibility(View.GONE);
-            if(selectDriverListFromOrder == null) {
+            if (selectDriverListFromOrder == null) {
                 setPageName("我的车队");
                 List<JsonMotorcades> motorcades = User.getInstance().getMotorcades();
                 if (motorcades != null && !motorcades.isEmpty()) {
@@ -107,8 +107,9 @@ public class FleetActivity extends BaseActivity {
                     finish();
                     return;
                 }
-            }else{
+            } else {
                 setPageName("接单司机列表");
+                findViewById(R.id.fleet_add_bt).setVisibility(View.GONE);
                 if (adapter == null)
                     adapter = new FleetListAdapter(AppParams.DRIVER_APP ? true : isSelectDriver, needSelectDriverSize);
                 adapter.setPeoples(selectDriverListFromOrder);
@@ -269,7 +270,7 @@ public class FleetActivity extends BaseActivity {
                         people.setPhoneNumber(driver.getPhoneNumber());
                         list.add(people);
                     }
-                    User.getInstance().setDriverList(list);
+//                    User.getInstance().setDriverList(list);
                     if (adapter == null)
                         adapter = new FleetListAdapter(AppParams.DRIVER_APP ? true : isSelectDriver, needSelectDriverSize);
                     adapter.setPeoples(list);
@@ -406,7 +407,7 @@ public class FleetActivity extends BaseActivity {
 
     private void requestAddDriver(final String phone) {
 
-        HttpHelper.getInstance().post(AppURL.PostAddMotorcadeDriverPhone , motorcadeId + "/" + phone, new BaseEntity(), new JsonCallback() {
+        HttpHelper.getInstance().post(AppURL.PostAddMotorcadeDriverPhone, motorcadeId + "/" + phone, new BaseEntity(), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("司机添加成功");

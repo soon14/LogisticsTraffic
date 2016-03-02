@@ -18,6 +18,7 @@ import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.NetCallback;
 import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.network.entity.JsonUser;
+import com.bt.zhangzy.network.entity.ResponseLogin;
 import com.bt.zhangzy.tools.Tools;
 
 import java.util.HashMap;
@@ -191,6 +192,9 @@ public class RegisterActivity extends BaseActivity {
         jsonUser.setRole(type == Type.DriverType ? 1 : type == Type.EnterpriseType ? 2 : type == Type.InformationType ? 3 : -1);
         jsonUser.setRecommendCode(recommend);
 
+        if (User.getInstance().isSave()) {
+            User.getInstance().setPassword(password);
+        }
         JsonCallback responseCallback = new JsonCallback() {
 
             @Override
@@ -206,16 +210,8 @@ public class RegisterActivity extends BaseActivity {
                     return;
                 }
                 showToast("用户注册成功");
-                JsonUser jsonUser = ParseJson_Object(jsonstr, JsonUser.class);
-                User user = User.getInstance();
-                user.setUserType(type);
-                user.setLogin(true);
-//                showToast(JSON.toJSONString(jsonUser));
-                user.setId(jsonUser.getId());
-                user.setUserName(jsonUser.getName());
-                user.setPhoneNum(jsonUser.getPhoneNumber());
-                user.setNickName(jsonUser.getNickname());
-                user.setJsonUser(jsonUser);
+                ResponseLogin response = ParseJson_Object(jsonstr, ResponseLogin.class);
+                User.getInstance().setLoginResponse(response);
 
                 registerSuccess();
 

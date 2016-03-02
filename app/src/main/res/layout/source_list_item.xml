@@ -5,15 +5,17 @@
     android:background="@color/white">
 
     <ImageView
+        android:id="@+id/item_recommend_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:src="@drawable/source_recommend" />
 
     <ImageView
-        android:id="@+id/list_item_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/item_img"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:scaleType="fitCenter"
         android:src="@drawable/fake_source" />
 
 
@@ -22,11 +24,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/list_item_img">
+        android:layout_toRightOf="@id/item_img">
 
         <TextView
+            android:id="@+id/item_name_tx"
             style="@style/black_tx_12_style"
-            android:text="卢爱华（车主） 冀HK8209" />
+            android:hint="车主名（车牌号）" />
 
         <TableRow android:layout_marginTop="5dp">
 
@@ -35,8 +38,9 @@
                 android:text="类型：" />
 
             <TextView
+                android:id="@+id/item_type_tx"
                 style="@style/black_tx_12_style"
-                android:text="平板车" />
+                android:hint="车辆类型" />
         </TableRow>
 
         <TableRow>
@@ -46,8 +50,9 @@
                 android:text="车长：" />
 
             <TextView
+                android:id="@+id/item_length_tx"
                 style="@style/black_tx_12_style"
-                android:text="13米" />
+                android:hint="车辆长度" />
         </TableRow>
 
         <TableRow>
@@ -57,14 +62,16 @@
                 android:text="载重：" />
 
             <TextView
+                android:id="@+id/item_weight_tx"
                 style="@style/black_tx_12_style"
-                android:text="50吨" />
+                android:hint="车辆载重" />
         </TableRow>
 
         <TextView
+            android:id="@+id/item_location_tx"
             style="@style/black_tx_12_style"
             android:layout_marginTop="5dp"
-            android:text="内蒙古-包头-青山" />
+            android:hint="车辆所在地" />
     </TableLayout>
 
 

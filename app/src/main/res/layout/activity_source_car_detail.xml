@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/page_bg_color"
     android:orientation="vertical"
-    tools:context=".activity.SourceDetailActivity">
+    tools:context=".activity.SourceCarDetailActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,8 +20,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
-            android:onClick="onClick_Join"
             android:background="@drawable/join_fleet"
+            android:onClick="onClick_Join"
             android:text=""
             android:textSize="16sp" />
 
@@ -58,8 +58,9 @@
                         android:text="车 牌 号：" />
 
                     <TextView
+                        android:id="@+id/car_num_tx"
                         style="@style/black_tx_12_style.source_detail"
-                        android:text="冀HK8209" />
+                        android:text="" />
                 </TableRow>
 
                 <View
@@ -74,8 +75,9 @@
                         android:text="车型：" />
 
                     <TextView
+                        android:id="@+id/car_type_tx"
                         style="@style/black_tx_12_style.source_detail"
-                        android:text="平板车" />
+                        android:text="" />
                 </TableRow>
 
                 <View
@@ -90,8 +92,9 @@
                         android:text="车长：" />
 
                     <TextView
+                        android:id="@+id/car_length_tx"
                         style="@style/black_tx_12_style.source_detail"
-                        android:text="13米" />
+                        android:text="" />
                 </TableRow>
 
                 <View
@@ -106,8 +109,9 @@
                         android:text="载重：" />
 
                     <TextView
+                        android:id="@+id/car_weight_tx"
                         style="@style/black_tx_12_style.source_detail"
-                        android:text="40吨" />
+                        android:text="" />
                 </TableRow>
 
                 <View
@@ -119,17 +123,20 @@
 
                     <TextView
                         style="@style/black_tx_12_style.source_detail"
-                        android:text="车辆类型：" />
+                        android:text="状况：" />
 
                     <TextView
+                        android:id="@+id/car_situation_tx"
                         style="@style/black_tx_12_style.source_detail"
-                        android:text="货车" />
+                        android:text="" />
                 </TableRow>
             </TableLayout>
 
             <ImageView
+                android:id="@+id/car_img"
                 android:layout_width="230px"
                 android:layout_height="230px"
+                android:scaleType="fitCenter"
                 android:src="@drawable/fake_source" />
         </TableRow>
 
@@ -140,16 +147,6 @@
 
         <TableLayout>
 
-            <TableRow>
-
-                <TextView
-                    style="@style/black_tx_12_style.source_detail"
-                    android:text="车辆状况：" />
-
-                <TextView
-                    style="@style/black_tx_12_style.source_detail"
-                    android:text="半挂" />
-            </TableRow>
 
             <View
                 android:layout_width="match_parent"
@@ -163,8 +160,9 @@
                     android:text="联系人：" />
 
                 <TextView
+                    android:id="@+id/car_name_tx"
                     style="@style/black_tx_12_style.source_detail"
-                    android:text="卢爱华（车主）" />
+                    android:text="" />
             </TableRow>
         </TableLayout>
     </TableLayout>
@@ -198,8 +196,9 @@
                 android:text="始 发 地：" />
 
             <TextView
+                android:id="@+id/car_star_city_tx"
                 style="@style/black_tx_12_style.source_detail"
-                android:text="内蒙古-包头-青山区" />
+                android:text="" />
         </TableRow>
 
         <View
@@ -214,8 +213,9 @@
                 android:text="目 的 地：" />
 
             <TextView
+                android:id="@+id/car_stop_city_tx"
                 style="@style/black_tx_12_style.source_detail"
-                android:text="北京-北京市-丰台区" />
+                android:text="" />
         </TableRow>
 
         <View
@@ -230,8 +230,9 @@
                 android:text="当前位置：" />
 
             <TextView
+                android:id="@+id/car_location_tx"
                 style="@style/black_tx_12_style.source_detail"
-                android:text="内蒙古包头市" />
+                android:text="" />
         </TableRow>
 
         <View
@@ -246,8 +247,9 @@
                 android:text="车辆常驻地：" />
 
             <TextView
+                android:id="@+id/car_residence_tx"
                 style="@style/black_tx_12_style.source_detail"
-                android:text="内蒙古包头市" />
+                android:text="" />
         </TableRow>
 
         <View
@@ -262,8 +264,9 @@
                 android:text="备注：" />
 
             <TextView
+                android:id="@+id/car_remark_tx"
                 style="@style/black_tx_12_style.source_detail"
-                android:text="回程车" />
+                android:text="" />
         </TableRow>
     </TableLayout>
 
@@ -279,11 +282,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:onClick="onClick_CallPhone"
             android:paddingBottom="5dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="5dp"
-            android:onClick="onClick_CallPhone"
             android:text="电话联系" />
     </LinearLayout>
 

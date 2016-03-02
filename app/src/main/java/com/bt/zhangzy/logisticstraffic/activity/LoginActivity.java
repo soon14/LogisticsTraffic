@@ -25,6 +25,7 @@ import com.bt.zhangzy.tools.Tools;
 public class LoginActivity extends BaseActivity {
 
     EditText username;
+    EditText password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +33,27 @@ public class LoginActivity extends BaseActivity {
 
         setContentView(R.layout.activity_login);
         username = (EditText) findViewById(R.id.login_username_ed);
-        if (!TextUtils.isEmpty(User.getInstance().getUserName())) {
-            username.setText(User.getInstance().getUserName());
+//        if (!TextUtils.isEmpty(User.getInstance().getUserName())) {
+//            username.setText(User.getInstance().getUserName());
+//        }
+        if (!TextUtils.isEmpty(User.getInstance().getPhoneNum())) {
+            username.setText(User.getInstance().getPhoneNum());
         }
+
+        if (User.getInstance().isSave()) {
+            setTextView(R.id.login_password_ed, User.getInstance().getPassword());
+        }
+
+        password = (EditText) findViewById(R.id.login_password_ed);
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    //密码每次点击都重新输入
+                    password.getText().clear();
+                }
+            }
+        });
 
         CheckBox checkBox = (CheckBox) findViewById(R.id.login_remember_ck);
         checkBox.setChecked(User.getInstance().isSave());
@@ -44,7 +63,7 @@ public class LoginActivity extends BaseActivity {
                 User.getInstance().setIsSave(isChecked);
                 if (isChecked) {
                     if (!TextUtils.isEmpty(username.getText()))
-                        User.getInstance().setUserName(username.getText().toString());
+                        User.getInstance().setPhoneNum(username.getText().toString());
                 }
             }
         });
@@ -68,7 +87,13 @@ public class LoginActivity extends BaseActivity {
             showToast("请填写用户名和密码");
             return;
         }
-        request_Login(nameStr, Tools.MD5(passwordStr));
+
+        if (User.getInstance().isSave() && passwordStr.equals(User.getInstance().getPassword())) {
+
+        } else {
+            passwordStr = Tools.MD5(passwordStr);
+        }
+        request_Login(nameStr, passwordStr);
     }
 
     private void loginSusses() {
@@ -93,6 +118,9 @@ public class LoginActivity extends BaseActivity {
 //        user.setName(username);
         user.setPhoneNumber(username);
         user.setPassword(password);
+        if (User.getInstance().isSave()) {
+            User.getInstance().setPassword(password);
+        }
 
         HttpHelper.getInstance().post(AppURL.Login, user, new JsonCallback() {
             @Override
@@ -106,50 +134,15 @@ public class LoginActivity extends BaseActivity {
                     showToast("用户登录失败：" + msg);
                     return;
                 }
-
                 ResponseLogin json = ParseJson_Object(jsonstr, ResponseLogin.class);
+                User.getInstance().setLoginResponse(json);
 //                JsonUser jsonUser = ParseJson_Object(jsonstr, JsonUser.class);
-                JsonUser jsonUser = json.getUser();
-                User user = User.getInstance();
-                user.setLogin(true);
-//                showToast(JSON.toJSONString(jsonUser));
-                user.setId(jsonUser.getId());
-                user.setUserName(jsonUser.getName());
-                user.setPhoneNum(jsonUser.getPhoneNumber());
-                user.setNickName(jsonUser.getNickname());
-                user.setJsonUser(jsonUser);
-                switch (jsonUser.getRole()) {
-                    case 1:
-                        user.setUserType(Type.DriverType);
-                        if (json.getDriver() != null) {
-                            user.setJsonTypeEntity(json.getDriver());
-                            user.setDriverID(json.getDriver().getId());
-                        }
-                        break;
-                    case 2:
-                        user.setUserType(Type.EnterpriseType);
-                        if (json.getEnterprise() != null) {
-                            user.setJsonTypeEntity(json.getEnterprise());
-                            user.setEnterpriseID(json.getEnterprise().getId());
-                        }
-                        break;
-                    case 3:
-                        user.setUserType(Type.InformationType);
-                        if (json.getCompany() != null) {
-                            user.setJsonTypeEntity(json.getCompany());
-                            user.setCompanyID(json.getCompany().getId());
-                        }
-                        break;
-                }
                 if (AppParams.DRIVER_APP) {
-                    if (user.getUserType() != Type.DriverType) {
+                    if (User.getInstance().getUserType() != Type.DriverType) {
                         showToast("不是司机用户");
                         return;
                     }
                 }
-
-                user.setJsonFavorites(json.getFavorites());
-                user.setMotorcades(json.getMotorcades());
                 showToast("用户登录成功");
 
                 loginSusses();

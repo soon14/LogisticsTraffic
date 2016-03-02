@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
@@ -17,6 +18,9 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.PictureHelper;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.view.ChooseItemsDialog;
+import com.bt.zhangzy.logisticstraffic.view.LicenceKeyboardPopupWindow;
+import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.ImageHelper;
@@ -26,6 +30,7 @@ import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonUser;
+import com.bt.zhangzy.network.entity.RequestAddCar;
 
 import java.io.File;
 
@@ -38,6 +43,9 @@ public class DetailPhotoActivity extends BaseActivity {
     private ImageView userImage;
     String yyzzUrl, swdjzUrl, mtzpUrl, frsfzUrl;
     private boolean isFirstVerify = true;
+
+    JsonDriver requestJsonDriver = new JsonDriver();
+    JsonCar requestJsonCar = new JsonCar();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +79,10 @@ public class DetailPhotoActivity extends BaseActivity {
 
     private void initDriverView() {
         User user = User.getInstance();
-        setTextView(R.id.devices_name_ed, user.getUserName());
-        setTextView(R.id.devices_phone_ed, user.getPhoneNum());
+        setTextView(R.id.driver_name_ed, user.getUserName());
+        setTextView(R.id.driver_phone_ed, user.getPhoneNum());
         JsonUser jsonUser = user.getJsonUser();
-        setImageUrl(R.id.devices_sfz_img, jsonUser.getIdCardPhotoUrl());
+        setImageUrl(R.id.driver_sfz_img, jsonUser.getIdCardPhotoUrl());
 //        setImageUrl(R.id.devices_jsz_img, jsonUser.getPersonPhotoUrl());
         if (user.getJsonTypeEntity() != null) {
             JsonDriver jsonDriver = user.getJsonTypeEntity();
@@ -89,6 +97,11 @@ public class DetailPhotoActivity extends BaseActivity {
                 setImageUrl(R.id.devices_clzp_img, jsonCar.getFrontalPhotoUrl1());
                 setImageUrl(R.id.devices_clzp_two_img, jsonCar.getFrontalPhotoUrl2());
 
+                setTextView(R.id.detail_car_type, jsonCar.getType());
+                setTextView(R.id.detail_car_length, jsonCar.getLength());
+                setTextView(R.id.detail_car_weight, jsonCar.getCapacity());
+                setTextView(R.id.detail_car_status, jsonCar.getSituation());
+                setTextView(R.id.detail_car_location, jsonCar.getUsualResidence());
 
                 requestJsonCar = jsonCar;
             }
@@ -102,13 +115,14 @@ public class DetailPhotoActivity extends BaseActivity {
         setTextView(R.id.photo_address_ed, user.getAddress());
         setTextView(R.id.photo_name_ed, user.getPhoneNum());
 
-        ImageView yyzzImg = (ImageView) findViewById(R.id.photo_yyzz_img);
-        ImageView frsfzImg = (ImageView) findViewById(R.id.photo_frsfz_img);
-        ImageView mtzpImg = (ImageView) findViewById(R.id.photo_mtzp_img);
-        ImageView swdjzImg = (ImageView) findViewById(R.id.photo_swdjz_img);
+//        ImageView yyzzImg = (ImageView) findViewById(R.id.photo_yyzz_img);
+//        ImageView frsfzImg = (ImageView) findViewById(R.id.photo_frsfz_img);
+//        ImageView mtzpImg = (ImageView) findViewById(R.id.photo_mtzp_img);
+//        ImageView swdjzImg = (ImageView) findViewById(R.id.photo_swdjz_img);
         JsonUser jsonUser = user.getJsonUser();
         frsfzUrl = jsonUser.getIdCardPhotoUrl();
-        ImageHelper.getInstance().load(frsfzUrl, frsfzImg);
+//        ImageHelper.getInstance().load(frsfzUrl, frsfzImg);
+        setImageUrl(R.id.photo_frsfz_img, frsfzUrl);
         if (user.getJsonTypeEntity() != null) {
             if (user.getUserType() == Type.EnterpriseType) {
                 JsonEnterprise enterprise = user.getJsonTypeEntity();
@@ -121,9 +135,13 @@ public class DetailPhotoActivity extends BaseActivity {
                 swdjzUrl = company.getTaxRegistrationCertificateUrl();
                 mtzpUrl = company.getPhotoUrl();
             }
-            ImageHelper.getInstance().load(yyzzUrl, yyzzImg);
-            ImageHelper.getInstance().load(swdjzUrl, swdjzImg);
-            ImageHelper.getInstance().load(mtzpUrl, mtzpImg);
+//            ImageHelper.getInstance().load(yyzzUrl, yyzzImg);
+//            ImageHelper.getInstance().load(swdjzUrl, swdjzImg);
+//            ImageHelper.getInstance().load(mtzpUrl, mtzpImg);
+            setImageUrl(R.id.photo_yyzz_img, yyzzUrl);
+            setImageUrl(R.id.photo_swdjz_img, swdjzUrl);
+            setImageUrl(R.id.photo_mtzp_img, mtzpUrl);
+
         }
     }
 
@@ -137,7 +155,7 @@ public class DetailPhotoActivity extends BaseActivity {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("图片上传成功" + msg);
-                String uploadImgURL = AppURL.Host + result;
+                String uploadImgURL = /*AppURL.Host + */result;
                 Log.i(TAG, "上传图片地址：" + uploadImgURL);
                 ImageHelper.getInstance().loadImgOnUiThread(getActivity(), uploadImgURL, userImage);
                 if (userImage != null)
@@ -146,7 +164,7 @@ public class DetailPhotoActivity extends BaseActivity {
                             yyzzUrl = uploadImgURL;
                             break;
                         case R.id.photo_frsfz_img:
-                        case R.id.devices_sfz_img:
+                        case R.id.driver_sfz_img:
                             frsfzUrl = uploadImgURL;
                             requestChangeUserInfo();
                             break;
@@ -197,6 +215,107 @@ public class DetailPhotoActivity extends BaseActivity {
             super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void onClick_ChangeLength(View view) {
+        ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆长度", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v != null && v instanceof TextView) {
+                    TextView tx = (TextView) v;
+                    CharSequence text = tx.getText();
+                    if (!TextUtils.isEmpty(text)) {
+//                        ((TextView)view).setText(text);
+                        setTextView(R.id.detail_car_length, text.toString());
+                        requestJsonCar.setLength(text.toString());
+                    }
+                }
+            }
+        }, getResources().getStringArray(R.array.order_change_truck_length_items));
+    }
+
+    public void onClick_ChangeWeight(View view) {
+        ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆载重", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v != null && v instanceof TextView) {
+                    TextView tx = (TextView) v;
+                    CharSequence text = tx.getText();
+                    if (!TextUtils.isEmpty(text)) {
+//                        ((TextView)view).setText(text);
+                        setTextView(R.id.detail_car_weight, text.toString());
+                        requestJsonCar.setCapacity(text.toString());
+                    }
+                }
+            }
+        }, getResources().getStringArray(R.array.order_change_truck_weight_items));
+    }
+
+    public void onClick_ChangeType(View view) {
+        ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆类型", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v != null && v instanceof TextView) {
+                    TextView tx = (TextView) v;
+                    CharSequence text = tx.getText();
+                    if (!TextUtils.isEmpty(text)) {
+//                        ((TextView)view).setText(text);
+                        setTextView(R.id.detail_car_type, text.toString());
+                        requestJsonCar.setType(text.toString());
+                    }
+                }
+            }
+        }, getResources().getStringArray(R.array.order_change_truck_type_items));
+    }
+
+    public void onClick_ChangeStatus(View view) {
+        ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆状况", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v != null && v instanceof TextView) {
+                    TextView tx = (TextView) v;
+                    CharSequence text = tx.getText();
+                    if (!TextUtils.isEmpty(text)) {
+//                        ((TextView)view).setText(text);
+                        setTextView(R.id.detail_car_status, text.toString());
+                        requestJsonCar.setSituation(text.toString());
+                    }
+                }
+            }
+        }, getResources().getStringArray(R.array.car_status_items));
+    }
+
+    public void onClick_ChangeLocation(final View view) {
+        LocationView locationView = LocationView.createDialog(this).setListener(new LocationView.ChangingListener() {
+            @Override
+            public void onChanged(String province, String city) {
+                if (TextUtils.isEmpty(city))
+                    return;
+
+                if (view != null && view instanceof TextView) {
+                    String params = province + "·" + city;
+                    ((TextView) view).setText(params);
+                    if (requestJsonCar != null) {
+                        requestJsonCar.setUsualResidence(params);
+                    }
+                }
+            }
+        });
+        locationView.setCurrentLocation(User.getInstance().getLocation());
+        locationView.show();
+    }
+
+    public void onClick_ShowLicence(View view) {
+        //虚拟键盘
+        LicenceKeyboardPopupWindow.create(this).setListener(new LicenceKeyboardPopupWindow.ConfirmListener() {
+            @Override
+            public void confirm(String string) {
+//                licenceEd.setText(string);
+                setTextView(R.id.detail_car_num, string);
+                requestJsonCar.setNumber(string);
+            }
+        }).showAsDropDown(findViewById(R.id.page_top_name), 0, 0);
+
+    }
+
     public void onClick_Submit(View view) {
 
         isFirstVerify = User.getInstance().getJsonTypeEntity() == null;
@@ -213,25 +332,17 @@ public class DetailPhotoActivity extends BaseActivity {
             else if (type == Type.InformationType)
                 requestVerifyInformation(nameEd.getText().toString(), addressEd.getText().toString());
         } else if (type == Type.DriverType) {
-            EditText nameEd = (EditText) findViewById(R.id.devices_name_ed);
-            EditText phoneEd = (EditText) findViewById(R.id.devices_phone_ed);
+            EditText nameEd = (EditText) findViewById(R.id.driver_name_ed);
+            EditText phoneEd = (EditText) findViewById(R.id.driver_phone_ed);
             if (TextUtils.isEmpty(nameEd.getText()) || TextUtils.isEmpty(phoneEd.getText())) {
                 showToast("请填写" + nameEd.getHint() + "和" + phoneEd.getHint());
                 return;
             }
-            EditText carTypeEd = (EditText) findViewById(R.id.devices_type_ed);
-            EditText carLengthEd = (EditText) findViewById(R.id.devices_length_ed);
-            EditText carWidthEd = (EditText) findViewById(R.id.devices_width_ed);
-            EditText carHeightEd = (EditText) findViewById(R.id.devices_height_ed);
-            EditText carWeightEd = (EditText) findViewById(R.id.devices_weight_ed);
-            if (!TextUtils.isEmpty(carTypeEd.getText()))
-                requestJsonCar.setType(carTypeEd.getText().toString());
-            if (!TextUtils.isEmpty(carLengthEd.getText()))
-                requestJsonCar.setLength(carLengthEd.getText().toString());
-            if (!TextUtils.isEmpty(carWeightEd.getText()))
-                requestJsonCar.setCapacity(carWeightEd.getText().toString());
-//            if(!TextUtils.isEmpty(carWidthEd.getText()))
-//                requestJsonCar.set
+            requestJsonCar.setType(getStringFromTextView(R.id.detail_car_type));
+            requestJsonCar.setLength(getStringFromTextView(R.id.detail_car_length));
+            requestJsonCar.setCapacity(getStringFromTextView(R.id.detail_car_weight));
+            requestJsonCar.setSituation(getStringFromTextView(R.id.detail_car_status));
+            requestJsonCar.setUsualResidence(getStringFromTextView(R.id.detail_car_location));
 
             requestVerifyDriver();
         }
@@ -243,7 +354,7 @@ public class DetailPhotoActivity extends BaseActivity {
         JsonUser jsonUser = User.getInstance().getJsonUser();
         jsonUser.setIdCardPhotoUrl(frsfzUrl);
 
-        HttpHelper.getInstance().put(AppURL.PutUserInfo ,String.valueOf(jsonUser.getId()), jsonUser, new JsonCallback() {
+        HttpHelper.getInstance().put(AppURL.PutUserInfo, String.valueOf(jsonUser.getId()), jsonUser, new JsonCallback() {
             @Override
             public void onFailed(String str) {
                 showToast("身份证照修改失败");
@@ -257,8 +368,6 @@ public class DetailPhotoActivity extends BaseActivity {
         });
     }
 
-    JsonDriver requestJsonDriver = new JsonDriver();
-    JsonCar requestJsonCar = new JsonCar();
 
     private void requestVerifyDriver() {
 
@@ -268,17 +377,48 @@ public class DetailPhotoActivity extends BaseActivity {
             @Override
             public void onSuccess(String msg, String result) {
                 showSuccessDialog();
+                //跟新driver信息
+                requestJsonDriver = ParseJson_Object(result, JsonDriver.class);
+                //// TODO: 2016-2-26  这里要对添加车辆做判断，如果已经添加过车辆则需要修改车辆信息的接口
+                requestAddCar();
+
             }
 
             @Override
             public void onFailed(String str) {
-                showToast(getString(R.string.information_upload_fail));
+                showToast(getString(R.string.information_upload_fail) + str);
             }
         };
         if (isFirstVerify)
             HttpHelper.getInstance().post(AppURL.PostVerifyDrivers, requestJsonDriver, callback);
         else
-            HttpHelper.getInstance().put(AppURL.PutDrivers, requestJsonDriver, callback);
+            HttpHelper.getInstance().put(AppURL.PutDrivers + String.valueOf(requestJsonDriver.getId()), requestJsonDriver, callback);
+    }
+
+
+    private void requestAddCar() {
+        RequestAddCar requestJson = new RequestAddCar();
+//        JsonDriver jsonDriver = User.getInstance().getJsonTypeEntity();
+        requestJson.setDriver(requestJsonDriver);
+        requestJson.setCar(requestJsonCar);
+        requestJsonCar.setDriverId(requestJsonDriver.getId());
+
+        JsonCallback jsonCallback = new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+//                requestPublishCar();
+//                showToast(getString(R.string.information_upload_fail) + str);
+            }
+
+            @Override
+            public void onFailed(String str) {
+                showToast(getString(R.string.information_upload_fail) + str);
+            }
+        };
+        if (isFirstVerify)
+            HttpHelper.getInstance().post(AppURL.PostDriversAddCar, requestJson, jsonCallback);
+        else
+            HttpHelper.getInstance().put(AppURL.PutDrviersCar + String.valueOf(requestJsonCar.getId()), requestJson, jsonCallback);
     }
 
     private void showSuccessDialog() {
@@ -321,6 +461,8 @@ public class DetailPhotoActivity extends BaseActivity {
             @Override
             public void onSuccess(String msg, String result) {
                 showSuccessDialog();
+                //更新用户信息；
+                User.getInstance().requestUserInfo();
             }
 
             @Override
@@ -331,7 +473,7 @@ public class DetailPhotoActivity extends BaseActivity {
         if (isFirstVerify)
             HttpHelper.getInstance().post(AppURL.PostVerifyCompanies, company, callback);
         else
-            HttpHelper.getInstance().put(AppURL.PutCompaniesInfo , String.valueOf(User.getInstance().getCompanyID()), company, callback);
+            HttpHelper.getInstance().put(AppURL.PutCompaniesInfo, String.valueOf(User.getInstance().getCompanyID()), company, callback);
     }
 
     private void requestVerifyEnterprise(String name, String address) {
@@ -352,6 +494,8 @@ public class DetailPhotoActivity extends BaseActivity {
             @Override
             public void onSuccess(String msg, String result) {
                 showSuccessDialog();
+                //更新用户信息；
+                User.getInstance().requestUserInfo();
             }
 
             @Override
@@ -362,7 +506,7 @@ public class DetailPhotoActivity extends BaseActivity {
         if (isFirstVerify)
             HttpHelper.getInstance().post(AppURL.PostVerifyEnterprises, enterprise, callback);
         else
-            HttpHelper.getInstance().put(AppURL.PutEnterprisesInfo ,String.valueOf( User.getInstance().getEnterpriseID()), enterprise, callback);
+            HttpHelper.getInstance().put(AppURL.PutEnterprisesInfo, String.valueOf(User.getInstance().getEnterpriseID()), enterprise, callback);
     }
 
     public void onClick_Photo(View view) {
@@ -379,16 +523,6 @@ public class DetailPhotoActivity extends BaseActivity {
                 }
             }
         }).create().show();
-//        BaseDialog.showChooseItemsDialog(this, "照片选择", new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (v.getId() == R.id.dialog_choose_item_1) {
-//                    PictureHelper.getInstance().pickFromGallery(getActivity());
-//                } else if (v.getId() == R.id.dialog_choose_item_2) {
-//                    PictureHelper.getInstance().startCamera(getActivity());
-//                }
-//            }
-//        }, "去图库选择", "启动相机");
 
     }
 

@@ -5,21 +5,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.network.entity.JsonComment;
+import com.bt.zhangzy.tools.Tools;
+import com.bt.zhangzy.tools.ViewUtils;
+
+import java.util.List;
 
 /**
  * Created by ZhangZy on 2015/6/24.
  */
 public class EvaluationListAdapter extends BaseAdapter {
+    List<JsonComment> list;
+
+    public EvaluationListAdapter(List<JsonComment> commentList) {
+        list = commentList;
+    }
+
     @Override
     public int getCount() {
-        return 10;
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return list.get(position);
     }
 
     @Override
@@ -27,18 +40,43 @@ public class EvaluationListAdapter extends BaseAdapter {
         return position;
     }
 
-    final int[] ids = {R.drawable.fake_user_1, R.drawable.fake_user_2, R.drawable.fake_user_3, R.drawable.fake_user_4, R.drawable.fake_user_5, R.drawable.fake_user_6};
+//    final int[] ids = {R.drawable.fake_user_1, R.drawable.fake_user_2, R.drawable.fake_user_3, R.drawable.fake_user_4, R.drawable.fake_user_5, R.drawable.fake_user_6};
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-
+        Holder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.evaluate_list_item, null);
-            ImageView img = (ImageView) convertView.findViewById(R.id.evaluate_list_user_img);
-            img.setImageResource(ids[position % ids.length]);
+            holder = new Holder();
+            convertView.setTag(holder);
+            holder.headImg = (ImageView) convertView.findViewById(R.id.evaluate_list_user_img);
+            holder.vipImg = (ImageView) convertView.findViewById(R.id.item_vip_img);
+            holder.nameTx = (TextView) convertView.findViewById(R.id.item_name_tx);
+            holder.dateTx = (TextView) convertView.findViewById(R.id.item_date_tx);
+            holder.contentTx = (TextView) convertView.findViewById(R.id.item_content_tx);
+            holder.lvBar = (RatingBar) convertView.findViewById(R.id.item_star_bar);
+
+//            ImageView img = (ImageView) convertView.findViewById(R.id.evaluate_list_user_img);
+//            img.setImageResource(ids[position % ids.length]);
+        } else {
+            holder = (Holder) convertView.getTag();
         }
 
+        JsonComment json = list.get(position);
+        ViewUtils.setTextView(holder.nameTx, "name=" + json.getId());
+        ViewUtils.setTextView(holder.contentTx, json.getContent());
+        ViewUtils.setTextView(holder.dateTx, Tools.toStringDate(json.getDate()));
+        holder.lvBar.setRating((float) json.getRate());
+        //// TODO: 2016-3-2  评价内容缺少 名字、头像图片、是否vip 等参数
+//        ViewUtils.setImageUrl(holder.headImg,json.);
+
         return convertView;
+    }
+
+    class Holder {
+        ImageView headImg, vipImg;
+        TextView nameTx, contentTx, dateTx;
+        RatingBar lvBar;
     }
 }

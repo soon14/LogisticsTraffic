@@ -24,7 +24,6 @@ import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.fragment.BaseHomeFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.HomeFragment;
-import com.bt.zhangzy.logisticstraffic.fragment.SourceListFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.UserFragment;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.FloatView;
@@ -117,19 +116,7 @@ public class HomeActivity extends BaseActivity {
         super.onStart();
         initCustomBtn();
         //判断用户是否登陆，并对页面进行相应的更新
-      /*  if (lastLogin != User.getInstance().getLogin()) {
-            lastLogin = User.getInstance().getLogin();
-//            createViewPage();
-            if (User.getInstance().getUserType() == Type.InformationType) {
-                HomeFragmentPagerAdapter adapter = (HomeFragmentPagerAdapter) contentViewPager.getAdapter();
-                adapter.updateFragment(INDEX_SERVICES, new SourceListFragment());
-//            ArrayList<Fragment> fragments = new ArrayList<Fragment>();
-//            fragments.add(new HomeFragment());
-//            fragments.add(new SourceListFragment());
-//            fragments.add(new UserFragment());
-//            adapter.setFragments(fragments);
-            }
-        }*/
+
         if (floatView != null) {
             floatView.setVisibility(View.VISIBLE);
             Log.d(TAG, "浮窗 显示");
@@ -310,7 +297,7 @@ public class HomeActivity extends BaseActivity {
     public void onClick_FloatView(View view) {
 //                startActivity(OrderDetailActivity.class);
         if (User.getInstance().getUserType() == Type.DriverType) {
-            startActivity(PublishActivity.class);
+            startActivity(PublishCarActivity.class);
         } else {
             Bundle bundle = new Bundle();
             bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE, OrderDetailMode.CreateMode.ordinal());
@@ -400,7 +387,7 @@ public class HomeActivity extends BaseActivity {
         if (User.getInstance().getUserType() == Type.DriverType) {
             startActivity(SourceGoodsActivity.class, null, true);
         } else {
-            startActivity(SourceActivity.class, null, true);
+            startActivity(SourceCarActivity.class, null, true);
         }
     }
 
@@ -450,7 +437,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void onClick_SettingShop(View view) {
-        startActivity(SettingShopActivity.class);
+        startActivity(SetCompanyActivity.class);
     }
 
 
@@ -477,39 +464,6 @@ public class HomeActivity extends BaseActivity {
         startActivity(CollectActivity.class);
     }
 
-    public void onClick_InfoLocation(View view) {
-
-        String pageName = null;
-        switch (view.getId()) {
-            case R.id.services_qiye_btn:
-                pageName = "信息部";
-                break;
-            case R.id.services_wuliu_btn:
-                pageName = "物流园区";
-                break;
-            case R.id.services_xinxibu_btn:
-                pageName = "仓储";
-                break;
-            case R.id.services_jiayouzhan_btn:
-                pageName = "加油站";
-                break;
-        }
-        if (pageName != null) {
-            Bundle bundle = new Bundle();
-            bundle.putString("pageName", pageName);
-            startActivity(LocationListActivity.class, bundle);
-        }
-    }
-
-    //搜索类型选择
-    public void onClick_SourceListFM(View view) {
-
-        BaseHomeFragment f = getCurrentFragment();
-        if (f != null && f instanceof SourceListFragment) {
-            SourceListFragment slf = (SourceListFragment) f;
-            ((SourceListFragment) f).onClick_SourceListFM(view);
-        }
-    }
 
     /**
      * 推荐给好友

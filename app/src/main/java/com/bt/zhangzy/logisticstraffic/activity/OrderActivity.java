@@ -9,6 +9,7 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.logisticstraffic.view.ChooseItemsDialog;
 import com.zhangzy.baidusdk.BaiduMapActivity;
 
 /**
@@ -61,7 +62,7 @@ public class OrderActivity extends BaseActivity {
     public void onClick_ChangeType(View view) {
         final TextView textView = (TextView) view;
 
-        BaseDialog.showChooseItemsDialog(this, getString(R.string.order_change_type_title), new View.OnClickListener() {
+        ChooseItemsDialog.showChooseItemsDialog(this, getString(R.string.order_change_type_title), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (v != null && v instanceof TextView) {
@@ -80,7 +81,7 @@ public class OrderActivity extends BaseActivity {
      */
     public void onClick_ChangeTruckType(View view) {
         final TextView textView = (TextView) view;
-        BaseDialog.showChooseItemsDialog(this, getString(R.string.order_change_truck_type_title), new View.OnClickListener() {
+        ChooseItemsDialog.showChooseItemsDialog(this, getString(R.string.order_change_truck_type_title), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (v != null && v instanceof TextView) {
@@ -98,7 +99,7 @@ public class OrderActivity extends BaseActivity {
      */
     public void onClick_ChangeTruckLength(View view) {
         final TextView textView = (TextView) view;
-        BaseDialog.showChooseItemsDialog(this, getString(R.string.order_change_truck_length_title), new View.OnClickListener() {
+        ChooseItemsDialog.showChooseItemsDialog(this, getString(R.string.order_change_truck_length_title), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (v != null && v instanceof TextView) {

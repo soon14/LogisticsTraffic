@@ -120,6 +120,9 @@ public class OrderListActivity extends BaseActivity {
         untreatedList.clear();
         submittedList.clear();
         completedList.clear();
+
+        //保存交易中的订单id 便于位置上传；
+        ArrayList<Integer> order_id_list = new ArrayList<Integer>();
         //add new data
         for (JsonOrder order : list) {
             switch (OrderStatus.parseStatus(order.getStatus())) {
@@ -130,6 +133,7 @@ public class OrderListActivity extends BaseActivity {
                     break;
                 case CommitOrder:
                     submittedList.add(order);
+                    order_id_list.add(order.getId());
                     break;
                 case FinishedOrder:
                 case DiscardOrder:
@@ -142,6 +146,7 @@ public class OrderListActivity extends BaseActivity {
         submittedFragment.setAdapter(submittedList);
         completedFragment.setAdapter(completedList);
 
+        User.getInstance().setOrderIdList(order_id_list);
 //        viewPager.getAdapter().notifyDataSetChanged();
     }
 

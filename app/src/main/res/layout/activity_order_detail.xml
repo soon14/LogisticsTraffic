@@ -192,31 +192,31 @@
             android:layout_marginTop="3dp"
             android:background="@color/editpage_bg_color" />
 
-        <TableRow
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="3dp">
+        <!--<TableRow-->
+            <!--android:layout_marginBottom="3dp"-->
+            <!--android:layout_marginTop="3dp">-->
 
-            <TextView
-                style="@style/tx_black_df_style"
-                android:paddingRight="20dp"
-                android:text="名        称" />
+            <!--<TextView-->
+                <!--style="@style/tx_black_df_style"-->
+                <!--android:paddingRight="20dp"-->
+                <!--android:text="名        称" />-->
 
-            <TextView
-                android:id="@+id/order_detail_goods_name_tx"
-                style="@style/tx_black_df_style"
-                android:layout_marginRight="5dp"
-                android:clickable="true"
-                android:hint="货物的名称"
-                android:onClick="onClick_InputGoodsName" />
+            <!--<TextView-->
+                <!--android:id="@+id/order_detail_goods_name_tx"-->
+                <!--style="@style/tx_black_df_style"-->
+                <!--android:layout_marginRight="5dp"-->
+                <!--android:clickable="true"-->
+                <!--android:hint="货物的名称"-->
+                <!--android:onClick="onClick_InputGoodsName" />-->
 
-        </TableRow>
+        <!--</TableRow>-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="3dp"
-            android:background="@color/editpage_bg_color" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2px"-->
+            <!--android:layout_marginBottom="3dp"-->
+            <!--android:layout_marginTop="3dp"-->
+            <!--android:background="@color/editpage_bg_color" />-->
 
         <TableRow
             android:layout_marginBottom="3dp"

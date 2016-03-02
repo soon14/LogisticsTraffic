@@ -83,7 +83,8 @@ public class HttpHelper extends OkHttpClient {
             stringBuffer.append(params).append("/");
         }
         //删除最后一个 /
-        stringBuffer.deleteCharAt(stringBuffer.length() - 1);
+        if (stringBuffer.charAt(stringBuffer.length() - 1) == '/')
+            stringBuffer.deleteCharAt(stringBuffer.length() - 1);
         return stringBuffer.toString();
     }
 
@@ -104,13 +105,14 @@ public class HttpHelper extends OkHttpClient {
         while (it.hasNext()) {
             key = it.next();
             stringBuffer.append(key);
-            stringBuffer.append("=");
+            stringBuffer.append('=');
             stringBuffer.append(textParams.get(key));
             if (it.hasNext())
-                stringBuffer.append("&");
+                stringBuffer.append('&');
         }
         //删除最后一个 &
-//        stringBuffer.deleteCharAt(stringBuffer.length() - 1);
+        if (stringBuffer.charAt(stringBuffer.length() - 1) == '&')
+            stringBuffer.deleteCharAt(stringBuffer.length() - 1);
         return stringBuffer.toString();
     }
 
@@ -128,6 +130,9 @@ public class HttpHelper extends OkHttpClient {
         for (String p : params) {
             stringBuffer.append(p).append("&");
         }
+        //删除最后一个 &
+        if (stringBuffer.charAt(stringBuffer.length() - 1) == '&')
+            stringBuffer.deleteCharAt(stringBuffer.length() - 1);
         return stringBuffer.toString();
     }
 
@@ -151,6 +156,9 @@ public class HttpHelper extends OkHttpClient {
                 value = json.getString(key);
                 stringBuffer.append(key + "=" + value).append("&");
             }
+            //删除最后一个 &
+            if (stringBuffer.charAt(stringBuffer.length() - 1) == '&')
+                stringBuffer.deleteCharAt(stringBuffer.length() - 1);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -175,6 +183,7 @@ public class HttpHelper extends OkHttpClient {
         for (String key : jsonObject.keySet()) {
             stringBuffer.append(key).append("=").append(jsonObject.getString(key)).append("&");
         }
+
         return stringBuffer.toString();
     }
 

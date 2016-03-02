@@ -4,19 +4,46 @@ package com.bt.zhangzy.network.entity;
  * Created by ZhangZy on 2016-1-23.
  */
 public class JsonCar extends BaseEntity {
+
+    String name, phoneNumber;
     int id, driverId;
     //行驶证照片URL  汽车正面照片URL
     String drivingLicensePhotoUrl, frontalPhotoUrl1, frontalPhotoUrl2;
     //汽车类型 车牌号
-    String type,number;
+    String type, number;
     //车长 载重
-    String length,capacity;
+    String length, capacity;
     //车辆状况  车辆常住地  始发地  目的地 当前位置
-    String situation,usual_residence , startCity, stopCity, currentLocation;
+    String situation, usualResidence, startCity, stopCity, currentLocation;
 
     String remark;//备注
+    int status;
 
     public JsonCar() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getId() {
@@ -99,12 +126,12 @@ public class JsonCar extends BaseEntity {
         this.situation = situation;
     }
 
-    public String getUsual_residence() {
-        return usual_residence;
+    public String getUsualResidence() {
+        return usualResidence;
     }
 
-    public void setUsual_residence(String usual_residence) {
-        this.usual_residence = usual_residence;
+    public void setUsualResidence(String usualResidence) {
+        this.usualResidence = usualResidence;
     }
 
     public String getStartCity() {

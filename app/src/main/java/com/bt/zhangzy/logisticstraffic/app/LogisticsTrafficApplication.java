@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.View;
 
 import com.bt.zhangzy.logisticstraffic.activity.LoginActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.service.UpDataLocationService;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.ImageHelper;
@@ -140,17 +142,23 @@ public class LogisticsTrafficApplication extends Application {
 
 
     public void Exit(boolean isSave) {
-        //定位服务推出
-        BaiduSDK.getInstance().stopLocationServer();
+
         //语音服务退出
         BaiduSDK.getInstance().dismissVoiceDialog();
 
         //save
-        if (isSave) {
-            saveUser();
-        } else {
-            deleteUser();
+        if (!isSave) {
+            //删除前 先保留用户名 等 非重要信息
+            User.getInstance().resetUser();
+//            deleteUser();
+
+            //定位服务推出
+            BaiduSDK.getInstance().stopLocationServer();
+
+            //停止定位服务
+            stopService(new Intent(this, UpDataLocationService.class));
         }
+        saveUser();
         if (currentAct != null)
             currentAct.finish();
         System.exit(0);
