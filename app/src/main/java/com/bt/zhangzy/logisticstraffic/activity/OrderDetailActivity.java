@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.OrderStatus;
 import com.bt.zhangzy.logisticstraffic.data.OrderType;
@@ -36,6 +37,7 @@ import com.bt.zhangzy.network.entity.RequestOrderAccept_Reject;
 import com.bt.zhangzy.network.entity.RequestCallDriver;
 import com.bt.zhangzy.network.entity.RequestOrderAllocation;
 import com.bt.zhangzy.network.entity.RequestOrderHistroy;
+import com.bt.zhangzy.tools.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -291,32 +293,41 @@ public class OrderDetailActivity extends BaseActivity {
      *
      * @param view
      */
-    public void onClick_ChangeLocation(final View view) {
+    public void onClick_ChangeLocation(View view) {
         //司机只能查看 不能编辑
         if (AppParams.DRIVER_APP)
             return;
-        LocationView locationView = LocationView.createDialog(this).setListener(new LocationView.ChangingListener() {
-            @Override
-            public void onChanged(String province, String city) {
-                if (TextUtils.isEmpty(city))
-                    return;
+        if (view == null || !(view instanceof TextView)) {
+            return;
+        }
+        final TextView textView = (TextView) view;
+        String string = ViewUtils.getStringFromTextView(textView);
+        Location location;
+        if (TextUtils.isEmpty(string)) {
+            location = User.getInstance().getLocation();
+        } else {
+            location = Location.Parse(string);
+        }
+        LocationView.createDialog(this)
+                .setCurrentLocation(location)
+                .setListener(new LocationView.ChangingListener() {
+                    @Override
+                    public void onChanged(Location loc) {
+                        if (loc == null)
+                            return;
 
-                if (view != null && view instanceof TextView) {
-                    String params = province + "·" + city;
-                    ((TextView) view).setText(params);
-                    if (jsonOrder != null) {
-                        updateJsonOrder = true;
-                        if (view.getId() == R.id.order_detail_start_city_tx)
-                            jsonOrder.setStartCity(params);
-                        else if (view.getId() == R.id.order_detail_stop_city_tx) {
-                            jsonOrder.setStopCity(params);
+                        String params = loc.toText();
+                        textView.setText(params);
+                        if (jsonOrder != null) {
+                            updateJsonOrder = true;
+                            if (textView.getId() == R.id.order_detail_start_city_tx)
+                                jsonOrder.setStartCity(params);
+                            else if (textView.getId() == R.id.order_detail_stop_city_tx) {
+                                jsonOrder.setStopCity(params);
+                            }
                         }
                     }
-                }
-            }
-        });
-        locationView.setCurrentLocation(User.getInstance().getLocation());
-        locationView.show();
+                }).show();
     }
 
     /**

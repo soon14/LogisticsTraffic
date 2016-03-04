@@ -16,6 +16,7 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.PictureHelper;
+import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.ChooseItemsDialog;
@@ -31,6 +32,7 @@ import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.RequestAddCar;
+import com.bt.zhangzy.tools.ViewUtils;
 
 import java.io.File;
 
@@ -283,24 +285,33 @@ public class DetailPhotoActivity extends BaseActivity {
         }, getResources().getStringArray(R.array.car_status_items));
     }
 
-    public void onClick_ChangeLocation(final View view) {
-        LocationView locationView = LocationView.createDialog(this).setListener(new LocationView.ChangingListener() {
-            @Override
-            public void onChanged(String province, String city) {
-                if (TextUtils.isEmpty(city))
-                    return;
+    public void onClick_ChangeLocation(View view) {
+        if (view == null || !(view instanceof TextView)) {
+            return;
+        }
+        final TextView textView = (TextView) view;
+        String string = ViewUtils.getStringFromTextView(textView);
+        Location location;
+        if (TextUtils.isEmpty(string)) {
+            location = User.getInstance().getLocation();
+        } else {
+            location = Location.Parse(string);
+        }
+        LocationView.createDialog(this)
+                .setCurrentLocation(location)
+                .setListener(new LocationView.ChangingListener() {
+                    @Override
+                    public void onChanged(Location loc) {
+                        if (loc == null)
+                            return;
 
-                if (view != null && view instanceof TextView) {
-                    String params = province + "·" + city;
-                    ((TextView) view).setText(params);
-                    if (requestJsonCar != null) {
-                        requestJsonCar.setUsualResidence(params);
+                        String params = loc.toText();
+                        textView.setText(params);
+                        if (requestJsonCar != null) {
+                            requestJsonCar.setUsualResidence(params);
+                        }
                     }
-                }
-            }
-        });
-        locationView.setCurrentLocation(User.getInstance().getLocation());
-        locationView.show();
+                }).show();
     }
 
     public void onClick_ShowLicence(View view) {

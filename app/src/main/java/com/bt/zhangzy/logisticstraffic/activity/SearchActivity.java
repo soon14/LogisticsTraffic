@@ -10,18 +10,22 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.ResponseCompany;
 import com.bt.zhangzy.tools.ContextTools;
+import com.bt.zhangzy.tools.ViewUtils;
 import com.zhangzy.baidusdk.BaiduSDK;
 
 import org.w3c.dom.Text;
@@ -47,6 +51,7 @@ public class SearchActivity extends BaseActivity {
     private HomeListAdapter adapter;
     private AutoCompleteTextView searchKeyWord;
     private ArrayAdapter<String> adapterHistory;//搜索记录
+//    private String startCity, stopCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +146,7 @@ public class SearchActivity extends BaseActivity {
             if (location != null) {
                 String cityName = location.getCityName();
                 if (!TextUtils.isEmpty(cityName)) {
-                    EditText ed = (EditText) lineTypeLy.findViewById(R.id.search_start_ed);
+                    TextView ed = (TextView) lineTypeLy.findViewById(R.id.search_start_ed);
                     ed.setText(cityName);
                 }
             }
@@ -281,6 +286,40 @@ public class SearchActivity extends BaseActivity {
 
             }
         });
+    }
+
+    /**
+     * 地址选择
+     *
+     * @param view
+     */
+    public void onClick_ChangeLocation(View view) {
+        if (view == null || !(view instanceof TextView)) {
+            return;
+        }
+        final TextView textView = (TextView) view;
+        String string = ViewUtils.getStringFromTextView(textView);
+        Location location;
+        if (TextUtils.isEmpty(string)) {
+            location = User.getInstance().getLocation();
+        } else {
+            location = new Location(null, string);
+        }
+        LocationView.createDialog(this)
+                .setCurrentLocation(location)
+                .setListener(new LocationView.ChangingListener() {
+                                 @Override
+                                 public void onChanged(Location loc) {
+                                     if (TextUtils.isEmpty(loc.getCityName()))
+                                         return;
+
+                                     String params = /*province + "·" +*/ loc.getCityName();
+                                     textView.setText(params);
+                                 }
+                             }
+
+                ).show();
+
     }
 
 }

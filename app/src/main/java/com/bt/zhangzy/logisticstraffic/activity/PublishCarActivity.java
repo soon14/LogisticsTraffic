@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.PictureHelper;
+import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.ChooseItemsDialog;
 import com.bt.zhangzy.logisticstraffic.view.LicenceKeyboardPopupWindow;
@@ -27,6 +28,7 @@ import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.RequestAddCar;
+import com.bt.zhangzy.tools.ViewUtils;
 
 import java.io.File;
 
@@ -102,7 +104,7 @@ public class PublishCarActivity extends BaseActivity {
     }
 
     public void onClick_Reset(View view) {
-        if(isAuth)
+        if (isAuth)
             return;
         //重置按钮
         final int[] ids = {R.id.publish_address_ed, R.id.publish_length_ed, R.id.publish_licence_ed, R.id.publish_status_ed, R.id.publish_type_ed, R.id.publish_weight_ed};
@@ -116,7 +118,7 @@ public class PublishCarActivity extends BaseActivity {
     }
 
     public void onClick_ShowLicence(View view) {
-        if(isAuth)
+        if (isAuth)
             return;
         //虚拟键盘
         LicenceKeyboardPopupWindow.create(this).setListener(new LicenceKeyboardPopupWindow.ConfirmListener() {
@@ -130,7 +132,7 @@ public class PublishCarActivity extends BaseActivity {
     }
 
     public void onClick_Length(View view) {
-        if(isAuth)
+        if (isAuth)
             return;
         ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆长度", new View.OnClickListener() {
             @Override
@@ -149,7 +151,7 @@ public class PublishCarActivity extends BaseActivity {
     }
 
     public void onClick_Weight(View view) {
-        if(isAuth)
+        if (isAuth)
             return;
         ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆载重", new View.OnClickListener() {
             @Override
@@ -168,7 +170,7 @@ public class PublishCarActivity extends BaseActivity {
     }
 
     public void onClick_Type(View view) {
-        if(isAuth)
+        if (isAuth)
             return;
         ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆类型", new View.OnClickListener() {
             @Override
@@ -187,7 +189,7 @@ public class PublishCarActivity extends BaseActivity {
     }
 
     public void onClick_Status(View view) {
-        if(isAuth)
+        if (isAuth)
             return;
         ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆状况", new View.OnClickListener() {
             @Override
@@ -206,29 +208,38 @@ public class PublishCarActivity extends BaseActivity {
     }
 
     public void onClick_ChangeLocation(final View view) {
-        if(isAuth)
+        if (isAuth)
             return;
-        LocationView locationView = LocationView.createDialog(this).setListener(new LocationView.ChangingListener() {
-            @Override
-            public void onChanged(String province, String city) {
-                if (TextUtils.isEmpty(city))
-                    return;
+        if (view == null || !(view instanceof TextView)) {
+            return;
+        }
+        final TextView textView = (TextView) view;
+        String string = ViewUtils.getStringFromTextView(textView);
+        Location location;
+        if (TextUtils.isEmpty(string)) {
+            location = User.getInstance().getLocation();
+        } else {
+            location = Location.Parse(string);
+        }
+        LocationView.createDialog(this)
+                .setCurrentLocation(location)
+                .setListener(new LocationView.ChangingListener() {
+                    @Override
+                    public void onChanged(Location loc) {
+                        if (loc == null)
+                            return;
 
-                if (view != null && view instanceof TextView) {
-                    String params = province + "·" + city;
-                    ((TextView) view).setText(params);
-                    if (requestCarJson != null) {
-                        requestCarJson.setUsualResidence(params);
+                        String params = loc.toText();
+                        textView.setText(params);
+                        if (requestCarJson != null) {
+                            requestCarJson.setUsualResidence(params);
+                        }
                     }
-                }
-            }
-        });
-        locationView.setCurrentLocation(User.getInstance().getLocation());
-        locationView.show();
+                }).show();
     }
 
     public void onClick_Photo(View view) {
-        if(isAuth)
+        if (isAuth)
             return;
         if (view instanceof ImageView)
             userImage = (ImageView) view;
@@ -253,9 +264,9 @@ public class PublishCarActivity extends BaseActivity {
             return;
         }
         requestCarJson.setNumber(licenceEd.getText().toString().trim());
-        if(isAuth){
+        if (isAuth) {
             requestPublishCar();
-        }else {
+        } else {
             requestAddCar();
         }
 

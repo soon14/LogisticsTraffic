@@ -3,6 +3,7 @@ package com.bt.zhangzy.logisticstraffic.view;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ import com.bt.zhangzy.network.entity.JsonLocationProvince;
 import com.bt.zhangzy.network.entity.ResponseOpenCity;
 import com.zhangzy.baidusdk.BaiduSDK;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -51,7 +53,7 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
     }
 
     public interface ChangingListener {
-        void onChanged(String province, String city);
+        void onChanged(Location location);
     }
 
     private static final String TAG = LocationView.class.getSimpleName();
@@ -73,6 +75,8 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
     private Context context;
     private WheelView mProvinceView;
     private WheelView mCityView;
+    private ArrayWheelAdapter mProvinceAdapter;//adapter缓存
+    private ArrayWheelAdapter[] mCityAdapterList;
     private String mProvinceCurrent;
     private String mCityCurrent;
     private PopupWindow popupWindow;
@@ -85,6 +89,12 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
     public void init(Context context, PopupWindow view) {
         this.context = context;
         popupWindow = view;
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                dismiss();
+            }
+        });
         mProvinceView = (WheelView) view.getContentView().findViewById(R.id.location_wheel_province);
         mCityView = (WheelView) view.getContentView().findViewById(R.id.location_wheel_city);
         init();
@@ -93,6 +103,12 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
     public void init(Context context, Dialog dialog) {
         this.context = context;
         this.dialog = dialog;
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                dismiss();
+            }
+        });
         mProvinceView = (WheelView) dialog.findViewById(R.id.location_wheel_province);
         mCityView = (WheelView) dialog.findViewById(R.id.location_wheel_city);
         init();
@@ -129,7 +145,14 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
         }
     }
 
+
     public void dismiss() {
+        mProvinceView.removeChangingListener(this);
+        mCityView.removeChangingListener(this);
+        mProvinceView = null;
+        mCityView = null;
+        listener = null;
+        currentLocation = null;
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
@@ -204,7 +227,6 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
         });
     }
 
-
     private void init() {
         if (cityList == null || cityList.isEmpty()) {
             requestCityList();
@@ -214,65 +236,102 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
         mCityView.setShadowColor(0xFFFFFFFF, 0xBBFFFFFF, 0x00FFFFFF);
         mProvinceView.addChangingListener(this);
         mCityView.addChangingListener(this);
-
-        JsonLocationProvince[] array = new JsonLocationProvince[cityList.size()];
-        cityList.toArray(array);
-        mProvinceView.setViewAdapter(new ArrayWheelAdapter<JsonLocationProvince>(context, array));
+        if (mProvinceAdapter == null) {
+            JsonLocationProvince[] array = new JsonLocationProvince[cityList.size()];
+            cityList.toArray(array);
+            mProvinceAdapter = new ArrayWheelAdapter<JsonLocationProvince>(context, array);
+            mCityAdapterList = new ArrayWheelAdapter[cityList.size()];
+        }
+        mProvinceView.setViewAdapter(mProvinceAdapter);
         mProvinceView.setCurrentItem(0);
         updateCities();
+        mCityView.setCurrentItem(0);
     }
 
-    public void setCurrentLocation(Location location) {
-        this.currentLocation = location;
-        if (location != null) {
-            if (!TextUtils.isEmpty(location.getProvinceName())) {
+    private void updateCities() {
+        int current_province_index = mProvinceView.getCurrentItem();
+        ArrayWheelAdapter<JsonLocationCity> city_adapter;
+        if (mCityAdapterList[current_province_index] == null) {
+            JsonLocationProvince jsonLocationProvince = cityList.get(current_province_index);
+            List<JsonLocationCity> city = jsonLocationProvince.getCity();
+            JsonLocationCity[] cities = city.toArray(new JsonLocationCity[city.size()]);
 
-                JsonLocationProvince province;
-                for (int k = 0; k < cityList.size(); k++) {
-                    province = cityList.get(k);
-                    if (location.getProvinceName().startsWith(province.getProvince())) {
+            city_adapter = new ArrayWheelAdapter<>(context, cities);
+            mCityAdapterList[current_province_index] = city_adapter;
+//            mCityAdapterList.add(current_province_index, city_adapter);
+        } else {
+            city_adapter = mCityAdapterList[current_province_index];
+        }
+        mCityView.setViewAdapter(city_adapter);
+    }
+
+    public LocationView setCurrentLocation(Location location) {
+
+        if (location == null)
+            return this;
+
+        if (!TextUtils.isEmpty(location.getProvinceName())) {
+            JsonLocationProvince province;
+            for (int k = 0; k < cityList.size(); k++) {
+                province = cityList.get(k);
+                if (location.getProvinceName().startsWith(province.getProvince())) {
+                    mProvinceView.setCurrentItem(k);
+                    for (int j = 0; j < province.getCity().size(); j++) {
+                        if (location.getCityName().startsWith(province.getCity().get(j).getCity())) {
+                            updateCities();
+                            mCityView.setCurrentItem(j);
+                            this.currentLocation = location;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        } else if (!TextUtils.isEmpty(location.getCityName())) {
+            //provinceName == null
+            JsonLocationProvince province;
+            for (int k = 0; k < cityList.size(); k++) {
+                province = cityList.get(k);
+                for (int j = 0; j < province.getCity().size(); j++) {
+                    if (location.getCityName().startsWith(province.getCity().get(j).getCity())) {
                         mProvinceView.setCurrentItem(k);
                         updateCities();
-                        for (int j = 0; j < province.getCity().size(); j++) {
-                            if (location.getCityName().startsWith(province.getCity().get(j).getCity())) {
-                                mCityView.setCurrentItem(j);
-                                break;
-                            }
-                        }
-                        break;
+                        mCityView.setCurrentItem(j);
+                        this.currentLocation = location;
+                        return this;
                     }
                 }
             }
         }
-    }
 
-    private void updateCities() {
-        JsonLocationProvince jsonLocationProvince = cityList.get(mProvinceView.getCurrentItem());
-        mProvinceCurrent = jsonLocationProvince.getProvince();
-//        mProvinceCurrent = mProvinceArray[mProvinceView.getCurrentItem()];
-        List<JsonLocationCity> city = jsonLocationProvince.getCity();
-        JsonLocationCity[] cities = city.toArray(new JsonLocationCity[city.size()]);
-//        String[] cities = mCitiesMap.get(mProvinceCurrent);
-//        if (cities == null) {
-//            cities = new String[]{" "};
-//        }
-        mCityView.setViewAdapter(new ArrayWheelAdapter<JsonLocationCity>(context, cities));
-        mCityView.setCurrentItem(0);
-        mCityCurrent = cities[0].toString();
+        return this;
     }
-
 
     @Override
     public void onChanged(WheelView wheel, int oldValue, int newValue) {
+        String mProvinceCurrent = null;
+        String mCityCurrent = null;
+        JsonLocationProvince province = cityList.get(mProvinceView.getCurrentItem());
         if (wheel == mProvinceView) {
             updateCities();
+            mCityView.setCurrentItem(0);
+            mProvinceCurrent = province.getProvince();
+            mCityCurrent = province.getCity().get(0).getCity();
+
         } else if (wheel == mCityView) {
-            mCityCurrent = cityList.get(mProvinceView.getCurrentItem()).getCity().get(newValue).getCity();
-//            mCityCurrent = mCitiesMap.get(mProvinceCurrent)[newValue];
+//            JsonLocationProvince province = cityList.get(mProvinceView.getCurrentItem());
+            mProvinceCurrent = province.getProvince();
+            mCityCurrent = province.getCity().get(newValue).getCity();
         }
-        Log.d(TAG, "mProvince=" + mProvinceCurrent + " mCity=" + mCityCurrent);
+        if (currentLocation == null) {
+            currentLocation = new Location(mProvinceCurrent, mCityCurrent);
+        } else {
+            currentLocation.setProvinceName(mProvinceCurrent);
+            currentLocation.setCityName(mCityCurrent);
+        }
+        Log.d(TAG, "currentLocation=" + currentLocation);
         if (listener != null) {
-            listener.onChanged(mProvinceCurrent, mCityCurrent);
+            listener.onChanged(currentLocation);
         }
     }
 

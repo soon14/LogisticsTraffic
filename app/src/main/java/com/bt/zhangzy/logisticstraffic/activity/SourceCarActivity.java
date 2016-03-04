@@ -19,6 +19,7 @@ import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.fragment.SourceCarListFragment;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
@@ -27,6 +28,7 @@ import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
+import com.bt.zhangzy.tools.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -269,18 +271,27 @@ public class SourceCarActivity extends BaseActivity {
 
 
     private void showLocationPopup(View view) {
-        if (view == null)
+        if (view == null) {
             return;
+        }
+        String string = ViewUtils.getStringFromTextView(locationBt);
+        Location location;
+        if (TextUtils.isEmpty(string)) {
+            location = User.getInstance().getLocation();
+        } else {
+            location = new Location(null,string);
+        }
         LocationView locationView = LocationView.creatPopupWindow(this);
+        locationView.setCurrentLocation(location);
         locationView.setListener(new LocationView.ChangingListener() {
             @Override
-            public void onChanged(String province, String city) {
-                if (TextUtils.isEmpty(city))
+            public void onChanged(Location location) {
+                if (TextUtils.isEmpty(location.getCityName()))
                     return;
-                if (city.equals("不限")) {
+                if (location.getCityName().equals("不限")) {
                     locationBt.setText("");
                 } else {
-                    locationBt.setText(city);
+                    locationBt.setText(location.getCityName());
                 }
                 requestSearch(getMotorcadeId());
             }

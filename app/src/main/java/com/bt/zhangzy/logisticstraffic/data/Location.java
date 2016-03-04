@@ -1,5 +1,7 @@
 package com.bt.zhangzy.logisticstraffic.data;
 
+import android.text.TextUtils;
+
 import com.bt.zhangzy.tools.Tools;
 
 import java.io.Serializable;
@@ -9,6 +11,7 @@ import java.io.Serializable;
  */
 public class Location implements Serializable {
 
+    static final char SEPARATOR = '·';//定义分隔符
     private String cityName;//市
     private String provinceName;//省
     private String district;
@@ -22,7 +25,15 @@ public class Location implements Serializable {
     public Location(String provinceName, String cityName) {
         this.provinceName = provinceName;
         this.cityName = cityName;
-        fistLatter = Tools.getFirstLetter(provinceName.charAt(0));
+        if (!TextUtils.isEmpty(provinceName))
+            fistLatter = Tools.getFirstLetter(provinceName.charAt(0));
+    }
+
+    public static Location Parse(String text) {
+        if (TextUtils.isEmpty(text) || text.indexOf(SEPARATOR) < 0)
+            return null;
+        String[] split = text.split(String.valueOf(SEPARATOR));
+        return new Location(split[0], split[1]);
     }
 
     public String getDistrict() {
@@ -35,6 +46,10 @@ public class Location implements Serializable {
 
     public char getFistLatter() {
         return fistLatter;
+    }
+
+    public String toText() {
+        return provinceName + SEPARATOR + cityName;
     }
 
     @Override
