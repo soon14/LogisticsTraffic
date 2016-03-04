@@ -106,16 +106,17 @@
                 android:visibility="visible">
 
 
-                <EditText
+                <TextView
                     android:id="@+id/search_start_ed"
                     style="@style/edit_style"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/white_shape"
-                    android:hint="出发城市 " />
+                    android:hint="出发城市 "
+                    android:onClick="onClick_ChangeLocation" />
 
-                <EditText
+                <TextView
                     android:id="@+id/search_end_ed"
                     style="@style/edit_style"
                     android:layout_width="180dp"
@@ -124,7 +125,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/white_shape"
-                    android:hint="到达城市 " />
+                    android:hint="到达城市 "
+                    android:onClick="onClick_ChangeLocation" />
 
                 <ImageButton
                     style="@style/home_button_style"
