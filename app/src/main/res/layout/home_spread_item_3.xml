@@ -12,12 +12,13 @@
         android:layout_margin="1px">
 
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/spread_item_7_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="1px"
             android:layout_weight="3"
-            android:onClick="onClick_gotoDetail"
+            android:background="@color/transparent"
             android:scaleType="fitXY"
             android:src="@drawable/fake_spread_1" />
 
@@ -27,23 +28,25 @@
             android:layout_weight="4"
             android:orientation="vertical">
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/spread_item_8_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="1px"
                 android:layout_weight="1"
-                android:onClick="onClick_gotoDetail"
+                android:background="@color/transparent"
                 android:scaleType="fitXY"
                 android:src="@drawable/fake_spread_2"
                 android:text="图片" />
 
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/spread_item_9_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="1px"
                 android:layout_weight="1"
-                android:onClick="onClick_gotoDetail"
+                android:background="@color/transparent"
                 android:scaleType="fitXY"
                 android:src="@drawable/fake_spread_3"
                 android:text="图片" />

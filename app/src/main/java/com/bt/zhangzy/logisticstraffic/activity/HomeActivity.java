@@ -334,9 +334,6 @@ public class HomeActivity extends BaseActivity {
     }
 
 
-    public void onClick_gotoDetail(View view) {
-        gotoDetail(null);
-    }
 
     public void onClick_CityList(View view) {
 //        getApp().showLoacaitonList(view);
@@ -485,5 +482,11 @@ public class HomeActivity extends BaseActivity {
 
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void onClick_Detail(View view) {
+        if(getCurrentFragment() instanceof HomeFragment) {
+            gotoDetail(null);
+        }
     }
 }

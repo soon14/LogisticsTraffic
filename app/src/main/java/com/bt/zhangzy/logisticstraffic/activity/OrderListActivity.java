@@ -1,6 +1,8 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -36,6 +38,15 @@ public class OrderListActivity extends BaseActivity {
     ArrayList<JsonOrder> untreatedList = new ArrayList<JsonOrder>();
     ArrayList<JsonOrder> submittedList = new ArrayList<JsonOrder>();
     ArrayList<JsonOrder> completedList = new ArrayList<JsonOrder>();
+    //自动刷新机制
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            requestOrderList();
+            handler.sendEmptyMessageDelayed(1, 2 * 60 * 1000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +64,8 @@ public class OrderListActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        requestOrderList();
+        handler.sendEmptyMessage(0);
+//        requestOrderList();
     }
 
     private void initViewPager() {
@@ -65,8 +77,8 @@ public class OrderListActivity extends BaseActivity {
             fragments.add(untreatedFragment);
         }
         submittedFragment = new OrderListFragment().initTAG_INDEX(PAGE_SUBMITTED);
-        fragments.add(submittedFragment);
         completedFragment = new OrderListFragment().initTAG_INDEX(PAGE_COMPLETED);
+        fragments.add(submittedFragment);
         fragments.add(completedFragment);
         //// TO DO: 2016-1-30  列表切换时 数据丢失的问题 ???
 
@@ -141,10 +153,18 @@ public class OrderListActivity extends BaseActivity {
                     break;
             }
         }
-        if (untreatedFragment != null)
-            untreatedFragment.setAdapter(untreatedList);
-        submittedFragment.setAdapter(submittedList);
-        completedFragment.setAdapter(completedList);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (untreatedFragment != null)
+                    untreatedFragment.setAdapter(untreatedList);
+                if (submittedFragment != null)
+                    submittedFragment.setAdapter(submittedList);
+                if (completedFragment != null)
+                    completedFragment.setAdapter(completedList);
+            }
+        });
+
 
         User.getInstance().setOrderIdList(order_id_list);
 //        viewPager.getAdapter().notifyDataSetChanged();
@@ -218,7 +238,7 @@ public class OrderListActivity extends BaseActivity {
             case R.id.orderlist_tab_submitted:
                 currentPage = PAGE_SUBMITTED;
                 //自动刷新
-                requestOrderList();
+//                requestOrderList();
                 break;
             case R.id.orderlist_tab_completed:
                 currentPage = PAGE_COMPLETED;

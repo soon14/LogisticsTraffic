@@ -58,11 +58,12 @@ public enum AppURL {
     PutDrivers("/drivers/"),
 
     /*=========== 首页相关 ==============================*/
+    GetRecommend("/companies/recommend"),//推荐位 ，/companies/recommend get方法
     //根据id值获取店铺信息
     GetCompany("/companies/"),
     GetCompanyList("/companies/list"),
-    GetCommentList("/comments/get_role"),//获取被评论对象的评论列表
-    GetCommentListForMe("/comments/get_comment_role"),//获取论对象的评论列表
+    GetCommentList("/comments/get_comment_role"),//获取被评论对象的评论列表
+    GetCommentListForMe("/comments/get_role"),//获取论对象的评论列表
     PostComment("/comments/post"),//发布评论
 
     /*============ 车队相关 ==================================================*/
@@ -96,6 +97,7 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
     PostSendToCompany("/orders/send_to_company"),
     GetOrder("/orders/"),//按ID获取订单
     PutOrder("/orders/"),
+    GetOrderDel("/orders/delete"),//删除订单 get方式，传orderId
     GetMyOrderList("/orders/show_user_order"),//获取用户所属的订单列表
     GetOrderList("/orders/list"),//获取可抢订单列表
     PostCallDriver("/orders/call_driver"),// call车接口

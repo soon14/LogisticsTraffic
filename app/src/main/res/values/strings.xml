@@ -12,6 +12,8 @@
     <string name="upload_verify_info">您的信息已经上传到后台，需要3-5天进行信息审核，请耐心等待。谢谢使用物流联盟。</string>
     <string name="need_driver_size">还需要选择%d人</string>
     <string name="select_driver_failed">已经选够%d人</string>
+    <string name="item_call_times_template">拨打%s次</string>
+    <string name="item_view_times_template">已被浏览：%s次</string>
 
 
     <string-array name="order_change_type_items">

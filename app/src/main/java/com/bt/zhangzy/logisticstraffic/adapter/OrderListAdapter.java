@@ -87,6 +87,19 @@ public class OrderListAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void delItem(JsonOrder jsonOrder) {
+        if (jsonOrder == null)
+            return;
+//        for(JsonOrder order : list){
+        //传过来的jsonOrder对象本身就是从list里取出来的！所有直接判断对象是否相等
+//            if(order == jsonOrder){
+        if (list.remove(jsonOrder))
+            notifyDataSetChanged();
+//                break;
+//            }
+//        }
+    }
+
     class Holder {
         TextView orderNum;
         TextView enterpriseTx;

@@ -16,8 +16,13 @@ import com.bt.zhangzy.logisticstraffic.adapter.OrderListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
+import com.bt.zhangzy.network.AppURL;
+import com.bt.zhangzy.network.HttpHelper;
+import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonOrder;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -63,6 +68,10 @@ public class OrderListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        View view = inflater.inflate(R.layout.fragment_order_list, container, false);
+        if (layoutView == null) {
+            layoutView = getActivity().getLayoutInflater().inflate(R.layout.fragment_list, null, false);
+            initListView(layoutView);
+        }
         if (layoutView != null) {
 //            initListView(view);
             return layoutView;
@@ -80,8 +89,19 @@ public class OrderListFragment extends Fragment {
                     openOrderDetail(adapter.getItem(position));
             }
         });
-
+        if (adapter != null)
+            listView.setAdapter(adapter);
+        if (TAG_INDEX == OrderListActivity.PAGE_UNTREATED) {
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    showDelDialog(adapter.getItem(position));
+                    return true;
+                }
+            });
+        }
     }
+
 
     private void openOrderDetail(JsonOrder item) {
 
@@ -113,11 +133,45 @@ public class OrderListFragment extends Fragment {
     public void setAdapter(List<JsonOrder> list) {
         if (list == null || list.isEmpty())
             return;
+//        if (listView == null) {
+//            initListView(layoutView);
+//        }
+        //// TO DO: 2016-3-3  为什么 listView 为空?????
+        //解释，setAdapter方法是网络回调执行的，而listFragment对象是有缓冲机制的，所以不一定创建了实例，这里需要先缓存adapter对象，等初始化的时候再赋值；
         adapter = new OrderListAdapter(list);
-        getActivity().runOnUiThread(new Runnable() {
+        if (listView != null)
+            listView.setAdapter(adapter);
+
+    }
+
+    private void showDelDialog(final JsonOrder jsonOrder) {
+        new ConfirmDialog(getActivity())
+                .setMessage("是否删除订单：" + jsonOrder.getId())
+                .setConfirm("删除")
+                .setConfirmListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        requestDelOrder(jsonOrder.getId());
+                        adapter.delItem(jsonOrder);
+                    }
+                }).show();
+    }
+
+
+    private void requestDelOrder(int id) {
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("orderId", String.valueOf(id));
+        HttpHelper.getInstance().get(AppURL.GetOrderDel, params, new JsonCallback() {
             @Override
-            public void run() {
-                listView.setAdapter(adapter);
+            public void onSuccess(String msg, String result) {
+                getBaseActivity().showToast("订单删除成功");
+
+            }
+
+            @Override
+            public void onFailed(String str) {
+                getBaseActivity().showToast("订单删除失败");
             }
         });
     }

@@ -17,6 +17,7 @@ import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
+import com.bt.zhangzy.pay.WeiXinPay;
 import com.bt.zhangzy.tools.ContextTools;
 import com.zhangzy.baidusdk.BaiduSDK;
 
@@ -55,6 +56,9 @@ public class LogisticsTrafficApplication extends Application {
         //JPush 推送
         JPushInterface.setDebugMode(true);
         JPushInterface.init(getApplicationContext());
+
+        //微信支付 初始化
+        WeiXinPay.getInstanse().init(getApplicationContext());
 
 
         AppParams.getInstance().init(this);

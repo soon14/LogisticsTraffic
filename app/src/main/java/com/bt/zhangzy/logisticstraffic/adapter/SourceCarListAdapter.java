@@ -51,7 +51,7 @@ public class SourceCarListAdapter extends BaseAdapter {
             holder = new Holder();
             convertView.setTag(holder);
             holder.headImg = (ImageView) convertView.findViewById(R.id.item_img);
-            holder.recommendImg = (ImageView) convertView.findViewById(R.id.item_recommend_img);
+//            holder.recommendImg = (ImageView) convertView.findViewById(R.id.item_recommend_img);
             holder.nameTx = (TextView) convertView.findViewById(R.id.item_name_tx);
             holder.typeTx = (TextView) convertView.findViewById(R.id.item_type_tx);
             holder.lengthTx = (TextView) convertView.findViewById(R.id.item_length_tx);

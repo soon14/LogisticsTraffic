@@ -3,6 +3,7 @@ package com.bt.zhangzy.logisticstraffic.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.ResponseCompany;
 
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ public class HomeFragment extends BaseHomeFragment {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     private ViewPager spreadPager;
+    private HomeSpreadAdapter spreadAdapter;
     private ZrcListView listView;
     private HomeListAdapter adapter;
     private View listHeadView;
@@ -166,9 +169,8 @@ public class HomeFragment extends BaseHomeFragment {
             return;
         }
 
+        requestGetRecommend();
 
-        spreadPager.setAdapter(new HomeSpreadAdapter());
-        spreadPager.setCurrentItem(1, false);
         spreadDelayHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -233,6 +235,22 @@ public class HomeFragment extends BaseHomeFragment {
                 }
             }
         };
+
+    }
+
+    private void setSpreadAdapter() {
+        if (spreadPager == null || spreadAdapter == null)
+            return;
+        spreadAdapter.setItemClick(new HomeSpreadAdapter.OnClick() {
+            @Override
+            public void onClick(Product product) {
+                Log.i(TAG, "推荐位的点击事件" + product.getID());
+                getHomeActivity().gotoDetail(product);
+            }
+        });
+//        spreadPager.setOnClickListener(this);
+        spreadPager.setAdapter(spreadAdapter);
+        spreadPager.setCurrentItem(1, false);
         spreadHandler.sendEmptyMessageDelayed(0, 3000);
     }
 
@@ -315,32 +333,15 @@ public class HomeFragment extends BaseHomeFragment {
                 }
             }
         });
-//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-////                Log.d(TAG, firstVisibleItem+","+visibleItemCount+","+totalItemCount);
-//                if (listView == null)
-//                    return;
-//
-//                View v = listView.getChildAt(0);
-//                if (v != null) {
-//                    topView.getBackground().setAlpha(Math.min(200, Math.abs(getScrollY())));
-////                    Log.d(TAG, "top=" + getScrollY() + " -->" + topView.getBackground().getAlpha());
-//                }
-//            }
-//        });
         if (listHeadView == null) {
             listHeadView = LayoutInflater.from(getActivity()).inflate(R.layout.home_list_header, null);
         }
         if (listView.getHeaderViewsCount() == 0) {
             listView.addHeaderView(listHeadView);
         }
+        //顶部 广告标题初始化
         initViewFlipper(listHeadView);
+        //推荐位 初始化
         initSpreadViewPager(listHeadView);
 
         currentPageNum = 1;
@@ -382,6 +383,39 @@ public class HomeFragment extends BaseHomeFragment {
 
     }
 
+    private void requestGetRecommend() {
+        HttpHelper.getInstance().get(AppURL.GetRecommend, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                List<ResponseCompany> list = ParseJson_Array(result, ResponseCompany.class);
+                if (list == null || list.isEmpty()) {
+                    getHomeActivity().showToast("推荐位没有数据");
+                    return;
+                }
+                if (list.size() < 9) {
+                    getHomeActivity().showToast("推荐位数据太少");
+                    return;
+                }
+                ArrayList<Product> arrayList = new ArrayList<Product>();
+                for (ResponseCompany company : list) {
+                    arrayList.add(parseProduct(company));
+                }
+                spreadAdapter = new HomeSpreadAdapter(arrayList);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setSpreadAdapter();
+                    }
+                });
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
+    }
+
     // todo 首页的列表不是用户列表， 需要返回对应的店铺信息，点击数 始发地-目的地，拨打电话的次数
     private void requestGetCompanyList() {
         // AppURL.GetUserList+"?role=2" 根据用户类型筛选
@@ -419,20 +453,8 @@ public class HomeFragment extends BaseHomeFragment {
                 }
 //                Log.w(TAG, "Test==>>>>" + toJsonString(list));
                 ArrayList<Product> arrayList = new ArrayList<Product>();
-                Product product;
                 for (ResponseCompany company : list) {
-                    product = new Product(company.getId());
-                    product.setName(company.getName());
-//                    product.setPhoneNumber(company.getName());
-//                    product.setType(company.getType());
-                    //设置 认证用户或者 付费用户
-                    product.setIsVip(company.getStatus() != -1);
-//                    product.setLevel(company.getStar());
-                    product.setTimes(company.getViewCount());
-                    product.setCallTimes(company.getCallCount());
-                    product.setPhotoUrl(company.getPhotoUrl());
-                    product.setCompany(company);
-                    arrayList.add(product);
+                    arrayList.add(parseProduct(company));
                 }
                 setListAdapter(arrayList);
                 if (currentPageNum > 1) {
@@ -445,5 +467,23 @@ public class HomeFragment extends BaseHomeFragment {
 
 
         });
+    }
+
+    @NonNull
+    private Product parseProduct(ResponseCompany company) {
+        Product product;
+        product = new Product(company.getId());
+        product.setName(company.getName());
+//                    product.setPhoneNumber(company.getName());
+//                    product.setType(company.getType());
+        //设置 认证用户或者 付费用户
+        product.setIsVip(company.getStatus() != -1);
+//                    product.setLevel(company.getStar());
+        product.setTimes(company.getViewCount());
+        product.setCallTimes(company.getCallCount());
+        product.setPhotoUrl(company.getPhotoUrl());
+        product.setDescribe(company.getOftenRoute());
+        product.setCompany(company);
+        return product;
     }
 }

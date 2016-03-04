@@ -27,6 +27,7 @@ import com.bt.zhangzy.network.entity.JsonComment;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonFavorite;
 import com.bt.zhangzy.network.entity.JsonUser;
+import com.bt.zhangzy.pay.WeiXinPay;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 
@@ -229,6 +230,10 @@ public class DetailCompany extends BaseActivity {
         bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE, OrderDetailMode.CreateMode.ordinal());
         bundle.putSerializable(AppParams.BUNDLE_PRODUCT_KEY, product);
         startActivity(OrderDetailActivity.class, bundle);
+    }
+
+    public void onClick_Share(View view){
+        WeiXinPay.getInstanse().shareText(this,"分享测试");
     }
 
     public void onClick_CollectAdd(View view) {

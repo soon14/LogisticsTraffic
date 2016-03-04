@@ -13,24 +13,24 @@
         android:orientation="horizontal"
         android:visibility="visible">
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/spread_item_5_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="1px"
             android:layout_weight="1"
             android:background="@color/white"
-            android:onClick="onClick_gotoDetail"
             android:scaleType="fitXY"
             android:src="@drawable/fake_spread_4" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/spread_item_6_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="1px"
             android:scaleType="fitXY"
             android:background="@color/white"
-            android:onClick="onClick_gotoDetail"
             android:src="@drawable/fake_spread_5" />
     </LinearLayout>
 

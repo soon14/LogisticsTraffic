@@ -1,60 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".activity.HomeActivity">
 
-    <TableLayout
+
+    <ImageButton
+        android:background="@color/transparent"
+        android:id="@+id/spread_item_1_img"
+        android:layout_width="190dp"
+        android:layout_height="100dp"
+        android:layout_margin="1px"
+        android:scaleType="fitXY"
+        android:src="@drawable/fake_spread_6" />
+
+    <ImageButton
+        android:background="@color/transparent"
+        android:id="@+id/spread_item_2_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="1px">
+        android:layout_alignBottom="@id/spread_item_1_img"
+        android:layout_margin="1px"
+        android:onClick="onClick_Detail"
+        android:layout_toRightOf="@id/spread_item_1_img"
+        android:scaleType="fitXY"
+        android:src="@drawable/fake_spread_7" />
 
-        <TableRow android:layout_weight="1">
+    <ImageButton
+        android:background="@color/transparent"
+        android:id="@+id/spread_item_3_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignRight="@id/spread_item_1_img"
+        android:layout_below="@id/spread_item_1_img"
+        android:layout_margin="1px"
+        android:scaleType="fitXY"
+        android:src="@drawable/fake_spread_8" />
 
-            <ImageView
-                android:layout_height="match_parent"
-                android:layout_margin="1px"
-                android:layout_weight="1"
-                android:onClick="onClick_gotoDetail"
-                android:scaleType="fitXY"
-                android:src="@drawable/fake_spread_6" />
-
-            <ImageView
-                android:layout_height="match_parent"
-                android:layout_margin="1px"
-                android:layout_weight="1"
-                android:onClick="onClick_gotoDetail"
-                android:scaleType="fitXY"
-                android:src="@drawable/fake_spread_7" />
-        </TableRow>
-
-        <TableRow android:layout_weight="1">
-
-            <ImageView
-                android:layout_height="match_parent"
-                android:layout_margin="1px"
-                android:layout_weight="1"
-                android:onClick="onClick_gotoDetail"
-                android:scaleType="fitXY"
-                android:src="@drawable/fake_spread_8" />
-
-            <ImageView
-                android:layout_height="match_parent"
-                android:layout_margin="1px"
-                android:layout_weight="1"
-                android:onClick="onClick_gotoDetail"
-                android:scaleType="fitXY"
-                android:src="@drawable/fake_spread_9" />
-        </TableRow>
-    </TableLayout>
+    <ImageButton
+        android:background="@color/transparent"
+        android:id="@+id/spread_item_4_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/spread_item_2_img"
+        android:layout_margin="1px"
+        android:layout_toRightOf="@id/spread_item_3_img"
+        android:layout_weight="1"
+        android:scaleType="fitXY"
+        android:src="@drawable/fake_spread_9" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#bb999999"
         android:layout_margin="2px"
+        android:background="#bb999999"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="今日推荐" />

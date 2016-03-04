@@ -15,6 +15,22 @@ import com.bt.zhangzy.network.ImageHelper;
 public final class ViewUtils {
     private static final String TAG = ViewUtils.class.getSimpleName();
 
+
+    /**
+     * 返回textview里的text 字段
+     *
+     * @param textView
+     * @return
+     */
+    public static String getStringFromTextView(TextView textView) {
+        if (textView != null) {
+            CharSequence text = textView.getText();
+            if (!TextUtils.isEmpty(text))
+                return text.toString();
+        }
+        return null;
+    }
+
     /**
      * 设置网络图片
      * 做一些基本判断
