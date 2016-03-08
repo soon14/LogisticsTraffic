@@ -13,12 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@color/main_bg_color">
 
-        <TextView
-            android:id="@+id/page_top_name"
-            style="@style/title_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="门企详情" />
+        <include layout="@layout/page_top" />
 
         <ImageButton
             android:id="@+id/detail_colletion"
@@ -36,8 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:onClick="onClick_Share"
             android:layout_toLeftOf="@id/detail_colletion"
+            android:onClick="onClick_Share"
             android:src="@drawable/share_icon" />
     </RelativeLayout>
 
@@ -68,15 +63,25 @@
                     <ImageView
                         android:id="@+id/detail_flipper_1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="240dp"
                         android:clickable="true"
                         android:onClick="onClick_OpenPicture"
                         android:scaleType="fitXY"
                         android:src="@drawable/fake_detail_1" />
 
                     <ImageView
+                        android:id="@+id/detail_flipper_2"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="240dp"
+                        android:clickable="true"
+                        android:onClick="onClick_OpenPicture"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/fake_detail_1" />
+
+                    <ImageView
+                        android:id="@+id/detail_flipper_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
                         android:clickable="true"
                         android:onClick="onClick_OpenPicture"
                         android:scaleType="fitXY"
@@ -136,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:clickable="true"
-                    android:drawableStart="@drawable/phone_icon_big"
+                    android:drawableStart="@drawable/detail_phone_btn_selector"
                     android:gravity="center"
                     android:onClick="onClick_CallPhone"
                     android:text="联系电话" />
@@ -149,7 +154,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:background="#fca987" />
+                    android:background="@color/main_bg_color" />
 
                 <TextView
                     android:id="@+id/detail_order_btn"
@@ -158,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:clickable="true"
-                    android:drawableStart="@drawable/edit_icon"
+                    android:drawableStart="@drawable/detail_order_btn_selector"
                     android:gravity="center"
                     android:onClick="onClick_Order"
                     android:text="我要下单" />
@@ -211,39 +216,80 @@
                     android:layout_marginTop="5dp"
                     android:text="公司详情" />
 
+
                 <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:background="@color/black"
-                    android:stretchColumns="1">
+                    android:background="@drawable/black_border_shape"
+                    android:shrinkColumns="2"
+                    android:stretchColumns="2">
 
-                    <TableRow android:layout_marginRight="2px">
-
-                        <TextView
-                            style="@style/table_tx_style"
-                            android:text="常发货物类型" />
-
-                        <TextView style="@style/table_tx_style" />
-                    </TableRow>
-
-                    <TableRow android:layout_marginRight="2px">
+                    <TableRow>
 
                         <TextView
                             style="@style/table_tx_style"
-                            android:text="常发线路" />
+                            android:text="常发货物类型:" />
 
-                        <TextView style="@style/table_tx_style" />
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="@color/black" />
+
+                        <TextView
+                            android:id="@+id/detail_type_tx"
+                            style="@style/table_tx_style"
+                            android:maxLines="5"
+                            android:minLines="1"
+                            android:singleLine="false" />
                     </TableRow>
 
-                    <TableRow android:layout_marginRight="2px">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/black" />
+
+                    <TableRow>
+
+                        <TextView
+                            style="@style/table_tx_style"
+                            android:text="常发线路:" />
+
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="@color/black" />
+
+                        <TextView
+                            android:id="@+id/detail_lines_tx"
+                            style="@style/table_tx_style"
+                            android:maxLines="10"
+                            android:minLines="1" />
+                    </TableRow>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/black" />
+
+                    <TableRow>
 
                         <TextView
                             style="@style/table_tx_style"
                             android:layout_marginBottom="2px"
-                            android:text="经营规模" />
+                            android:text="经营规模:" />
 
-                        <TextView style="@style/table_tx_style" />
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="@color/black" />
+
+                        <TextView
+                            android:id="@+id/detail_size_tx"
+                            style="@style/table_tx_style"
+                            android:maxLines="8"
+                            android:minLines="1"
+                            android:text="" />
                     </TableRow>
 
                 </TableLayout>
@@ -285,7 +331,7 @@
                     layout="@layout/evaluate_list_item" />
 
                 <Button
-                    style="@style/while_orange_btn_style"
+                    style="@style/length_btn_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"

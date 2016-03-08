@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="30dp"
                         android:background="@color/transparent"
-                        android:drawableLeft="@drawable/order_icon"
+                        android:drawableLeft="@drawable/user_order_left"
                         android:drawablePadding="5dp"
                         android:onClick="onClick_gotoOrderList"
                         android:text="我的订单"
@@ -104,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="60dp"
                         android:background="@color/transparent"
-                        android:drawableLeft="@drawable/collect_icon"
+                        android:drawableLeft="@drawable/user_collect_left"
                         android:drawablePadding="5dp"
                         android:gravity="center"
                         android:onClick="onClick_Collect"
@@ -118,10 +118,10 @@
                 style="@style/setting_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/setting_icon"
+                android:drawableLeft="@drawable/user_setting"
                 android:drawableRight="@drawable/right_gray_arrow"
                 android:onClick="onClick_SettingShop"
-                android:text="详细信息" />
+                android:text="店铺设置" />
 
             <View
                 android:layout_width="match_parent"
@@ -140,7 +140,7 @@
                     style="@style/setting_item_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/driver_icon"
+                    android:drawableLeft="@drawable/user_driver"
                     android:drawableRight="@drawable/right_gray_arrow"
                     android:onClick="onClick_Fleet"
                     android:text="我的车队" />
@@ -163,7 +163,7 @@
                     style="@style/setting_item_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/services_icon"
+                    android:drawableLeft="@drawable/user_service"
                     android:drawableRight="@drawable/right_gray_arrow"
                     android:onClick="onClick_Server"
                     android:text="服务" />
@@ -197,7 +197,7 @@
                 style="@style/setting_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/send_icon"
+                android:drawableLeft="@drawable/user_recommend"
                 android:drawableRight="@drawable/right_gray_arrow"
                 android:onClick="onClick_SendFriend"
                 android:text="推荐给好友" />
@@ -242,7 +242,7 @@
                 style="@style/setting_item_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/quit_icon"
+                android:drawableLeft="@drawable/user_quit"
                 android:onClick="onClick_SafeQuit"
                 android:text="安全退出" />
 

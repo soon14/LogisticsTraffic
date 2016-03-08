@@ -285,7 +285,10 @@ public class SourceCarActivity extends BaseActivity {
         locationView.setCurrentLocation(location);
         locationView.setListener(new LocationView.ChangingListener() {
             @Override
-            public void onChanged(Location location) {
+            public void onChanged(Location loc) {
+            }
+
+            public void onCancel(Location location){
                 if (TextUtils.isEmpty(location.getCityName()))
                     return;
                 if (location.getCityName().equals("不限")) {

@@ -13,6 +13,7 @@ import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonFavorite;
+import com.bt.zhangzy.network.entity.JsonMotocardesDriver;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseFavorites;
@@ -408,6 +409,7 @@ public class User implements Serializable {
                     user.setJsonTypeEntity(json.getDriver());
                     user.setDriverID(json.getDriver().getId());
                 }
+//                user.setMotorcades(BaseEntity.ParseArray(json.getMotorcades(), JsonMotorcades.class));
                 break;
             case 2:
                 user.setUserType(Type.EnterpriseType);
@@ -422,12 +424,22 @@ public class User implements Serializable {
                     user.setJsonTypeEntity(json.getCompany());
                     user.setCompanyID(json.getCompany().getId());
                 }
+
                 break;
         }
-
-
-        user.setJsonFavorites(json.getFavorites());
+//        if(jsonUser.getRole() == 2 || jsonUser.getRole() == 3){
+//            if(TextUtils.isEmpty(json.getMotorcades())){
+//                Log.w(TAG,"车队返回错误：数据为空");
+//                return;
+//            }
+//            JsonMotorcades motorcades = BaseEntity.ParseEntity(json.getMotorcades(), JsonMotorcades.class);
+//            ArrayList<JsonMotorcades> jsonMotorcades = new ArrayList<>();
+//            jsonMotorcades.add(motorcades);
+//            user.setMotorcades(jsonMotorcades);
+//        }
         user.setMotorcades(json.getMotorcades());
+        user.setJsonFavorites(json.getFavorites());
+
     }
 
     /**

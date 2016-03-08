@@ -33,7 +33,10 @@ public class Location implements Serializable {
         if (TextUtils.isEmpty(text) || text.indexOf(SEPARATOR) < 0)
             return null;
         String[] split = text.split(String.valueOf(SEPARATOR));
-        return new Location(split[0], split[1]);
+        if (split == null || split.length <= 1)
+            return null;
+        else
+            return new Location(split[0], split[1]);
     }
 
     public String getDistrict() {
@@ -49,7 +52,10 @@ public class Location implements Serializable {
     }
 
     public String toText() {
-        return provinceName + SEPARATOR + cityName;
+        if (TextUtils.isEmpty(provinceName) && TextUtils.isEmpty(cityName))
+            return "";
+        else
+            return provinceName + SEPARATOR + cityName;
     }
 
     @Override

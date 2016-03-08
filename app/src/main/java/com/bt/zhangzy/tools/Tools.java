@@ -99,6 +99,7 @@ public final class Tools {
 
     /**
      * 转换显示日期
+     *
      * @param date
      * @return
      */
@@ -163,5 +164,16 @@ public final class Tools {
         return null;
     }
 
+
+    public static String toString(char sep, String... params) {
+        StringBuffer stringBuffer = new StringBuffer();
+        for (String p : params) {
+            stringBuffer.append(p).append(sep);
+        }
+        //删除最后一个 /
+        if (stringBuffer.length() > 0 && stringBuffer.charAt(stringBuffer.length() - 1) == sep)
+        stringBuffer.deleteCharAt(stringBuffer.length() - 1);
+        return stringBuffer.toString();
+    }
 
 }

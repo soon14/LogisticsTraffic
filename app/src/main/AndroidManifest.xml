@@ -57,7 +57,7 @@
 
         <service
             android:name="com.bt.zhangzy.logisticstraffic.service.UpDataLocationService"
-            android:enabled="true"></service>
+            android:enabled="false"></service>
 
         <activity
             android:name=".activity.MainActivity"

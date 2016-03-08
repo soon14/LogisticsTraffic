@@ -310,6 +310,9 @@ public class SearchActivity extends BaseActivity {
                 .setListener(new LocationView.ChangingListener() {
                                  @Override
                                  public void onChanged(Location loc) {
+                                 }
+
+                                 public void onCancel(Location loc){
                                      if (TextUtils.isEmpty(loc.getCityName()))
                                          return;
 

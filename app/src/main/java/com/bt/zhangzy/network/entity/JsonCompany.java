@@ -6,7 +6,7 @@ package com.bt.zhangzy.network.entity;
 public class JsonCompany extends BaseEntity {
     int id, userId;
     String name, address;
-    String photoUrl;//门头照片URL
+    String photoUrl, photoUrl2, photoUrl3;//门头照片URL
     String taxRegistrationCertificateUrl;//税务登记证URL
     String businessLicenseUrl;//营业执照URL
     String organizationCode;//组织机构代码
@@ -14,7 +14,7 @@ public class JsonCompany extends BaseEntity {
     int status;
     String oftenRoute;//常发线路
     String validationMessage;//验证返回信息
-    double longitude,latitude;//经度信息 纬度信息
+    double longitude, latitude;//经度信息 纬度信息
     String area;//所属区域
     String myWealth;//我的财富
     double star;//星级
@@ -22,9 +22,45 @@ public class JsonCompany extends BaseEntity {
     int orderCount;//接单数
     int totalMileage;//总里程
     int numberOfTeams;//车队人数
+    int callCount;
+    int viewCount;
+    String oftenSendType;//常发货物类型
+    String scaleOfOperation;//经营规模
 
 
     public JsonCompany() {
+    }
+
+    public int getCallCount() {
+        return callCount;
+    }
+
+    public void setCallCount(int callCount) {
+        this.callCount = callCount;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public String getOftenSendType() {
+        return oftenSendType;
+    }
+
+    public void setOftenSendType(String oftenSendType) {
+        this.oftenSendType = oftenSendType;
+    }
+
+    public String getScaleOfOperation() {
+        return scaleOfOperation;
+    }
+
+    public void setScaleOfOperation(String scaleOfOperation) {
+        this.scaleOfOperation = scaleOfOperation;
     }
 
     public String getOftenRoute() {
@@ -161,6 +197,22 @@ public class JsonCompany extends BaseEntity {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public String getPhotoUrl2() {
+        return photoUrl2;
+    }
+
+    public void setPhotoUrl2(String photoUrl2) {
+        this.photoUrl2 = photoUrl2;
+    }
+
+    public String getPhotoUrl3() {
+        return photoUrl3;
+    }
+
+    public void setPhotoUrl3(String photoUrl3) {
+        this.photoUrl3 = photoUrl3;
     }
 
     public String getTaxRegistrationCertificateUrl() {

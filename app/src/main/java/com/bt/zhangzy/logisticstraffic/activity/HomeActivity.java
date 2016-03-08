@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.bt.zhangzy.logisticstraffic.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
@@ -49,7 +50,7 @@ public class HomeActivity extends BaseActivity {
     private ViewPager contentViewPager;
 
     //中间的按钮
-    private Button customBtn;
+    private ImageButton customBtn;
 //    boolean lastLogin = User.getInstance().getLogin();
 
     @Override
@@ -228,22 +229,24 @@ public class HomeActivity extends BaseActivity {
      * 初始化自定义按键
      */
     private void initCustomBtn() {
-        customBtn = (Button) findViewById(R.id.home_bottom_services_btn);
+        customBtn = (ImageButton) findViewById(R.id.home_bottom_services_btn);
         if (User.getInstance().getUserType() == Type.InformationType) {
-            customBtn.setText("车源");
+            customBtn.setImageResource(R.drawable.home_source_car_btn_selector);
+//            customBtn.setText("车源");
 //            customBtn.setCompoundDrawables(null, getDrawable(R.drawable.home_source_btn_selector), null, null);
             // 使用代码设置drawableleft
-            Drawable drawable = getResources().getDrawable(R.drawable.home_source_btn_selector);
-            // / 这一步必须要做,否则不会显示.
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            customBtn.setCompoundDrawables(null, drawable, null, null);
+//            Drawable drawable = getResources().getDrawable(R.drawable.home_source_btn_selector);
+//            // / 这一步必须要做,否则不会显示.
+//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//            customBtn.setCompoundDrawables(null, drawable, null, null);
         } else if (User.getInstance().getUserType() == Type.DriverType) {
-            customBtn.setText("货源");
-            // 使用代码设置drawableleft
-            Drawable drawable = getResources().getDrawable(R.drawable.goods_icon);
-            // / 这一步必须要做,否则不会显示.
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            customBtn.setCompoundDrawables(null, drawable, null, null);
+            customBtn.setImageResource(R.drawable.home_source_btn_selector);
+//            customBtn.setText("货源");
+//            // 使用代码设置drawableleft
+//            Drawable drawable = getResources().getDrawable(R.drawable.goods_icon);
+//            // / 这一步必须要做,否则不会显示.
+//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//            customBtn.setCompoundDrawables(null, drawable, null, null);
         }
     }
 

@@ -313,6 +313,9 @@ public class OrderDetailActivity extends BaseActivity {
                 .setListener(new LocationView.ChangingListener() {
                     @Override
                     public void onChanged(Location loc) {
+                    }
+
+                    public void onCancel(Location loc){
                         if (loc == null)
                             return;
 

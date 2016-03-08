@@ -7,168 +7,198 @@
     android:orientation="vertical"
     tools:context=".activity.SetCompanyActivity">
 
-    <include layout="@layout/page_top" />
-
-    <TextView
-        style="@style/tx_black_df_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="公司介绍" />
-
-    <EditText
-        android:id="@+id/set_introduce_ed"
-        style="@style/edit_style"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:minLines="4" />
+        android:layout_height="wrap_content">
 
+        <include layout="@layout/page_top" />
 
-    <TableLayout
-        android:id="@+id/setting_lines_ly"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:stretchColumns="*">
-
-        <TextView
-            style="@style/tx_black_df_style"
+        <Button
+            android:id="@+id/set_company_edit_bt"
+            style="@style/length_btn_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="常发线路" />
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:onClick="onClick_EditMode"
+            android:text="编辑" />
+    </RelativeLayout>
 
-        <TableRow android:layout_marginTop="5dp">
-
-            <EditText
-                style="@style/edit_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="始发地" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10px"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/black" />
-
-            <EditText
-                style="@style/edit_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="目的地" />
-        </TableRow>
-
-        <TableRow android:layout_marginTop="5dp">
-
-            <EditText
-                style="@style/edit_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="始发地" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10px"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/black" />
-
-            <EditText
-                style="@style/edit_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="目的地" />
-        </TableRow>
-
-        <TableRow android:layout_marginTop="5dp">
-
-            <EditText
-                style="@style/edit_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="始发地" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10px"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/black" />
-
-            <EditText
-                style="@style/edit_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="目的地" />
-        </TableRow>
-
-        <TableRow android:layout_marginTop="5dp">
-
-            <EditText
-                style="@style/edit_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="始发地" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10px"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/black" />
-
-            <EditText
-                style="@style/edit_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="目的地" />
-        </TableRow>
-
-        <TableRow android:layout_marginTop="5dp">
-
-            <EditText
-                style="@style/edit_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="始发地" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10px"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/black" />
-
-            <EditText
-                style="@style/edit_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="目的地" />
-        </TableRow>
-    </TableLayout>
-
-    <TextView
-        style="@style/tx_black_df_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="企业推广" />
-
-    <EditText
-        style="@style/edit_style"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:minLines="4" />
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    style="@style/tx_black_df_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="公司介绍" />
+
+                <Button
+                    android:id="@+id/set_company_introduce_mode_bt"
+                    style="@style/length_btn_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:onClick="onClick_ModelText"
+                    android:text="点击使用模板" />
+            </RelativeLayout>
+
+
+            <EditText
+                android:id="@+id/set_introduce_ed"
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:drawable/edit_text"
+                android:ellipsize="end"
+                android:gravity="left|top"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:minLines="4"
+                android:singleLine="false"
+                android:text="我公司的服务宗旨是精准卡航，限时送达，汽运价格享空运速度！我们的服务目标是让每一辆车都安全，每一位客户都放心，公司将以优质的服务，高效的配送方式以及优惠的配送价格屹立于物流市场，用心经营，只做专业，我们一直在路上！" />
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="常发货物类型" />
+
+            <TextView
+                android:id="@+id/set_often_send_type_ed"
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="left|top"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:minLines="4"
+                android:onClick="onClick_OftenType"
+                android:text="" />
+
+            <LinearLayout
+                android:id="@+id/setting_lines_ly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/tx_black_df_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="常发线路" />
+
+                <LinearLayout
+                    android:id="@+id/set_company_often_route_ly"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/set_company_often_route_1"
+                        layout="@layout/often_route_item" />
+
+                    <include
+                        android:id="@+id/set_company_often_route_2"
+                        layout="@layout/often_route_item" />
+
+                    <include
+                        android:id="@+id/set_company_often_route_3"
+                        layout="@layout/often_route_item" />
+
+                    <include
+                        android:id="@+id/set_company_often_route_4"
+                        layout="@layout/often_route_item" />
+
+                    <include
+                        android:id="@+id/set_company_often_route_5"
+                        layout="@layout/often_route_item" />
+
+                    <include
+                        android:id="@+id/set_company_often_route_6"
+                        layout="@layout/often_route_item" />
+
+                    <include
+                        android:id="@+id/set_company_often_route_7"
+                        layout="@layout/often_route_item" />
+
+                    <include
+                        android:id="@+id/set_company_often_route_8"
+                        layout="@layout/often_route_item" />
+
+                    <include
+                        android:id="@+id/set_company_often_route_9"
+                        layout="@layout/often_route_item" />
+
+                    <include
+                        android:id="@+id/set_company_often_route_10"
+                        layout="@layout/often_route_item" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/tx_black_df_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="企业推广" />
+
+            <ImageView
+                android:id="@+id/set_company_photo_1"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:background="@color/transparent"
+                android:onClick="onClick_Photo"
+                android:scaleType="fitCenter"
+                android:src="@drawable/detail_mtzp" />
+
+            <ImageView
+                android:id="@+id/set_company_photo_2"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:background="@color/transparent"
+                android:onClick="onClick_Photo"
+                android:scaleType="fitCenter"
+                android:src="@drawable/detail_mtzp" />
+
+            <ImageView
+                android:id="@+id/set_company_photo_3"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:background="@color/transparent"
+                android:onClick="onClick_Photo"
+                android:scaleType="fitCenter"
+                android:src="@drawable/detail_mtzp" />
+
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

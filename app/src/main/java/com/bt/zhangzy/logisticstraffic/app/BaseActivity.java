@@ -178,10 +178,14 @@ public class BaseActivity extends FragmentActivity {
      * @param string 内容
      */
     protected void setTextView(int id, String string) {
-        if (TextUtils.isEmpty(string))
+        View viewById = findViewById(id);
+        if (viewById == null || !(viewById instanceof TextView))
             return;
-        TextView tx = (TextView) findViewById(id);
-        if (tx != null)
+        TextView tx = (TextView) viewById;
+
+        if (TextUtils.isEmpty(string))
+            tx.setText("");
+        else
             tx.setText(string);
     }
 

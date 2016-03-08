@@ -80,7 +80,7 @@ public class HttpHelper extends OkHttpClient {
     public static String toString(String... params) {
         StringBuffer stringBuffer = new StringBuffer();
         for (String p : params) {
-            stringBuffer.append(params).append("/");
+            stringBuffer.append(p).append("/");
         }
         //删除最后一个 /
         if (stringBuffer.charAt(stringBuffer.length() - 1) == '/')

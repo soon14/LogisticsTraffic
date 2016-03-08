@@ -67,6 +67,8 @@ public class UserFragment extends BaseHomeFragment {
                 Log.i(TAG, "启动位置上传服务");
                 Intent intent = new Intent(getActivity(), UpDataLocationService.class);
                 getActivity().startService(intent);
+            }else{
+                getHomeActivity().getApp().stopLocationServer();
             }
         }
 

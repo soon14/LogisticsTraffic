@@ -144,6 +144,10 @@ public class LogisticsTrafficApplication extends Application {
         Log.w(TAG, "设置当前Activity=" + act.TAG);
     }
 
+    public void stopLocationServer(){
+        BaiduSDK.getInstance().stopLocationServer();
+    }
+
 
     public void Exit(boolean isSave) {
 

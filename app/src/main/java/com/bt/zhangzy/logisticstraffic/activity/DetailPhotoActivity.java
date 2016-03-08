@@ -45,6 +45,7 @@ public class DetailPhotoActivity extends BaseActivity {
     private ImageView userImage;
     String yyzzUrl, swdjzUrl, mtzpUrl, frsfzUrl;
     private boolean isFirstVerify = true;
+    private boolean editable = true;//标记资料是否可以编辑;
 
     JsonDriver requestJsonDriver = new JsonDriver();
     JsonCar requestJsonCar = new JsonCar();
@@ -77,6 +78,44 @@ public class DetailPhotoActivity extends BaseActivity {
             }
 
         });
+
+        initUserStatus();
+    }
+
+    private void initUserStatus() {
+        JsonUser jsonUser = User.getInstance().getJsonUser();
+        String tost = null;
+        /*用户状态 未审核	-1 已审核	0 冻结	1 删除	2 已付费	3 已提交资料	4*/
+        switch (jsonUser.getStatus()) {
+            case -1:
+                editable = true;
+                tost = "未审核";
+                break;
+            case 0:
+                editable = false;
+                tost = "已审核";
+                break;
+            case 1:
+                editable = false;
+                tost = "冻结";
+                break;
+            case 2:
+                editable = false;
+                tost = "删除";
+                break;
+            case 3:
+                editable = false;
+                tost = "已付费";
+                break;
+            case 4:
+                editable = false;
+                tost = "已提交资料";
+                break;
+        }
+        showToast(tost);
+        if (!editable) {
+            findViewById(R.id.detail_submit_bt).setVisibility(View.INVISIBLE);
+        }
     }
 
     private void initDriverView() {
@@ -218,6 +257,8 @@ public class DetailPhotoActivity extends BaseActivity {
     }
 
     public void onClick_ChangeLength(View view) {
+        if (checkStauts())
+            return;
         ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆长度", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,7 +275,17 @@ public class DetailPhotoActivity extends BaseActivity {
         }, getResources().getStringArray(R.array.order_change_truck_length_items));
     }
 
+    private boolean checkStauts() {
+        if (!editable) {
+            showToast("当前状态不可编辑");
+            return true;
+        }
+        return false;
+    }
+
     public void onClick_ChangeWeight(View view) {
+        if (checkStauts())
+            return;
         ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆载重", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -252,6 +303,8 @@ public class DetailPhotoActivity extends BaseActivity {
     }
 
     public void onClick_ChangeType(View view) {
+        if (checkStauts())
+            return;
         ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆类型", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -269,6 +322,8 @@ public class DetailPhotoActivity extends BaseActivity {
     }
 
     public void onClick_ChangeStatus(View view) {
+        if (checkStauts())
+            return;
         ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆状况", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -286,6 +341,8 @@ public class DetailPhotoActivity extends BaseActivity {
     }
 
     public void onClick_ChangeLocation(View view) {
+        if (checkStauts())
+            return;
         if (view == null || !(view instanceof TextView)) {
             return;
         }
@@ -302,19 +359,26 @@ public class DetailPhotoActivity extends BaseActivity {
                 .setListener(new LocationView.ChangingListener() {
                     @Override
                     public void onChanged(Location loc) {
-                        if (loc == null)
+                    }
+
+                    public void onCancel(Location loc){
+                    if(loc==null)
                             return;
 
-                        String params = loc.toText();
-                        textView.setText(params);
-                        if (requestJsonCar != null) {
-                            requestJsonCar.setUsualResidence(params);
-                        }
+                    String params = loc.toText();
+                    textView.setText(params);
+                    if(requestJsonCar!=null)
+
+                    {
+                        requestJsonCar.setUsualResidence(params);
                     }
-                }).show();
+                }
+    }).show();
     }
 
     public void onClick_ShowLicence(View view) {
+        if (checkStauts())
+            return;
         //虚拟键盘
         LicenceKeyboardPopupWindow.create(this).setListener(new LicenceKeyboardPopupWindow.ConfirmListener() {
             @Override
@@ -328,6 +392,8 @@ public class DetailPhotoActivity extends BaseActivity {
     }
 
     public void onClick_Submit(View view) {
+        if (checkStauts())
+            return;
 
         isFirstVerify = User.getInstance().getJsonTypeEntity() == null;
         Type type = User.getInstance().getUserType();

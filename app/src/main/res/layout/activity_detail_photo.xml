@@ -97,7 +97,7 @@
     </GridLayout>
 
     <Button
-        android:id="@+id/detail_photo_verify_bt"
+        android:id="@+id/detail_submit_bt"
         style="@style/orange_btn_noPadding_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

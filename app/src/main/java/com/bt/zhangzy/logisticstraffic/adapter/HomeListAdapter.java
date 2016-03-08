@@ -96,8 +96,17 @@ public class HomeListAdapter extends BaseAdapter {
             String times = product.getTimes();
             if (!TextUtils.isEmpty(times))
                 ViewUtils.setTextView(holder.times_tx, String.format(resources.getString(R.string.item_view_times_template), times));
-            ViewUtils.setTextView(holder.dir_tx, product.getDescribe());
 
+            //线路设置
+            String describe = product.getDescribe();
+            if (!TextUtils.isEmpty(describe)) {
+                String[] split = describe.split(",");
+                if (split.length > 0) {
+                    describe = split[0];
+                    describe = describe.replace("/", "——");
+                    ViewUtils.setTextView(holder.dir_tx, describe);
+                }
+            }
 
             if (holder.levelBar != null) {
                 if (product.getLevel() <= 0) {

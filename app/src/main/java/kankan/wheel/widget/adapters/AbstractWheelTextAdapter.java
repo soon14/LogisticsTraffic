@@ -32,7 +32,7 @@ import android.widget.TextView;
 public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
     
     /** Text view resource. Used as a default view for adapter. */
-    public static final int TEXT_VIEW_ITEM_RESOURCE = -1;
+    public static final int  TEXT_VIEW_ITEM_RESOURCE = -1;
     
     /** No resource constant. */
     protected static final int NO_RESOURCE = 0;

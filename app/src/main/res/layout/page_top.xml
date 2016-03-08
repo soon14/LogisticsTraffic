@@ -5,9 +5,9 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/page_top_ly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/page_top_ly"
         android:background="@color/main_bg_color"
         android:padding="1dp">
 
@@ -18,9 +18,9 @@
             android:layout_centerVertical="true"
             android:onClick="onClick_Back"
             android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
             android:paddingRight="25dp"
             android:paddingTop="10dp"
-            android:paddingLeft="10dp"
 
             android:src="@drawable/title_left_icon" />
 
@@ -29,7 +29,8 @@
             style="@style/title_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/page_top_back"
             android:text=" " />
     </RelativeLayout>
 </LinearLayout>

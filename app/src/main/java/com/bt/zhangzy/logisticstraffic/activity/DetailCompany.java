@@ -144,7 +144,19 @@ public class DetailCompany extends BaseActivity {
                 if (jsonCompany != null) {
                     setTextView(R.id.detail_name_tx, jsonCompany.getName());
                     setTextView(R.id.detail_cp_address_tx, jsonCompany.getAddress());
+                    setTextView(R.id.detail_type_tx, jsonCompany.getOftenSendType());
+                    String oftenRoute = jsonCompany.getOftenRoute();
+                    if (oftenRoute.charAt(oftenRoute.length() - 1) == ',') {
+                        oftenRoute = oftenRoute.substring(0, oftenRoute.length() - 1);
+                    }
+                    oftenRoute = oftenRoute.replace("/", "——").replace(",", "\n");
+                    setTextView(R.id.detail_lines_tx, oftenRoute);
+                    setTextView(R.id.detail_size_tx, jsonCompany.getScaleOfOperation());
+
                     setImageUrl(R.id.detail_user_head_img, jsonCompany.getPhotoUrl());
+                    setImageUrl(R.id.detail_flipper_1, jsonCompany.getPhotoUrl());
+                    setImageUrl(R.id.detail_flipper_2, jsonCompany.getPhotoUrl2());
+                    setImageUrl(R.id.detail_flipper_3, jsonCompany.getPhotoUrl3());
 
                 }
             }
@@ -232,8 +244,8 @@ public class DetailCompany extends BaseActivity {
         startActivity(OrderDetailActivity.class, bundle);
     }
 
-    public void onClick_Share(View view){
-        WeiXinPay.getInstanse().shareText(this,"分享测试");
+    public void onClick_Share(View view) {
+        WeiXinPay.getInstanse().shareText(this, "分享测试");
     }
 
     public void onClick_CollectAdd(View view) {

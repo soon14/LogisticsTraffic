@@ -47,16 +47,20 @@ import kankan.wheel.widget.adapters.ArrayWheelAdapter;
  * Created by ZhangZy on 2015/8/10.
  */
 public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationListener {
+    private static final String TAG = LocationView.class.getSimpleName();
+    final String NullString = "不填";
+
+    public interface ChangingListener {
+        void onChanged(Location location);
+
+        //隐藏时调用
+        void onCancel(Location location);
+    }
+
     public LocationView() {
         requestCityList();
         requestOpenCityList();
     }
-
-    public interface ChangingListener {
-        void onChanged(Location location);
-    }
-
-    private static final String TAG = LocationView.class.getSimpleName();
 
     //共用数据，设计为单例模式;
     static LocationView instance = new LocationView();
@@ -132,6 +136,13 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
         return getInstance();
     }
 
+    public LocationView setTitle(String title) {
+        if (dialog != null) {
+            dialog.setTitle(title);
+        }
+        return this;
+    }
+
     public void show(View view) {
         if (popupWindow != null) {
             popupWindow.showAsDropDown(view);
@@ -147,6 +158,12 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
 
 
     public void dismiss() {
+        if (listener != null) {
+            if(currentLocation == null){
+                currentLocation = new Location("","");
+            }
+            listener.onCancel(currentLocation);
+        }
         mProvinceView.removeChangingListener(this);
         mCityView.removeChangingListener(this);
         mProvinceView = null;
@@ -177,7 +194,19 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
                 List<JsonLocationProvince> list = ParseJson_Array(result, JsonLocationProvince.class);
                 //// TO DO: 2016-1-27
                 if (list != null && !list.isEmpty()) {
-                    cityList = list;
+//                    cityList = list;
+                    cityList = new ArrayList<JsonLocationProvince>();
+                    //添加一组空数据
+                    JsonLocationProvince json = new JsonLocationProvince();
+                    json.setProvince(NullString);
+                    ArrayList<JsonLocationCity> tmp_c = new ArrayList<>();
+                    JsonLocationCity city = new JsonLocationCity();
+                    city.setCity(NullString);
+                    tmp_c.add(city);
+                    json.setCity(tmp_c);
+                    cityList.add(json);
+                    //添加服务器返回数据
+                    cityList.addAll(list);
                 }
             }
 
@@ -232,14 +261,15 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
             requestCityList();
             return;
         }
-        mProvinceView.setShadowColor(0xFFFFFFFF, 0xBBFFFFFF, 0x00FFFFFF);
-        mCityView.setShadowColor(0xFFFFFFFF, 0xBBFFFFFF, 0x00FFFFFF);
+        mProvinceView.setShadowColor(0xFFFFFFFF, 0x66FFFFFF, 0x00FFFFFF);
+        mCityView.setShadowColor(0xFFFFFFFF, 0x66FFFFFF, 0x00FFFFFF);
         mProvinceView.addChangingListener(this);
         mCityView.addChangingListener(this);
         if (mProvinceAdapter == null) {
             JsonLocationProvince[] array = new JsonLocationProvince[cityList.size()];
             cityList.toArray(array);
             mProvinceAdapter = new ArrayWheelAdapter<JsonLocationProvince>(context, array);
+            mProvinceAdapter.setItemResource(R.layout.location_text_item);
             mCityAdapterList = new ArrayWheelAdapter[cityList.size()];
         }
         mProvinceView.setViewAdapter(mProvinceAdapter);
@@ -254,9 +284,16 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
         if (mCityAdapterList[current_province_index] == null) {
             JsonLocationProvince jsonLocationProvince = cityList.get(current_province_index);
             List<JsonLocationCity> city = jsonLocationProvince.getCity();
-            JsonLocationCity[] cities = city.toArray(new JsonLocationCity[city.size()]);
-
+            JsonLocationCity[] cities;
+            if (city == null) {
+                JsonLocationCity c = new JsonLocationCity();
+                c.setCity(NullString);
+                cities = new JsonLocationCity[]{c};
+            } else {
+                cities = city.toArray(new JsonLocationCity[city.size()]);
+            }
             city_adapter = new ArrayWheelAdapter<>(context, cities);
+            city_adapter.setItemResource(R.layout.location_text_item);
             mCityAdapterList[current_province_index] = city_adapter;
 //            mCityAdapterList.add(current_province_index, city_adapter);
         } else {
@@ -322,6 +359,12 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
 //            JsonLocationProvince province = cityList.get(mProvinceView.getCurrentItem());
             mProvinceCurrent = province.getProvince();
             mCityCurrent = province.getCity().get(newValue).getCity();
+        }
+        if (mProvinceCurrent == NullString) {
+            mProvinceCurrent = "";
+        }
+        if (mCityCurrent == NullString) {
+            mCityCurrent = "";
         }
         if (currentLocation == null) {
             currentLocation = new Location(mProvinceCurrent, mCityCurrent);
