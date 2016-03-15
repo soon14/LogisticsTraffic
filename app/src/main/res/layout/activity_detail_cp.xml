@@ -141,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:clickable="true"
-                    android:drawableStart="@drawable/detail_phone_btn_selector"
+                    android:drawableStart="@drawable/phone_btn_selector"
                     android:gravity="center"
                     android:onClick="onClick_CallPhone"
                     android:text="联系电话" />
@@ -176,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
-                android:onClick="onClick_gotoMap"
+                android:onClick="onClick_Map"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp">
 
@@ -190,6 +190,7 @@
                     android:text="内蒙古包头市 稀土路 黄河大街 59号" />
 
                 <TextView
+                    android:id="@+id/detail_cp_distance_tx"
                     style="@style/detail_smail_tx_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -197,7 +198,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginTop="10dp"
                     android:drawableLeft="@drawable/location_icon"
-                    android:text="距离1.5km" />
+                    android:text="@string/location_distance_km" />
             </RelativeLayout>
 
             <LinearLayout
@@ -277,7 +278,7 @@
                         <TextView
                             style="@style/table_tx_style"
                             android:layout_marginBottom="2px"
-                            android:text="经营规模:" />
+                            android:text="公司简介:" />
 
                         <View
                             android:layout_width="1px"
@@ -324,7 +325,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/gray_line" />
+                    android:background="@color/def_line" />
 
                 <include
                     android:id="@+id/detail_evaluate_2_ly"

@@ -12,16 +12,16 @@
 
         <include layout="@layout/page_top" />
 
-        <ImageButton
-            style="@style/orange_btn_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:onClick="onClick_gotoMap"
-            android:src="@drawable/map_icon"
-            android:text="" />
+        <!--<ImageButton-->
+            <!--style="@style/orange_btn_style"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginEnd="10dp"-->
+            <!--android:onClick="onClick_gotoMap"-->
+            <!--android:src="@drawable/map_icon"-->
+            <!--android:text="" />-->
 
     </RelativeLayout>
 

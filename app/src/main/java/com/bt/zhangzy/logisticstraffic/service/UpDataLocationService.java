@@ -3,7 +3,6 @@ package com.bt.zhangzy.logisticstraffic.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -68,7 +67,7 @@ public class UpDataLocationService extends Service implements Handler.Callback, 
             params.setCarId(user.getJsonCar().getId());
 //        params.setOrderId();
         if (user.getLocation() != null) {
-            params.setLongitude(Float.valueOf(user.getLocation().getLangitude()));
+            params.setLongitude(Float.valueOf(user.getLocation().getLongitude()));
             params.setLatitude(Float.valueOf(user.getLocation().getLatitude()));
         }
     }

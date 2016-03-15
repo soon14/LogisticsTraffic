@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.RatingBar;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Type;
@@ -82,7 +82,7 @@ public class EvaluationActivity extends BaseActivity {
 //        jsonComment = new JsonComment();
         jsonComment.setRole(User.getInstance().getUserType().toRole());
         jsonComment.setRoleId(User.getInstance().getRoleId());
-        jsonComment.setCommentedRole(Type.InformationType.toRole());
+        jsonComment.setCommentedRole(Type.CompanyInformationType.toRole());
 //        jsonComment.setCommentedRoleId(roleId);
         HttpHelper.getInstance().post(AppURL.PostComment, jsonComment, new JsonCallback() {
             @Override

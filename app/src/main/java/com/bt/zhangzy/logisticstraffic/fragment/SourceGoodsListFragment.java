@@ -9,14 +9,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.bt.zhangzy.logisticstraffic.R;
-import com.bt.zhangzy.logisticstraffic.activity.OrderDetailActivity;
-import com.bt.zhangzy.logisticstraffic.activity.OrderListActivity;
-import com.bt.zhangzy.logisticstraffic.adapter.OrderListAdapter;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.SourceGoodsListAdapter;
-import com.bt.zhangzy.logisticstraffic.app.AppParams;
-import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.network.entity.JsonOrder;
 
 import java.util.List;

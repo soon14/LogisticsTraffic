@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.FleetListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.FleetListForDevicesAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;

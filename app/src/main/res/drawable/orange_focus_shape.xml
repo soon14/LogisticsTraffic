@@ -6,5 +6,5 @@
         android:radius="6dp"/><!-- 设置圆角半径 -->
     <!-- 填充 -->
     <solid
-        android:color="@color/home_btn_focus"/><!-- 填充的颜色 -->
+        android:color="@color/base_btn_focus"/><!-- 填充的颜色 -->
 </shape>

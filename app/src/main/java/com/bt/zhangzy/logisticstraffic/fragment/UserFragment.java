@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
@@ -15,16 +16,12 @@ import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.entity.JsonCar;
-import com.bt.zhangzy.network.entity.JsonDriver;
-import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseLogin;
-import com.bt.zhangzy.network.entity.ResponseUserInfo;
 import com.bt.zhangzy.tools.Tools;
+import com.bt.zhangzy.tools.ViewUtils;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by ZhangZy on 2015/6/18.
@@ -49,25 +46,31 @@ public class UserFragment extends BaseHomeFragment {
         if (user.getUserType() == Type.EnterpriseType) {
             view.findViewById(R.id.user_services_item).setVisibility(View.GONE);
             view.findViewById(R.id.user_fleet_item).setVisibility(View.GONE);
-        } else if (AppParams.DRIVER_APP) {
+            view.findViewById(R.id.user_tender_item).setVisibility(View.VISIBLE);
+        } else if (user.getUserType() == Type.DriverType) {
 //            findViewById(R.id.user_services_item).setVisibility(View.GONE);
+            ViewUtils.setText(view, R.id.user_fleet_bt, "我加入的车队");
+            view.findViewById(R.id.user_tender_item).setVisibility(View.GONE);
+        }else{
+            view.findViewById(R.id.user_tender_item).setVisibility(View.GONE);
         }
         //更新用户信息
         if (user.getLogin()) {
             if (user.isSave() && !TextUtils.isEmpty(user.getPassword())) {
                 //如果保存了密码 则自动登录
                 request_Login(user.getPhoneNum(), user.getPassword());
-            }else{
+            } else {
                 //更新用户信息；
                 User.getInstance().requestUserInfo();
             }
+            User.getInstance().requestPayStatus();
 
             //启动服务 上传坐标 仅限司机用户
             if (user.getUserType() == Type.DriverType) {
                 Log.i(TAG, "启动位置上传服务");
                 Intent intent = new Intent(getActivity(), UpDataLocationService.class);
                 getActivity().startService(intent);
-            }else{
+            } else {
                 getHomeActivity().getApp().stopLocationServer();
             }
         }
@@ -131,8 +134,12 @@ public class UserFragment extends BaseHomeFragment {
         TextView name = (TextView) findViewById(R.id.user_phone_tx);
         name.setText(User.getInstance().getPhoneNum());
 
+
         if (User.getInstance().getLogin()) {
-            Date registerDate = User.getInstance().getJsonUser().getRegisterDate();
+            JsonUser jsonUser = User.getInstance().getJsonUser();
+            ViewUtils.setImageUrl((ImageView) findViewById(R.id.user_head_img), jsonUser.getPortraitUrl());
+
+            Date registerDate = jsonUser.getRegisterDate();
             TextView regdate = (TextView) findViewById(R.id.user_reg_date_tx);
             if (registerDate != null) {
                 regdate.setText(Tools.toStringDate(registerDate));

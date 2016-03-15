@@ -5,13 +5,20 @@ def releaseTime() {
 }
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'yyt'
+            keyPassword 'yyt2015'
+            storeFile file('D:/WorkSpaceStudio/LogisticsTraffic/app.keystore')
+            storePassword 'yyt2015'
+        }
+    }
     compileSdkVersion 23
-    buildToolsVersion '23.0.0 rc3'
-
+    buildToolsVersion '22.0.1'
     defaultConfig {
         buildConfigField "boolean", "APP_DEBUG", "true"
 
-        applicationId "com.bt.zhangzy.logisticstraffic"
+        applicationId "com.bt.zhangzy.logisticstraffic.d"
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
@@ -25,15 +32,16 @@ android {
     buildTypes {
         debug {
             buildConfigField "boolean", "APP_DEBUG", "true"
+            // 是否进行混淆
+            minifyEnabled false
         }
         release {
             buildConfigField "boolean", "APP_DEBUG", "false"
             // 是否进行混淆
-            minifyEnabled false
+            minifyEnabled true
             // 移除无用的resource文件
-//            shrinkResources true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
             //调试时关闭
 //            applicationVariants.all { variant ->
 //                variant.outputs.each { output ->
@@ -45,6 +53,7 @@ android {
 //                    }
 //                }
 //            }
+            signingConfig signingConfigs.config
         }
     }
     sourceSets {
@@ -53,21 +62,25 @@ android {
         }
     }
     //多渠道打包
+//    productFlavors {
+//        driver {
+//            manifestPlaceholders = [APP_TYPE_VALUE: "driver"]
+//        }
+//        company {
+//            manifestPlaceholders = [APP_TYPE_VALUE: "company"]
+//        }
+//
+//    }
     productFlavors {
-        driver {
-            manifestPlaceholders = [APP_TYPE_VALUE: "driver"]
-        }
-        company {
-            manifestPlaceholders = [APP_TYPE_VALUE: "company"]
-        }
-
     }
-
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.1.1'
-    compile project(':baidusdk')
+    compile 'com.alibaba:fastjson:1.2.8'
+    compile 'com.squareup.okhttp:okhttp:2.7.5'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile project(':zrcListView')
+    compile project(':baidusdk')
 }

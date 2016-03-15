@@ -5,19 +5,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
-import com.bt.zhangzy.logisticstraffic.adapter.SourceGoodsListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.OrderType;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.fragment.SourceGoodsListFragment;
-import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -157,12 +153,7 @@ public class SourceGoodsActivity extends BaseActivity {
     private void gotoDetail(JsonOrder order) {
         if (User.getInstance().getLogin()) {
             if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
-                ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(PayActivity.class);
-                    }
-                });
+                gotoPay();
                 return;
             }
             Bundle bundle = new Bundle();
@@ -170,12 +161,7 @@ public class SourceGoodsActivity extends BaseActivity {
             bundle.putParcelable(AppParams.ORDER_DETAIL_KEY_ORDER, order);
             startActivity(OrderDetailActivity.class, bundle);
         } else {
-            ConfirmDialog.showConfirmDialog(this, "您还没有登录，是否登录？", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(LoginActivity.class);
-                }
-            });
+            gotoLogin();
         }
     }
 }

@@ -15,7 +15,7 @@ import android.widget.GridLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;

@@ -2,21 +2,17 @@ package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.app.PictureHelper;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
@@ -24,15 +20,12 @@ import com.bt.zhangzy.logisticstraffic.view.ChooseItemsDialog;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
-import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.UploadImageHelper;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 
-import org.w3c.dom.Text;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -45,7 +38,6 @@ public class SetCompanyActivity extends BaseActivity {
     EditText introduceEd;
     final int[] oftenRouteIds = {R.id.set_company_often_route_1, R.id.set_company_often_route_2, R.id.set_company_often_route_3, R.id.set_company_often_route_4, R.id.set_company_often_route_5, R.id.set_company_often_route_6, R.id.set_company_often_route_7, R.id.set_company_often_route_8, R.id.set_company_often_route_9, R.id.set_company_often_route_10};
     boolean inEditMode = false;//编辑模式
-    private ImageView userImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +48,7 @@ public class SetCompanyActivity extends BaseActivity {
         setPageName("店铺设置");
 
         introduceEd = (EditText) findViewById(R.id.set_introduce_ed);
+        introduceEd.setEnabled(false);
 //        oftenRouteLy = (LinearLayout) findViewById(R.id.set_company_often_route_ly);
         findViewById(R.id.set_company_introduce_mode_bt).setVisibility(View.INVISIBLE);
 
@@ -64,7 +57,7 @@ public class SetCompanyActivity extends BaseActivity {
         }
 
         if (User.getInstance().getJsonTypeEntity() != null) {
-            if (User.getInstance().getUserType() == Type.InformationType) {
+            if (User.getInstance().getUserType() == Type.CompanyInformationType) {
                 company = User.getInstance().getJsonTypeEntity();
             }
         }
@@ -87,19 +80,13 @@ public class SetCompanyActivity extends BaseActivity {
 
         }
 
-        PictureHelper.getInstance().setCallBack(new PictureHelper.CallBack() {
-            @Override
-            public void handlerImage(File file) {
-                Log.w(TAG, "图片路径：" + file.getAbsolutePath());
-                uploadFile(file);
+    }
 
-                if (userImage != null) {
-                    userImage.setImageURI(Uri.fromFile(file));
-//                    userImage.setImageDrawable(Drawable.createFromPath(file.getPath()));
-                }
-            }
-
-        });
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (UploadImageHelper.getInstance().onActivityResult(this, requestCode, resultCode, data)) {
+        } else
+            super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void onClick_Photo(View view) {
@@ -107,34 +94,9 @@ public class SetCompanyActivity extends BaseActivity {
             showToast("不是编辑模式");
             return;
         }
-        if (view instanceof ImageView)
-            userImage = (ImageView) view;
-
-        new AlertDialog.Builder(getActivity()).setTitle("请选择路径").setItems(new String[]{"去图库选择", "启动相机"}, new DialogInterface.OnClickListener() {
+        UploadImageHelper.getInstance().onClick_Photo(this, view, new UploadImageHelper.Listener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
-                    PictureHelper.getInstance().pickFromGallery(getActivity());
-                } else if (which == 1) {
-                    PictureHelper.getInstance().startCamera(getActivity());
-                }
-            }
-        }).create().show();
-
-    }
-
-    private void uploadFile(File file) {
-        showProgress("图片上传中...");
-        //  照片上传逻辑
-//        UploadFileTask task = new UploadFileTask(AppURL.UpLoadImage);
-//        task.execute(file);
-        JsonCallback rspCallback = new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-                showToast("图片上传成功" + msg);
-                String uploadImgURL = /*AppURL.Host + */result;
-                Log.i(TAG, "上传图片地址：" + uploadImgURL);
-                ImageHelper.getInstance().loadImgOnUiThread(getActivity(), uploadImgURL, userImage);
+            public void handler(ImageView userImage, String uploadImgURL) {
                 if (userImage != null)
                     switch (userImage.getId()) {
                         case R.id.set_company_photo_1:
@@ -148,19 +110,12 @@ public class SetCompanyActivity extends BaseActivity {
                             break;
 
                     }
-                cancelProgress();
             }
+        });
 
-            @Override
-            public void onFailed(String str) {
-                showToast("图片上传失败：" + str);
-                cancelProgress();
-            }
-        };
-//        HttpHelper.getInstance().postImage(AppURL.UpLoadImage, file, rspCallback);
 
-        HttpHelper.uploadImagePost(AppURL.UpLoadImage, file, rspCallback);
     }
+
 
     @Override
     protected void onPause() {
@@ -183,7 +138,7 @@ public class SetCompanyActivity extends BaseActivity {
 
                     public void onCancel(Location loc) {
 
-                        if (!ViewUtils.setTextView((TextView) view, loc.getCityName())) {
+                        if (!ViewUtils.setText((TextView) view, loc.getCityName())) {
                             ((TextView) view).setText("");
                         }
                     }
@@ -206,9 +161,9 @@ public class SetCompanyActivity extends BaseActivity {
                 viewById = findViewById(oftenRouteIds[index]);
                 index++;
                 textView = (TextView) viewById.findViewById(R.id.item_start_city_tx);
-                ViewUtils.setTextView(textView, split[0]);
+                ViewUtils.setText(textView, split[0]);
                 textView = (TextView) viewById.findViewById(R.id.item_stop_city_tx);
-                ViewUtils.setTextView(textView, split[1]);
+                ViewUtils.setText(textView, split[1]);
             }
         }
     }
@@ -233,7 +188,7 @@ public class SetCompanyActivity extends BaseActivity {
         }
 
         //删除最后一个 /
-        if (stringBuffer.charAt(stringBuffer.length() - 1) == ',')
+        if (stringBuffer.length() > 1 && stringBuffer.charAt(stringBuffer.length() - 1) == ',')
             stringBuffer.deleteCharAt(stringBuffer.length() - 1);
         return stringBuffer.toString();
     }
@@ -244,8 +199,8 @@ public class SetCompanyActivity extends BaseActivity {
         TextView start_city = (TextView) tmp_view.findViewById(R.id.item_start_city_tx);
         TextView stop_city = (TextView) tmp_view.findViewById(R.id.item_stop_city_tx);
 
-        ViewUtils.setTextView(start_city, start);
-        ViewUtils.setTextView(stop_city, stop);
+        ViewUtils.setText(start_city, start);
+        ViewUtils.setText(stop_city, stop);
         return tmp_view;
     }
 
@@ -254,8 +209,15 @@ public class SetCompanyActivity extends BaseActivity {
             showToast("不是编辑模式");
             return;
         }
+        String[] stringArray = getResources().getStringArray(R.array.company_introduce_items);
+        String str;
+        for (int k = 0; k < stringArray.length; k++) {
+            str = stringArray[k];
+            str = String.valueOf(k + 1) + "." + str;
+            stringArray[k] = str;
+        }
         new AlertDialog.Builder(this)
-                .setItems(getResources().getStringArray(R.array.company_introduce_items), new DialogInterface.OnClickListener() {
+                .setItems(stringArray, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -301,10 +263,12 @@ public class SetCompanyActivity extends BaseActivity {
     public void onClick_EditMode(View view) {
         if (inEditMode) {
             inEditMode = false;
+            introduceEd.setEnabled(false);
             setTextView(R.id.set_company_edit_bt, "编辑");
             requestSetCompany();
         } else {
             inEditMode = true;
+            introduceEd.setEnabled(true);
             findViewById(R.id.set_company_introduce_mode_bt).setVisibility(View.VISIBLE);
             setTextView(R.id.set_company_edit_bt, "完成编辑");
         }

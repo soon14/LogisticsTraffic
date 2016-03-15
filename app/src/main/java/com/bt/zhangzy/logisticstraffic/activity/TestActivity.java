@@ -1,7 +1,5 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,16 +7,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
-import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.NetCallback;
 import com.bt.zhangzy.network.entity.BaseEntity;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;

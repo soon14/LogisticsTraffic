@@ -2,7 +2,6 @@ package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -14,8 +13,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
@@ -29,6 +29,13 @@ import com.bt.zhangzy.logisticstraffic.fragment.UserFragment;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.FloatView;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
+import com.bt.zhangzy.network.AppURL;
+import com.bt.zhangzy.network.HttpHelper;
+import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.UploadImageHelper;
+import com.bt.zhangzy.network.entity.JsonCompany;
+import com.bt.zhangzy.network.entity.JsonEnterprise;
+import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.tools.ContextTools;
 
 import java.util.ArrayList;
@@ -71,6 +78,11 @@ public class HomeActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onClick_Back(View view) {
+//        super.onClick_Back(view);
+        onClick_Quit(null);
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -145,7 +157,7 @@ public class HomeActivity extends BaseActivity {
         contentViewPager = (ViewPager) findViewById(R.id.home_content_pager);
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
         fragments.add(new HomeFragment());
-//        if (User.getInstance().getUserType() == Type.InformationType) {
+//        if (User.getInstance().getUserType() == Type.CompanyInformationType) {
 //            fragments.add(new SourceListFragment());
 //        } else {
 //            fragments.add(new ServicesFragment());
@@ -230,7 +242,7 @@ public class HomeActivity extends BaseActivity {
      */
     private void initCustomBtn() {
         customBtn = (ImageButton) findViewById(R.id.home_bottom_services_btn);
-        if (User.getInstance().getUserType() == Type.InformationType) {
+        if (User.getInstance().getUserType() == Type.CompanyInformationType) {
             customBtn.setImageResource(R.drawable.home_source_car_btn_selector);
 //            customBtn.setText("车源");
 //            customBtn.setCompoundDrawables(null, getDrawable(R.drawable.home_source_btn_selector), null, null);
@@ -337,7 +349,6 @@ public class HomeActivity extends BaseActivity {
     }
 
 
-
     public void onClick_CityList(View view) {
 //        getApp().showLoacaitonList(view);
         View topView = findViewById(R.id.home_top_ly);
@@ -385,7 +396,11 @@ public class HomeActivity extends BaseActivity {
 //            startActivity(ServicesActivity.class, null, true);
         }
         if (User.getInstance().getUserType() == Type.DriverType) {
-            startActivity(SourceGoodsActivity.class, null, true);
+            if (User.getInstance().isVIP()) {
+                startActivity(SourceGoodsActivity.class, null, true);
+            } else {
+                gotoPay();
+            }
         } else {
             startActivity(SourceCarActivity.class, null, true);
         }
@@ -451,6 +466,22 @@ public class HomeActivity extends BaseActivity {
     }
 
     /**
+     * 我的标书
+     *
+     * @param view
+     */
+    public void onClick_Tender(View view) {
+        Bundle bundle = new Bundle();
+        JsonEnterprise company = User.getInstance().getJsonTypeEntity();
+        if (company == null) {
+            showToast("请先完善信息");
+            return;
+        }
+        bundle.putString(AppParams.BUNDLE_TENDER_COMPANY_JSON, company.toString());
+        startActivity(TenderListActivity.class, bundle);
+    }
+
+    /**
      * 完善信息
      *
      * @param view
@@ -483,13 +514,42 @@ public class HomeActivity extends BaseActivity {
                 ContextTools.SendSMS(this, str[1], "测试短信：推荐内容   快来使用易运通吧！！");
             }
 
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+        } else if (UploadImageHelper.getInstance().onActivityResult(this, requestCode, resultCode, data)) {
+
+        } else
+            super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void onClick_Detail(View view) {
-        if(getCurrentFragment() instanceof HomeFragment) {
+        if (getCurrentFragment() instanceof HomeFragment) {
             gotoDetail(null);
         }
+    }
+
+    public void onClick_HeadImg(View view) {
+        UploadImageHelper.getInstance().onClick_Photo(this, view, new UploadImageHelper.Listener() {
+            @Override
+            public void handler(ImageView imageView, String url) {
+                requestChangeUserInfo(url);
+            }
+        });
+    }
+
+    private void requestChangeUserInfo(String url) {
+        JsonUser jsonUser = User.getInstance().getJsonUser();
+        jsonUser.setPortraitUrl(url);
+
+        HttpHelper.getInstance().put(AppURL.PutUserInfo, String.valueOf(jsonUser.getId()), jsonUser, new JsonCallback() {
+            @Override
+            public void onFailed(String str) {
+                showToast("头像修改失败");
+            }
+
+            @Override
+            public void onSuccess(String msg, String result) {
+                showToast("头像修改成功");
+
+            }
+        });
     }
 }

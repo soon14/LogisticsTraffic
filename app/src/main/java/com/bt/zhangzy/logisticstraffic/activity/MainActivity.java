@@ -1,16 +1,13 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.tools.Json;
-
-import java.util.HashMap;
+import com.bt.zhangzy.tools.ContextTools;
 
 
 public class MainActivity extends BaseActivity {
@@ -24,6 +21,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 /*
         video1=(VideoView)findViewById(R.id.video);
 //        mediaco=new MediaController(this);

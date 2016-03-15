@@ -1,7 +1,6 @@
 package com.bt.zhangzy.logisticstraffic.adapter;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -12,20 +11,10 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Location;
-import com.bt.zhangzy.network.entity.JsonLocationCity;
-import com.bt.zhangzy.network.entity.JsonLocationProvince;
-import com.bt.zhangzy.tools.Tools;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * Created by ZhangZy on 2015/6/18.
@@ -181,7 +170,7 @@ public class LocationListAdapter extends BaseAdapter {
             tx.setTag(location);
             tx.setTextSize(13);
             tx.setTextColor(context.getResources().getColor(R.color.black));
-            tx.setBackgroundColor(context.getResources().getColor(R.color.gray_line));
+            tx.setBackgroundColor(context.getResources().getColor(R.color.def_line));
             tx.setPadding(80, 0, 0, 0);
 //            tx.setTag(index);
             tx.setOnClickListener(listener);

@@ -112,7 +112,7 @@ public class JsonUser extends BaseEntity {
     }
 
     public Type getType() {
-        return role == 1 ? Type.DriverType : role == 2 ? Type.EnterpriseType : role == 3 ? Type.InformationType : Type.EmptyType;
+        return role == 1 ? Type.DriverType : role == 2 ? Type.EnterpriseType : role == 3 ? Type.CompanyInformationType : Type.EmptyType;
     }
 
     public void setRole(int role) {

@@ -2,6 +2,7 @@ package com.bt.zhangzy.jpush;
 
 import android.app.Application;
 import android.util.Log;
+
 import cn.jpush.android.api.JPushInterface;
 
 /**

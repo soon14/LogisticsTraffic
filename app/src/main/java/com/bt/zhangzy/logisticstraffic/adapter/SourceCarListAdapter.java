@@ -1,7 +1,5 @@
 package com.bt.zhangzy.logisticstraffic.adapter;
 
-import android.media.Image;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +7,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.tools.ViewUtils;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by ZhangZy on 2015/7/23.
@@ -63,11 +60,11 @@ public class SourceCarListAdapter extends BaseAdapter {
         }
         JsonCar car = list.get(position);
         if (car != null) {
-            ViewUtils.setTextView(holder.nameTx, car.getName()+"["+car.getNumber()+"]");
-            ViewUtils.setTextView(holder.typeTx, car.getType());
-            ViewUtils.setTextView(holder.lengthTx, car.getLength() + "米");
-            ViewUtils.setTextView(holder.weightTx, car.getCapacity());
-            ViewUtils.setTextView(holder.locationTx, car.getUsualResidence());
+            ViewUtils.setText(holder.nameTx, car.getName() + "[" + car.getNumber() + "]");
+            ViewUtils.setText(holder.typeTx, car.getType());
+            ViewUtils.setText(holder.lengthTx, car.getLength() + "米");
+            ViewUtils.setText(holder.weightTx, car.getCapacity());
+            ViewUtils.setText(holder.locationTx, car.getUsualResidence());
             ViewUtils.setImageUrl(holder.headImg,car.getFrontalPhotoUrl1());
         }
 

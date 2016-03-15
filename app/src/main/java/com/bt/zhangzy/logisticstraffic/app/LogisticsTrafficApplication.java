@@ -8,16 +8,12 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
-import android.view.View;
 
-import com.bt.zhangzy.logisticstraffic.activity.LoginActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.service.UpDataLocationService;
-import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
-import com.bt.zhangzy.pay.WeiXinPay;
 import com.bt.zhangzy.tools.ContextTools;
 import com.zhangzy.baidusdk.BaiduSDK;
 
@@ -56,9 +52,6 @@ public class LogisticsTrafficApplication extends Application {
         //JPush 推送
         JPushInterface.setDebugMode(true);
         JPushInterface.init(getApplicationContext());
-
-        //微信支付 初始化
-        WeiXinPay.getInstanse().init(getApplicationContext());
 
 
         AppParams.getInstance().init(this);
@@ -99,7 +92,7 @@ public class LogisticsTrafficApplication extends Application {
         String alias = User.getInstance().getPhoneNum();
         Set<String> set = new LinkedHashSet<String>();
 //        switch (User.getInstance().getUserType()) {
-//            case InformationType:
+//            case CompanyInformationType:
 //                set.add("信息部");
 //                break;
 //            case EnterpriseType:
@@ -239,12 +232,7 @@ public class LogisticsTrafficApplication extends Application {
     public void callPhone(String phoneNumber) {
         //todo 接口 更新拨打电话的次数
         if (!User.getInstance().getLogin()) {
-            ConfirmDialog.showConfirmDialog(currentAct, "您还没有登陆，是否登陆？", "返回", "登陆", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currentAct.startActivity(LoginActivity.class);
-                }
-            });
+            currentAct.gotoLogin();
 
         } else {
             ContextTools.CallPhone(currentAct, phoneNumber);

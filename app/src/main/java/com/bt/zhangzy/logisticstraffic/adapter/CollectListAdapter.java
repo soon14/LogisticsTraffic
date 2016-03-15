@@ -1,16 +1,16 @@
 package com.bt.zhangzy.logisticstraffic.adapter;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.tools.ViewUtils;
 
@@ -25,7 +25,6 @@ public class CollectListAdapter extends BaseAdapter {
     //    ArrayList<ViewHolder> listView = new ArrayList<ViewHolder>();
     ArrayList<Product> list;
 
-    private OnClickItemListener itemListener;
     private boolean isMyCollectType;
 
     public CollectListAdapter(boolean isMyCollectType, ArrayList<Product> array) {
@@ -37,19 +36,12 @@ public class CollectListAdapter extends BaseAdapter {
         try {
 
             if (array != null && !array.isEmpty()) {
-//                list = new ArrayList<Product>();
-//                list.addAll(array);
                 list = new ArrayList<Product>(array);
-                notifyDataSetChanged();
+//                notifyDataSetChanged();
             }
         } catch (Exception ex) {
             Log.e(TAG, "setData()", ex);
         }
-    }
-
-
-    public void setOnClickItemListener(OnClickItemListener listener) {
-        this.itemListener = listener;
     }
 
 
@@ -59,7 +51,7 @@ public class CollectListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Product getItem(int position) {
         return list == null ? null : position < list.size() ? list.get(position) : null;
     }
 
@@ -85,19 +77,32 @@ public class CollectListAdapter extends BaseAdapter {
                 holder.dir = (TextView) convertView.findViewById(R.id.list_item_dir_tx);
                 holder.lv = (RatingBar) convertView.findViewById(R.id.list_item_lv_rating);
                 holder.times = (TextView) convertView.findViewById(R.id.list_item_times_tx);
-//            listView.add(holder);
+                holder.vipImg = (ImageView) convertView.findViewById(R.id.list_item_vip_img);
                 convertView.setTag(holder);
-//                parent.addView(convertView);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             Product item = list.get(position);
-            holder.img.setImageResource(item.getIconImg());
+            if (TextUtils.isEmpty(item.getIconImgUrl())) {
+                //设置默认图
+                holder.img.setImageResource(R.drawable.fake_1);
+            } else
+                ViewUtils.setImageUrl(holder.img, item.getIconImgUrl());
             ViewUtils.setText(holder.name, item.getName());
             ViewUtils.setText(holder.dir, item.getDescribe());
             String times = holder.times.getText().toString();
-            ViewUtils.setText(holder.times, times.replace("#n",item.getTimes()==null?"0":item.getTimes()));
-            holder.lv.setRating(item.getLevel());
+            ViewUtils.setText(holder.times, times.replace("#n", item.getTimes() == null ? "0" : item.getTimes()));
+//            holder.lv.setRating(item.getLevel());
+            if (holder.lv != null) {
+                if (item.getLevel() <= 0) {
+                    holder.lv.setVisibility(View.GONE);
+                } else {
+                    holder.lv.setRating(item.getLevel());
+                }
+            }
+            if (holder.vipImg != null) {
+                holder.vipImg.setVisibility(item.isVip() ? View.VISIBLE : View.INVISIBLE);
+            }
             return convertView;
         } catch (Exception ex) {
             Log.e(TAG, "getView()", ex);
@@ -112,19 +117,8 @@ public class CollectListAdapter extends BaseAdapter {
         TextView dir;
         TextView times;
         RatingBar lv;
-        ImageButton button;
         View layout;
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (itemListener != null) {
-                    itemListener.onItemClick(v, position);
-                }
-            }
-        };
+        ImageView vipImg;
     }
 
-    public interface OnClickItemListener {
-        public void onItemClick(View v, int position);
-    }
 }

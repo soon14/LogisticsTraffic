@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
@@ -39,11 +39,13 @@ public class OrderListActivity extends BaseActivity {
     ArrayList<JsonOrder> submittedList = new ArrayList<JsonOrder>();
     ArrayList<JsonOrder> completedList = new ArrayList<JsonOrder>();
     //自动刷新机制
+    boolean isAutoRefreshList = true;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            requestOrderList();
+            if (isAutoRefreshList)
+                requestOrderList();
             handler.sendEmptyMessageDelayed(1, 2 * 60 * 1000);
         }
     };
@@ -64,8 +66,15 @@ public class OrderListActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        isAutoRefreshList = true;
         handler.sendEmptyMessage(0);
 //        requestOrderList();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isAutoRefreshList = false;
     }
 
     private void initViewPager() {

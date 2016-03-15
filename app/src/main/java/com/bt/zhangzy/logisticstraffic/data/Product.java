@@ -1,10 +1,10 @@
 package com.bt.zhangzy.logisticstraffic.data;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.network.entity.JsonCompany;
+import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseCompany;
 
 import java.io.Serializable;
-import java.util.Random;
 
 /**
  * 展示的信息数据类型封装
@@ -23,14 +23,49 @@ public class Product implements Serializable {
     private float level;//评分等级
     private boolean isVip;// 是否是认证用户
     private Location location;//地理位置
-    private int iconImg;//图标
-    private String photoUrl;
-    private ResponseCompany company;
-    private int[] photoImg = {R.drawable.fake_1,//相册
-            R.drawable.fake_2, R.drawable.fake_3, R.drawable.fake_4, R.drawable.fake_5, R.drawable.fake_6, R.drawable.fake_7, R.drawable.fake_8, R.drawable.fake_9, R.drawable.fake_10};
+    private String iconImgUrl;//图标
+    private String[] photoImgUrl;
+    private ResponseCompany company;//数据备份
+//    private int[] photoImg = {R.drawable.fake_1,//相册
+//            R.drawable.fake_2, R.drawable.fake_3, R.drawable.fake_4, R.drawable.fake_5, R.drawable.fake_6, R.drawable.fake_7, R.drawable.fake_8, R.drawable.fake_9, R.drawable.fake_10};
 
     public Product(int ID) {
         this.ID = ID;
+    }
+
+    public static Product ParseJson(ResponseCompany response) {
+        JsonUser user = response.getUser();
+        JsonCompany company = response.getCompany();
+        if (user == null || company == null)
+            return null;
+
+        Product product = ParseJson(company);
+        product.userId = user.getId();
+        product.phoneNumber = user.getPhoneNumber();
+        product.iconImgUrl = user.getPortraitUrl();
+        product.setCompany(response);
+        return product;
+    }
+
+    public static Product ParseJson(JsonCompany company) {
+        if (company == null)
+            return null;
+        Product product = new Product(company.getId());
+        product.type = Type.CompanyInformationType;
+        product.name = company.getName();
+        product.address = company.getAddress();
+        product.photoImgUrl = new String[]{company.getPhotoUrl(), company.getPhotoUrl2(), company.getPhotoUrl3()};
+        product.location = new Location();
+        product.location.setLongitude(String.valueOf(company.getLongitude()));
+        product.location.setLatitude(String.valueOf(company.getLatitude()));
+        //设置 认证用户或者 付费用户
+        product.setIsVip(company.getStatus() != -1);
+        product.setLevel((float) company.getStar());
+        product.setTimes(String.valueOf(company.getViewCount()));
+        product.setCallTimes(String.valueOf(company.getCallCount()));
+        product.setDescribe(company.getOftenRoute());
+//        product.setCompany(response);
+        return product;
     }
 
     public int getUserId() {
@@ -41,13 +76,6 @@ public class Product implements Serializable {
         this.userId = userId;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-    }
 
     public String getCallTimes() {
         return callTimes;
@@ -83,20 +111,6 @@ public class Product implements Serializable {
 
     public void setTimes(String times) {
         this.times = times;
-    }
-
-    public int[] getPhotoImg() {
-        return photoImg;
-    }
-
-    private Random random = new Random();
-
-    public int getIconImg() {
-        if (iconImg == 0) {
-            int index = Math.abs(random.nextInt() % photoImg.length);
-            iconImg = photoImg[index];
-        }
-        return iconImg;
     }
 
     @Override
@@ -163,5 +177,21 @@ public class Product implements Serializable {
 
     public ResponseCompany getCompany() {
         return company;
+    }
+
+    public String[] getPhotoImgUrl() {
+        return photoImgUrl;
+    }
+
+    public void setPhotoImgUrl(String[] photoImgUrl) {
+        this.photoImgUrl = photoImgUrl;
+    }
+
+    public String getIconImgUrl() {
+        return iconImgUrl;
+    }
+
+    public void setIconImgUrl(String iconImgUrl) {
+        this.iconImgUrl = iconImgUrl;
     }
 }

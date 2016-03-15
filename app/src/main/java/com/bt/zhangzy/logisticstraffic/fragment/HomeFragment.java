@@ -1,31 +1,33 @@
 package com.bt.zhangzy.logisticstraffic.fragment;
 
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.activity.TenderListActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.activity.WebViewActivity;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeSpreadAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Product;
-import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.ResponseCompany;
+import com.bt.zhangzy.tools.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,8 +51,11 @@ public class HomeFragment extends BaseHomeFragment {
     private View listHeadView;
     //    private ViewFlipper flipper;
     //    private GestureDetector detector;
-    private View topView;
+//    private View topView;
+    private ColorDrawable topDrawable;
     private int currentPageNum = 1;//当前显示的页数
+    boolean onLoading;//标记为加载中。。防止重复加载
+    long loadingTime;
 
     public HomeFragment() {
         super(null);
@@ -67,8 +72,15 @@ public class HomeFragment extends BaseHomeFragment {
     @Override
     void init(View view) {
 //        super.init();
-        topView = view.findViewById(R.id.home_top_ly);
-        topView.getBackground().setAlpha(0);
+        View topView = view.findViewById(R.id.home_top_ly);
+        topDrawable = new ColorDrawable(getResources().getColor(R.color.main_bg_color));
+        topDrawable.setAlpha(0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            topView.setBackground(topDrawable);
+        } else {
+            topView.setBackgroundDrawable(topDrawable);
+        }
+//        topView.getBackground().setAlpha(0);
         initListView(view);
     }
 
@@ -92,9 +104,6 @@ public class HomeFragment extends BaseHomeFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (topView != null) {
-            topView.getBackground().setAlpha(255);
-        }
     }
 
     @Override
@@ -104,9 +113,6 @@ public class HomeFragment extends BaseHomeFragment {
 //            listView.setAdapter(null);
 //            listView = null;
 //        }
-        if (topView != null) {
-            topView.getBackground().setAlpha(255);
-        }
     }
 
 
@@ -121,6 +127,15 @@ public class HomeFragment extends BaseHomeFragment {
     private void initViewFlipper(View view) {
         if (view == null)
             return;
+        ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_about), AppURL.TOP_IMG_ABOUT.toString());
+        ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_about_app), AppURL.TOP_IMG_SOFTWARE.toString());
+        ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_about_company), AppURL.TOP_IMG_DOWNLOAD.toString());
+        if (AppParams.DRIVER_APP) {
+            view.findViewById(R.id.home_flipper_tender).setVisibility(View.GONE);
+        } else {
+            ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_tender), AppURL.TOP_IMG_TENDER.toString());
+        }
+
         ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.home_flipper);
         flipper.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +156,9 @@ public class HomeFragment extends BaseHomeFragment {
                         url = AppURL.ABOUT_COMPANY;
                         page_name = "公司介绍";
                         break;
+                    case R.id.home_flipper_tender:
+                        getHomeActivity().startActivity(TenderListActivity.class);
+                        return;
                 }
                 if (!TextUtils.isEmpty(page_name)) {
                     Bundle bundle = new Bundle();
@@ -308,9 +326,17 @@ public class HomeFragment extends BaseHomeFragment {
         listView.setOnLoadMoreStartListener(new ZrcListView.OnStartListener() {
             @Override
             public void onStart() {
-                //加载更多数据  页数加一
-                currentPageNum += 1;
-                requestGetCompanyList();
+                if (!onLoading) {
+                    if (Math.abs(System.currentTimeMillis() - loadingTime) > 1000) {
+                        loadingTime = System.currentTimeMillis();
+                        onLoading = true;
+                        //加载更多数据  页数加一
+                        currentPageNum += 1;
+                        requestGetCompanyList();
+                    } else {
+                        listView.setLoadMoreSuccess();
+                    }
+                }
             }
         });
 
@@ -328,7 +354,8 @@ public class HomeFragment extends BaseHomeFragment {
 
                 View v = listView.getChildAt(0);
                 if (v != null) {
-                    topView.getBackground().setAlpha(Math.min(200, Math.abs(getScrollY())));
+                    if (topDrawable != null)
+                        topDrawable.setAlpha(Math.min(200, Math.abs(getScrollY())));
 //                    Log.d(TAG, "top=" + getScrollY() + " -->" + topView.getBackground().getAlpha());
                 }
             }
@@ -344,6 +371,7 @@ public class HomeFragment extends BaseHomeFragment {
         //推荐位 初始化
         initSpreadViewPager(listHeadView);
 
+//        listView.refresh();
         currentPageNum = 1;
         requestGetCompanyList();
 //        setListAdapter();
@@ -359,11 +387,12 @@ public class HomeFragment extends BaseHomeFragment {
                     if (v != null)
 //                    Product product = adapter.getItem(position);
                         if (v.getId() == R.id.list_item_ly) {
-                            Log.d(getTag(), "    >>>>>点击了item" + position);
+//                            Log.d(getTag(), "    >>>>>点击了item" + position);
                             getHomeActivity().gotoDetail(adapter.getItem(position));
                         } else if (v.getId() == R.id.list_item_phone) {
-                            Log.d(getTag(), "    >>>>>点击了phone" + position);
-                            getHomeActivity().showDialogCallPhone("12301253326");
+//                            Log.d(getTag(), "    >>>>>点击了phone" + position);
+                            Product product = adapter.getItem(position);
+                            getHomeActivity().showDialogCallPhone(product.getPhoneNumber(), product.getID());
                         }
                 }
             });
@@ -377,6 +406,7 @@ public class HomeFragment extends BaseHomeFragment {
                     listView.setAdapter(adapter);
                 } else {
                     adapter.notifyDataSetChanged();
+//                    listView.setLoadMoreSuccess();
                 }
             }
         });
@@ -398,7 +428,7 @@ public class HomeFragment extends BaseHomeFragment {
                 }
                 ArrayList<Product> arrayList = new ArrayList<Product>();
                 for (ResponseCompany company : list) {
-                    arrayList.add(parseProduct(company));
+                    arrayList.add(Product.ParseJson(company));
                 }
                 spreadAdapter = new HomeSpreadAdapter(arrayList);
                 getActivity().runOnUiThread(new Runnable() {
@@ -416,7 +446,7 @@ public class HomeFragment extends BaseHomeFragment {
         });
     }
 
-    // todo 首页的列表不是用户列表， 需要返回对应的店铺信息，点击数 始发地-目的地，拨打电话的次数
+    // to do 首页的列表不是用户列表， 需要返回对应的店铺信息，点击数 始发地-目的地，拨打电话的次数
     private void requestGetCompanyList() {
         // AppURL.GetUserList+"?role=2" 根据用户类型筛选
 //        String url = AppURL.GetUserList;
@@ -434,9 +464,9 @@ public class HomeFragment extends BaseHomeFragment {
         HttpHelper.getInstance().get(AppURL.GetCompanyList, params, new JsonCallback() {
             @Override
             public void onFailed(String str) {
-
+                onLoading = false;
                 if (currentPageNum > 1) {
-                    listView.stopLoadMore();
+//                    listView.stopLoadMore();
                 } else {
                     listView.setRefreshFail("加载失败");
                 }
@@ -444,17 +474,22 @@ public class HomeFragment extends BaseHomeFragment {
 
             @Override
             public void onSuccess(String msg, String json) {
-
+                onLoading = false;
                 List<ResponseCompany> list = ParseJson_Array(json, ResponseCompany.class);
                 if (list == null || list.isEmpty()) {
                     getHomeActivity().showToast("没有新的数据");
-                    listView.stopLoadMore();
+//                    listView.stopLoadMore();
+                    listView.setLoadMoreSuccess();
                     return;
                 }
 //                Log.w(TAG, "Test==>>>>" + toJsonString(list));
                 ArrayList<Product> arrayList = new ArrayList<Product>();
+                Product p;
                 for (ResponseCompany company : list) {
-                    arrayList.add(parseProduct(company));
+                    p = Product.ParseJson(company);
+                    //过滤掉空对象
+                    if (p != null)
+                        arrayList.add(p);
                 }
                 setListAdapter(arrayList);
                 if (currentPageNum > 1) {
@@ -469,21 +504,5 @@ public class HomeFragment extends BaseHomeFragment {
         });
     }
 
-    @NonNull
-    private Product parseProduct(ResponseCompany company) {
-        Product product;
-        product = new Product(company.getId());
-        product.setName(company.getName());
-//                    product.setPhoneNumber(company.getName());
-//                    product.setType(company.getType());
-        //设置 认证用户或者 付费用户
-        product.setIsVip(company.getStatus() != -1);
-//                    product.setLevel(company.getStar());
-        product.setTimes(company.getViewCount());
-        product.setCallTimes(company.getCallCount());
-        product.setPhotoUrl(company.getPhotoUrl());
-        product.setDescribe(company.getOftenRoute());
-        product.setCompany(company);
-        return product;
-    }
+
 }

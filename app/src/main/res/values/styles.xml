@@ -1,31 +1,18 @@
 <resources>
 
 
-    <!-- 默认按钮样式-->
-    <style name="default_btn_style">
-        <item name="android:background">@drawable/base_btn_selector</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">#fff</item>
-    </style>
-
-    <style name="length_btn_style" parent="default_btn_style">
-        <item name="android:paddingLeft">10dp</item>
-        <item name="android:paddingRight">10dp</item>
-    </style>
-
-    <!-- 文本样式 带选中效果  黑色 变 白色-->
-    <style name="black_while_text_style">
-        <item name="android:background">@drawable/while_text_selector</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:padding">1dp</item>
-        <item name="android:textColor">@color/black_while_color_selector</item>
-    </style>
-
-    <!--=======================================================================================-->
     <!-- Base application theme. -->
     <style name="AppTheme" parent="@android:style/Theme.NoTitleBar">
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/page_bg_color</item>
+    </style>
+    <!--=======================================================================================-->
+
+    <!-- 横线样式-->
+    <style name="line_style_horizontal">
+        <item name="android:layout_height">4px</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/def_line</item>
     </style>
 
     <style name="AnimationFadeRight" parent="android:Animation">
@@ -39,6 +26,7 @@
         <item name="android:windowEnterAnimation">@anim/abc_slide_in_top</item>
         <item name="android:windowExitAnimation">@anim/slide_out_top</item>
     </style>
+
 
     <!-- 自定义dialog样式-->
     <style name="app_dialog_style" parent="@android:style/Theme.Dialog">
@@ -56,33 +44,69 @@
         <!-- 模糊 -->
     </style>
 
+    <!-- 默认按钮样式-->
+    <style name="default_btn_style">
+        <item name="android:background">@drawable/base_btn_selector</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="length_btn_style" parent="default_btn_style">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <style name="def_btn_style_12sp" parent="default_btn_style">
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!-- 文本样式 带选中效果  黑色 变 白色-->
+    <style name="black_while_text_style">
+        <item name="android:background">@drawable/while_text_selector</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">1dp</item>
+        <item name="android:textColor">@color/black_while_color_selector</item>
+    </style>
+
     <!-- TextView 样式-->
-    <style name="orange_tx_style">
+    <style name="base_def_tx_style">
         <item name="android:textColor">@color/main_bg_color</item>
-        <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="while_tx_18_style">
+    <style name="base_while_tx_style">
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="base_black_tx_style">
+        <item name="android:textColor">@color/black_while_color_selector</item>
+    </style>
+
+    <style name="def_tx_style_18sp" parent="base_def_tx_style">
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="black_tx_18_style">
-        <item name="android:textColor">@color/black</item>
+    <style name="while_tx_style_18sp" parent="base_while_tx_style">
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="black_tx_12_style">
-        <item name="android:textColor">@color/black</item>
+    <style name="while_tx_style_12sp" parent="base_while_tx_style">
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="black_tx_12_style.source_detail" parent="black_tx_12_style">
+    <style name="black_tx_style_18sp" parent="base_black_tx_style">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="black_tx_style_12sp" parent="base_black_tx_style">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="black_tx_12_style.source_detail" parent="black_tx_style_12sp">
         <item name="android:background">@color/white</item>
         <item name="android:paddingBottom">2dp</item>
         <item name="android:paddingTop">2dp</item>
     </style>
 
+    <!--=======================================================================================-->
     <style name="title_style">
         <item name="android:background">@color/main_bg_color</item>
         <item name="android:textColor">#FFF</item>

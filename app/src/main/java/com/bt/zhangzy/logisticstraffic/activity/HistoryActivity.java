@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Product;
@@ -38,11 +38,12 @@ public class HistoryActivity extends BaseActivity {
                     Log.d(TAG, "onItemClick>>>>>");
                     if (v != null)
                         if (v.getId() == R.id.list_item_ly) {
-                            Log.d(TAG, "    >>>>>点击了item" + position);
+//                            Log.d(TAG, "    >>>>>点击了item" + position);
                             gotoDetail(adapter.getItem(position));
                         } else if (v.getId() == R.id.list_item_phone) {
-                            Log.d(TAG, "    >>>>>点击了phone" + position);
-                            showDialogCallPhone("12301253326");
+//                            Log.d(TAG, "    >>>>>点击了phone" + position);
+                            Product product = adapter.getItem(position);
+                            showDialogCallPhone(product.getPhoneNumber(),product.getID());
                         }
                 }
             });

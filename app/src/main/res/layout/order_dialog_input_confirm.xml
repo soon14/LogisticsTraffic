@@ -18,7 +18,7 @@
             android:singleLine="true"
             android:hint="请输入货物名称" />
         <TextView
-            style="@style/black_tx_18_style"
+            style="@style/black_tx_style_18sp"
             android:id="@+id/dl_suffix_ex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

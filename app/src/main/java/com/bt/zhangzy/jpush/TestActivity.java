@@ -1,11 +1,12 @@
 package com.bt.zhangzy.jpush;
 
-import cn.jpush.android.api.JPushInterface;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class TestActivity extends Activity {
 

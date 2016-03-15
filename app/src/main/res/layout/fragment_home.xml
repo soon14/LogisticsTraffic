@@ -2,54 +2,64 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/editpage_bg_color"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <zrc.widget.ZrcListView
         android:id="@+id/home_listView"
-        android:dividerHeight="2dp"
-        android:divider="@color/transparent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:divider="@color/transparent"
+        android:dividerHeight="2dp" />
 
-    <LinearLayout
-        android:id="@+id/home_top_ly"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/main_bg_color"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:layout_alignParentTop="true">
 
-        <Button
-            android:id="@+id/home_location_btn"
-            style="@style/home_button_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:background="@color/transparent"
-            android:onClick="onClick_CityList"
-            android:text="包头" />
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:background="@color/main_bg_color" />-->
 
-        <Button
-            style="@style/edit_style"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/home_top_ly"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/white_shape"
-            android:layout_marginBottom="2dp"
-            android:hint="搜索店铺"
-            android:onClick="onClick_Search" />
+            android:background="@color/main_bg_color"
+            android:orientation="horizontal"
+            android:padding="5dp">
 
-        <Button
-            style="@style/home_button_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:background="@color/transparent"
-            android:onClick="onClick_gotoHistory"
-            android:text="历史" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/home_location_btn"
+                style="@style/home_button_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="@color/transparent"
+                android:onClick="onClick_CityList"
+                android:text="包头" />
+
+            <Button
+                style="@style/edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/white_shape"
+                android:hint="搜索店铺"
+                android:onClick="onClick_Search" />
+
+            <Button
+                style="@style/home_button_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@color/transparent"
+                android:onClick="onClick_gotoHistory"
+                android:text="历史" />
+        </LinearLayout>
+    </FrameLayout>
 
 
 </RelativeLayout>

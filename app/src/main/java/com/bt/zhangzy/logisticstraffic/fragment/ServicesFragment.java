@@ -2,9 +2,7 @@ package com.bt.zhangzy.logisticstraffic.fragment;
 
 import android.view.View;
 
-import com.bt.zhangzy.logisticstraffic.R;
-import com.bt.zhangzy.logisticstraffic.data.Type;
-import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.d.R;
 
 /**
  * Created by ZhangZy on 2015/7/2.

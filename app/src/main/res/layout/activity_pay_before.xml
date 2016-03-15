@@ -8,19 +8,21 @@
     <include layout="@layout/page_top" />
 
     <TextView
-        style="@style/black_tx_18_style"
+        style="@style/black_tx_style_18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="购买会员" />
 
     <RadioGroup
+        android:id="@+id/pay_select_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
 
         <RadioButton
-            style="@style/black_tx_12_style"
+            android:id="@+id/pay_select_3m"
+            style="@style/black_tx_style_12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@null"
@@ -28,7 +30,8 @@
             android:paddingLeft="10dp"
             android:text="三个月  30元" />
         <RadioButton
-            style="@style/black_tx_12_style"
+            android:id="@+id/pay_select_6m"
+            style="@style/black_tx_style_12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@null"
@@ -36,7 +39,8 @@
             android:paddingLeft="10dp"
             android:text="六个月  60元" />
         <RadioButton
-            style="@style/black_tx_12_style"
+            android:id="@+id/pay_select_12m"
+            style="@style/black_tx_style_12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@null"
@@ -48,17 +52,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/black_tx_18_style"
+        style="@style/black_tx_style_18sp"
         android:text="选择支付方式"
         />
     <RadioGroup
+        android:id="@+id/pay_method_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
 
         <RadioButton
-            style="@style/black_tx_12_style"
+            android:id="@+id/pay_method_weixin"
+            style="@style/black_tx_style_12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@null"
@@ -67,7 +73,8 @@
             android:paddingLeft="10dp"
             android:text="微信支付" />
         <RadioButton
-            style="@style/black_tx_12_style"
+            android:id="@+id/pay_method_zhifubao"
+            style="@style/black_tx_style_12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@null"

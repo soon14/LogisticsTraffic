@@ -14,7 +14,11 @@
     <string name="select_driver_failed">已经选够%d人</string>
     <string name="item_call_times_template">拨打%s次</string>
     <string name="item_view_times_template">已被浏览：%s次</string>
+    <string name="app_url">www.WLLM168.com</string>
+    <string name="location_distance_km">距离%skm</string>
 
+
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
 
     <string-array name="order_change_type_items">
         <item>建材</item>

@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/confirm_dl_msg_tx"
-        style="@style/orange_tx_style"
+        style="@style/def_tx_style_18sp"
         android:gravity="center"
         android:textSize="20sp"
         android:layout_width="match_parent"

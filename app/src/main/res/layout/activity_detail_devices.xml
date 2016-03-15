@@ -42,7 +42,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/gray_line" />
+                    android:background="@color/def_line" />
 
                 <EditText
                     android:id="@+id/driver_phone_ed"
@@ -60,7 +60,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/gray_line" />
+                    android:background="@color/def_line" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,7 +123,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/gray_line" />
+                    android:background="@color/def_line" />
 
                 <TextView
                     android:id="@+id/detail_car_type"
@@ -140,7 +140,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/gray_line" />
+                    android:background="@color/def_line" />
 
                 <TextView
                     android:id="@+id/detail_car_length"
@@ -157,7 +157,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/gray_line" />
+                    android:background="@color/def_line" />
 
                 <TextView
                     android:id="@+id/detail_car_weight"
@@ -174,7 +174,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/gray_line" />
+                    android:background="@color/def_line" />
 
                 <TextView
                     android:id="@+id/detail_car_status"
@@ -191,7 +191,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/gray_line" />
+                    android:background="@color/def_line" />
 
                 <TextView
                     android:id="@+id/detail_car_location"
@@ -208,7 +208,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/gray_line" />
+                    android:background="@color/def_line" />
 
 
                 <!--<EditText-->

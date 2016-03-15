@@ -23,7 +23,7 @@
             android:paddingTop="2dp">
 
             <TextView
-                style="@style/black_tx_18_style"
+                style="@style/black_tx_style_18sp"
                 android:text="接收推送" />
 
             <Switch
@@ -42,7 +42,7 @@
             android:layout_height="2px"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <TableRow
             android:layout_margin="5dp"
@@ -52,7 +52,7 @@
             android:paddingTop="5dp">
 
             <TextView
-                style="@style/black_tx_18_style"
+                style="@style/black_tx_style_18sp"
                 android:text="每日精选" />
 
             <Switch
@@ -71,7 +71,7 @@
             android:layout_height="2px"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <TableRow
             android:layout_margin="5dp"
@@ -81,7 +81,7 @@
             android:paddingTop="5dp">
 
             <TextView
-                style="@style/black_tx_18_style"
+                style="@style/black_tx_style_18sp"
                 android:text="门企更新" />
 
             <Switch
@@ -100,7 +100,7 @@
             android:layout_height="2px"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <TableRow
             android:layout_margin="5dp"
@@ -110,7 +110,7 @@
             android:paddingTop="5dp">
 
             <TextView
-                style="@style/black_tx_18_style"
+                style="@style/black_tx_style_18sp"
                 android:text="声音" />
 
             <Switch
@@ -129,7 +129,7 @@
             android:layout_height="2px"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <TableRow
             android:layout_margin="5dp"
@@ -139,7 +139,7 @@
             android:paddingTop="5dp">
 
             <TextView
-                style="@style/black_tx_18_style"
+                style="@style/black_tx_style_18sp"
                 android:text="震动" />
 
             <Switch
@@ -158,10 +158,10 @@
             android:layout_height="2px"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <Button
-            style="@style/black_tx_18_style"
+            style="@style/black_tx_style_18sp"
             android:layout_margin="5dp"
             android:background="@color/white"
             android:gravity="left"
@@ -176,7 +176,7 @@
             android:layout_height="2px"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
     </TableLayout>
 
 

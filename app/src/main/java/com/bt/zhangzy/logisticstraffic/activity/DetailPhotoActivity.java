@@ -3,19 +3,16 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.app.PictureHelper;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
@@ -24,8 +21,8 @@ import com.bt.zhangzy.logisticstraffic.view.LicenceKeyboardPopupWindow;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
-import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.UploadImageHelper;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
@@ -34,21 +31,19 @@ import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.RequestAddCar;
 import com.bt.zhangzy.tools.ViewUtils;
 
-import java.io.File;
-
 /**
  * Created by ZhangZy on 2015/6/25.
  */
 public class DetailPhotoActivity extends BaseActivity {
 
 
-    private ImageView userImage;
     String yyzzUrl, swdjzUrl, mtzpUrl, frsfzUrl;
     private boolean isFirstVerify = true;
     private boolean editable = true;//标记资料是否可以编辑;
 
     JsonDriver requestJsonDriver = new JsonDriver();
     JsonCar requestJsonCar = new JsonCar();
+    JsonCompany requestJsonCompany = new JsonCompany();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,51 +59,30 @@ public class DetailPhotoActivity extends BaseActivity {
         }
         setPageName("详细信息");
 
-
-        PictureHelper.getInstance().setCallBack(new PictureHelper.CallBack() {
-            @Override
-            public void handlerImage(File file) {
-                Log.w(TAG, "图片路径：" + file.getAbsolutePath());
-                uploadFile(file);
-
-                if (userImage != null) {
-                    userImage.setImageURI(Uri.fromFile(file));
-//                    userImage.setImageDrawable(Drawable.createFromPath(file.getPath()));
-                }
-            }
-
-        });
-
-        initUserStatus();
     }
 
-    private void initUserStatus() {
-        JsonUser jsonUser = User.getInstance().getJsonUser();
+    private void initUserStatus(int status) {
+//        JsonUser jsonUser = User.getInstance().getJsonUser();
         String tost = null;
         /*用户状态 未审核	-1 已审核	0 冻结	1 删除	2 已付费	3 已提交资料	4*/
-        switch (jsonUser.getStatus()) {
+        editable = status < 0;
+        switch (status) {
             case -1:
-                editable = true;
                 tost = "未审核";
                 break;
             case 0:
-                editable = false;
                 tost = "已审核";
                 break;
             case 1:
-                editable = false;
                 tost = "冻结";
                 break;
             case 2:
-                editable = false;
                 tost = "删除";
                 break;
             case 3:
-                editable = false;
                 tost = "已付费";
                 break;
             case 4:
-                editable = false;
                 tost = "已提交资料";
                 break;
         }
@@ -127,6 +101,7 @@ public class DetailPhotoActivity extends BaseActivity {
 //        setImageUrl(R.id.devices_jsz_img, jsonUser.getPersonPhotoUrl());
         if (user.getJsonTypeEntity() != null) {
             JsonDriver jsonDriver = user.getJsonTypeEntity();
+            initUserStatus(jsonDriver.getStatus());
             setImageUrl(R.id.devices_jsz_img, jsonDriver.getLicensePhotoUrl());
             setImageUrl(R.id.devices_tszz_img, jsonDriver.getSpecialQualificationsPhotoUrl());
 
@@ -153,7 +128,6 @@ public class DetailPhotoActivity extends BaseActivity {
     //初始化 企业相关view
     private void initCompanyView() {
         User user = User.getInstance();
-        setTextView(R.id.photo_address_ed, user.getAddress());
         setTextView(R.id.photo_name_ed, user.getPhoneNum());
 
 //        ImageView yyzzImg = (ImageView) findViewById(R.id.photo_yyzz_img);
@@ -167,11 +141,16 @@ public class DetailPhotoActivity extends BaseActivity {
         if (user.getJsonTypeEntity() != null) {
             if (user.getUserType() == Type.EnterpriseType) {
                 JsonEnterprise enterprise = user.getJsonTypeEntity();
+                initUserStatus(enterprise.getStatus());
+                setTextView(R.id.photo_address_ed, enterprise.getAddress());
                 yyzzUrl = enterprise.getBusinessLicenseUrl();
                 swdjzUrl = enterprise.getTaxRegistrationCertificateUrl();
                 mtzpUrl = enterprise.getPhotoUrl();
-            } else if (user.getUserType() == Type.InformationType) {
+            } else if (user.getUserType() == Type.CompanyInformationType) {
                 JsonCompany company = user.getJsonTypeEntity();
+                requestJsonCompany = company;
+                initUserStatus(company.getStatus());
+                setTextView(R.id.photo_address_ed, company.getAddress());
                 yyzzUrl = company.getBusinessLicenseUrl();
                 swdjzUrl = company.getTaxRegistrationCertificateUrl();
                 mtzpUrl = company.getPhotoUrl();
@@ -187,71 +166,9 @@ public class DetailPhotoActivity extends BaseActivity {
     }
 
 
-    private void uploadFile(File file) {
-        showProgress("图片上传中...");
-        //  照片上传逻辑
-//        UploadFileTask task = new UploadFileTask(AppURL.UpLoadImage);
-//        task.execute(file);
-        JsonCallback rspCallback = new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-                showToast("图片上传成功" + msg);
-                String uploadImgURL = /*AppURL.Host + */result;
-                Log.i(TAG, "上传图片地址：" + uploadImgURL);
-                ImageHelper.getInstance().loadImgOnUiThread(getActivity(), uploadImgURL, userImage);
-                if (userImage != null)
-                    switch (userImage.getId()) {
-                        case R.id.photo_yyzz_img:
-                            yyzzUrl = uploadImgURL;
-                            break;
-                        case R.id.photo_frsfz_img:
-                        case R.id.driver_sfz_img:
-                            frsfzUrl = uploadImgURL;
-                            requestChangeUserInfo();
-                            break;
-                        case R.id.photo_mtzp_img:
-                            mtzpUrl = uploadImgURL;
-                            break;
-                        case R.id.photo_swdjz_img:
-                            swdjzUrl = uploadImgURL;
-                            break;
-                        //司机的相关图片
-                        case R.id.devices_jsz_img:
-                            requestJsonDriver.setLicensePhotoUrl(uploadImgURL);
-                            break;
-                        case R.id.devices_tszz_img:
-                            requestJsonDriver.setSpecialQualificationsPhotoUrl(uploadImgURL);
-                            break;
-                        case R.id.devices_xxz_img:
-                            requestJsonCar.setDrivingLicensePhotoUrl(uploadImgURL);
-                            break;
-                        case R.id.devices_clzp_img:
-                            requestJsonCar.setFrontalPhotoUrl1(uploadImgURL);
-                            break;
-                        case R.id.devices_clzp_two_img:
-                            requestJsonCar.setFrontalPhotoUrl2(uploadImgURL);
-                            break;
-
-                    }
-                cancelProgress();
-            }
-
-            @Override
-            public void onFailed(String str) {
-                showToast("图片上传失败：" + str);
-                cancelProgress();
-            }
-        };
-//        HttpHelper.getInstance().postImage(AppURL.UpLoadImage, file, rspCallback);
-
-        HttpHelper.uploadImagePost(AppURL.UpLoadImage, file, rspCallback);
-    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (PictureHelper.getInstance().onActivityResult(this, requestCode, resultCode, data)) {
-
+        if (UploadImageHelper.getInstance().onActivityResult(this, requestCode, resultCode, data)) {
         } else
             super.onActivityResult(requestCode, resultCode, data);
     }
@@ -361,19 +278,18 @@ public class DetailPhotoActivity extends BaseActivity {
                     public void onChanged(Location loc) {
                     }
 
-                    public void onCancel(Location loc){
-                    if(loc==null)
+                    public void onCancel(Location loc) {
+                        if (loc == null)
                             return;
 
-                    String params = loc.toText();
-                    textView.setText(params);
-                    if(requestJsonCar!=null)
-
-                    {
-                        requestJsonCar.setUsualResidence(params);
+                        String params = loc.toText();
+                        textView.setText(params);
+                        if (requestJsonCar != null) {
+                            requestJsonCar.setUsualResidence(params);
+                        }
+                        requestJsonCompany.setArea(params);
                     }
-                }
-    }).show();
+                }).show();
     }
 
     public void onClick_ShowLicence(View view) {
@@ -391,13 +307,59 @@ public class DetailPhotoActivity extends BaseActivity {
 
     }
 
+    public void onClick_Photo(View view) {
+        if (checkStauts())
+            return;
+        UploadImageHelper.getInstance().onClick_Photo(this, view, new UploadImageHelper.Listener() {
+            @Override
+            public void handler(ImageView userImage, String uploadImgURL) {
+                if (userImage != null)
+                    switch (userImage.getId()) {
+                        case R.id.photo_yyzz_img:
+                            yyzzUrl = uploadImgURL;
+                            break;
+                        case R.id.photo_frsfz_img:
+                        case R.id.driver_sfz_img:
+                            frsfzUrl = uploadImgURL;
+                            requestChangeUserInfo();
+                            break;
+                        case R.id.photo_mtzp_img:
+                            mtzpUrl = uploadImgURL;
+                            break;
+                        case R.id.photo_swdjz_img:
+                            swdjzUrl = uploadImgURL;
+                            break;
+                        //司机的相关图片
+                        case R.id.devices_jsz_img:
+                            requestJsonDriver.setLicensePhotoUrl(uploadImgURL);
+                            break;
+                        case R.id.devices_tszz_img:
+                            requestJsonDriver.setSpecialQualificationsPhotoUrl(uploadImgURL);
+                            break;
+                        case R.id.devices_xxz_img:
+                            requestJsonCar.setDrivingLicensePhotoUrl(uploadImgURL);
+                            break;
+                        case R.id.devices_clzp_img:
+                            requestJsonCar.setFrontalPhotoUrl1(uploadImgURL);
+                            break;
+                        case R.id.devices_clzp_two_img:
+                            requestJsonCar.setFrontalPhotoUrl2(uploadImgURL);
+                            break;
+
+                    }
+            }
+        });
+
+
+    }
+
     public void onClick_Submit(View view) {
         if (checkStauts())
             return;
 
         isFirstVerify = User.getInstance().getJsonTypeEntity() == null;
         Type type = User.getInstance().getUserType();
-        if (type == Type.EnterpriseType || type == Type.InformationType) {
+        if (type == Type.EnterpriseType || type == Type.CompanyInformationType) {
             EditText nameEd = (EditText) findViewById(R.id.photo_name_ed);
             EditText addressEd = (EditText) findViewById(R.id.photo_address_ed);
             if (TextUtils.isEmpty(nameEd.getText()) || TextUtils.isEmpty(addressEd.getText())) {
@@ -406,7 +368,7 @@ public class DetailPhotoActivity extends BaseActivity {
             }
             if (type == Type.EnterpriseType)
                 requestVerifyEnterprise(nameEd.getText().toString(), addressEd.getText().toString());
-            else if (type == Type.InformationType)
+            else if (type == Type.CompanyInformationType)
                 requestVerifyInformation(nameEd.getText().toString(), addressEd.getText().toString());
         } else if (type == Type.DriverType) {
             EditText nameEd = (EditText) findViewById(R.id.driver_name_ed);
@@ -521,11 +483,19 @@ public class DetailPhotoActivity extends BaseActivity {
     }
 
     private void requestVerifyInformation(String name, String address) {
-        JsonCompany company = new JsonCompany();
+//        company = new JsonCompany();
+        JsonCompany company = requestJsonCompany;
         company.setId(User.getInstance().getCompanyID());
         company.setUserId((int) User.getInstance().getId());
         company.setName(name);
         company.setAddress(address);
+        //坐标
+        Location location = User.getInstance().getLocation();
+        if (location != null) {
+            company.setLatitude(Float.valueOf(location.getLatitude()));
+            company.setLongitude(Float.valueOf(location.getLongitude()));
+//            company.setArea(location.toText());
+        }
         //门头照片
         company.setPhotoUrl(mtzpUrl);
         //营业执照
@@ -584,23 +554,6 @@ public class DetailPhotoActivity extends BaseActivity {
             HttpHelper.getInstance().post(AppURL.PostVerifyEnterprises, enterprise, callback);
         else
             HttpHelper.getInstance().put(AppURL.PutEnterprisesInfo, String.valueOf(User.getInstance().getEnterpriseID()), enterprise, callback);
-    }
-
-    public void onClick_Photo(View view) {
-        if (view instanceof ImageView)
-            userImage = (ImageView) view;
-
-        new AlertDialog.Builder(getActivity()).setTitle("请选择路径").setItems(new String[]{"去图库选择", "启动相机"}, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
-                    PictureHelper.getInstance().pickFromGallery(getActivity());
-                } else if (which == 1) {
-                    PictureHelper.getInstance().startCamera(getActivity());
-                }
-            }
-        }).create().show();
-
     }
 
 

@@ -3,13 +3,15 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.GeolocationPermissions;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 
@@ -41,7 +43,7 @@ public class WebViewActivity extends BaseActivity {
 //        if (location == null) {
 //            return;
 //        }
-//            String url = "http://192.168.1.115:8080/mall/qiantai/ditu.html?a=" + location.getLangitude() + "&b=" + location.getLatitude();
+//            String url = "http://192.168.1.115:8080/mall/qiantai/ditu.html?a=" + location.getLongitude() + "&b=" + location.getLatitude();
 //
 //            Uri uri = Uri.parse(url);
 //            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -63,17 +65,19 @@ public class WebViewActivity extends BaseActivity {
         webSettings.setLoadWithOverviewMode(true);
 
         //http://192.168.1.115:8080/mall/qiantai/ditu.html?a=116.39&b=39.116
-//        String url = "http://192.168.1.115:8080/mall/qiantai/ditu.html?longitude=" + location.getLangitude() + "&latitude=" + location.getLatitude();
+//        String url = "http://192.168.1.115:8080/mall/qiantai/ditu.html?longitude=" + location.getLongitude() + "&latitude=" + location.getLatitude();
 //        url = "http://map.baidu.com/";
-        if (!TextUtils.isEmpty(url))
+        if (!TextUtils.isEmpty(url)) {
             webView.loadUrl(url);
-        else if (!TextUtils.isEmpty(data)) {
+            Log.d(TAG, "URL=" + url);
+        } else if (!TextUtils.isEmpty(data)) {
             final String mimeType = "text/html";
             final String encoding = "utf-8";
             webView.loadData(data, mimeType, encoding);
 //            webView.addJavascriptInterface(new Object(){
 //
 //            },"one");
+            Log.d(TAG, "DATA=" + data);
         }
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -97,5 +101,19 @@ public class WebViewActivity extends BaseActivity {
             }
         });
         webView.requestFocus();
+    }
+
+    @Override
+    public void onClick_Back(View view) {
+        super.onClick_Back(view);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
+            webView.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

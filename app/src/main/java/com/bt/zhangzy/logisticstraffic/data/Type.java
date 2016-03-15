@@ -18,7 +18,7 @@ public enum Type {
     /**
      * 信息部
      */
-    InformationType;
+    CompanyInformationType;
 
     /**
      * 转化为服务器所需要的 int值

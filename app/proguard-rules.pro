@@ -18,4 +18,16 @@
 
 -dontwarn java.nio.file.**
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
--libraryjars libs/fastjson-1.2.5.jar
+#-libraryjars libs/fastjson-1.2.5.jar
+#微信混淆相关
+#-libraryjars libs/libammsdk.jar
+-keep class com.tencent.mm.sdk.** {
+   *;
+}
+#支付宝混淆规则
+-keep class com.alipay.android.app.IAlixPay{*;}
+-keep class com.alipay.android.app.IAlixPay$Stub{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
+-keep class com.alipay.sdk.app.PayTask{ public *;}
+-keep class com.alipay.sdk.app.AuthTask{ public *;}

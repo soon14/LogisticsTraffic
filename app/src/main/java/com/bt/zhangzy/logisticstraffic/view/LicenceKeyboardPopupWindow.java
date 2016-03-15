@@ -16,7 +16,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 
 /**
  * 虚拟键盘
@@ -62,7 +62,7 @@ public class LicenceKeyboardPopupWindow extends PopupWindow implements View.OnCl
             @Override
             public void onDismiss() {
                 if (listener != null) {
-                    if (!TextUtils.isEmpty(showText.getText()) && showText.getText().length()== 8)
+                    if (!TextUtils.isEmpty(showText.getText()) && showText.getText().length() == 8)
                         listener.confirm(showText.getText().toString());
                 }
             }
@@ -119,6 +119,10 @@ public class LicenceKeyboardPopupWindow extends PopupWindow implements View.OnCl
                 } else {
                     if (currentStatus == KeyboardStatus.Province) {
                         setStatus(KeyboardStatus.Letter);
+                    } else if (currentStatus == KeyboardStatus.Letter) {
+                        if (s.length() >= 5) {
+                            setStatus(KeyboardStatus.Num);
+                        }
                     }
                 }
             }

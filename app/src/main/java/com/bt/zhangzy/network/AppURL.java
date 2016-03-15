@@ -5,14 +5,36 @@ package com.bt.zhangzy.network;
  */
 public enum AppURL {
 
+    /*http://182.92.77.31:8080/img/phone/biaoshuan.png
+http://182.92.77.31:8080/img/phone/commpanyan.png
+http://182.92.77.31:8080/img/phone/downan.png
+http://182.92.77.31:8080/img/phone/softan.png
+    * */
+    TOP_IMG_BS("/img/phone/biaoshuan.png"),
+    TOP_IMG_ABOUT("/img/phone/commpanyan.png"),
+    TOP_IMG_DOWNLOAD("/img/phone/dowan.png"),
+    TOP_IMG_SOFTWARE("/img/phone/softan.png"),
+    TOP_IMG_TENDER("/img/phone/biaoshuan.png"),
+
+
     ABOUT_APP("/html/software.html"),//软件
     REGISTER_LAW("/html/law.html"),//法律
     DOWNLOAD_APP("/html/download.html"),//下载
     ABOUT_COMPANY("/html/company.html"),//公司介绍
     LOCATION_MAP("/mall/qiantai/ditu.html?longitude=%d1&latitude=%d2"),
     //周边服务
-    LOCATION_MAP_SERVERS("/freight/html/ditu2.html?longitude=%f1&latitude=%f2&zf=%s"),
+    LOCATION_MAP_SERVERS("/ditu2.html?longitude=%f1&latitude=%f2&zf=%s"),
+    //订单 中的司机位置
+    LOCATION_MAP_ORDER("/ditu.html?orderId=%s"),
+    //根据信息部id 标识位置
+    LOCATION_MAP_COMPANY("/ditu3.html?id=%s"),
 
+
+    /*=============支付 接口=======================*/
+    PayWeiXin("/pay/weixin_submit"),
+    GetPayStatus("/pay/status"),// 状态查询 用户id	userId
+
+    /*====================================*/
     /* 注册   用户列表： http://182.92.77.31:8080/users/list  */
     Register("/users/register"),
 
@@ -118,6 +140,7 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
 
     /*============= 搜索 =================================*/
     GetSearch("/companies/search"),//在认证公司信息或者修改公司信息时对name、address、area字段做索引，通过关键词对公司名称进行检索
+    GetSearchLine("/companies/search_line"),
 
     /*============== 车源 ================================*/
     GetPublicCarList("/cars/list"),
@@ -128,10 +151,23 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
     PostUploadLocation("/drivers/upload_coordinate"),//post方法，传carTrack对象
     GetDriverLocationList("/drivers/list_coordinate"),//get方法，传orderId对象
 
+    /*=======电话次数上传=======*/
+    GetUploadCallNum("/companies/accumulate_call"),//传companyId，get方式，每次调用后callCount +1
+
+    /*============ 标书 ===================*/
+    PostTendersCreate("/tenders/create"),
+    PostTendersUpdate("/tenders/update"),//修改标书信息
+    GetTendersDelete("/tenders/delete"),//删除标书 传id
+    GetTendersList("/tenders/list"),//标书列表  传企业ID
+    GetTendersOne("/tenders/"),//获取标书详细信息 {id}
+    GetTenderEnterprise("/tenders/list_enterprise"),//获取企业列表 只返回有标书的企业信息
+
+
     Empty("NULL");
     //  枚举类 URL 的自定义
      /*服务器端口  例：http://182.92.77.31:8080/freight/users/1  */
     public static final String Host = "http://182.92.77.31:8080";
+    //    public static final String Host = "http://192.168.1.112:8080";
     private String url;
 
     /**

@@ -19,7 +19,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.LocationListAdapter;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
@@ -31,11 +31,9 @@ import com.bt.zhangzy.network.entity.JsonLocationProvince;
 import com.bt.zhangzy.network.entity.ResponseOpenCity;
 import com.zhangzy.baidusdk.BaiduSDK;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 import kankan.wheel.widget.OnWheelChangedListener;
@@ -481,7 +479,7 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
         location.setProvinceName(province);
         location.setCityName(cityname);
         location.setLatitude(latitude);
-        location.setLangitude(langitude);
+        location.setLongitude(langitude);
         Log.i(TAG, "定位信息：" + location);
         //更新用户的定位信息
         User.getInstance().setLocation(location);

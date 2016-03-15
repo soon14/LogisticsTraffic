@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.activity.HomeActivity;
 
 /**
@@ -32,7 +32,8 @@ public abstract class BaseHomeFragment extends Fragment {
         contentView = getActivity().getLayoutInflater().inflate(getLayoutID(), null, false);
         if (pageName != null) {
             TextView pageTopName = (TextView) contentView.findViewById(R.id.page_top_name);
-            pageTopName.setText(pageName);
+            if (pageTopName != null)
+                pageTopName.setText(pageName);
         }
         if (contentView.findViewById(R.id.page_top_ly) != null) {
             contentView.findViewById(R.id.page_top_ly).setBackgroundColor(getResources().getColor(R.color.main_bg_color));
@@ -66,11 +67,6 @@ public abstract class BaseHomeFragment extends Fragment {
 
     HomeActivity getHomeActivity() {
         return (HomeActivity) getActivity();
-    }
-
-
-    void startActivity(Class<?> cls) {
-        getHomeActivity().startActivity(cls);
     }
 
 

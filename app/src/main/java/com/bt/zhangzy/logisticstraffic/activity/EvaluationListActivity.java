@@ -3,7 +3,7 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.EvaluationListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;

@@ -15,7 +15,7 @@
 
 
         <TextView
-            style="@style/orange_tx_style"
+            style="@style/def_tx_style_18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
@@ -24,7 +24,7 @@
             android:text="省/直辖市" />
 
         <TextView
-            style="@style/orange_tx_style"
+            style="@style/def_tx_style_18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"

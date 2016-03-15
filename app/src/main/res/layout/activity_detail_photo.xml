@@ -9,6 +9,20 @@
 
     <include layout="@layout/page_top" />
 
+    <TextView
+        android:id="@+id/photo_city_tx"
+        style="@style/edit_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/white_gray_shape"
+        android:clickable="true"
+        android:hint="省份·城市"
+        android:onClick="onClick_ChangeLocation" />
+
     <EditText
         android:id="@+id/photo_address_ed"
         style="@style/edit_style"
@@ -17,7 +31,6 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
         android:background="@drawable/white_gray_shape"
         android:hint="门企地址" />
 

@@ -16,7 +16,7 @@ public class Location implements Serializable {
     private String provinceName;//省
     private String district;
     private String latitude;//纬度
-    private String langitude;//经度
+    private String longitude;//经度
     private char fistLatter;
 
     public Location() {
@@ -60,7 +60,7 @@ public class Location implements Serializable {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[" + provinceName + "->" + cityName + "(" + langitude + "," + latitude + ")]";
+        return getClass().getSimpleName() + "[" + provinceName + "->" + cityName + "(" + longitude + "," + latitude + ")]";
     }
 
     public String getProvinceName() {
@@ -87,11 +87,11 @@ public class Location implements Serializable {
         this.latitude = latitude;
     }
 
-    public String getLangitude() {
-        return langitude;
+    public String getLongitude() {
+        return longitude;
     }
 
-    public void setLangitude(String langitude) {
-        this.langitude = langitude;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 }

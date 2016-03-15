@@ -21,13 +21,13 @@
 
             <TextView
                 android:id="@+id/sg_item_start_tx"
-                style="@style/black_tx_18_style"
+                style="@style/black_tx_style_18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="出发城市" />
 
             <TextView
-                style="@style/black_tx_12_style"
+                style="@style/black_tx_style_12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -37,7 +37,7 @@
 
             <TextView
                 android:id="@+id/sg_item_stop_tx"
-                style="@style/black_tx_18_style"
+                style="@style/black_tx_style_18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="终点城市" />
@@ -50,20 +50,20 @@
             android:layout_marginTop="5dp">
 
             <TextView
-                style="@style/black_tx_12_style"
+                style="@style/black_tx_style_12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="类型：" />
 
             <TextView
                 android:id="@+id/sg_item_type_tx"
-                style="@style/black_tx_18_style"
+                style="@style/black_tx_style_18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="货物类型" />
 
             <TextView
-                style="@style/black_tx_12_style"
+                style="@style/black_tx_style_12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -71,7 +71,7 @@
 
             <TextView
                 android:id="@+id/sg_item_weight_tx"
-                style="@style/black_tx_18_style"
+                style="@style/black_tx_style_18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="货物重量" />
@@ -83,12 +83,12 @@
             android:layout_marginTop="5dp">
 
             <TextView
-                style="@style/black_tx_12_style"
+                style="@style/black_tx_style_12sp"
                 android:text="发布时间：" />
 
             <TextView
                 android:id="@+id/sg_item_date_tx"
-                style="@style/black_tx_12_style"
+                style="@style/black_tx_style_12sp"
                 android:hint="信息发布时间" />
         </TableRow>
 

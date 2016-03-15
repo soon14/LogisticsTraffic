@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.network.entity.JsonComment;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
@@ -64,9 +64,9 @@ public class EvaluationListAdapter extends BaseAdapter {
         }
 
         JsonComment json = list.get(position);
-        ViewUtils.setTextView(holder.nameTx, "name=" + json.getId());
-        ViewUtils.setTextView(holder.contentTx, json.getContent());
-        ViewUtils.setTextView(holder.dateTx, Tools.toStringDate(json.getDate()));
+        ViewUtils.setText(holder.nameTx, "name=" + json.getId());
+        ViewUtils.setText(holder.contentTx, json.getContent());
+        ViewUtils.setText(holder.dateTx, Tools.toStringDate(json.getDate()));
         holder.lvBar.setRating((float) json.getRate());
         //// TODO: 2016-3-2  评价内容缺少 名字、头像图片、是否vip 等参数
 //        ViewUtils.setImageUrl(holder.headImg,json.);

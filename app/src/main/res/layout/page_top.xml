@@ -31,6 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/page_top_back"
-            android:text=" " />
+            android:text="页面名称 " />
     </RelativeLayout>
 </LinearLayout>

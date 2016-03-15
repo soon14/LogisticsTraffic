@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +8,15 @@
     android:orientation="vertical"
     tools:context=".activity.HomeActivity">
 
-    <include layout="@layout/page_top" />
+    <!--<include layout="@layout/page_top" />-->
+    <TextView
+        style="@style/title_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/main_bg_color"
+        android:gravity="center_horizontal"
+        android:text="我的" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,7 +30,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/user_top_bg"
+                android:background="@color/main_bg_color"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -29,11 +38,21 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_margin="10dp"-->
+                    <!--android:src="@drawable/user_bg" />-->
+                    <!--圆角头像-->
+                    <com.bt.zhangzy.logisticstraffic.view.ImageViewCircle
+                        android:id="@+id/user_head_img"
+                        android:layout_width="90dip"
+                        android:layout_height="90dip"
                         android:layout_margin="10dp"
-                        android:src="@drawable/user_bg" />
+                        android:onClick="onClick_HeadImg"
+                        android:src="@drawable/user_bg"
+                        app:border_color="#33ffffff"
+                        app:border_width="3dp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -43,44 +62,43 @@
 
                         <TextView
                             android:id="@+id/user_name_tx"
-                            style="@style/tx_black_df_style"
+                            style="@style/while_tx_style_18sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:hint="用户名" />
+                            android:text="用户名" />
 
                         <TextView
                             android:id="@+id/user_phone_tx"
-                            style="@style/tx_black_df_style"
+                            style="@style/while_tx_style_18sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:hint="手机号" />
+                            android:text="手机号" />
 
 
                         <Button
-                            style="@style/button_style"
+                            style="@style/def_btn_style_12sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:background="@drawable/user_wsxq"
                             android:onClick="onClick_gotoDetailPhoto"
-                            android:text="" />
+                            android:text="完善详情" />
                     </LinearLayout>
+
                     <TextView
                         android:id="@+id/user_reg_date_tx"
-                        style="@style/tx_gray_12sp_style"
+                        style="@style/while_tx_style_12sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
                         android:layout_gravity="bottom|right"
-                        android:hint="注册日期" />
+                        android:layout_margin="5dp"
+                        android:text="注册日期" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/user_top_bt_bg"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="15dp">
@@ -97,12 +115,16 @@
                         android:text="我的订单"
                         android:textColor="@color/white" />
 
+                    <View
+                        android:layout_width="4px"
+                        android:layout_height="match_parent"
+                        android:background="@color/black" />
 
                     <Button
                         style="@style/tx_black_df_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="60dp"
+                        android:layout_marginLeft="30dp"
                         android:background="@color/transparent"
                         android:drawableLeft="@drawable/user_collect_left"
                         android:drawablePadding="5dp"
@@ -128,7 +150,7 @@
                 android:layout_height="2px"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/gray_line" />
+                android:background="@color/def_line" />
 
             <LinearLayout
                 android:id="@+id/user_fleet_item"
@@ -137,6 +159,7 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/user_fleet_bt"
                     style="@style/setting_item_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -150,7 +173,31 @@
                     android:layout_height="2px"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/gray_line" />
+                    android:background="@color/def_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/user_tender_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/user_tender_bt"
+                    style="@style/setting_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/user_tender"
+                    android:drawableRight="@drawable/right_gray_arrow"
+                    android:onClick="onClick_Tender"
+                    android:text="我的标书" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/def_line" />
             </LinearLayout>
 
             <LinearLayout
@@ -173,25 +220,25 @@
                     android:layout_height="2px"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/gray_line" />
+                    android:background="@color/def_line" />
             </LinearLayout>
 
             <!-- todo 暂时先去掉设置功能 -->
             <!--<Button-->
-                <!--style="@style/setting_item_style"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:drawableLeft="@drawable/push_icon"-->
-                <!--android:drawableRight="@drawable/right_gray_arrow"-->
-                <!--android:onClick="onClick_SettingShare"-->
-                <!--android:text="设置" />-->
+            <!--style="@style/setting_item_style"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:drawableLeft="@drawable/push_icon"-->
+            <!--android:drawableRight="@drawable/right_gray_arrow"-->
+            <!--android:onClick="onClick_SettingShare"-->
+            <!--android:text="设置" />-->
 
             <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="2px"-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:background="@color/gray_line" />-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2px"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:background="@color/gray_line" />-->
 
             <Button
                 style="@style/setting_item_style"
@@ -236,7 +283,7 @@
                 android:layout_height="2px"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/gray_line" />
+                android:background="@color/def_line" />
 
             <Button
                 style="@style/setting_item_style"
@@ -251,7 +298,7 @@
                 android:layout_height="2px"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/gray_line" />
+                android:background="@color/def_line" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

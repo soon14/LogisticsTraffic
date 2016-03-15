@@ -61,7 +61,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <TableRow>
 
@@ -91,7 +91,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <TableRow>
 
@@ -118,7 +118,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <TableRow>
 
@@ -142,7 +142,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <TableRow>
 
@@ -165,7 +165,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
         <TableRow>
 
             <TextView
@@ -185,7 +185,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
         <TableRow>
 
             <TextView
@@ -203,7 +203,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <TableRow>
 
@@ -224,7 +224,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
         <TableRow>
 
             <TextView
@@ -242,13 +242,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
     </TableLayout>
 
 
     <TextView
-        style="@style/black_tx_12_style"
+        style="@style/black_tx_style_12sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -300,17 +300,17 @@
             android:gravity="center">
 
             <TextView
-                style="@style/black_tx_12_style"
+                style="@style/black_tx_style_12sp"
                 android:gravity="center"
                 android:text="车辆照" />
 
             <TextView
-                style="@style/black_tx_12_style"
+                style="@style/black_tx_style_12sp"
                 android:gravity="center"
                 android:text="车辆照" />
 
             <TextView
-                style="@style/black_tx_12_style"
+                style="@style/black_tx_style_12sp"
                 android:gravity="center"
                 android:text="车辆行驶照" />
         </TableRow>

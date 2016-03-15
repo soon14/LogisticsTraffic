@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        style="@style/orange_tx_style"
+        style="@style/def_tx_style_18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -33,37 +33,37 @@
             android:text="建材" />
 
         <TextView
-            style="@style/black_tx_18_style"
+            style="@style/black_tx_style_18sp"
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="化工" />
 
         <TextView
-            style="@style/black_tx_18_style"
+            style="@style/black_tx_style_18sp"
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="药品" />
 
         <TextView
-            style="@style/black_tx_18_style"
+            style="@style/black_tx_style_18sp"
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="矿产" />
 
         <TextView
-            style="@style/black_tx_18_style"
+            style="@style/black_tx_style_18sp"
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="食品蔬菜" />
 
         <TextView
-            style="@style/black_tx_18_style"
+            style="@style/black_tx_style_18sp"
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="设备" />
 
         <TextView
-            style="@style/black_tx_18_style"
+            style="@style/black_tx_style_18sp"
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="生鲜" />

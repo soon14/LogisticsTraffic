@@ -6,10 +6,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.OrderStatus;
 import com.bt.zhangzy.network.entity.JsonOrder;
-import com.bt.zhangzy.tools.ContextTools;
 import com.bt.zhangzy.tools.ViewUtils;
 
 import java.util.List;
@@ -66,16 +65,16 @@ public class OrderListAdapter extends BaseAdapter {
             holder = (Holder) convertView.getTag();
         }
         JsonOrder order = list.get(position);
-        ViewUtils.setTextView(holder.orderNum, String.valueOf(order.getId()));
-        ViewUtils.setTextView(holder.enterpriseTx, String.valueOf(order.getEnterpriseId()));
-        ViewUtils.setTextView(holder.companyTx, String.valueOf(order.getCompanyId()));
-        ViewUtils.setTextView(holder.start_end_Tx, order.getStartCity() + "-" + order.getStopCity());
-        ViewUtils.setTextView(holder.driverTx, order.getReceiverName());
-        ViewUtils.setTextView(holder.driverPhoneTx, order.getReceiverPhone());
+        ViewUtils.setText(holder.orderNum, String.valueOf(order.getId()));
+        ViewUtils.setText(holder.enterpriseTx, String.valueOf(order.getEnterpriseId()));
+        ViewUtils.setText(holder.companyTx, String.valueOf(order.getCompanyId()));
+        ViewUtils.setText(holder.start_end_Tx, order.getStartCity() + "-" + order.getStopCity());
+        ViewUtils.setText(holder.driverTx, order.getReceiverName());
+        ViewUtils.setText(holder.driverPhoneTx, order.getReceiverPhone());
         if (OrderStatus.parseStatus(order.getStatus()) == OrderStatus.DiscardOrder) {
             holder.blankOut.setVisibility(View.VISIBLE);
 //            holder.ly.setBackgroundColor(parent.getResources().getColor(R.color.editpage_bg_color));
-            holder.ly.setBackgroundResource(R.color.editpage_bg_color);
+            holder.ly.setBackgroundResource(R.color.gray);
         } else {
             holder.blankOut.setVisibility(View.INVISIBLE);
 //            holder.ly.setBackgroundColor(parent.getResources().getColor(R.color.white));

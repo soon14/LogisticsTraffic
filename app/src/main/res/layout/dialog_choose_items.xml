@@ -7,7 +7,7 @@
     <!-- dialog 封装 多按钮选择 -->
     <TextView
         android:id="@+id/dialog_choose_title"
-        style="@style/orange_tx_style"
+        style="@style/def_tx_style_18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

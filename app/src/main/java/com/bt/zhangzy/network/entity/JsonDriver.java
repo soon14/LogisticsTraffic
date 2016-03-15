@@ -14,9 +14,18 @@ public class JsonDriver extends BaseEntity {
     int commentsCount;//评论数
     int orderCount;//接单数
     int totalMileage;//总里程
+    int status;
 
 
     public JsonDriver() {
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getId() {

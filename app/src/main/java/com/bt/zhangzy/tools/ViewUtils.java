@@ -1,8 +1,11 @@
 package com.bt.zhangzy.tools;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +18,24 @@ import com.bt.zhangzy.network.ImageHelper;
 public final class ViewUtils {
     private static final String TAG = ViewUtils.class.getSimpleName();
 
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+
+        Bitmap bitmap = Bitmap.createBitmap(
+                drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(),
+                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                        : Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
+
+        //canvas.setBitmap(bitmap);
+
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+
+        drawable.draw(canvas);
+
+        return bitmap;
+
+    }
 
     /**
      * 返回textview里的text 字段
@@ -38,30 +59,20 @@ public final class ViewUtils {
      * @param url
      */
     public static void setImageUrl(ImageView img, String url) {
-        if (TextUtils.isEmpty(url) || img == null)
+        if (img == null)
             return;
-        if (url.startsWith("/")) {
-            url = AppURL.Host + url;
-        }
-        if (url.startsWith("http://")) {
-            ImageHelper.getInstance().load(url, img);
+        if (TextUtils.isEmpty(url)) {
+            ImageHelper.getInstance().load(null, img);
+        } else {
+            if (url.startsWith("/")) {
+                url = AppURL.Host + url;
+            }
+            if (url.startsWith("http://")) {
+                ImageHelper.getInstance().load(url, img);
+            }
         }
     }
 
-    /**
-     * 设置TextView的内容 如果没有内容则跳过；避免报错
-     *
-     * @param textView
-     * @param sequence
-     * @return 有没有设置成功
-     */
-    public static boolean setTextView(TextView textView, CharSequence sequence) {
-        if (TextUtils.isEmpty(sequence) || textView == null)
-            return false;
-        else
-            textView.setText(sequence);
-        return true;
-    }
 
     /**
      * 设置textView的内容
@@ -69,10 +80,11 @@ public final class ViewUtils {
      * @param textView
      * @param string
      */
-    public static void setText(TextView textView, String string) {
+    public static boolean setText(TextView textView, String string) {
         if (textView == null)
-            return;
+            return false;
         textView.setText(TextUtils.isEmpty(string) ? "" : string);
+        return true;
     }
 
     /**
@@ -82,7 +94,7 @@ public final class ViewUtils {
      * @param id
      * @param string
      */
-    public static void setText(ViewGroup group, int id, String string) {
+    public static void setText(View group, int id, String string) {
         if (group == null)
             return;
         View view = group.findViewById(id);

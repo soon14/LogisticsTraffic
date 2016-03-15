@@ -6,10 +6,9 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Location;
@@ -33,8 +32,8 @@ import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonOrder;
 import com.bt.zhangzy.network.entity.JsonOrderHistory;
-import com.bt.zhangzy.network.entity.RequestOrderAccept_Reject;
 import com.bt.zhangzy.network.entity.RequestCallDriver;
+import com.bt.zhangzy.network.entity.RequestOrderAccept_Reject;
 import com.bt.zhangzy.network.entity.RequestOrderAllocation;
 import com.bt.zhangzy.network.entity.RequestOrderHistroy;
 import com.bt.zhangzy.tools.ViewUtils;
@@ -73,7 +72,7 @@ public class OrderDetailActivity extends BaseActivity {
         else
             initView_JsonOrder();
 
-        if (User.getInstance().getUserType() == Type.InformationType) {
+        if (User.getInstance().getUserType() == Type.CompanyInformationType) {
             //物流公司看到企业派送的订单后自动调用 同意接单的接口
             if (orderStatus == OrderStatus.UncommittedOrder) {
                 requestAccept_Reject(true);
@@ -114,8 +113,10 @@ public class OrderDetailActivity extends BaseActivity {
         if (jsonOrder == null)
             return;
         setTextView(R.id.order_detail_number_tx, String.valueOf(jsonOrder.getId()));
-        setTextView(R.id.order_detail_enterprise_tx, "企业ID=" + jsonOrder.getEnterpriseId());
-        setTextView(R.id.order_detail_company_tx, "物流ID=" + jsonOrder.getCompanyId());
+//        setTextView(R.id.order_detail_enterprise_tx, "企业ID=" + jsonOrder.getEnterpriseId());
+//        setTextView(R.id.order_detail_company_tx, "物流ID=" + jsonOrder.getCompanyId());
+        setTextView(R.id.order_detail_enterprise_tx, jsonOrder.getEnterpriseName());
+        setTextView(R.id.order_detail_company_tx, jsonOrder.getCompanyName());
         setTextView(R.id.order_detail_start_city_tx, jsonOrder.getStartCity());
         setTextView(R.id.order_detail_stop_city_tx, jsonOrder.getStopCity());
         setTextView(R.id.order_detail_type_tx, jsonOrder.getGoodsType());
@@ -161,7 +162,7 @@ public class OrderDetailActivity extends BaseActivity {
         Type userType = User.getInstance().getUserType();
         if (userType == Type.EnterpriseType) {
             initView_Enterprise();
-        } else if (userType == Type.InformationType) {
+        } else if (userType == Type.CompanyInformationType) {
             initView_Company();
         } else if (userType == Type.DriverType) {
             initView_Drivers();
@@ -207,7 +208,9 @@ public class OrderDetailActivity extends BaseActivity {
                 setTextView(R.id.order_detail_submit, "提交订单");
                 break;
             case SubmittedMode:
-                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
+//                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
+                //修改为定位图标
+                findViewById(R.id.order_detail_select_driver_bt).setBackgroundResource(R.drawable.location_btn);
 //                setTextView(R.id.order_detail_submit, "订单已提交");
                 findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
                 break;
@@ -241,9 +244,9 @@ public class OrderDetailActivity extends BaseActivity {
                 findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                 break;
             case SubmittedMode:
-                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
-//                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
-//                setTextView(R.id.order_detail_submit, "订单已提交");
+//                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
+                //修改为定位图标
+                findViewById(R.id.order_detail_select_driver_bt).setBackgroundResource(R.drawable.location_btn);
                 findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
                 break;
             case CompletedMode:
@@ -289,14 +292,30 @@ public class OrderDetailActivity extends BaseActivity {
 
 
     /**
+     * 检查编辑状态
+     *
+     * @return 是否 不可以编辑
+     */
+    private boolean cannotEditStatus() {
+        //司机只能查看 不能编辑
+        if (AppParams.DRIVER_APP)
+            return true;
+        if (orderStatus != OrderStatus.Empty
+                && orderStatus != OrderStatus.TempOrder
+                && orderStatus != OrderStatus.UncommittedOrder)
+            return true;
+        return false;
+    }
+
+    /**
      * 地址选择
      *
      * @param view
      */
     public void onClick_ChangeLocation(View view) {
-        //司机只能查看 不能编辑
-        if (AppParams.DRIVER_APP)
+        if (cannotEditStatus())
             return;
+
         if (view == null || !(view instanceof TextView)) {
             return;
         }
@@ -315,7 +334,7 @@ public class OrderDetailActivity extends BaseActivity {
                     public void onChanged(Location loc) {
                     }
 
-                    public void onCancel(Location loc){
+                    public void onCancel(Location loc) {
                         if (loc == null)
                             return;
 
@@ -339,8 +358,7 @@ public class OrderDetailActivity extends BaseActivity {
      * @param view
      */
     public void onClick_ChangeType(View view) {
-        //司机只能查看 不能编辑
-        if (AppParams.DRIVER_APP)
+        if (cannotEditStatus())
             return;
         final TextView textView = (TextView) view;
 
@@ -361,26 +379,9 @@ public class OrderDetailActivity extends BaseActivity {
 
     }
 
-//    public void onClick_InputGoodsName(View view) {
-//        //司机只能查看 不能编辑
-//        if (AppParams.DRIVER_APP)
-//            return;
-//        InputDialog dialog = new InputDialog(this);
-//        dialog.setEditHintString("请输入货物名称");
-//        dialog.setCallback(new InputDialog.Callback() {
-//            @Override
-//            public void inputCallback(String string) {
-//                jsonOrder.setGoodsName(string);
-//                updateJsonOrder = true;
-//                setTextView(R.id.order_detail_goods_name_tx, string);
-//            }
-//        });
-//        dialog.show();
-//    }
 
     public void onClick_InputDriverCount(View view) {
-        //司机只能查看 不能编辑
-        if (AppParams.DRIVER_APP)
+        if (cannotEditStatus())
             return;
         new InputDialog(this)
                 .setInputType(InputType.TYPE_CLASS_NUMBER)
@@ -397,8 +398,7 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     public void onClick_InputReceiverName(View view) {
-        //司机只能查看 不能编辑
-        if (AppParams.DRIVER_APP)
+        if (cannotEditStatus())
             return;
         new InputDialog(this)
                 .setInputType(InputType.TYPE_CLASS_TEXT)
@@ -415,8 +415,7 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     public void onClick_InputPhone(View view) {
-        //司机只能查看 不能编辑
-        if (AppParams.DRIVER_APP)
+        if (cannotEditStatus())
             return;
         new InputDialog(this)
                 .setInputType(InputType.TYPE_CLASS_PHONE)
@@ -438,8 +437,7 @@ public class OrderDetailActivity extends BaseActivity {
      * @param view
      */
     public void onClick_InputVolume(View view) {
-        //司机只能查看 不能编辑
-        if (AppParams.DRIVER_APP)
+        if (cannotEditStatus())
             return;
         new InputDialog(this)
                 .setInputType(InputType.TYPE_CLASS_NUMBER)
@@ -475,8 +473,7 @@ public class OrderDetailActivity extends BaseActivity {
      * @param view
      */
     public void onClick_ChangeTruckLength(View view) {
-        //司机只能查看 不能编辑
-        if (AppParams.DRIVER_APP)
+        if (cannotEditStatus())
             return;
         final TextView textView = (TextView) view;
         ChooseItemsDialog.showChooseItemsDialog(this, getString(R.string.order_change_truck_length_title), new View.OnClickListener() {
@@ -501,8 +498,7 @@ public class OrderDetailActivity extends BaseActivity {
      * @param view
      */
     public void onClick_ChangeWeight(View view) {
-        //司机只能查看 不能编辑
-        if (AppParams.DRIVER_APP)
+        if (cannotEditStatus())
             return;
         new InputDialog(this)
                 .setInputType(InputType.TYPE_CLASS_NUMBER)
@@ -550,10 +546,11 @@ public class OrderDetailActivity extends BaseActivity {
 
     //选择 司机 call车
     public void onClick_SelectDriverBtn(View view) {
-        //司机只能查看 不能编辑
-        if (AppParams.DRIVER_APP)
-            return;
-        if (orderStatus == OrderStatus.AllocationOrder) {
+//        if (cannotEditStatus())
+//            return;
+        if (orderStatus == OrderStatus.CommitOrder) {
+            gotoMap();
+        } else if (orderStatus == OrderStatus.AllocationOrder) {
             //to do 订单分配中 这里需要请求 抢单成功的司机列表
 //            showToast("订单分配中 这里需要请求 抢单成功的司机列表");
             gotoSelectDriver(jsonOrder.getDriverCount(), allocationList);
@@ -569,6 +566,13 @@ public class OrderDetailActivity extends BaseActivity {
 //        bundle.putInt(AppParams.RESULT_CODE_KEY, AppParams.RESULT_CODE_SELECT_DEVICES);
 //        bundle.putInt(AppParams.SELECT_DEVICES_SIZE_KEY, needDriverNum);
 //        startActivityForResult(FleetActivity.class, bundle, AppParams.RESULT_CODE_SELECT_DEVICES);
+    }
+
+    public void gotoMap() {
+        Bundle bundle = new Bundle();
+        bundle.putString(AppParams.WEB_PAGE_NAME, "运输司机位置");
+        bundle.putString(AppParams.WEB_PAGE_URL, String.format(AppURL.LOCATION_MAP_ORDER.toString(), jsonOrder.getId()));
+        startActivity(WebViewActivity.class, bundle);
     }
 
     public void onClick_CallPhone(View view) {
@@ -601,7 +605,7 @@ public class OrderDetailActivity extends BaseActivity {
                 //司机抢单
                 if (user.getUserType() == Type.DriverType) {
                     submitOrder_Drivers();
-                } else if (user.getUserType() == Type.InformationType) {
+                } else if (user.getUserType() == Type.CompanyInformationType) {
                     submitOrder_Company();
                 } else {
                     showToast("无权操作订单");
@@ -622,7 +626,7 @@ public class OrderDetailActivity extends BaseActivity {
                 //跳转评价
                 if (user.getUserType() == Type.DriverType) {
                     Bundle bundle = new Bundle();
-//                    bundle.putInt(AppParams.BUNDLE_EVALUATION_ROLE,Type.InformationType.toRole());
+//                    bundle.putInt(AppParams.BUNDLE_EVALUATION_ROLE,Type.CompanyInformationType.toRole());
                     bundle.putString(AppParams.BUNDLE_EVALUATION_ORDER, jsonOrder.toString());
                     startActivity(EvaluationActivity.class, bundle);
                 }
@@ -904,7 +908,7 @@ public class OrderDetailActivity extends BaseActivity {
             jsonOrder.setEnterpriseId(User.getInstance().getEnterpriseID());
             if (product != null)
                 jsonOrder.setCompanyId(product.getID());
-        } else if (user.getUserType() == Type.InformationType) {
+        } else if (user.getUserType() == Type.CompanyInformationType) {
             //信息部直接下单
             jsonOrder.setCompanyId(user.getCompanyID());
         }
@@ -915,7 +919,7 @@ public class OrderDetailActivity extends BaseActivity {
             public void onSuccess(String msg, String result) {
                 showToast("下单成功" + msg);
                 requestSendToCompany(result);
-                if (User.getInstance().getUserType() == Type.InformationType) {
+                if (User.getInstance().getUserType() == Type.CompanyInformationType) {
                     requestOrder(result);
                 }
 //                finish();
@@ -936,7 +940,7 @@ public class OrderDetailActivity extends BaseActivity {
             public void onSuccess(String msg, String result) {
                 JsonOrder tmp_json = ParseJson_Object(result, JsonOrder.class);
                 jsonOrder = tmp_json;
-                if (User.getInstance().getUserType() == Type.InformationType) {
+                if (User.getInstance().getUserType() == Type.CompanyInformationType) {
                     submitOrder_Company_Call();
                 }
             }
@@ -956,7 +960,7 @@ public class OrderDetailActivity extends BaseActivity {
         if (user.getUserType() == Type.EnterpriseType) {
             if (product != null)
                 params.put("companyId", String.valueOf(product.getID()));
-        } else if (user.getUserType() == Type.InformationType) {
+        } else if (user.getUserType() == Type.CompanyInformationType) {
             params.put("companyId", String.valueOf(user.getCompanyID()));
         }
 

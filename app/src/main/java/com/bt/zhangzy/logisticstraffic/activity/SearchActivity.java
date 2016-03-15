@@ -1,20 +1,17 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
-import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Product;
@@ -27,8 +24,6 @@ import com.bt.zhangzy.network.entity.ResponseCompany;
 import com.bt.zhangzy.tools.ContextTools;
 import com.bt.zhangzy.tools.ViewUtils;
 import com.zhangzy.baidusdk.BaiduSDK;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +46,8 @@ public class SearchActivity extends BaseActivity {
     private HomeListAdapter adapter;
     private AutoCompleteTextView searchKeyWord;
     private ArrayAdapter<String> adapterHistory;//搜索记录
-//    private String startCity, stopCity;
+    private JsonCallback jsonCallback;
+    //    private String startCity, stopCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,43 +149,53 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
+    public JsonCallback getJsonCallback() {
+        if (jsonCallback == null) {
+            jsonCallback = new JsonCallback() {
+                @Override
+                public void onSuccess(String msg, String result) {
+                    List<ResponseCompany> list = ParseJson_Array(result, ResponseCompany.class);
+                    if (list == null || list.isEmpty()) {
+                        showToast("搜索内容为空");
+                        return;
+                    }
+                    showToast("搜索成功");
+                    ArrayList<Product> p_list = new ArrayList<Product>();
+                    Product p;
+                    for (ResponseCompany json : list) {
+                        p = Product.ParseJson(json);
+                        p_list.add(p);
+                    }
+                    adapter = new HomeListAdapter(p_list);
+                    refreshListView();
+                }
+
+                @Override
+                public void onFailed(String str) {
+                    showToast("搜索失败");
+                }
+            };
+        }
+        return jsonCallback;
+    }
+
     //搜索接口
-    private void requestSearch(HashMap<String, String> params) {
+    private void requestSearch(String keyWord) {
+        /*  params.put("fieldName", "oftenRoute");
+            //value=*包头市/北京市*
+            params.put("value", "*" + start_city + "/" + stop_city + "*");
+         */
+        HashMap<String, String> params = new HashMap<>();
+        params.put("fieldName", "name");
+        params.put("value", keyWord);
+        HttpHelper.getInstance().get(AppURL.GetSearch, params, getJsonCallback());
+    }
 
-        HttpHelper.getInstance().get(AppURL.GetSearch, params, new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-                List<ResponseCompany> list = ParseJson_Array(result, ResponseCompany.class);
-                if (list == null || list.isEmpty()) {
-                    showToast("搜索内容为空");
-                    return;
-                }
-                showToast("搜索成功");
-                ArrayList<Product> p_list = new ArrayList<Product>();
-                Product p;
-                for (ResponseCompany json : list) {
-                    p = new Product(json.getId());
-                    p.setUserId(json.getUserId());
-                    p.setName(json.getName());
-                    p.setPhotoUrl(json.getPhotoUrl());
-                    //设置 认证用户或者 付费用户
-                    p.setIsVip(json.getStatus() != -1);
-//                    product.setLevel(company.getStar());
-                    p.setTimes(json.getViewCount());
-                    p.setCallTimes(json.getCallCount());
-                    p.setPhotoUrl(json.getPhotoUrl());
-                    p.setCompany(json);
-                    p_list.add(p);
-                }
-                adapter = new HomeListAdapter(p_list);
-                refreshListView();
-            }
-
-            @Override
-            public void onFailed(String str) {
-                showToast("搜索失败");
-            }
-        });
+    private void requestSearchLine(String startCity, String stopCity) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("start", startCity);
+        params.put("stop", stopCity);
+        HttpHelper.getInstance().get(AppURL.GetSearchLine, params, getJsonCallback());
     }
 
     private void refreshListView() {
@@ -203,11 +209,12 @@ public class SearchActivity extends BaseActivity {
                 if (v != null)
 //                    Product product = adapter.getItem(position);
                     if (v.getId() == R.id.list_item_ly) {
-                        Log.d(TAG, "    >>>>>点击了item" + position);
+//                        Log.d(TAG, "    >>>>>点击了item" + position);
                         gotoDetail(adapter.getItem(position));
                     } else if (v.getId() == R.id.list_item_phone) {
-                        Log.d(TAG, "    >>>>>点击了phone" + position);
-                        showDialogCallPhone("12301253326");
+//                        Log.d(TAG, "    >>>>>点击了phone" + position);
+                        Product product = adapter.getItem(position);
+                        showDialogCallPhone(product.getPhoneNumber(), product.getID());
                     }
             }
         });
@@ -232,10 +239,7 @@ public class SearchActivity extends BaseActivity {
             adapterHistory.add(keyWord);
 
             /*按照公司属性名和字段值查询公司列表，字段包括：id，userId，name，address，area，oftenSendType，scaleOfOperation*/
-            HashMap<String, String> params = new HashMap<>();
-            params.put("fieldName", "name");
-            params.put("value", keyWord);
-            requestSearch(params);
+            requestSearch(keyWord);
         } else {
 
             String start_city = getStringFromTextView(R.id.search_start_ed);
@@ -245,10 +249,8 @@ public class SearchActivity extends BaseActivity {
                 return;
             }
 
-            HashMap<String, String> params = new HashMap<>();
-            params.put("fieldName", "oftenRoute");
-            params.put("value", start_city + " AND " + stop_city);
-            requestSearch(params);
+
+            requestSearchLine(start_city, stop_city);
         }
 //
 //
@@ -265,11 +267,9 @@ public class SearchActivity extends BaseActivity {
     public void onClick_SWOP(View view) {
         //交换始发地按钮
         if (lineTypeLy != null) {
-            EditText startEd = (EditText) lineTypeLy.findViewById(R.id.search_start_ed);
-            EditText endEd = (EditText) lineTypeLy.findViewById(R.id.search_end_ed);
-            Editable editable = startEd.getText();
-            startEd.setText(endEd.getText());
-            endEd.setText(editable);
+            String string = getStringFromTextView(R.id.search_start_ed);
+            setTextView(R.id.search_start_ed, getStringFromTextView(R.id.search_end_ed));
+            setTextView(R.id.search_end_ed, string);
         }
     }
 
@@ -312,7 +312,7 @@ public class SearchActivity extends BaseActivity {
                                  public void onChanged(Location loc) {
                                  }
 
-                                 public void onCancel(Location loc){
+                                 public void onCancel(Location loc) {
                                      if (TextUtils.isEmpty(loc.getCityName()))
                                          return;
 

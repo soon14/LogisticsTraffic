@@ -14,7 +14,7 @@
         android:id="@+id/test_params"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/black_tx_12_style"
+        style="@style/black_tx_style_12sp"
         android:hint="测试参数" />
 
     <EditText
@@ -51,7 +51,7 @@
         android:id="@+id/test_response"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/black_tx_12_style"
+        style="@style/black_tx_style_12sp"
         android:hint="请求结果" />
 
 </LinearLayout>

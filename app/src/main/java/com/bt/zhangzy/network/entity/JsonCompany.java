@@ -14,7 +14,7 @@ public class JsonCompany extends BaseEntity {
     int status;
     String oftenRoute;//常发线路
     String validationMessage;//验证返回信息
-    double longitude, latitude;//经度信息 纬度信息
+    float longitude, latitude;//经度信息 纬度信息
     String area;//所属区域
     String myWealth;//我的财富
     double star;//星级
@@ -25,7 +25,7 @@ public class JsonCompany extends BaseEntity {
     int callCount;
     int viewCount;
     String oftenSendType;//常发货物类型
-    String scaleOfOperation;//经营规模
+    String scaleOfOperation;//经营规模  等同公司简介
 
 
     public JsonCompany() {
@@ -79,19 +79,19 @@ public class JsonCompany extends BaseEntity {
         this.validationMessage = validationMessage;
     }
 
-    public double getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
-    public double getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 

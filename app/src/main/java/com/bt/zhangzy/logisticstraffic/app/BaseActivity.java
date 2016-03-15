@@ -15,8 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.activity.DetailCompany;
+import com.bt.zhangzy.logisticstraffic.activity.LoginActivity;
 import com.bt.zhangzy.logisticstraffic.activity.PayActivity;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
@@ -24,8 +25,9 @@ import com.bt.zhangzy.logisticstraffic.receiver.MessageReceiver;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.CustomProgress;
-import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.AppURL;
+import com.bt.zhangzy.network.HttpHelper;
+import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.tools.ViewUtils;
 import com.zhangzy.baidusdk.BaiduMapActivity;
 
@@ -196,9 +198,6 @@ public class BaseActivity extends FragmentActivity {
      * @param url
      */
     protected void setImageUrl(int id, String url) {
-        if (TextUtils.isEmpty(url)) {
-            return;
-        }
         View viewById = findViewById(id);
         if (viewById != null && viewById instanceof ImageView)
             ViewUtils.setImageUrl((ImageView) viewById, url);
@@ -220,6 +219,7 @@ public class BaseActivity extends FragmentActivity {
         if (TextUtils.isEmpty(msg))
             return;
         toastMsg = msg;
+        Log.d(TAG, "Toast:" + msg);
         if (Looper.myLooper() == getMainLooper()) {
             showToastOnUI();
         } else {
@@ -339,15 +339,34 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
-    public void showDialogCallPhone(final String phoneNum) {
+    /**
+     * 登录页面跳转
+     */
+    public void gotoLogin() {
+        ConfirmDialog.showConfirmDialog(this, "您还没有登陆，是否登陆？", "返回", "登陆", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(LoginActivity.class);
+            }
+        });
+    }
+
+    /**
+     * 支付页面统一跳转
+     */
+    public void gotoPay() {
+        ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(PayActivity.class);
+            }
+        });
+    }
+
+    public void showDialogCallPhone(final String phoneNum, final int companyId) {
         Log.d(TAG, ">>>showDialogCallPhone " + phoneNum);
         if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
-            ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(PayActivity.class);
-                }
-            });
+            gotoPay();
             return;
         }
         BaseDialog dialog = BaseDialog.CreateChoosePhoneDialog(this, phoneNum);
@@ -356,11 +375,26 @@ public class BaseActivity extends FragmentActivity {
             public void onClick(View v) {
                 if (v.getId() == R.id.dialog_btn_yes) {
                     getApp().callPhone(phoneNum);
+                    requestUploadCallNumber(companyId);
                 }
             }
         });
         dialog.show();
 
+    }
+
+    private void requestUploadCallNumber(int companyId) {
+        HttpHelper.getInstance().get(AppURL.GetUploadCallNum, new String[]{"companyId=" + companyId}, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
     }
 
 

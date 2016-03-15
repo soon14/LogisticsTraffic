@@ -2,9 +2,8 @@ package com.bt.zhangzy.logisticstraffic.view;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 
 /**
  * Created by ZhangZy on 2016-1-21.

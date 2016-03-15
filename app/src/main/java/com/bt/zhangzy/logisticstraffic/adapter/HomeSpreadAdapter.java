@@ -5,9 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.tools.ViewUtils;
 
@@ -30,6 +29,7 @@ public class HomeSpreadAdapter extends PagerAdapter {
 
     /**
      * 点击事件注册
+     *
      * @param click
      */
     public void setItemClick(OnClick click) {
@@ -116,7 +116,7 @@ public class HomeSpreadAdapter extends PagerAdapter {
         public MEntry(int id, Product product) {
             this.id = id;
             this.product = product;
-            url = product.getPhotoUrl();
+            url = product.getIconImgUrl();
         }
 
         @Override

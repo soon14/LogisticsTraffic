@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        style="@style/orange_tx_style"
+        style="@style/def_tx_style_18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -26,18 +26,18 @@
         android:rowCount="4">
 
         <TextView
-            style="@style/black_tx_18_style"
+            style="@style/black_tx_style_18sp"
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="4.2米" />
 
         <TextView
-            style="@style/black_tx_18_style"
+            style="@style/black_tx_style_18sp"
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="5米" />
         <TextView
-            style="@style/black_tx_18_style"
+            style="@style/black_tx_style_18sp"
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="8米" />

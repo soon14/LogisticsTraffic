@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Location;
@@ -187,7 +187,7 @@ public class ServicesActivity extends BaseActivity {
         }
 
         if (pageName != null) {
-            url = String.format(AppURL.LOCATION_MAP_SERVERS.toString(), Float.valueOf(location.getLangitude()), Float.valueOf(location.getLatitude()), url);
+            url = String.format(AppURL.LOCATION_MAP_SERVERS.toString(), Float.valueOf(location.getLongitude()), Float.valueOf(location.getLatitude()), url);
             Bundle bundle = new Bundle();
             bundle.putString(AppParams.WEB_PAGE_NAME, pageName);
             bundle.putString(AppParams.WEB_PAGE_URL, url);

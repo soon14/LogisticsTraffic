@@ -9,11 +9,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.SourceCarListAdapter;
-import com.bt.zhangzy.logisticstraffic.adapter.SourceGoodsListAdapter;
 import com.bt.zhangzy.network.entity.JsonCar;
-import com.bt.zhangzy.network.entity.JsonOrder;
 
 import java.util.List;
 

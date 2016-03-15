@@ -11,23 +11,33 @@
 
     <ImageView
         android:id="@+id/home_flipper_about"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
         android:background="@color/transparent"
         android:clickable="true"
+        android:scaleType="fitXY"
         android:src="@drawable/fake_ad_1" />
 
     <ImageView
         android:id="@+id/home_flipper_about_company"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
         android:clickable="true"
+        android:scaleType="fitXY"
         android:src="@drawable/fake_ad_2" />
 
     <ImageView
         android:id="@+id/home_flipper_about_app"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
         android:clickable="true"
+        android:scaleType="fitXY"
         android:src="@drawable/fake_ad_3" />
+    <ImageView
+        android:id="@+id/home_flipper_tender"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:clickable="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/fake_ad_2" />
 </com.bt.zhangzy.logisticstraffic.view.AdViewFlipper>

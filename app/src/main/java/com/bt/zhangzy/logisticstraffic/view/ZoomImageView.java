@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 /**
+ * 全屏缩放bitmap 图片
+ * 有待完善  应该继承ImageView 这样可以当成ImageView用
  * Created by ZhangZy on 2015/7/8.
  */
 
@@ -245,6 +247,9 @@ public class ZoomImageView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (sourceBitmap == null)
+            return;
+
         switch (currentStatus) {
             case STATUS_ZOOM_OUT:
             case STATUS_ZOOM_IN:

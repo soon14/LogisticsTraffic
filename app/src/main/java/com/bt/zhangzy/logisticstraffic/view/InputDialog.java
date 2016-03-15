@@ -1,21 +1,16 @@
 package com.bt.zhangzy.logisticstraffic.view;
 
 import android.app.Activity;
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
-import com.bt.zhangzy.tools.ContextTools;
+import com.bt.zhangzy.logisticstraffic.d.R;
 
 /**
  * Created by ZhangZy on 2016-2-2.

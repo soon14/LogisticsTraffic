@@ -4,14 +4,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
-import com.bt.zhangzy.logisticstraffic.data.People;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

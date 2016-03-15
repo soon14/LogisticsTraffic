@@ -12,9 +12,8 @@ import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
+
 
 public abstract class NetCallback implements Callback {
     private static final String TAG = NetCallback.class.getSimpleName();
@@ -38,7 +37,7 @@ public abstract class NetCallback implements Callback {
         try {
             String responseBody = response.body().string();
             Log.d(TAG, response.toString() + "==>>" + responseBody);
-            if(!TextUtils.isEmpty(responseBody)) {
+            if (!TextUtils.isEmpty(responseBody)) {
                 onSuccess(responseBody);
             }
         } catch (Exception e) {

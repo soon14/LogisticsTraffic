@@ -33,7 +33,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <TableRow>
 
@@ -55,7 +55,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <TableRow>
 
@@ -77,7 +77,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <TableRow>
 
@@ -99,7 +99,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
 
         <TableRow>
 
@@ -121,7 +121,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@color/gray_line" />
+            android:background="@color/def_line" />
     </TableLayout>
 
 

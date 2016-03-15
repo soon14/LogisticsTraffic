@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.network.entity.JsonOrder;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
@@ -58,11 +58,11 @@ public class SourceGoodsListAdapter extends BaseAdapter {
         }
 
         JsonOrder order = list.get(position);
-        ViewUtils.setTextView(holder.startCity, order.getStartCity());
-        ViewUtils.setTextView(holder.stopCity, order.getStopCity());
-        ViewUtils.setTextView(holder.goodsType, order.getGoodsType());
-        ViewUtils.setTextView(holder.goodsWeight, order.getGoodsWeight());
-        ViewUtils.setTextView(holder.creatTime, Tools.toStringDate(order.getPublishDate()));
+        ViewUtils.setText(holder.startCity, order.getStartCity());
+        ViewUtils.setText(holder.stopCity, order.getStopCity());
+        ViewUtils.setText(holder.goodsType, order.getGoodsType());
+        ViewUtils.setText(holder.goodsWeight, order.getGoodsWeight());
+        ViewUtils.setText(holder.creatTime, Tools.toStringDate(order.getPublishDate()));
 
 
         return convertView;

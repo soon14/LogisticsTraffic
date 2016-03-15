@@ -11,13 +11,10 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.tools.ViewUtils;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +22,7 @@ import java.util.List;
  */
 public class HomeListAdapter extends BaseAdapter {
 
-    ArrayList<ViewHolder> listView = new ArrayList<ViewHolder>();
+//    ArrayList<ViewHolder> listView = new ArrayList<ViewHolder>();
 
     private OnClickItemListener itemListener;
     private List<Product> list;
@@ -35,7 +32,8 @@ public class HomeListAdapter extends BaseAdapter {
     }
 
     public void addList(List<Product> list) {
-        list.addAll(list);
+        this.list.addAll(list);
+//        notifyDataSetChanged();
     }
 
     public void setOnClickItemListener(OnClickItemListener listener) {
@@ -61,11 +59,13 @@ public class HomeListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder = new ViewHolder();
+        ViewHolder holder;
         if (convertView == null) {
 //            final int[] fakeImgId = {R.drawable.fake_1, R.drawable.fake_2, R.drawable.fake_3, R.drawable.fake_4, R.drawable.fake_5, R.drawable.fake_6, R.drawable.fake_7, R.drawable.fake_8, R.drawable.fake_9, R.drawable.fake_10};
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_list_item, null);
-            holder.position = position;
+            holder = new ViewHolder();
+            convertView.setTag(holder);
+
             holder.img = (ImageView) convertView.findViewById(R.id.item_img);
             holder.button = (ImageButton) convertView.findViewById(R.id.list_item_phone);
             holder.textView = (TextView) convertView.findViewById(R.id.list_item_name_tx);
@@ -76,26 +76,25 @@ public class HomeListAdapter extends BaseAdapter {
             holder.times_tx = (TextView) convertView.findViewById(R.id.list_item_times_count_tx);
             holder.dir_tx = (TextView) convertView.findViewById(R.id.list_item_dir_tx);
 
-            listView.add(holder);
-
-//            holder.img.setImageResource(fakeImgId[position % fakeImgId.length]);
 
             holder.button.setOnClickListener(holder.listener);
             holder.layout.setOnClickListener(holder.listener);
 
+        }else {
+            holder = (ViewHolder) convertView.getTag();
         }
+        holder.position = position;
         Product product = getItem(position);
         if (product != null) {
             Resources resources = convertView.getResources();
-            ViewUtils.setImageUrl(holder.img, product.getPhotoUrl());
-            ViewUtils.setTextView(holder.textView, product.getName());
+            ViewUtils.setImageUrl(holder.img, product.getIconImgUrl());
+            ViewUtils.setText(holder.textView, product.getName());
             String callTimes = product.getCallTimes();
-            if (!TextUtils.isEmpty(callTimes)) {
-                ViewUtils.setTextView(holder.call_times_tx, String.format(resources.getString(R.string.item_call_times_template), callTimes));
-            }
+            callTimes = TextUtils.isEmpty(callTimes) ? "0" : callTimes;
+            ViewUtils.setText(holder.call_times_tx, String.format(resources.getString(R.string.item_call_times_template), callTimes));
             String times = product.getTimes();
-            if (!TextUtils.isEmpty(times))
-                ViewUtils.setTextView(holder.times_tx, String.format(resources.getString(R.string.item_view_times_template), times));
+            times = TextUtils.isEmpty(times) ? "0" : times;
+            ViewUtils.setText(holder.times_tx, String.format(resources.getString(R.string.item_view_times_template), times));
 
             //线路设置
             String describe = product.getDescribe();
@@ -104,7 +103,7 @@ public class HomeListAdapter extends BaseAdapter {
                 if (split.length > 0) {
                     describe = split[0];
                     describe = describe.replace("/", "——");
-                    ViewUtils.setTextView(holder.dir_tx, describe);
+                    ViewUtils.setText(holder.dir_tx, describe);
                 }
             }
 

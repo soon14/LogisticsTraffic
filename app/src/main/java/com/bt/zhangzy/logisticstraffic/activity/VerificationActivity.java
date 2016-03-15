@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.network.AppURL;
@@ -14,11 +14,7 @@ import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.NetCallback;
 import com.bt.zhangzy.network.entity.BaseEntity;
-import com.bt.zhangzy.network.entity.JsonOrder;
-import com.bt.zhangzy.network.entity.JsonOrderHistory;
 import com.bt.zhangzy.network.entity.RequestOrderAccept_Reject;
-
-import java.util.HashMap;
 
 /**
  * Created by ZhangZy on 2016-2-23.

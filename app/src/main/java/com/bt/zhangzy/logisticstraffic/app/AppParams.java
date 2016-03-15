@@ -2,9 +2,8 @@ package com.bt.zhangzy.logisticstraffic.app;
 
 import android.content.Context;
 
-import com.bt.zhangzy.logisticstraffic.BuildConfig;
+import com.bt.zhangzy.logisticstraffic.d.BuildConfig;
 import com.bt.zhangzy.tools.ContextTools;
-import com.bt.zhangzy.tools.Tools;
 
 /**
  * app的常用配置 和 一些常用功能 单例
@@ -113,5 +112,17 @@ public final class AppParams {
     public static final String BUNDLE_EVALUATION_ROLE = "BUNDLE_EVALUATION_ROLE";//评价角色
     public static final String BUNDLE_EVALUATION_ROLE_ID = "BUNDLE_EVALUATION_ROLE_ID";//评价角色 ID
     public static final String BUNDLE_EVALUATION_ORDER = "BUNDLE_EVALUATION_ORDER";//评价的 订单对象
+
+    /*
+    照片缩放页面的参数
+    * */
+    public static final String BUNDLE_PICTURE_URL = "BUNDLE_PICTURE_URL";
+    public static final String BUNDLE_PICTURE_ARRAY = "BUNDLE_PICTURE_ARRAY";
+
+
+    /*标书页面 参数传递*/
+    public static final String BUNDLE_TENDER_JSON = "BUNDLE_TENDER_JSON";
+    public static final String BUNDLE_TENDER_EDIT_BOOLEAN = "BUNDLE_TENDER_EDIT_BOOLEAN";
+    public static final String BUNDLE_TENDER_COMPANY_JSON = "BUNDLE_TENDER_COMPANY_JSON";
 
 }

@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/location_list_item_title"
-        style="@style/while_tx_18_style"
+        style="@style/while_tx_style_18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"

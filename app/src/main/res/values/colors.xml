@@ -5,13 +5,22 @@
     <!-- button 色调-->
     <color name="base_btn_default">#70bbf8</color>
     <color name="base_btn_focus">#86e5f8</color>
+    <!-- 文字颜色 -->
+    <color name="text_focus">#FFFFFF</color><!--高亮文字  焦点文字-->
+    <color name="text_importance">#000</color><!--重要文字-->
+    <color name="text_minor">#585a59</color><!--次要文字-->
+    <color name="text_indicative">#b5b5b5</color><!--提示性 文字-->
+    <color name="def_line">#dedfe1</color>
+    <color name="page_bg_color">#FFF</color>
 
-    <color name="home_btn_focus">#EA2A15</color>
+
+
+    <!--<color name="home_btn_focus">#EA2A15</color>-->
     <color name="mask_black">#55666666</color>
     <color name="mask_black_no_alpha">#FF666666</color>
-    <color name="editpage_bg_color">#66cccaa9</color>
-    <color name="page_bg_color">#FFe6e6e6</color>
-    <color name="gray_line">#FFCCCCCC</color>
+    <!--<color name="editpage_bg_color">#66cccaa9</color>-->
+    <!--<color name="page_bg_color">#FFe6e6e6</color>-->
+    <!--<color name="gray_line">#FFCCCCCC</color>-->
     <color name="licence_btn_color">#FF838383</color>
 
     <color name="white">@android:color/white</color>
@@ -20,6 +29,5 @@
     <color name="orange">@android:color/holo_orange_dark</color>
     <color name="gray">@android:color/darker_gray</color>
 
-    <color name="province_line_border">#C7C7C7</color>
 
 </resources>

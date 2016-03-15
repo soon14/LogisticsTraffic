@@ -9,10 +9,8 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.tools.ViewUtils;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

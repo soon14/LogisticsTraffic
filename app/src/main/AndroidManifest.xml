@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bt.zhangzy.logisticstraffic">
+    package="com.bt.zhangzy.logisticstraffic.d">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -29,28 +29,35 @@
     <!-- Required  一些系统要求的权限，如访问网络等-->
     <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!--<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!--<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />-->
 
 
     <!-- Optional for location -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
+    <!-- 支付宝权限-->
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+
     <application
-        android:name=".app.LogisticsTrafficApplication"
+        android:name="com.bt.zhangzy.logisticstraffic.app.LogisticsTrafficApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
@@ -60,7 +67,7 @@
             android:enabled="false"></service>
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.bt.zhangzy.logisticstraffic.activity.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,39 +76,72 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.WelcomeActivity" />
-        <activity android:name=".activity.LocationActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.WelcomeActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.LocationActivity" />
         <activity
-            android:name=".activity.HomeActivity"
+            android:name="com.bt.zhangzy.logisticstraffic.activity.HomeActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.LogoActivity" />
-        <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.DetailCompany" />
-        <activity android:name=".activity.FleetActivity" />
-        <activity android:name=".activity.SettingShareActivity" />
-        <activity android:name=".activity.SetCompanyActivity" />
-        <activity android:name=".activity.OrderListActivity" />
-        <activity android:name=".activity.OrderDetailActivity" />
-        <activity android:name=".activity.HistoryActivity" />
-        <activity android:name=".activity.DetailPhotoActivity" />
-        <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.CollectActivity" />
-        <activity android:name=".activity.EvaluationActivity" />
-        <activity android:name=".activity.EvaluationListActivity" />
-        <activity android:name=".activity.PictureActivity" />
-        <activity android:name=".activity.OrderActivity" />
-        <activity android:name=".activity.LocationListActivity" />
-        <activity android:name=".activity.SourceCarActivity" />
-        <activity android:name=".activity.SourceCarDetailActivity" />
-        <activity android:name=".activity.PublishCarActivity" />
-        <activity android:name=".activity.ServicesActivity" />
-        <activity android:name=".activity.SourceGoodsActivity" />
-        <activity android:name=".activity.PayActivity" />
-        <activity android:name=".activity.WebViewActivity" />
-        <activity android:name=".activity.VerificationActivity" />
-        <activity android:name=".activity.TestActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.RegisterActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.LogoActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.LoginActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.DetailCompany" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.FleetActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.SettingShareActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.SetCompanyActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.OrderListActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.OrderDetailActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.HistoryActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.DetailPhotoActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.SearchActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.CollectActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.EvaluationActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.EvaluationListActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.PictureActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.OrderActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.LocationListActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.SourceCarActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.SourceCarDetailActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.PublishCarActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.ServicesActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.SourceGoodsActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.PayActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.WebViewActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.VerificationActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TenderListActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TenderActivity" />
+        <!-- test-->
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TestActivity" />
 
+        <!-- 微信相关-->
+        <activity
+            android:name="com.bt.zhangzy.logisticstraffic.d.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="wxd8934ee255eb1e0f" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name="com.bt.zhangzy.pay.WXAppRegister">
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
+        <!--end-->
+
+        <!-- 支付宝相关-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"></activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"></activity>
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver

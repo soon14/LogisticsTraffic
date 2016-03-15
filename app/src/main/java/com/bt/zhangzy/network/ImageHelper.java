@@ -3,10 +3,10 @@ package com.bt.zhangzy.network;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -33,10 +33,10 @@ public class ImageHelper {
     * */
 
     //显示图片的配置
-    final DisplayImageOptions options = new DisplayImageOptions.Builder()
-//            .showImageOnLoading(R.drawable.ic_stub) // resource or drawablee
-//            .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
-//            .showImageOnFail(R.drawable.ic_error) // resource or drawable
+    public final DisplayImageOptions options = new DisplayImageOptions.Builder()
+//            .showImageOnLoading(R.drawable.ic_stub) // resource or drawablee  加载中
+            .showImageForEmptyUri(R.drawable.fake_1) // resource or drawable 如果地址为空
+//            .showImageOnFail(R.drawable.ic_error) // resource or drawable 如果加载失败
             .cacheInMemory(true)
 //            .cacheOnDisk(true)
             .bitmapConfig(Bitmap.Config.RGB_565)
@@ -98,7 +98,7 @@ public class ImageHelper {
      * @param imageView
      */
     public void load(String imageUrl, ImageView imageView) {
-        if (TextUtils.isEmpty(imageUrl) || imageView == null)
+        if ( imageView == null)
             return;
         ImageLoader.getInstance().displayImage(imageUrl, imageView, options);
     }

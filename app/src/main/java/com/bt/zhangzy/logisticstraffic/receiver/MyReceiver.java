@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-
 import com.bt.zhangzy.jpush.ExampleUtil;
 import com.bt.zhangzy.logisticstraffic.activity.HomeActivity;
-import com.bt.zhangzy.logisticstraffic.activity.MainActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
 
 import org.json.JSONException;

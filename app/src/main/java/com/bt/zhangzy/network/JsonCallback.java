@@ -1,6 +1,5 @@
 package com.bt.zhangzy.network;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;

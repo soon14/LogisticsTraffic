@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
@@ -31,7 +31,7 @@ public class OrderActivity extends BaseActivity {
         if (User.getInstance().getUserType() == Type.EnterpriseType) {
             setContentView(R.layout.order_place);
             setPageName("订单详情");
-        } else if (User.getInstance().getUserType() == Type.InformationType) {
+        } else if (User.getInstance().getUserType() == Type.CompanyInformationType) {
             //信息部 不能 给别的信息部下单
             showToast("信息部 不能 给别的信息部下单");
             finish();

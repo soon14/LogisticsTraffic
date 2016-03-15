@@ -1,8 +1,5 @@
 package com.bt.zhangzy.network.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.alibaba.fastjson.JSON;
 
 import java.io.Serializable;

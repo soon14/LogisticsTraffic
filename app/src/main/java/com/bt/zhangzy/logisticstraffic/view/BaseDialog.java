@@ -3,7 +3,6 @@ package com.bt.zhangzy.logisticstraffic.view;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 
 /**
  * 对话框整理类，对一些通用设置做封装

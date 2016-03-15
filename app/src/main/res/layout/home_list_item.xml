@@ -31,7 +31,7 @@
             android:layout_marginRight="10dp"
             android:background="@color/transparent"
             android:padding="10dp"
-            android:src="@drawable/phone_icon" />
+            android:src="@drawable/phone_btn_selector" />
 
         <TextView
             android:id="@+id/list_item_call_times_tx"

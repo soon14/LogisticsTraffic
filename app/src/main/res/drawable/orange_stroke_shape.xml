@@ -7,5 +7,5 @@
     <!-- 填充 -->
     <stroke
         android:width="2px"
-        android:color="@color/home_btn_focus"/><!-- 填充的颜色 -->
+        android:color="@color/base_btn_focus"/><!-- 填充的颜色 -->
 </shape>

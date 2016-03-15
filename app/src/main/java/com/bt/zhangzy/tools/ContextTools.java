@@ -9,26 +9,96 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.telephony.SmsManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
  * 系统工具类，主要用于获取设备的相关信息和功能
  * Created by ZhangZy on 2015/6/11.
+ *
  * @author ZhangZy
  */
 public class ContextTools {
 
+    private static final String TAG = ContextTools.class.getSimpleName();
+
+    /**
+     * 获取ip地址
+     * wifi 网络信息
+     *
+     * @param context
+     * @return
+     */
+    public static String getLocalWifiIP(Context context) {
+        //获取wifi服务
+        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = wifi.getConnectionInfo();
+        //判断wifi是否开启
+//        if (!wifiManager.isWifiEnabled()) {
+//            wifiManager.setWifiEnabled(true);
+//        }
+        int ipAddress = info.getIpAddress();
+        String ip = intToIp(ipAddress);
+        return ip;
+    }
+
+    private static String intToIp(int i) {
+
+        return (i & 0xFF) + "." +
+                ((i >> 8) & 0xFF) + "." +
+                ((i >> 16) & 0xFF) + "." +
+                (i >> 24 & 0xFF);
+    }
+
+    /**
+     * 获取ip地址
+     *
+     * @return
+     */
+    public static String getLocalIpAddress() {
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+                NetworkInterface intf = en.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    String ip_str = inetAddress.getHostAddress().toString();
+                    System.out.print("IpAddress=" + ip_str);
+                    Log.i(TAG, "IpAddress=" + ip_str);
+//                    Log.i(TAG, "isLoopbackAddress=" + inetAddress.isLoopbackAddress()
+//                            +" isLinkLocalAddress="+inetAddress.isLinkLocalAddress()
+//                            +" getHostName="+inetAddress.getHostName());
+                    if ("10".startsWith(ip_str))
+                        continue;
+                    if (!TextUtils.isEmpty(ip_str) && !inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress()) {
+                        return ip_str;
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            Log.e(TAG, "WifiPreference IpAddress", ex);
+        }
+
+
+        return null;
+    }
+
 
     /**
      * 获取应用的数据存储目录，便于统一管理和更改；
-     * */
+     */
     public static String getCacheDir(Context context) {
         if (context == null)
             return null;
@@ -58,8 +128,10 @@ public class ContextTools {
 
         return cacheDir;
     }
+
     /**
-     *    //显示虚拟键盘
+     * //显示虚拟键盘
+     *
      * @param v
      */
     public static void ShowKeyboard(View v) {
@@ -68,7 +140,6 @@ public class ContextTools {
 
     }
 
-    private static final String TAG = ContextTools.class.getSimpleName();
 
     /**
      * 隐藏输入法键盘
@@ -149,7 +220,7 @@ public class ContextTools {
      * @return
      */
     public static String[] OnActivityRsultForContacts(Activity act, Intent data) {
-        if(data == null)
+        if (data == null)
             return null;
         Uri uri = data.getData();
         String[] contact = new String[2];

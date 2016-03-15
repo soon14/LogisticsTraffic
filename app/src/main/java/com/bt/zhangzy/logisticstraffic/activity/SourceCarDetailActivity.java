@@ -3,12 +3,10 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -75,12 +73,7 @@ public class SourceCarDetailActivity extends BaseActivity {
     public void onClick_CallPhone(View view) {
 //        ContextTools.callPhone(this, "10010");
         if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
-            ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(PayActivity.class);
-                }
-            });
+            gotoPay();
             return;
         }
         getApp().callPhone(jsonCar.getPhoneNumber());

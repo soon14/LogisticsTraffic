@@ -1,21 +1,16 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.app.PictureHelper;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.ChooseItemsDialog;
@@ -23,14 +18,12 @@ import com.bt.zhangzy.logisticstraffic.view.LicenceKeyboardPopupWindow;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
-import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.UploadImageHelper;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.RequestAddCar;
 import com.bt.zhangzy.tools.ViewUtils;
-
-import java.io.File;
 
 /**
  * 发布车源信息
@@ -40,7 +33,7 @@ public class PublishCarActivity extends BaseActivity {
 
     TextView licenceEd;
     View contentView;
-    private ImageView userImage;
+//    private ImageView userImage;
     JsonCar requestCarJson = new JsonCar();
     boolean isAuth;
 
@@ -55,19 +48,7 @@ public class PublishCarActivity extends BaseActivity {
         //// TODO: 2016-2-26  发布车辆不能填写信息，只能修改备注信息，页面需要做限制
         initView();
 
-        PictureHelper.getInstance().setCallBack(new PictureHelper.CallBack() {
-            @Override
-            public void handlerImage(File file) {
-                Log.w(TAG, "图片路径：" + file.getAbsolutePath());
-                uploadFile(file);
 
-                if (userImage != null) {
-                    userImage.setImageURI(Uri.fromFile(file));
-//                    userImage.setImageDrawable(Drawable.createFromPath(file.getPath()));
-                }
-            }
-
-        });
     }
 
 
@@ -97,7 +78,7 @@ public class PublishCarActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (PictureHelper.getInstance().onActivityResult(this, requestCode, resultCode, data)) {
+        if (UploadImageHelper.getInstance().onActivityResult(this, requestCode, resultCode, data)) {
 
         } else
             super.onActivityResult(requestCode, resultCode, data);
@@ -228,7 +209,7 @@ public class PublishCarActivity extends BaseActivity {
                     public void onChanged(Location loc) {
                     }
 
-                    public void onCancel(Location loc){
+                    public void onCancel(Location loc) {
                         if (loc == null)
                             return;
 
@@ -244,19 +225,23 @@ public class PublishCarActivity extends BaseActivity {
     public void onClick_Photo(View view) {
         if (isAuth)
             return;
-        if (view instanceof ImageView)
-            userImage = (ImageView) view;
-
-        new AlertDialog.Builder(getActivity()).setTitle("请选择路径").setItems(new String[]{"去图库选择", "启动相机"}, new DialogInterface.OnClickListener() {
+        UploadImageHelper.getInstance().onClick_Photo(this, view, new UploadImageHelper.Listener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
-                    PictureHelper.getInstance().pickFromGallery(getActivity());
-                } else if (which == 1) {
-                    PictureHelper.getInstance().startCamera(getActivity());
+            public void handler(ImageView imageView, String url) {
+                switch (imageView.getId()) {
+                    case R.id.publish_car_img:
+                        requestCarJson.setFrontalPhotoUrl1(url);
+                        break;
+                    case R.id.publish_car_2_img:
+                        requestCarJson.setFrontalPhotoUrl2(url);
+                        break;
+                    case R.id.publish_licence_img:
+                        requestCarJson.setDrivingLicensePhotoUrl(url);
+                        break;
                 }
             }
-        }).create().show();
+        });
+
 
     }
 
@@ -275,37 +260,6 @@ public class PublishCarActivity extends BaseActivity {
 
     }
 
-    private void uploadFile(File file) {
-        showProgress("图片上传中...");
-        HttpHelper.uploadImagePost(AppURL.UpLoadImage, file, new JsonCallback() {
-
-            @Override
-            public void onFailed(String str) {
-                showToast("图片上传失败：" + str);
-                cancelProgress();
-            }
-
-            @Override
-            public void onSuccess(String msg, String result) {
-                showToast("图片上传成功" + msg);
-                cancelProgress();
-                String uploadImgURL = AppURL.Host + result;
-                Log.i(TAG, "上传图片地址：" + uploadImgURL);
-                ImageHelper.getInstance().loadImgOnUiThread(getActivity(), uploadImgURL, userImage);
-                switch (userImage.getId()) {
-                    case R.id.publish_car_img:
-                        requestCarJson.setFrontalPhotoUrl1(uploadImgURL);
-                        break;
-                    case R.id.publish_car_2_img:
-                        requestCarJson.setFrontalPhotoUrl2(uploadImgURL);
-                        break;
-                    case R.id.publish_licence_img:
-                        requestCarJson.setDrivingLicensePhotoUrl(uploadImgURL);
-                        break;
-                }
-            }
-        });
-    }
 
 
     private void requestAddCar() {

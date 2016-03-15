@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.bt.zhangzy.logisticstraffic.R;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.data.Type;
@@ -66,7 +66,7 @@ public class RegisterActivity extends BaseActivity {
      */
     public void onClick_RegisterDepartment(View view) {
         setContentView(R.layout.register_beginning);
-        type = Type.InformationType;
+        type = Type.CompanyInformationType;
         setPageName("物流用户注册");
     }
 
@@ -189,7 +189,7 @@ public class RegisterActivity extends BaseActivity {
         jsonUser.setName(nickname);
         jsonUser.setPhoneNumber(phoneNum);
         jsonUser.setPassword(password);
-        jsonUser.setRole(type == Type.DriverType ? 1 : type == Type.EnterpriseType ? 2 : type == Type.InformationType ? 3 : -1);
+        jsonUser.setRole(type == Type.DriverType ? 1 : type == Type.EnterpriseType ? 2 : type == Type.CompanyInformationType ? 3 : -1);
         jsonUser.setRecommendCode(recommend);
 
         if (User.getInstance().isSave()) {
@@ -231,15 +231,16 @@ public class RegisterActivity extends BaseActivity {
         //登录成功后保存一下信息；
         getApp().saveUser();
         getApp().setAliasAndTag();
-
-        if (type == Type.DriverType) {
-            startActivity(DetailPhotoActivity.class);
-        } else {
-            Bundle bundle = getIntent().getExtras();
-            if (bundle != null) {
-                startActivity(HomeActivity.class, bundle);
-            }
-        }
+        //注册后默认跳转到验证审核页面
+        startActivity(DetailPhotoActivity.class);
+//        if (type == Type.DriverType) {
+//            startActivity(DetailPhotoActivity.class);
+//        } else {
+//            Bundle bundle = getIntent().getExtras();
+//            if (bundle != null) {
+//                startActivity(HomeActivity.class, bundle);
+//            }
+//        }
         finish();
     }
 

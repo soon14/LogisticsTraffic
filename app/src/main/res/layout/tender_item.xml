@@ -14,10 +14,11 @@
     <View
         android:layout_width="2px"
         android:layout_height="match_parent"
-        android:background="@color/gray_line" />
+        android:background="@color/def_line" />
 
     <TextView
-        style="@style/black_tx_18_style"
+        android:id="@+id/item_name_tx"
+        style="@style/black_tx_style_18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

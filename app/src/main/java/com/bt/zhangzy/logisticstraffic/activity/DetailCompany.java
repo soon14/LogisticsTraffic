@@ -1,25 +1,24 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.R;
-import com.bt.zhangzy.logisticstraffic.adapter.EvaluationListAdapter;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -27,10 +26,12 @@ import com.bt.zhangzy.network.entity.JsonComment;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonFavorite;
 import com.bt.zhangzy.network.entity.JsonUser;
+import com.bt.zhangzy.network.entity.ResponseCompany;
 import com.bt.zhangzy.pay.WeiXinPay;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +43,7 @@ public class DetailCompany extends BaseActivity {
 
     private Product product;
     int favoritesId;//收藏id  标识是否被收藏；
-    JsonCompany jsonCompany;//更新的物流公司信息
+    ResponseCompany jsonCompany;//更新的物流公司信息
     String jsonCommentList;//用于传递数据；
 //    List<JsonComment> commentList;//评价列表
 //    ListView listView;
@@ -117,13 +118,10 @@ public class DetailCompany extends BaseActivity {
         HttpHelper.getInstance().get(AppURL.GetCompany.toString() + id, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
-                jsonCompany = ParseJson_Object(result, JsonCompany.class);
-                if (jsonCompany != null) {
-                    product.setUserId(jsonCompany.getUserId());
-                    product.setName(jsonCompany.getName());
-                    product.setAddress(jsonCompany.getAddress());
-                    product.setPhotoUrl(jsonCompany.getPhotoUrl());
-//                    product.setPhoneNumber(jsonCompany.getp);
+                jsonCompany = ParseJson_Object(result, ResponseCompany.class);
+                Product p = Product.ParseJson(jsonCompany);
+                if (p != null) {
+                    product = p;
                     //获取评论列表
                     requestCommentList();
                     initView_JsonCompany();
@@ -137,20 +135,34 @@ public class DetailCompany extends BaseActivity {
         });
     }
 
+    String distance;//距离计算结果
+
     private void initView_JsonCompany() {
+        //计算坐标之间的距离
+        Location location = User.getInstance().getLocation();
+        final JsonCompany jsonCompany = this.jsonCompany.getCompany();
+        if (location != null && jsonCompany != null) {
+            float latitude = Float.valueOf(location.getLatitude());
+            float longitude = Float.valueOf(location.getLongitude());
+            if (jsonCompany.getLatitude() != 0 && jsonCompany.getLongitude() != 0)
+                distance = Tools.ComputeDistance(latitude, longitude, jsonCompany.getLatitude(), jsonCompany.getLongitude());
+        }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                JsonCompany jsonCompany = product.getCompany().getCompany();
                 if (jsonCompany != null) {
-                    setTextView(R.id.detail_name_tx, jsonCompany.getName());
-                    setTextView(R.id.detail_cp_address_tx, jsonCompany.getAddress());
+                    setTextView(R.id.detail_name_tx, product.getName());
+                    setTextView(R.id.detail_cp_address_tx, product.getAddress());
                     setTextView(R.id.detail_type_tx, jsonCompany.getOftenSendType());
                     String oftenRoute = jsonCompany.getOftenRoute();
-                    if (oftenRoute.charAt(oftenRoute.length() - 1) == ',') {
-                        oftenRoute = oftenRoute.substring(0, oftenRoute.length() - 1);
+                    if (!TextUtils.isEmpty(oftenRoute)) {
+                        if (oftenRoute.charAt(oftenRoute.length() - 1) == ',') {
+                            oftenRoute = oftenRoute.substring(0, oftenRoute.length() - 1);
+                        }
+                        oftenRoute = oftenRoute.replace("/", "——").replace(",", "\n");
+                        setTextView(R.id.detail_lines_tx, oftenRoute);
                     }
-                    oftenRoute = oftenRoute.replace("/", "——").replace(",", "\n");
-                    setTextView(R.id.detail_lines_tx, oftenRoute);
                     setTextView(R.id.detail_size_tx, jsonCompany.getScaleOfOperation());
 
                     setImageUrl(R.id.detail_user_head_img, jsonCompany.getPhotoUrl());
@@ -158,13 +170,21 @@ public class DetailCompany extends BaseActivity {
                     setImageUrl(R.id.detail_flipper_2, jsonCompany.getPhotoUrl2());
                     setImageUrl(R.id.detail_flipper_3, jsonCompany.getPhotoUrl3());
 
+                    if (TextUtils.isEmpty(distance)) {
+                        setTextView(R.id.detail_cp_distance_tx, "距离未知");
+                    } else {
+                        String str = getString(R.string.location_distance_km);
+                        str = String.format(str, distance);
+                        setTextView(R.id.detail_cp_distance_tx, str);
+                    }
+
                 }
             }
         });
     }
 
     private void initView() {
-        if (AppParams.DRIVER_APP || User.getInstance().getUserType() == Type.InformationType) {
+        if (AppParams.DRIVER_APP || User.getInstance().getUserType() == Type.CompanyInformationType) {
             findViewById(R.id.detail_gray_line).setVisibility(View.GONE);
             findViewById(R.id.detail_order_btn).setVisibility(View.GONE);
         }
@@ -172,7 +192,7 @@ public class DetailCompany extends BaseActivity {
         if (product != null) {
             setTextView(R.id.detail_name_tx, product.getName());
             setTextView(R.id.detail_cp_address_tx, product.getAddress());
-            setImageUrl(R.id.detail_user_head_img, product.getPhotoUrl());
+            setImageUrl(R.id.detail_user_head_img, product.getIconImgUrl());
         }
 //            ImageView headImg = (ImageView) findViewById(R.id.detail_user_head_img);
 //        String url = "http://img1.3lian.com/img2011/w1/105/4/13.jpg";
@@ -183,17 +203,13 @@ public class DetailCompany extends BaseActivity {
 
     public void onClick_CallPhone(View view) {
         if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
-            ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(PayActivity.class);
-                }
-            });
+            gotoPay();
             return;
         }
         openCall = true;
 //        ContextTools.callPhone(this, "10010");
-        getApp().callPhone(product.getPhoneNumber());
+//        getApp().callPhone(product.getPhoneNumber());
+        showDialogCallPhone(product.getPhoneNumber(), product.getID());
     }
 
 
@@ -207,6 +223,13 @@ public class DetailCompany extends BaseActivity {
         startActivity(EvaluationListActivity.class, bundle);
     }
 
+    public void onClick_Map(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString(AppParams.WEB_PAGE_NAME, "物流公司位置");
+        bundle.putString(AppParams.WEB_PAGE_URL, String.format(AppURL.LOCATION_MAP_COMPANY.toString(), product.getID()));
+        startActivity(WebViewActivity.class, bundle);
+    }
+
     public void onClick_OpenPicture(View view) {
 //        ImageView img = (ImageView) view;
 //        Drawable drawable = getResources().getDrawable(getResources().getDrawable(R.drawable.fake_detail_1));
@@ -214,22 +237,31 @@ public class DetailCompany extends BaseActivity {
 //        Uri parse = Uri.parse("file:///android_asset/fake_detail_1.png");
 //        Uri parse = Uri.parse("file:///android_asset/1.jpg");
 //        ContextTools.OpenPicture(this, parse);
-        startActivity(PictureActivity.class);
+        final int[] ids = {R.id.detail_flipper_1, R.id.detail_flipper_2, R.id.detail_flipper_3};
+        ImageView imageView;
+        Bitmap bitmap;
+        ArrayList<String> list = new ArrayList<>();
+//        for (int id : ids) {
+//            imageView = (ImageView) findViewById(id);
+//            bitmap = ViewUtils.drawableToBitmap(imageView.getDrawable());
+//            list.add(bitmap);
+//        }
+        for (String str : product.getPhotoImgUrl())
+            list.add(str);
+        Bundle bundle = new Bundle();
+//        bundle.putString(AppParams.BUNDLE_PICTURE_URL, jsonCompany.getPhotoUrl());
+        bundle.putStringArrayList(AppParams.BUNDLE_PICTURE_ARRAY, list);
+        startActivity(PictureActivity.class, bundle);
     }
 
     public void onClick_Order(View view) {
         if (!User.getInstance().getLogin()) {
             //用户未登陆时自动跳转到登陆页面
-            startActivity(LoginActivity.class);
+            gotoLogin();
             return;
         }
         if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
-            ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(PayActivity.class);
-                }
-            });
+            gotoPay();
             return;
         }
         //// TODO: 2016-1-29  考虑是否直接跳转到 OrderDetailActivity
@@ -250,12 +282,7 @@ public class DetailCompany extends BaseActivity {
 
     public void onClick_CollectAdd(View view) {
         if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
-            ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(PayActivity.class);
-                }
-            });
+            gotoPay();
             return;
         }
         if (findViewById(R.id.detail_colletion).isSelected()) {
@@ -299,8 +326,8 @@ public class DetailCompany extends BaseActivity {
         //传4个参数 fromRole,fromRoleId,toRole,toRoleId
         JsonUser jsonUser = User.getInstance().getJsonUser();
         int fromRole = jsonUser.getRole();
-        int fromRoleId = jsonUser.getId();
-        int toRole = 3;//默认只能显示信息部
+        int fromRoleId = User.getInstance().getRoleId();
+        int toRole = Type.CompanyInformationType.toRole();//默认只能显示信息部
         int toRoleId = product.getID();
 
         HashMap<String, Integer> params = new HashMap<>();
@@ -338,7 +365,7 @@ public class DetailCompany extends BaseActivity {
     private void requestCommentList() {
 
         HashMap<String, String> params = new HashMap<>();
-        params.put("role", String.valueOf(Type.InformationType.toRole()));
+        params.put("role", String.valueOf(Type.CompanyInformationType.toRole()));
         params.put("roleId", String.valueOf(product.getID()));
 
         HttpHelper.getInstance().get(AppURL.GetCommentList, params, new JsonCallback() {
@@ -381,9 +408,9 @@ public class DetailCompany extends BaseActivity {
                         if (index < ly_ids.length) {
                             view_ly = findViewById(ly_ids[index]);
                             index++;
-                            ViewUtils.setTextView((TextView) view_ly.findViewById(R.id.item_name_tx), "name=" + json.getId());
-                            ViewUtils.setTextView((TextView) view_ly.findViewById(R.id.item_content_tx), json.getContent());
-                            ViewUtils.setTextView((TextView) view_ly.findViewById(R.id.item_date_tx), Tools.toStringDate(json.getDate()));
+                            ViewUtils.setText((TextView) view_ly.findViewById(R.id.item_name_tx), "name=" + json.getId());
+                            ViewUtils.setText((TextView) view_ly.findViewById(R.id.item_content_tx), json.getContent());
+                            ViewUtils.setText((TextView) view_ly.findViewById(R.id.item_date_tx), Tools.toStringDate(json.getDate()));
                             starBar = (RatingBar) view_ly.findViewById(R.id.item_star_bar);
                             starBar.setRating((float) json.getRate());
                         } else {

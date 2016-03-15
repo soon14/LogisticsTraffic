@@ -15,6 +15,7 @@ public class JsonOrder extends BaseEntity implements Parcelable {
     }
 
     int id;
+    String companyName, enterpriseName;
     Date publishDate;//订单发布日期
     int status;//订单状态（已提交/交易中/已完成/取消）
     String describe;//订单描述（作废原因）
@@ -39,6 +40,23 @@ public class JsonOrder extends BaseEntity implements Parcelable {
     int driverCount;
 
     /*===============================*/
+
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getEnterpriseName() {
+        return enterpriseName;
+    }
+
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+    }
 
     public int getOrderType() {
         return orderType;

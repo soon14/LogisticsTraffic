@@ -3,7 +3,6 @@ package com.bt.zhangzy.logisticstraffic.data;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -11,9 +10,8 @@ import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
-import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonFavorite;
-import com.bt.zhangzy.network.entity.JsonMotocardesDriver;
+import com.bt.zhangzy.network.entity.JsonMember;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseFavorites;
@@ -22,6 +20,7 @@ import com.bt.zhangzy.network.entity.ResponseUserInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -41,7 +40,7 @@ public class User implements Serializable {
     private int companyID, enterpriseID, driverID;
     private String userName, nickName;
     private String phoneNum, password;
-    private String address;
+    private String headUrl;
     private Location location;//保存用户的定位信息
     private boolean isFirstOpen = true;
     private boolean isVIP = false;//标记用户是否付费
@@ -51,6 +50,9 @@ public class User implements Serializable {
     private List<JsonMotorcades> motorcades;//车队列表
     private JsonCar jsonCar;//司机 所属的 车辆；
     private ArrayList<Integer> orderIdList;
+    //支付状态
+    private PayStatus payStatus;
+    private JsonMember payJson;//支付结果缓存;
 
     public static User getInstance() {
         return instance;
@@ -82,6 +84,21 @@ public class User implements Serializable {
         instance.setIsSave(is_save);
     }
 
+    public PayStatus getPayStatus() {
+        return payStatus;
+    }
+
+    public JsonMember getPayJson() {
+        return payJson;
+    }
+
+    public String getHeadUrl() {
+        return headUrl;
+    }
+
+    public void setHeadUrl(String headUrl) {
+        this.headUrl = headUrl;
+    }
 
     public ArrayList<Integer> getOrderIdList() {
         return orderIdList;
@@ -130,7 +147,7 @@ public class User implements Serializable {
      * @return
      */
     public int getRoleId() {
-        int roleId = getUserType() == Type.InformationType ? getCompanyID()
+        int roleId = getUserType() == Type.CompanyInformationType ? getCompanyID()
                 : getUserType() == Type.EnterpriseType ? getEnterpriseID()
                 : getUserType() == Type.DriverType ? getDriverID()
                 : (int) getId();
@@ -170,15 +187,9 @@ public class User implements Serializable {
     }
 
     public boolean isVIP() {
-        if (AppParams.DEBUG)
-            return true;
-        else
-            return isVIP;
+        return isVIP;
     }
 
-    public void setIsVIP(boolean isVIP) {
-        this.isVIP = isVIP;
-    }
 
     public boolean isFirstOpen() {
         return isFirstOpen;
@@ -208,20 +219,6 @@ public class User implements Serializable {
     private ArrayList<String> searchKeyWordList = new ArrayList<String>();
 
     private User() {
-        //test data
-//        driverList = new ArrayList<People>();
-//        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
-//        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
-//        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
-//        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
-//        driverList.add(new People().setName("王鹏").setPhoneNumber("13511233658"));
-
-//        searchKeyWordList.add("测试测试");
-//        searchKeyWordList.add("测试1");
-
-//        Product p = new Product(12343);
-//        p.setName("到底多大多大的");
-//        collectionList.add(p);
 
     }
 
@@ -342,13 +339,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     public String getNickName() {
         return nickName;
@@ -366,12 +356,30 @@ public class User implements Serializable {
         return registrationID;
     }
 
-    public void setJsonFavorites(ResponseFavorites jsonFavorites) {
-        //// TODO: 2016-1-30 返回收藏列表中 带有角色信息
-        if (jsonFavorites != null)
-            this.jsonFavorites = jsonFavorites.getFavorites();
-        else
-            Log.w(TAG, "返回收藏列表中 没有角色信息");
+    public void setJsonFavorites(ResponseFavorites response) {
+        //// TO DO: 2016-1-30 返回收藏列表中 带有角色信息
+//        if (jsonFavorites != null)
+//            this.jsonFavorites = jsonFavorites.getFavorites();
+//        else
+//            Log.w(TAG, "返回收藏列表中 没有角色信息");
+        if (response == null)
+            return;
+        //更新收藏信息
+        if (response.getFavorites() != null && !response.getFavorites().isEmpty()) {
+//            User.getInstance().setJsonFavorites(response);
+            this.jsonFavorites = response.getFavorites();
+        }
+        if (response.getCompanies() != null && !response.getCompanies().isEmpty()) {
+            ArrayList<Product> list = new ArrayList<Product>();
+            Product p;
+            for (JsonCompany company : response.getCompanies()) {
+                p = Product.ParseJson(company);
+                if (p != null) {
+                    list.add(p);
+                }
+            }
+            collectionList = list;
+        }
     }
 
     public List<JsonFavorite> getJsonFavorites() {
@@ -419,7 +427,7 @@ public class User implements Serializable {
                 }
                 break;
             case 3:
-                user.setUserType(Type.InformationType);
+                user.setUserType(Type.CompanyInformationType);
                 if (json.getCompany() != null) {
                     user.setJsonTypeEntity(json.getCompany());
                     user.setCompanyID(json.getCompany().getId());
@@ -440,6 +448,30 @@ public class User implements Serializable {
         user.setMotorcades(json.getMotorcades());
         user.setJsonFavorites(json.getFavorites());
 
+    }
+
+    /**
+     * 跟新用户的支付状态
+     */
+    public void requestPayStatus() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("userId", String.valueOf(getId()));
+        HttpHelper.getInstance().get(AppURL.GetPayStatus, params, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                JsonMember jsonMember = ParseJson_Object(result, JsonMember.class);
+                if (jsonMember != null) {
+                    payStatus = PayStatus.Parse(jsonMember.getIsExpired());
+                    payJson = jsonMember;
+                    isVIP = payStatus == PayStatus.PaymentReceived;
+                }
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
     }
 
     /**
@@ -465,6 +497,7 @@ public class User implements Serializable {
                 user.setUserName(jsonUser.getName());
                 user.setPhoneNum(jsonUser.getPhoneNumber());
                 user.setNickName(jsonUser.getNickname());
+                user.setHeadUrl(jsonUser.getPortraitUrl());
                 user.setJsonUser(jsonUser);
                 switch (jsonUser.getRole()) {
                     case 1:
@@ -476,7 +509,7 @@ public class User implements Serializable {
                         requestEnterpriseInfo();
                         break;
                     case 3:
-                        user.setUserType(Type.InformationType);
+                        user.setUserType(Type.CompanyInformationType);
                         requestCompaniesInfo();
                         break;
                 }
@@ -547,7 +580,6 @@ public class User implements Serializable {
                 User user = User.getInstance();
                 user.setEnterpriseID(json.getEnterprise().getId());
                 user.setUserName(json.getEnterprise().getName());
-                user.setAddress(json.getEnterprise().getAddress());
                 user.setJsonTypeEntity(json.getEnterprise());
 
 //                refreshView();
@@ -570,7 +602,6 @@ public class User implements Serializable {
 
                 user.setCompanyID(json.getCompany().getId());
                 user.setUserName(json.getCompany().getName());
-                user.setAddress(json.getCompany().getAddress());
                 user.setJsonTypeEntity(json.getCompany());
 
                 List<JsonMotorcades> motorcades = json.getMotorcades();
