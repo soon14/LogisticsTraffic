@@ -1,13 +1,14 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.tools.ContextTools;
 
 
 public class MainActivity extends BaseActivity {
@@ -54,15 +55,20 @@ public class MainActivity extends BaseActivity {
 //        if (true)
 //            return;
 
-//        new Handler(getMainLooper(), new Handler.Callback() {
-//            @Override
-//            public boolean handleMessage(Message msg) {
-////                startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
-////                startActivity(new Intent(MainActivity.this, LocationActivity.class));
-//                loginHome();
-//                return true;
-//            }
-//        }).sendEmptyMessageDelayed(0, 2000);
+        getApp().loadAppParams();
+        getApp().LoadAppData();
+        if (AppParams.DEBUG) {
+
+        } else {
+            findViewById(R.id.test_ly).setVisibility(View.GONE);
+            new Handler(getMainLooper(), new Handler.Callback() {
+                @Override
+                public boolean handleMessage(Message msg) {
+                    loginHome();
+                    return true;
+                }
+            }).sendEmptyMessageDelayed(0, 2000);
+        }
 
     }
 

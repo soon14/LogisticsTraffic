@@ -65,7 +65,7 @@ public class PublishCarActivity extends BaseActivity {
             setTextView(R.id.publish_length_ed, car.getLength());
             setTextView(R.id.publish_weight_ed, car.getCapacity());
             setTextView(R.id.publish_type_ed, car.getType());
-            setTextView(R.id.publish_status_ed, car.getSituation());
+//            setTextView(R.id.publish_status_ed, car.getSituation());
             setTextView(R.id.publish_address_ed, car.getUsualResidence());
             setTextView(R.id.publish_remark_tx, car.getRemark());
 
@@ -88,7 +88,7 @@ public class PublishCarActivity extends BaseActivity {
         if (isAuth)
             return;
         //重置按钮
-        final int[] ids = {R.id.publish_address_ed, R.id.publish_length_ed, R.id.publish_licence_ed, R.id.publish_status_ed, R.id.publish_type_ed, R.id.publish_weight_ed};
+        final int[] ids = {R.id.publish_address_ed, R.id.publish_length_ed, R.id.publish_licence_ed,/* R.id.publish_status_ed,*/ R.id.publish_type_ed, R.id.publish_weight_ed};
         View tmpV;
         for (int id : ids) {
             tmpV = findViewById(id);
@@ -180,7 +180,7 @@ public class PublishCarActivity extends BaseActivity {
                     CharSequence text = tx.getText();
                     if (!TextUtils.isEmpty(text)) {
 //                        ((TextView)view).setText(text);
-                        setTextView(R.id.publish_status_ed, text.toString());
+//                        setTextView(R.id.publish_status_ed, text.toString());
                         requestCarJson.setSituation(text.toString());
                     }
                 }

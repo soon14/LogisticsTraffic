@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:src="@drawable/fake_user_1" />
+        android:src="@drawable/user_def_mini" />
 
     <TableRow
         android:id="@+id/evaluate_list_name_ly"

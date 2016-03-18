@@ -67,7 +67,7 @@ public class PictureFragment extends Fragment {
             return;
 
         if (TextUtils.isEmpty(url)) {
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fake_detail_1);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.def_cp_ad);
             zoomImageView.setImageBitmap(bitmap);
 //                zoomImageView.setImageResource(R.drawable.fake_detail_1);
         } else {

@@ -171,22 +171,22 @@
                     android:hint="荷载"
                     android:onClick="onClick_ChangeWeight" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:background="@color/def_line" />
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="2px"-->
+                    <!--android:background="@color/def_line" />-->
 
-                <TextView
-                    android:id="@+id/detail_car_status"
-                    style="@style/edit_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:clickable="true"
-                    android:hint="车况"
-                    android:onClick="onClick_ChangeStatus" />
+                <!--<TextView-->
+                    <!--android:id="@+id/detail_car_status"-->
+                    <!--style="@style/edit_style"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_marginRight="5dp"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:clickable="true"-->
+                    <!--android:hint="车况"-->
+                    <!--android:onClick="onClick_ChangeStatus" />-->
 
                 <View
                     android:layout_width="match_parent"

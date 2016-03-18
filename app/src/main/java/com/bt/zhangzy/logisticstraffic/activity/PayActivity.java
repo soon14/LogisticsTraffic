@@ -61,10 +61,11 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
     }
 
     public void onClick_Pay(View view) {
+        String message = "您需要支付费用：" + payMoney + "元";
         switch (payMethodGroup.getCheckedRadioButtonId()) {
             case R.id.pay_method_weixin:
                 //
-                WeiXinPay.getInstanse().payUnifiedOrder(this, 1, (int) User.getInstance().getId());
+                WeiXinPay.getInstanse().payUnifiedOrder(this, message, 10, (int) User.getInstance().getId());
                 break;
             case R.id.pay_method_zhifubao:
                 AliPay.getInstance().pay(this);

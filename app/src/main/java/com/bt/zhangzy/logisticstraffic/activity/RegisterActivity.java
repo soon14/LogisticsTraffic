@@ -7,21 +7,18 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.NetCallback;
-import com.bt.zhangzy.network.entity.BaseEntity;
+import com.bt.zhangzy.network.SMSCodeHelper;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseLogin;
 import com.bt.zhangzy.tools.Tools;
-
-import java.util.HashMap;
 
 /**
  * Created by ZhangZy on 2015/6/4.
@@ -78,47 +75,10 @@ public class RegisterActivity extends BaseActivity {
             showToast("手机号输入错误");
             return;
         }
-        final String phoneNum = phoneNumEd.getText().toString();
-//        Json json = new Json();
-//        json.put("phoneNumber", phoneNum);
-
-        HttpHelper.getInstance().get(AppURL.SendVerificationCode + phoneNum, new NetCallback() {
-
-            @Override
-            public void onFailed(String str) {
-                showToast("验证码发送失败");
-            }
-
-            @Override
-            public void onSuccess(String str) {
-//                Json js = Json.ToJson(str);
-                showToast("验证码发送成功");
-                requestVerificationCode(phoneNum);
-            }
-        });
+        String phoneNum = phoneNumEd.getText().toString();
+        SMSCodeHelper.getInstance().sendSMS(this, phoneNum, "83674");
 
 
-    }
-
-    @Deprecated
-    private void testSMS() {
-        HashMap map = new HashMap();
-        map.put("account", "cf_yiyuntong");
-        map.put("password", "zhang123456");
-        map.put("mobile", "18686192818");
-        String msg = "您的验证码是：【1212】。请不要把验证码泄露给其他人。";
-        map.put("content", msg);
-        HttpHelper.getInstance().post("http://106.ihuyi.cn/webservice/sms.php?method=Submit", map, new NetCallback() {
-            @Override
-            public void onFailed(String str) {
-
-            }
-
-            @Override
-            public void onSuccess(String str) {
-
-            }
-        });
     }
 
 
@@ -146,9 +106,6 @@ public class RegisterActivity extends BaseActivity {
         }
         password = passwordEd.getText().toString();
         phoneNum = phoneNumEd.getText().toString();
-        if (verificationCode == 0) {
-            requestVerificationCode(phoneNum);
-        }
         if (!password.equals(passwordConfirmEd.getText().toString())) {
             showToast("密码输入不一致");
             return;
@@ -162,10 +119,7 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         verfication = verficationEd.getText().toString().trim();
-        //test 万能验证码
-        if (AppParams.DEBUG && verfication.equals("0000")) {
-
-        } else if (!verfication.equals(String.valueOf(verificationCode))) {
+        if (!SMSCodeHelper.getInstance().checkVerificationCode(verfication)) {
             showToast("验证码错误");
             return;
         }
@@ -244,27 +198,6 @@ public class RegisterActivity extends BaseActivity {
         finish();
     }
 
-    int verificationCode;
-
-    /*获取手机验证码*/
-    private void requestVerificationCode(String phoneNum) {
-
-        HttpHelper.getInstance().get(AppURL.GetVerificationCode + phoneNum, new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-                if (TextUtils.isEmpty(result)) {
-                    return;
-                }
-                BaseEntity entity = ParseJson_Object(result, BaseEntity.class);
-                verificationCode = entity.getCode();
-            }
-
-            @Override
-            public void onFailed(String str) {
-
-            }
-        });
-    }
 
     public void onClick_OpenLaw(View view) {
         Bundle bundle = new Bundle();

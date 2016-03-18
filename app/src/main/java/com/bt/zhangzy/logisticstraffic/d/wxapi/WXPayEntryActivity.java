@@ -28,7 +28,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         setContentView(R.layout.pay_result);
 
         api = WXAPIFactory.createWXAPI(this, WeiXinPay.APPID);
-        api.registerApp(WeiXinPay.APPID);
+//        api.registerApp(WeiXinPay.APPID);
         api.handleIntent(getIntent(), this);
         Log.d(TAG, "onCreate:" + getIntent());
     }
@@ -49,7 +49,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onResp(BaseResp resp) {
         Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
-
+        Log.d(TAG, "onPayFinish, errStr = " + resp.errStr + "==>" + resp.transaction);
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("提示");

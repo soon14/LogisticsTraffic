@@ -116,7 +116,7 @@ public class DetailPhotoActivity extends BaseActivity {
                 setTextView(R.id.detail_car_type, jsonCar.getType());
                 setTextView(R.id.detail_car_length, jsonCar.getLength());
                 setTextView(R.id.detail_car_weight, jsonCar.getCapacity());
-                setTextView(R.id.detail_car_status, jsonCar.getSituation());
+//                setTextView(R.id.detail_car_status, jsonCar.getSituation());
                 setTextView(R.id.detail_car_location, jsonCar.getUsualResidence());
 
                 requestJsonCar = jsonCar;
@@ -249,7 +249,7 @@ public class DetailPhotoActivity extends BaseActivity {
                     CharSequence text = tx.getText();
                     if (!TextUtils.isEmpty(text)) {
 //                        ((TextView)view).setText(text);
-                        setTextView(R.id.detail_car_status, text.toString());
+//                        setTextView(R.id.detail_car_status, text.toString());
                         requestJsonCar.setSituation(text.toString());
                     }
                 }
@@ -380,7 +380,7 @@ public class DetailPhotoActivity extends BaseActivity {
             requestJsonCar.setType(getStringFromTextView(R.id.detail_car_type));
             requestJsonCar.setLength(getStringFromTextView(R.id.detail_car_length));
             requestJsonCar.setCapacity(getStringFromTextView(R.id.detail_car_weight));
-            requestJsonCar.setSituation(getStringFromTextView(R.id.detail_car_status));
+//            requestJsonCar.setSituation(getStringFromTextView(R.id.detail_car_status));
             requestJsonCar.setUsualResidence(getStringFromTextView(R.id.detail_car_location));
 
             requestVerifyDriver();

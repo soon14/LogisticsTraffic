@@ -16,7 +16,7 @@
         android:background="@color/transparent"
         android:clickable="true"
         android:scaleType="fitXY"
-        android:src="@drawable/fake_ad_1" />
+        android:src="@drawable/def_cp_ad" />
 
     <ImageView
         android:id="@+id/home_flipper_about_company"
@@ -24,7 +24,7 @@
         android:layout_height="160dp"
         android:clickable="true"
         android:scaleType="fitXY"
-        android:src="@drawable/fake_ad_2" />
+        android:src="@drawable/def_cp_ad" />
 
     <ImageView
         android:id="@+id/home_flipper_about_app"
@@ -32,12 +32,12 @@
         android:layout_height="160dp"
         android:clickable="true"
         android:scaleType="fitXY"
-        android:src="@drawable/fake_ad_3" />
+        android:src="@drawable/def_cp_ad" />
     <ImageView
         android:id="@+id/home_flipper_tender"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:clickable="true"
         android:scaleType="fitXY"
-        android:src="@drawable/fake_ad_2" />
+        android:src="@drawable/def_cp_ad" />
 </com.bt.zhangzy.logisticstraffic.view.AdViewFlipper>

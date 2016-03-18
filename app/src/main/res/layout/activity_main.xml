@@ -19,39 +19,39 @@
            android:layout_width="match_parent"
            android:layout_height="match_parent" />-->
 
-
-    <Button
-        android:id="@+id/button4"
-        style="@style/while_orange_btn_style"
+    <LinearLayout
+        android:id="@+id/test_ly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="158dp"
-        android:onClick="onClick_Driver"
-        android:text="司机端" />
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button5"
-        style="@style/while_orange_btn_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/button4"
-        android:layout_marginTop="35dp"
-        android:onClick="onClick_Enterprise"
-        android:text="企业端" />
+        <Button
+            android:id="@+id/test_dvive_bt"
+            style="@style/while_orange_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClick_Driver"
+            android:layout_margin="20dp"
+            android:text="司机端" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClick_Test"
-        android:text="测试页面"
-        android:visibility="visible"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="31dp" />
+        <Button
+            android:id="@+id/test_company_bt"
+            style="@style/while_orange_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClick_Enterprise"
+            android:layout_margin="20dp"
+            android:text="企业端" />
 
+        <Button
+            android:id="@+id/test_web_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick_Test"
+            android:layout_margin="20dp"
+            android:text="测试页面"
+            android:visibility="visible" />
+    </LinearLayout>
 </RelativeLayout>

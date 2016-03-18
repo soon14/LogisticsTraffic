@@ -67,7 +67,7 @@
                         android:clickable="true"
                         android:onClick="onClick_OpenPicture"
                         android:scaleType="fitXY"
-                        android:src="@drawable/fake_detail_1" />
+                        android:src="@drawable/def_cp_ad" />
 
                     <ImageView
                         android:id="@+id/detail_flipper_2"
@@ -76,7 +76,7 @@
                         android:clickable="true"
                         android:onClick="onClick_OpenPicture"
                         android:scaleType="fitXY"
-                        android:src="@drawable/fake_detail_1" />
+                        android:src="@drawable/def_cp_ad" />
 
                     <ImageView
                         android:id="@+id/detail_flipper_3"
@@ -85,7 +85,7 @@
                         android:clickable="true"
                         android:onClick="onClick_OpenPicture"
                         android:scaleType="fitXY"
-                        android:src="@drawable/fake_detail_1" />
+                        android:src="@drawable/def_cp_ad" />
 
                 </ViewFlipper>
 
@@ -96,7 +96,7 @@
                     android:layout_height="100dp"
                     android:layout_alignBottom="@id/detail_cp_flipper"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/fake_cp_user" />
+                    android:src="@drawable/user_def_mini" />
 
 
             </RelativeLayout>

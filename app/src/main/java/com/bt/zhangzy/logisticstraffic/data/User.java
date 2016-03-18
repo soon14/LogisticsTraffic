@@ -401,6 +401,8 @@ public class User implements Serializable {
 
 
     public void setLoginResponse(ResponseLogin json) {
+
+        updatePayStatus(json.getMember());
         JsonUser jsonUser = json.getUser();
         User user = User.getInstance();
         user.setLogin(true);
@@ -460,11 +462,7 @@ public class User implements Serializable {
             @Override
             public void onSuccess(String msg, String result) {
                 JsonMember jsonMember = ParseJson_Object(result, JsonMember.class);
-                if (jsonMember != null) {
-                    payStatus = PayStatus.Parse(jsonMember.getIsExpired());
-                    payJson = jsonMember;
-                    isVIP = payStatus == PayStatus.PaymentReceived;
-                }
+                updatePayStatus(jsonMember);
             }
 
             @Override
@@ -472,6 +470,14 @@ public class User implements Serializable {
 
             }
         });
+    }
+
+    private void updatePayStatus(JsonMember jsonMember) {
+        if (jsonMember != null) {
+            payStatus = PayStatus.Parse(jsonMember.getIsExpired());
+            payJson = jsonMember;
+            isVIP = payStatus == PayStatus.PaymentReceived;
+        }
     }
 
     /**

@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.service.UpDataLocationService;
@@ -51,7 +51,7 @@ public class UserFragment extends BaseHomeFragment {
 //            findViewById(R.id.user_services_item).setVisibility(View.GONE);
             ViewUtils.setText(view, R.id.user_fleet_bt, "我加入的车队");
             view.findViewById(R.id.user_tender_item).setVisibility(View.GONE);
-        }else{
+        } else {
             view.findViewById(R.id.user_tender_item).setVisibility(View.GONE);
         }
         //更新用户信息
@@ -75,10 +75,11 @@ public class UserFragment extends BaseHomeFragment {
             }
         }
 
-        if (AppParams.DRIVER_APP ^ user.getUserType() == Type.DriverType) {
+        if (user.getUserType() != Type.EmptyType)
+            if (AppParams.DRIVER_APP ^ user.getUserType() == Type.DriverType) {
 //                getHomeActivity().showToast("登录用户与客户端类型不统一");
-            ConfirmDialog.showConfirmDialog(getActivity(), "登录用户与客户端类型不统一,请重新启动APP", null);
-        }
+                ConfirmDialog.showConfirmDialog(getActivity(), "登录用户与客户端类型不统一,请重新启动APP", null);
+            }
 
     }
 

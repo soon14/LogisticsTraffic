@@ -6,14 +6,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.NetCallback;
-import com.bt.zhangzy.network.entity.BaseEntity;
+import com.bt.zhangzy.network.SMSCodeHelper;
 import com.bt.zhangzy.network.entity.RequestOrderAccept_Reject;
 
 /**
@@ -57,7 +56,7 @@ public class VerificationActivity extends BaseActivity {
         //test 万能验证码
         if (AppParams.DEBUG && verfication.equals("0000")) {
 
-        } else if (!verfication.equals(String.valueOf(verificationCode))) {
+        } else if (!SMSCodeHelper.getInstance().checkVerificationCode(verfication)) {
             showToast("验证码错误");
             return;
         }
@@ -97,45 +96,10 @@ public class VerificationActivity extends BaseActivity {
 //            showToast("手机号输入错误");
 //            return;
 //        }
-
-        HttpHelper.getInstance().get(AppURL.SendVerificationCode + phoneNumber, new NetCallback() {
-
-            @Override
-            public void onFailed(String str) {
-                showToast("验证码发送失败");
-            }
-
-            @Override
-            public void onSuccess(String str) {
-//                Json js = Json.ToJson(str);
-                showToast("验证码发送成功");
-                requestVerificationCode(phoneNumber);
-            }
-        });
+        SMSCodeHelper.getInstance().sendSMS(this, phoneNumber, "83717");
 
 
     }
 
 
-    int verificationCode;
-
-    /*获取手机验证码*/
-    private void requestVerificationCode(String phoneNum) {
-
-        HttpHelper.getInstance().get(AppURL.GetVerificationCode + phoneNum, new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-                if (TextUtils.isEmpty(result)) {
-                    return;
-                }
-                BaseEntity entity = ParseJson_Object(result, BaseEntity.class);
-                verificationCode = entity.getCode();
-            }
-
-            @Override
-            public void onFailed(String str) {
-
-            }
-        });
-    }
 }

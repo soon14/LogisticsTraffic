@@ -1,13 +1,12 @@
 package com.bt.zhangzy.pay;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -57,9 +56,9 @@ public class WeiXinPay {
     /*
     初始化 实例
      */
-    public void init(Activity context) {
+    public void init(Context context) {
         //获取实例
-        iwxapi = WXAPIFactory.createWXAPI(context, APPID, true);
+        iwxapi = WXAPIFactory.createWXAPI(context, APPID, false);
 //        iwxapi = WXAPIFactory.createWXAPI(context, null);
         // 将该app注册到微信
         boolean registerApp = iwxapi.registerApp(APPID);
@@ -82,20 +81,28 @@ public class WeiXinPay {
         });
     }
 
-    public void payUnifiedOrder(BaseActivity context, int amount, int userId) {
+    public void payUnifiedOrder(BaseActivity context, String msg, int amount, int userId) {
         activity = context;
+        if (iwxapi == null)
+            init(context);
+        if (!iwxapi.isWXAppInstalled()) {
+            activity.showToast("请先安装微信客户端");
+            return;
+        }
+
+        activity.showProgress("支付中···");
 
 //        Log.d(TAG, "调用微信openWXApp:" + iwxapi.openWXApp());
 
         WeiXinJson params = new WeiXinJson();
-//        params.setTitle("支付测试Android");
-//        params.setDetail("支付测试详情android");
+        params.setTitle("会员购买");
+        params.setDetail(msg);
         params.setAmount(amount);
         params.setUserId(userId);
         String localWifiIP = ContextTools.getLocalWifiIP(context);
-        Log.d(TAG, "wifi IP=" + localWifiIP);
         String localIpAddress = ContextTools.getLocalIpAddress();
-        params.setFrom(localWifiIP);
+        Log.d(TAG, "wifi IP=" + localWifiIP + " IP=" + localIpAddress);
+        params.setFrom(localWifiIP.startsWith("0.") ? localIpAddress : localWifiIP);
         HttpHelper.getInstance().get(AppURL.PayWeiXin, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
@@ -112,7 +119,10 @@ public class WeiXinPay {
 //                        pay(response);
                     } else {
                         activity.showToast("支付失败:" + weixinPay.getResult_code());
+                        activity.cancelProgress();
                     }
+                } else {
+                    activity.cancelProgress();
                 }
             }
 
@@ -120,6 +130,7 @@ public class WeiXinPay {
             public void onFailed(String str) {
                 activity.showToast("支付失败");
                 Log.w(TAG, "支付失败:" + str);
+                activity.cancelProgress();
             }
         });
     }
@@ -139,12 +150,17 @@ public class WeiXinPay {
         long time = response.getMember().getModifyDate().getTime();
         request.timeStamp = String.valueOf(time).substring(0, 10);//"1398746574";//时间戳，请见接口规则-参数规定
 //        request.timeStamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);//"1398746574";//时间戳，请见接口规则-参数规定
-
-        request.sign = sign(request, response.getWeixinPay().key);//sign(request);//jsonPay.sign;//"7FFECB600D7157C5AA49810D2D8F28BC2811827B";//签名，详见签名生成算法
+//        request.sign = jsonPay.sign;
+        request.sign = sign(request, jsonPay.key);//sign(request);//jsonPay.sign;//"7FFECB600D7157C5AA49810D2D8F28BC2811827B";//签名，详见签名生成算法
         request.extData = "app data"; // optional
+        request.signType = jsonPay.trade_type;
+        boolean registerApp = iwxapi.registerApp(jsonPay.appid);
+        Log.d(TAG, "registerApp=" + registerApp);
         Log.d(TAG, "微信支付  合法性检测：" + request.checkArgs());
         boolean req = iwxapi.sendReq(request);
         Log.d(TAG, "微信支付  结果：" + req);
+        if (activity != null)
+            activity.cancelProgress();
 
     }
 
@@ -154,6 +170,7 @@ public class WeiXinPay {
         HashMap<String, String> paramsMap = new HashMap<>();
         paramsMap.put("appid", request.appId);
         paramsMap.put("partnerid", request.partnerId);
+//        paramsMap.put("mch_id", request.partnerId);
         paramsMap.put("prepayid", request.prepayId);
         paramsMap.put("package", request.packageValue);
         paramsMap.put("noncestr", request.nonceStr);
@@ -199,7 +216,7 @@ public class WeiXinPay {
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = buildTransaction("text"); // transaction字段用于唯一标识一个请求
         req.message = msg;
-        req.scene = SendMessageToWX.Req.WXSceneSession;
+        req.scene = SendMessageToWX.Req.WXSceneTimeline;
 //        req.openId = getOpenId();
         // 调用api接口发送数据到微信
         iwxapi.sendReq(req);
@@ -207,18 +224,21 @@ public class WeiXinPay {
 
 
     public void shareWebUrl(Context ctx, String url) {
+        if (iwxapi == null)
+            init(ctx);
         WXWebpageObject webpage = new WXWebpageObject();
-        webpage.webpageUrl = "http://www.baidu.com";
+        webpage.webpageUrl = url;//"http://www.baidu.com";
         WXMediaMessage msg = new WXMediaMessage(webpage);
-        msg.title = "WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long";
-        msg.description = "WebPage Description WebPage Description WebPage Description WebPage Description WebPage Description WebPage Description WebPage Description WebPage Description WebPage Description Very Long Very Long Very Long Very Long Very Long Very Long Very Long";
+        msg.title = "易运通";
+        msg.description = "物流软件易运通下载链接";
         Bitmap thumb = BitmapFactory.decodeResource(ctx.getResources(), R.mipmap.ic_launcher);
         msg.thumbData = bmpToByteArray(thumb, true);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = buildTransaction("webpage");
         req.message = msg;
-        req.scene = SendMessageToWX.Req.WXSceneFavorite;
+        req.scene = req.WXSceneTimeline;
+//        req.scene = SendMessageToWX.Req.WXSceneFavorite;
 //        req.openId = getOpenId();
         iwxapi.sendReq(req);
     }

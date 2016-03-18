@@ -109,6 +109,7 @@
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.VerificationActivity" />
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TenderListActivity" />
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TenderActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.ForgetActivity" />
         <!-- test-->
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TestActivity" />
 

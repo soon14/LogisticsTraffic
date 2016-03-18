@@ -74,16 +74,13 @@ public class ContextTools {
                 NetworkInterface intf = en.nextElement();
                 for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
                     InetAddress inetAddress = enumIpAddr.nextElement();
-                    String ip_str = inetAddress.getHostAddress().toString();
-                    System.out.print("IpAddress=" + ip_str);
-                    Log.i(TAG, "IpAddress=" + ip_str);
-//                    Log.i(TAG, "isLoopbackAddress=" + inetAddress.isLoopbackAddress()
-//                            +" isLinkLocalAddress="+inetAddress.isLinkLocalAddress()
-//                            +" getHostName="+inetAddress.getHostName());
-                    if ("10".startsWith(ip_str))
-                        continue;
-                    if (!TextUtils.isEmpty(ip_str) && !inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress()) {
-                        return ip_str;
+                    if (!inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress()) {
+                        String ip_str = inetAddress.getHostAddress();
+                        System.out.print("IpAddress=" + ip_str);
+                        Log.i(TAG, "IpAddress=" + ip_str);
+                        if (!TextUtils.isEmpty(ip_str)) {
+                            return ip_str;
+                        }
                     }
                 }
             }

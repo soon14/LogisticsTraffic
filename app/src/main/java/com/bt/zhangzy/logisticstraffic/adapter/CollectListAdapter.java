@@ -85,7 +85,7 @@ public class CollectListAdapter extends BaseAdapter {
             Product item = list.get(position);
             if (TextUtils.isEmpty(item.getIconImgUrl())) {
                 //设置默认图
-                holder.img.setImageResource(R.drawable.fake_1);
+                holder.img.setImageResource(R.mipmap.ic_launcher);
             } else
                 ViewUtils.setImageUrl(holder.img, item.getIconImgUrl());
             ViewUtils.setText(holder.name, item.getName());

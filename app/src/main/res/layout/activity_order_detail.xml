@@ -17,8 +17,8 @@
 
 
         <TableRow
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp">
 
             <TextView
                 style="@style/tx_black_df_style"
@@ -33,9 +33,10 @@
 
         <View style="@style/line_style_horizontal" />
 
-        <TableLayout
-            android:stretchColumns="1">
+        <TableLayout android:stretchColumns="1">
+
             <TableRow>
+
                 <TextView
                     style="@style/tx_black_df_style"
                     android:text="货物来源" />
@@ -50,6 +51,7 @@
             <View style="@style/line_style_horizontal" />
 
             <TableRow>
+
                 <TextView
                     style="@style/tx_black_df_style"
                     android:text="接单企业" />
@@ -59,10 +61,10 @@
                     style="@style/tx_black_df_style"
                     android:background="@color/white"
                     android:hint="德邦物流"
-                    android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:paddingLeft="5dp"
-                    android:paddingRight="5dp"/>
+                    android:paddingRight="5dp"
+                    android:paddingTop="10dp" />
             </TableRow>
 
         </TableLayout>
@@ -96,6 +98,7 @@
                     android:paddingRight="20dp"
                     android:text="始  发  地" />
 
+
                 <TextView
                     android:id="@+id/order_detail_start_city_tx"
                     style="@style/tx_black_df_style"
@@ -103,6 +106,23 @@
                     android:clickable="true"
                     android:hint="出发城市"
                     android:onClick="onClick_ChangeLocation" />
+
+
+            </TableRow>
+
+            <View style="@style/line_style_horizontal" />
+
+            <TableRow
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp">
+
+                <EditText
+                    android:id="@+id/order_detail_start_loc_tx"
+                    style="@style/tx_black_df_style"
+                    android:layout_column="1"
+                    android:background="@color/white"
+                    android:clickable="true"
+                    android:hint="出发地详细地址" />
             </TableRow>
 
             <View style="@style/line_style_horizontal" />
@@ -123,6 +143,21 @@
                     android:clickable="true"
                     android:hint="到达城市"
                     android:onClick="onClick_ChangeLocation" />
+            </TableRow>
+
+            <View style="@style/line_style_horizontal" />
+
+            <TableRow
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp">
+
+                <EditText
+                    android:id="@+id/order_detail_stop_loc_tx"
+                    style="@style/tx_black_df_style"
+                    android:layout_column="1"
+                    android:background="@color/white"
+                    android:clickable="true"
+                    android:hint="到达地详细地址" />
             </TableRow>
 
             <View style="@style/line_style_horizontal" />
@@ -255,6 +290,7 @@
             </TableRow>
 
         </TableLayout>
+
         <View style="@style/line_style_horizontal" />
     </TableLayout>
 

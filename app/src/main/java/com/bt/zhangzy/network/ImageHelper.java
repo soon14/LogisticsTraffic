@@ -35,7 +35,7 @@ public class ImageHelper {
     //显示图片的配置
     public final DisplayImageOptions options = new DisplayImageOptions.Builder()
 //            .showImageOnLoading(R.drawable.ic_stub) // resource or drawablee  加载中
-            .showImageForEmptyUri(R.drawable.fake_1) // resource or drawable 如果地址为空
+            .showImageForEmptyUri(R.mipmap.ic_launcher) // resource or drawable 如果地址为空
 //            .showImageOnFail(R.drawable.ic_error) // resource or drawable 如果加载失败
             .cacheInMemory(true)
 //            .cacheOnDisk(true)
@@ -98,7 +98,7 @@ public class ImageHelper {
      * @param imageView
      */
     public void load(String imageUrl, ImageView imageView) {
-        if ( imageView == null)
+        if (imageView == null)
             return;
         ImageLoader.getInstance().displayImage(imageUrl, imageView, options);
     }

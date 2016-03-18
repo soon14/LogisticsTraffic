@@ -14,7 +14,7 @@
         <include layout="@layout/page_top" />
 
         <Button
-            style="@style/orange_btn_style"
+            style="@style/default_btn_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

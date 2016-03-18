@@ -18,6 +18,8 @@
 
 -dontwarn java.nio.file.**
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-dontwarn com.alibaba.fastjson.**
+-dontwarn com.google.gson.jpush.**
 #-libraryjars libs/fastjson-1.2.5.jar
 #微信混淆相关
 #-libraryjars libs/libammsdk.jar

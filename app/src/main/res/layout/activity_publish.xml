@@ -139,28 +139,28 @@
 
         </TableRow>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@color/def_line" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2px"-->
+            <!--android:background="@color/def_line" />-->
 
-        <TableRow>
+        <!--<TableRow>-->
 
 
-            <TextView
-                style="@style/black_tx_12_style.source_detail"
-                android:text="车辆状况：" />
+            <!--<TextView-->
+                <!--style="@style/black_tx_12_style.source_detail"-->
+                <!--android:text="车辆状况：" />-->
 
-            <TextView
-                android:id="@+id/publish_status_ed"
-                style="@style/black_tx_12_style.source_detail"
-                android:layout_span="2"
-                android:clickable="true"
-                android:hint="车辆状况"
-                android:onClick="onClick_Status"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp" />
-        </TableRow>
+            <!--<TextView-->
+                <!--android:id="@+id/publish_status_ed"-->
+                <!--style="@style/black_tx_12_style.source_detail"-->
+                <!--android:layout_span="2"-->
+                <!--android:clickable="true"-->
+                <!--android:hint="车辆状况"-->
+                <!--android:onClick="onClick_Status"-->
+                <!--android:paddingBottom="8dp"-->
+                <!--android:paddingTop="8dp" />-->
+        <!--</TableRow>-->
 
         <View
             android:layout_width="match_parent"
@@ -317,7 +317,7 @@
     </TableLayout>
 
     <Button
-        style="@style/orange_btn_style"
+        style="@style/length_btn_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

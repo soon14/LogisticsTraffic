@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.Product;
@@ -277,7 +277,8 @@ public class DetailCompany extends BaseActivity {
     }
 
     public void onClick_Share(View view) {
-        WeiXinPay.getInstanse().shareText(this, "分享测试");
+//        WeiXinPay.getInstanse().shareText(this, "分享测试");
+        WeiXinPay.getInstanse().shareWebUrl(this, AppURL.DOWNLOAD_APP.toString());
     }
 
     public void onClick_CollectAdd(View view) {

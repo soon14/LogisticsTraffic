@@ -13,8 +13,18 @@ public class ResponseLogin extends BaseEntity {
     JsonDriver driver;
     JsonCompany company;
     JsonEnterprise enterprise;
+    JsonMember member;
     ResponseFavorites favorites;
     List<JsonMotorcades> motorcades;
+
+
+    public JsonMember getMember() {
+        return member;
+    }
+
+    public void setMember(JsonMember member) {
+        this.member = member;
+    }
 
     public List<JsonMotorcades> getMotorcades() {
         return motorcades;

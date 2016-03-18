@@ -15,10 +15,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.Type;
@@ -33,7 +33,6 @@ import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.UploadImageHelper;
-import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.tools.ContextTools;
@@ -242,7 +241,7 @@ public class HomeActivity extends BaseActivity {
      */
     private void initCustomBtn() {
         customBtn = (ImageButton) findViewById(R.id.home_bottom_services_btn);
-        if (User.getInstance().getUserType() == Type.CompanyInformationType) {
+        if (!AppParams.DRIVER_APP) {
             customBtn.setImageResource(R.drawable.home_source_car_btn_selector);
 //            customBtn.setText("车源");
 //            customBtn.setCompoundDrawables(null, getDrawable(R.drawable.home_source_btn_selector), null, null);
@@ -251,7 +250,7 @@ public class HomeActivity extends BaseActivity {
 //            // / 这一步必须要做,否则不会显示.
 //            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
 //            customBtn.setCompoundDrawables(null, drawable, null, null);
-        } else if (User.getInstance().getUserType() == Type.DriverType) {
+        } else {
             customBtn.setImageResource(R.drawable.home_source_btn_selector);
 //            customBtn.setText("货源");
 //            // 使用代码设置drawableleft
@@ -392,8 +391,9 @@ public class HomeActivity extends BaseActivity {
 //        startActivity(ServicesActivity.class);
 //        replace(R.id.home_content, new ServicesFragment(), TAG_SERVICES);
 //        setPage(INDEX_SERVICES, view);
-        if (User.getInstance().getUserType() == Type.EnterpriseType) {
-//            startActivity(ServicesActivity.class, null, true);
+        if (!User.getInstance().getLogin()) {
+            gotoLogin();
+            return;
         }
         if (User.getInstance().getUserType() == Type.DriverType) {
             if (User.getInstance().isVIP()) {

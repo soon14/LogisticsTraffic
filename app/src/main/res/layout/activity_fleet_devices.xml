@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -17,15 +16,15 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:scaleType="fitXY"
-            android:src="@drawable/fake_detail_1" />
+            android:src="@drawable/def_cp_ad" />
 
         <!-- 头像展示-->
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_alignBottom="@id/fleet_devices_img"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/fake_cp_user" />
+            android:src="@drawable/user_def_mini" />
 
     </RelativeLayout>
 

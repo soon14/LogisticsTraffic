@@ -49,7 +49,9 @@ http://182.92.77.31:8080/img/phone/softan.png
     /* 登录 */
     Login("/users/login"),
 
-    /* 发送验证码 */
+    /* 发送验证码
+    * 示例
+http://182.92.77.31:8080/commons/sendVerificationCode/15011207876?template=83674 */
     SendVerificationCode("/commons/sendVerificationCode/"),
 
     /* 获取手机验证码 /commons/getVerificationCode/{phoneNumber}*/

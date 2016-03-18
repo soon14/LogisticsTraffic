@@ -50,7 +50,7 @@
                         android:layout_height="90dip"
                         android:layout_margin="10dp"
                         android:onClick="onClick_HeadImg"
-                        android:src="@drawable/user_bg"
+                        android:src="@drawable/user_icon_df"
                         app:border_color="#33ffffff"
                         app:border_width="3dp" />
 

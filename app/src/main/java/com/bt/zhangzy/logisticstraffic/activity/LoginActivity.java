@@ -74,6 +74,10 @@ public class LoginActivity extends BaseActivity {
         startActivity(RegisterActivity.class);
         finish();
     }
+    public void onClick_Forget(View view) {
+        startActivity(ForgetActivity.class);
+        finish();
+    }
 
     //进行登录操作
     public void onClick_Login(View view) {
@@ -139,7 +143,12 @@ public class LoginActivity extends BaseActivity {
 //                JsonUser jsonUser = ParseJson_Object(jsonstr, JsonUser.class);
                 if (AppParams.DRIVER_APP) {
                     if (User.getInstance().getUserType() != Type.DriverType) {
-                        showToast("不是司机用户");
+                        showToast("用户类型错误");
+                        return;
+                    }
+                }else{
+                    if (User.getInstance().getUserType() == Type.DriverType) {
+                        showToast("用户类型错误");
                         return;
                     }
                 }
@@ -151,4 +160,6 @@ public class LoginActivity extends BaseActivity {
         });
 
     }
+
+
 }

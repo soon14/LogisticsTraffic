@@ -24,15 +24,15 @@ public class FleetListAdapter extends BaseAdapter {
     private ArrayList<Integer> selectedList = new ArrayList<>();
     int needSize;
 
-    public FleetListAdapter(boolean isSelect,int size) {
+    public FleetListAdapter(boolean isSelect, int size) {
         this.hide_delBtn = isSelect;
-        selectedList= new ArrayList<>(size);
+        selectedList = new ArrayList<>(size);
         needSize = size;
     }
 
     public boolean selected(int position) {
 
-        Iterator it = selectedList.iterator();
+        Iterator<Integer> it = selectedList.iterator();
         while (it.hasNext()) {
             if (position == it.next()) {
                 //如果已经选中则删除
@@ -41,9 +41,9 @@ public class FleetListAdapter extends BaseAdapter {
                 return true;
             }
         }
-        if(selectedList.size() == needSize){
+        if (selectedList.size() == needSize) {
             //如果已经数量已经足够 则不能继续添加
-            return  false;
+            return false;
         }
         //如果没有选中则选中
         selectedList.add(position);
@@ -51,7 +51,7 @@ public class FleetListAdapter extends BaseAdapter {
         return true;
     }
 
-    public int getSelectedListSize(){
+    public int getSelectedListSize() {
         return selectedList.size();
     }
 

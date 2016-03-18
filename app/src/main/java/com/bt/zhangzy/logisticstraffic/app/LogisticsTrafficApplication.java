@@ -9,6 +9,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.service.UpDataLocationService;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
@@ -47,7 +48,7 @@ public class LogisticsTrafficApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        loadAppParams();
+//        loadAppParams();
 
         //JPush 推送
         JPushInterface.setDebugMode(true);
@@ -63,21 +64,22 @@ public class LogisticsTrafficApplication extends Application {
         ImageHelper.getInstance().init(this);
 
         //先放在这里，后期如果数据加载时间过长 可以考虑放到别的位置！或者增加异步线程
-        LoadAppData();
+//        LoadAppData();
 
 
     }
 
-    private void loadAppParams() {
+    public void loadAppParams() {
         try {
             ApplicationInfo appInfo = getPackageManager()
                     .getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
 
             String type = appInfo.metaData.getString("APP_TYPE");
-            Log.w(TAG, "读取客户端类型" + type);
-            AppParams.DRIVER_APP = type.equals("driver");
+            String typeStr = getString(R.string.app_type);
+            Log.w(TAG, "读取客户端类型" + type + " string-type=" + typeStr);
+            AppParams.DRIVER_APP = typeStr.equals("driver");
 //            System.out.println("myMsg:" + msg);
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -137,7 +139,7 @@ public class LogisticsTrafficApplication extends Application {
         Log.w(TAG, "设置当前Activity=" + act.TAG);
     }
 
-    public void stopLocationServer(){
+    public void stopLocationServer() {
         BaiduSDK.getInstance().stopLocationServer();
     }
 

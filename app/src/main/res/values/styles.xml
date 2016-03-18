@@ -171,11 +171,11 @@
         <item name="android:maxLines">1</item>
     </style>
 
-    <style name="button_style" parent="orange_btn_style">
+    <style name="button_style" parent="default_btn_style">
         <item name="android:padding">3dp</item>
     </style>
 
-    <style name="home_button_style" parent="button_style">
+    <style name="home_button_style" parent="default_btn_style">
         <item name="android:background">@drawable/home_btn_selector</item>
     </style>
 
@@ -186,11 +186,6 @@
         <item name="android:textColor">#fff</item>
     </style>
 
-    <style name="orange_btn_style.noBackground">
-        <item name="android:textSize">18sp</item>
-        <item name="android:padding">1dp</item>
-        <item name="android:textColor">#fff</item>
-    </style>
 
     <style name="orange_btn_noPadding_style">
         <item name="android:background">@drawable/home_btn_selector</item>

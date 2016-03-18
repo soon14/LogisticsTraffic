@@ -7,14 +7,14 @@ def releaseTime() {
 android {
     signingConfigs {
         config {
-            keyAlias 'yyt'
-            keyPassword 'yyt2015'
             storeFile file('D:/WorkSpaceStudio/LogisticsTraffic/app.keystore')
-            storePassword 'yyt2015'
+            storePassword 'yyt2016'
+            keyAlias 'yyt-wx'
+            keyPassword 'yyt2016'
         }
     }
-    compileSdkVersion 23
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 22
+    buildToolsVersion '23.0.0 rc3'
     defaultConfig {
         buildConfigField "boolean", "APP_DEBUG", "true"
 
@@ -27,20 +27,24 @@ android {
         // dex突破65535的限制
 //        multiDexEnabled true
         //默认 的客户单类型
-        manifestPlaceholders = [APP_TYPE_VALUE: "company"]
+//        manifestPlaceholders = [APP_TYPE_VALUE: "company"]
     }
     buildTypes {
         debug {
             buildConfigField "boolean", "APP_DEBUG", "true"
             // 是否进行混淆
             minifyEnabled false
+            signingConfig signingConfigs.config
         }
         release {
+            signingConfig signingConfigs.config
             buildConfigField "boolean", "APP_DEBUG", "false"
             // 是否进行混淆
             minifyEnabled true
             // 移除无用的resource文件
             shrinkResources true
+            //压缩
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //调试时关闭
 //            applicationVariants.all { variant ->
@@ -53,7 +57,6 @@ android {
 //                    }
 //                }
 //            }
-            signingConfig signingConfigs.config
         }
     }
     sourceSets {
@@ -62,17 +65,22 @@ android {
         }
     }
     //多渠道打包
-//    productFlavors {
-//        driver {
-//            manifestPlaceholders = [APP_TYPE_VALUE: "driver"]
-//        }
-//        company {
-//            manifestPlaceholders = [APP_TYPE_VALUE: "company"]
-//        }
-//
-//    }
     productFlavors {
+        driver {
+            applicationId "com.bt.zhangzy.logisticstraffic.d"
+            manifestPlaceholders = [APP_TYPE: "driver"]
+            manifestPlaceholders = [JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
+        }
+        company {
+            applicationId "com.bt.zhangzy.logisticstraffic"
+
+            manifestPlaceholders = [APP_TYPE: "company"]
+            manifestPlaceholders = [JPUSH_APPKEY: "cba04bab06fa527b1113d749"]
+        }
+
     }
+
+
 }
 
 dependencies {

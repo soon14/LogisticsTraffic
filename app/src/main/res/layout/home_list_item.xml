@@ -19,7 +19,7 @@
             android:layout_height="80dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="2dp"
-            android:src="@drawable/fake_1" />
+            android:src="@mipmap/ic_launcher" />
 
         <ImageButton
             android:id="@+id/list_item_phone"

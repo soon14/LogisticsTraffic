@@ -23,14 +23,14 @@
         android:orientation="horizontal"
         android:gravity="center">
         <Button
-            style="@style/orange_btn_style"
+            style="@style/default_btn_style"
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="重货"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
-            style="@style/while_orange_btn_style"
+            style="@style/default_btn_style"
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="散货"
