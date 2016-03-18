@@ -31,8 +31,6 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
         payGroup.check(R.id.pay_select_12m);
         payMethodGroup.setOnCheckedChangeListener(this);
         payMethodGroup.check(R.id.pay_method_weixin);
-        //微信支付
-        WeiXinPay.getInstanse().init(this);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.bt.zhangzy.pay;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +14,6 @@ import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.tools.ContextTools;
 import com.bt.zhangzy.tools.Tools;
-import com.tencent.mm.sdk.constants.Build;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXTextObject;
@@ -38,9 +38,8 @@ public class WeiXinPay {
     static final String TAG = WeiXinPay.class.getSimpleName();
     static WeiXinPay instanse = new WeiXinPay();
 
-    //    public static final String APPID = "06330317e7c40e63bb7c5685a8709d64";
     public static final String APPID = "wxd8934ee255eb1e0f";//wxd8934ee255eb1e0f wxd8934ee255eb1e0f
-    static final String KEY = "";//key设置路径：微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
+//    static final String KEY = "";//key设置路径：微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
 
     BaseActivity activity;
     IWXAPI iwxapi;
@@ -56,40 +55,18 @@ public class WeiXinPay {
     /*
     初始化 实例
      */
-    public void init(Context context) {
+    private void init(Activity context) {
         //获取实例
         iwxapi = WXAPIFactory.createWXAPI(context, APPID, false);
 //        iwxapi = WXAPIFactory.createWXAPI(context, null);
         // 将该app注册到微信
-        boolean registerApp = iwxapi.registerApp(APPID);
-        Log.d(TAG, "registerApp=" + registerApp);
+//        boolean registerApp = iwxapi.registerApp(APPID);
+//        Log.d(TAG, "registerApp=" + registerApp);
 //        iwxapi.handleIntent(Intent.getIntent())
-    }
-
-    public void testPay() {
-        String url = "http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=android";
-        HttpHelper.getInstance().get(url, new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-
-            }
-
-            @Override
-            public void onFailed(String str) {
-
-            }
-        });
     }
 
     public void payUnifiedOrder(BaseActivity context, String msg, int amount, int userId) {
         activity = context;
-        if (iwxapi == null)
-            init(context);
-        if (!iwxapi.isWXAppInstalled()) {
-            activity.showToast("请先安装微信客户端");
-            return;
-        }
-
         activity.showProgress("支付中···");
 
 //        Log.d(TAG, "调用微信openWXApp:" + iwxapi.openWXApp());
@@ -118,18 +95,19 @@ public class WeiXinPay {
                         });
 //                        pay(response);
                     } else {
-                        activity.showToast("支付失败:" + weixinPay.getResult_code());
+                        activity.showToast("下单失败:" + weixinPay.getResult_code());
                         activity.cancelProgress();
                     }
                 } else {
+                    activity.showToast("下单失败:" + response);
                     activity.cancelProgress();
                 }
             }
 
             @Override
             public void onFailed(String str) {
-                activity.showToast("支付失败");
-                Log.w(TAG, "支付失败:" + str);
+                activity.showToast("下单失败");
+                Log.w(TAG, "下单失败:" + str);
                 activity.cancelProgress();
             }
         });
@@ -137,25 +115,28 @@ public class WeiXinPay {
 
     //https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=9_12
     public void pay(WXResponse response) {
-        boolean isPaySupported = iwxapi.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-        Log.d(TAG, "微信支付接口检测:" + isPaySupported);
         Log.d(TAG, "调用微信支付接口:" + response.toString());
         WXResponsePay jsonPay = response.getWeixinPay();
+        //获取实例
+        iwxapi = WXAPIFactory.createWXAPI(activity, jsonPay.appid, false);
+        if (!iwxapi.isWXAppInstalled()) {
+            activity.showToast("请先安装微信客户端");
+            return;
+        }
+
         PayReq request = new PayReq();
         request.appId = jsonPay.appid;//APPID;//"wxd930ea5d5a258f4f";//微信分配的公众账号ID
-        request.partnerId = jsonPay.mch_id;//"1900000109";//微信支付分配的商户号
+        request.partnerId = jsonPay.mch_id;//"1309528301";//微信支付分配的商户号
         request.prepayId = jsonPay.prepay_id;//"1101000000140415649af9fc314aa427";//微信返回的支付交易会话ID
         request.packageValue = "Sign=WXPay";//暂填写固定值Sign=WXPay
         request.nonceStr = jsonPay.nonce_str;//"1101000000140429eb40476f8896f4c9";//随机字符串，不长于32位。推荐随机数生成算法
         long time = response.getMember().getModifyDate().getTime();
-        request.timeStamp = String.valueOf(time).substring(0, 10);//"1398746574";//时间戳，请见接口规则-参数规定
+        request.timeStamp = String.valueOf(time / 1000);//.substring(0, 10);//"1398746574";//时间戳，请见接口规则-参数规定
 //        request.timeStamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);//"1398746574";//时间戳，请见接口规则-参数规定
 //        request.sign = jsonPay.sign;
         request.sign = sign(request, jsonPay.key);//sign(request);//jsonPay.sign;//"7FFECB600D7157C5AA49810D2D8F28BC2811827B";//签名，详见签名生成算法
-        request.extData = "app data"; // optional
-        request.signType = jsonPay.trade_type;
-        boolean registerApp = iwxapi.registerApp(jsonPay.appid);
-        Log.d(TAG, "registerApp=" + registerApp);
+//        request.extData = "app data"; // optional
+//        request.signType = jsonPay.trade_type;
         Log.d(TAG, "微信支付  合法性检测：" + request.checkArgs());
         boolean req = iwxapi.sendReq(request);
         Log.d(TAG, "微信支付  结果：" + req);
@@ -170,7 +151,6 @@ public class WeiXinPay {
         HashMap<String, String> paramsMap = new HashMap<>();
         paramsMap.put("appid", request.appId);
         paramsMap.put("partnerid", request.partnerId);
-//        paramsMap.put("mch_id", request.partnerId);
         paramsMap.put("prepayid", request.prepayId);
         paramsMap.put("package", request.packageValue);
         paramsMap.put("noncestr", request.nonceStr);
@@ -184,10 +164,7 @@ public class WeiXinPay {
             stringBuffer.append(key.toLowerCase()).append("=").append(paramsMap.get(key));
             stringBuffer.append("&");
         }
-        //删除最后一个 &
-//        if (stringBuffer.length() > 1)
-//            stringBuffer.deleteCharAt(stringBuffer.length() - 1);
-        stringBuffer/*.append("&")*/.append("key").append("=").append(signKey);
+        stringBuffer.append("key").append("=").append(signKey);
         Log.d(TAG, "排序后:" + stringBuffer.toString());
 //        String stringSignTemp = stringBuffer.toString()+"&key=192006250b4c09247ec02edce69f6a2d";
         String stringSignTemp = Tools.MD5(stringBuffer.toString()).toUpperCase();
@@ -223,9 +200,10 @@ public class WeiXinPay {
     }
 
 
-    public void shareWebUrl(Context ctx, String url) {
-        if (iwxapi == null)
+    public void shareWebUrl(Activity ctx, String url) {
+        if (iwxapi == null) {
             init(ctx);
+        }
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = url;//"http://www.baidu.com";
         WXMediaMessage msg = new WXMediaMessage(webpage);

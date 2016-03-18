@@ -18,7 +18,6 @@
     <string name="location_distance_km">距离%skm</string>
 
 
-    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
 
     <string-array name="order_change_type_items">
         <item>建材</item>
