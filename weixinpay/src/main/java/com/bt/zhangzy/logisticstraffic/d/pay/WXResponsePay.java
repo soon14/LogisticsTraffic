@@ -1,6 +1,7 @@
-package com.bt.zhangzy.pay;
+package com.bt.zhangzy.logisticstraffic.d.pay;
 
-import com.bt.zhangzy.network.entity.BaseEntity;
+
+import com.zhangzy.base.http.BaseEntity;
 
 public class WXResponsePay extends BaseEntity {
     String nonce_str, body, detail, out_trade_no, total_fee, spbill_create_ip, sign, result_code, return_msg;

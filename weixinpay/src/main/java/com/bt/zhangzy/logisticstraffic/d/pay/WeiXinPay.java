@@ -1,19 +1,14 @@
-package com.bt.zhangzy.pay;
+package com.bt.zhangzy.logisticstraffic.d.pay;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.logisticstraffic.d.R;
-import com.bt.zhangzy.network.AppURL;
-import com.bt.zhangzy.network.HttpHelper;
-import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.entity.BaseEntity;
-import com.bt.zhangzy.tools.ContextTools;
-import com.bt.zhangzy.tools.Tools;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXTextObject;
@@ -21,6 +16,10 @@ import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.zhangzy.base.http.HttpHelper;
+import com.zhangzy.base.http.JsonCallback;
+import com.zhangzy.base.tools.ContextTools;
+import com.zhangzy.base.tools.Tools;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
@@ -37,13 +36,16 @@ import java.util.Set;
 public class WeiXinPay {
     static final String TAG = WeiXinPay.class.getSimpleName();
     static WeiXinPay instanse = new WeiXinPay();
-
-    public static final String APPID = "wxd8934ee255eb1e0f";//wxd8934ee255eb1e0f wxd8934ee255eb1e0f
+    final String Host = "http://182.92.77.31:8080";
+    final String PayURL = Host + "/pay/weixin_submit";//    PayWeiXin("/pay/weixin_submit"),
+    public final String APPID = "wxd8934ee255eb1e0f";//wxd8934ee255eb1e0f wxd8934ee255eb1e0f
 //    static final String KEY = "";//key设置路径：微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
 
-    BaseActivity activity;
+    Activity activity;
     IWXAPI iwxapi;
     WXResponse response;
+    ProgressDialog progress;
+    WXPayResultCallback callback;
 
     WeiXinPay() {
     }
@@ -52,9 +54,17 @@ public class WeiXinPay {
         return instanse;
     }
 
+    public WXPayResultCallback getCallback() {
+        return callback;
+    }
+
+    public void setCallback(WXPayResultCallback callback) {
+        this.callback = callback;
+    }
+
     /*
-    初始化 实例
-     */
+        初始化 实例
+         */
     private void init(Activity context) {
         //获取实例
         iwxapi = WXAPIFactory.createWXAPI(context, APPID, false);
@@ -65,13 +75,13 @@ public class WeiXinPay {
 //        iwxapi.handleIntent(Intent.getIntent())
     }
 
-    public void payUnifiedOrder(BaseActivity context, String msg, int amount, int userId) {
+    public void payUnifiedOrder(Activity context, String msg, int amount, int userId) {
         activity = context;
-        activity.showProgress("支付中···");
+        showProgress();
 
 //        Log.d(TAG, "调用微信openWXApp:" + iwxapi.openWXApp());
 
-        WeiXinJson params = new WeiXinJson();
+        WXRequest params = new WXRequest();
         params.setTitle("会员购买");
         params.setDetail(msg);
         params.setAmount(amount);
@@ -80,10 +90,21 @@ public class WeiXinPay {
         String localIpAddress = ContextTools.getLocalIpAddress();
         Log.d(TAG, "wifi IP=" + localWifiIP + " IP=" + localIpAddress);
         params.setFrom(localWifiIP.startsWith("0.") ? localIpAddress : localWifiIP);
-        HttpHelper.getInstance().get(AppURL.PayWeiXin, params, new JsonCallback() {
+        HttpHelper.getInstance().get(PayURL, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
+                Log.i(TAG, "http:" + msg + " result=" + result);
                 response = ParseJson_Object(result, WXResponse.class);
+                if (response == null) {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(activity, "response = null ", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+
                 WXResponsePay weixinPay = response.getWeixinPay();
                 if (weixinPay != null) {
                     if ("SUCCESS".equals(weixinPay.getResult_code())) {
@@ -95,23 +116,68 @@ public class WeiXinPay {
                         });
 //                        pay(response);
                     } else {
-                        activity.showToast("下单失败:" + weixinPay.getResult_code());
-                        activity.cancelProgress();
+                        showToast("下单失败:" + weixinPay.getResult_code());
+                        cancelProgress();
                     }
                 } else {
-                    activity.showToast("下单失败:" + response);
-                    activity.cancelProgress();
+                    showToast("下单失败:" + response);
+                    cancelProgress();
                 }
             }
 
             @Override
             public void onFailed(String str) {
-                activity.showToast("下单失败");
+                showToast("下单失败");
                 Log.w(TAG, "下单失败:" + str);
-                activity.cancelProgress();
+                cancelProgress();
             }
         });
     }
+
+    private void showToast(final String s) {
+        Log.i(TAG, "Toast:" + s);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(activity, s, Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+    }
+
+    private void showProgress() {
+        if (progress == null) {
+            progress = new ProgressDialog(activity); // 获取对象
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER); // 设置样式为圆形样式
+//        progress.setTitle("友情提示"); // 设置进度条的标题信息
+            progress.setMessage("支付中···"); // 设置进度条的提示信息
+//        progress.setIcon(R.drawable.ic_launcher); // 设置进度条的图标
+            progress.setIndeterminate(true); // 设置进度条是否为不明确
+            progress.setCancelable(false); // 设置进度条是否按返回键取消
+        }
+        progress.show();
+    }
+
+    private void cancelProgress() {
+        if (progress != null) {
+            if (progress.isShowing())
+                progress.cancel();
+        }
+    }
+
+    private void showDialog(String msg) {
+        new AlertDialog.Builder(activity)
+                .setMessage(msg)
+                .setPositiveButton("返回", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        activity.finish();
+                    }
+                }).show();
+    }
+
 
     //https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=9_12
     public void pay(WXResponse response) {
@@ -120,7 +186,7 @@ public class WeiXinPay {
         //获取实例
         iwxapi = WXAPIFactory.createWXAPI(activity, jsonPay.appid, false);
         if (!iwxapi.isWXAppInstalled()) {
-            activity.showToast("请先安装微信客户端");
+            showDialog("请先安装微信客户端");
             return;
         }
 
@@ -129,6 +195,7 @@ public class WeiXinPay {
         request.partnerId = jsonPay.mch_id;//"1309528301";//微信支付分配的商户号
         request.prepayId = jsonPay.prepay_id;//"1101000000140415649af9fc314aa427";//微信返回的支付交易会话ID
         request.packageValue = "Sign=WXPay";//暂填写固定值Sign=WXPay
+//        request.packageValue = "prepay_id=" + jsonPay.prepay_id;
         request.nonceStr = jsonPay.nonce_str;//"1101000000140429eb40476f8896f4c9";//随机字符串，不长于32位。推荐随机数生成算法
         long time = response.getMember().getModifyDate().getTime();
         request.timeStamp = String.valueOf(time / 1000);//.substring(0, 10);//"1398746574";//时间戳，请见接口规则-参数规定
@@ -138,17 +205,17 @@ public class WeiXinPay {
 //        request.extData = "app data"; // optional
 //        request.signType = jsonPay.trade_type;
         Log.d(TAG, "微信支付  合法性检测：" + request.checkArgs());
+        iwxapi.registerApp(jsonPay.appid);
         boolean req = iwxapi.sendReq(request);
         Log.d(TAG, "微信支付  结果：" + req);
-        if (activity != null)
-            activity.cancelProgress();
+        cancelProgress();
 
     }
 
     public String sign(PayReq request, String signKey) {
 //        if (paramsMap == null || paramsMap.isEmpty())
 //            return "";
-        HashMap<String, String> paramsMap = new HashMap<>();
+        HashMap<String, String> paramsMap = new HashMap<String, String>();
         paramsMap.put("appid", request.appId);
         paramsMap.put("partnerid", request.partnerId);
         paramsMap.put("prepayid", request.prepayId);
@@ -169,7 +236,7 @@ public class WeiXinPay {
 //        String stringSignTemp = stringBuffer.toString()+"&key=192006250b4c09247ec02edce69f6a2d";
         String stringSignTemp = Tools.MD5(stringBuffer.toString()).toUpperCase();
         Log.d(TAG, "签名后:" + stringSignTemp);
-        return stringBuffer.toString();
+        return stringSignTemp;
     }
 
     /*分享或收藏的目标场景，通过修改scene场景值实现。
@@ -209,8 +276,8 @@ public class WeiXinPay {
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = "易运通";
         msg.description = "物流软件易运通下载链接";
-        Bitmap thumb = BitmapFactory.decodeResource(ctx.getResources(), R.mipmap.ic_launcher);
-        msg.thumbData = bmpToByteArray(thumb, true);
+//        Bitmap thumb = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_launcher);
+//        msg.thumbData = bmpToByteArray(thumb, true);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = buildTransaction("webpage");
@@ -240,57 +307,6 @@ public class WeiXinPay {
         }
 
         return result;
-    }
-
-    //参数封装
-    class WeiXinJson extends BaseEntity {
-        String title, detail,
-        //                orderId,//返回的订单号包含yyyyMMdd前缀
-//                totalFee,//价格 单位：分
-        from;//发送订单的手机的ip地址
-        int userId;
-        int amount;
-
-        public int getUserId() {
-            return userId;
-        }
-
-        public void setUserId(int userId) {
-            this.userId = userId;
-        }
-
-        public int getAmount() {
-            return amount;
-        }
-
-        public void setAmount(int amount) {
-            this.amount = amount;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getDetail() {
-            return detail;
-        }
-
-        public void setDetail(String detail) {
-            this.detail = detail;
-        }
-
-
-        public String getFrom() {
-            return from;
-        }
-
-        public void setFrom(String from) {
-            this.from = from;
-        }
     }
 
 

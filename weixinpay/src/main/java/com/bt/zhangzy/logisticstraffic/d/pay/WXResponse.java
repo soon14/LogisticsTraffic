@@ -1,7 +1,7 @@
-package com.bt.zhangzy.pay;
+package com.bt.zhangzy.logisticstraffic.d.pay;
 
-import com.bt.zhangzy.network.entity.BaseEntity;
-import com.bt.zhangzy.network.entity.JsonMember;
+
+import com.zhangzy.base.http.BaseEntity;
 
 public class WXResponse extends BaseEntity {
     JsonMember member;

@@ -2,19 +2,19 @@ package com.bt.zhangzy.logisticstraffic.d.wxapi;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
-import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
-import com.bt.zhangzy.pay.WeiXinPay;
+import com.bt.zhangzy.logisticstraffic.d.pay.WeiXinPay;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
@@ -25,9 +25,9 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pay_result);
+        setContentView(com.bt.zhangzy.logisticstraffic.wxpay.R.layout.pay_result);
 
-        api = WXAPIFactory.createWXAPI(this, WeiXinPay.APPID);
+        api = WXAPIFactory.createWXAPI(this, WeiXinPay.getInstanse().APPID);
 //        api.registerApp(WeiXinPay.APPID);
         api.handleIntent(getIntent(), this);
         Log.d(TAG, "onCreate:" + getIntent());
@@ -50,7 +50,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onResp(BaseResp resp) {
         Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
         Log.d(TAG, "onPayFinish, errStr = " + resp.errStr + "==>" + resp.transaction);
-        int code = resp.errCode;
+        final int code = resp.errCode;
         String msg = null;
         switch (code) {
             case 0://支付成功后的界面
@@ -68,17 +68,22 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         if (msg == null)
             finish();
         else {
-            View.OnClickListener listener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            };
-            new ConfirmDialog(this)
+            new AlertDialog.Builder(this)
                     .setMessage(msg)
-                    .setConfirmListener(listener)
-                    .setCancelListener(listener)
-                    .show();
+                    .setPositiveButton("退出", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            finish();
+                            if (WeiXinPay.getInstanse().getCallback() != null) {
+                                if (code == 0)
+                                    WeiXinPay.getInstanse().getCallback().paySuccess();
+                                else
+                                    WeiXinPay.getInstanse().getCallback().payFailed("支付失败");
+                            }
+                        }
+                    }).show();
+
         }
     }
 }
