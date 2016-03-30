@@ -1,4 +1,4 @@
-package com.bt.zhangzy.pay;
+package ali.pay;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,9 +15,6 @@ import com.alipay.sdk.app.PayTask;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.spec.PKCS8EncodedKeySpec;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -26,22 +24,42 @@ import java.util.Random;
 /**
  * Created by ZhangZy on 2016-3-14.
  */
-public class AliPay {
-    static AliPay instance = new AliPay();
+public class AliPayDemo {
+    private static final String TAG = AliPayDemo.class.getSimpleName();
+    static AliPayDemo instance = new AliPayDemo();
 
-    public static AliPay getInstance() {
+    public static AliPayDemo getInstance() {
         return instance;
     }
-
     // 商户PID
-    public static final String PARTNER = "";
+    public static final String PARTNER = "2088121804817103";// APPID= "2016012101110584";
     // 商户收款账号
-    public static final String SELLER = "";
+    public static final String SELLER = "dev_wuliuhui@sina.com";
     // 商户私钥，pkcs8格式
-    public static final String RSA_PRIVATE = "";
+    public static final String RSA_PRIVATE = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMSesukSk9eUWNh7" +
+            "gC8CgTycTNTZZUSMiUvCShIDbm876B/pJL3bQy9iSXTFbwyyfsD/hqVyNmreMenN" +
+            "2uYdqhbvqR72nng37y6RY1SeLQA/jQTi7j4FZvRrIY+5Mlcrqh3oV3FZ9oNwhoVv" +
+            "jor0+XJHQom6oya/P0F4w5yYQh0XAgMBAAECgYBlKiJzuZNIAJQWDrVNesR0IxeF" +
+            "DLYGJykdScJCsnFH2lL82ECHTyGqZ6/T3SHeLpj5RIBK8BD/u4ODAN/4NpskeUMc" +
+            "gfijCBUqWd0OjxK7MLMlPP/H+d8T3MA5/tnft8+qYGd4BUMS9OOIZ4yHiOEuJ4Tk" +
+            "M9gA35XS9s3W9IN5wQJBAP6WzbvO7zO4dcmI6g42CemUX6v2HG1sCMdPKNJk8MJ/" +
+            "rACD90d0yTXq/EWccY4HbEy79CE6DFHNc1wZ49VcVpUCQQDFtabjjjTkcpanm24s" +
+            "1al6upbhS00RVjkb/IBLxqtVMEJJ1tBm917ShLhFa+F8A+MM58spkIukPOKa/JT4" +
+            "YxX7AkEAsP4yhZD152UkLjpLThnvhj4qzShK1x+2cqnr3WljoDSWZb1ZGopsoFl/" +
+            "jP2YTH+IoUhCDx+GFRDaVHuDU3/giQJBALIRQ3hcEkNW+V2H3hk/bt98wnuzqHve" +
+            "3pzYNG0LSDD3wBxk/1pdneeZZaYQ3gsmLQ7ojdCnwT1xIN9acomsJJUCQF3dj7/0" +
+            "ijb50JuIPah5Re4ytGcChw4UFx4N+H/iE8Nc/p7aK5ZPgV5Qhs2os8pd1GbnTVB7" +
+            "Z21A658p+Tw9nJQ=";
     // 支付宝公钥
-    public static final String RSA_PUBLIC = "";
+    public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDEnrLpEpPXlFjYe4AvAoE8nEzU" +
+            "2WVEjIlLwkoSA25vO+gf6SS920MvYkl0xW8Msn7A/4alcjZq3jHpzdrmHaoW76ke" +
+            "9p54N+8ukWNUni0AP40E4u4+BWb0ayGPuTJXK6od6FdxWfaDcIaFb46K9PlyR0KJ" +
+            "uqMmvz9BeMOcmEIdFwIDAQAB";
     private static final int SDK_PAY_FLAG = 1;
+
+    //
+    public static final String NotifyURL = "http://182.92.77.31:8080/pay/alipay_callback";
+
     private Activity activity;
 
     @SuppressLint("HandlerLeak")
@@ -101,6 +119,7 @@ public class AliPay {
         }
         String orderInfo = getOrderInfo("测试的商品", "该测试商品的详细描述", "0.01");
 
+
         /**
          * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！
          */
@@ -113,11 +132,11 @@ public class AliPay {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
         /**
          * 完整的符合支付宝参数规范的订单信息
          */
         final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + getSignType();
+        Log.d(TAG,"payInfo="+payInfo);
 
         Runnable payRunnable = new Runnable() {
 
@@ -194,7 +213,9 @@ public class AliPay {
         orderInfo += "&total_fee=" + "\"" + price + "\"";
 
         // 服务器异步通知页面路径
-        orderInfo += "&notify_url=" + "\"" + "http://notify.msp.hk/notify.htm" + "\"";
+//        orderInfo += "&notify_url=" + "\"" + "http://notify.msp.hk/notify.htm" + "\"";
+        orderInfo += "&notify_url=" + "\"" + NotifyURL + "\"";
+
 
         // 服务接口名称， 固定值
         orderInfo += "&service=\"mobile.securitypay.pay\"";
@@ -244,7 +265,7 @@ public class AliPay {
      * @param content 待签名订单信息
      */
     private String sign(String content) {
-        return SignUtils.sign(content, RSA_PRIVATE);
+        return AliSignUtils.sign(content, RSA_PRIVATE);
     }
 
     /**
@@ -254,37 +275,5 @@ public class AliPay {
         return "sign_type=\"RSA\"";
     }
 
-
-    public static class SignUtils {
-
-        private static final String ALGORITHM = "RSA";
-
-        private static final String SIGN_ALGORITHMS = "SHA1WithRSA";
-
-        private static final String DEFAULT_CHARSET = "UTF-8";
-
-        public static String sign(String content, String privateKey) {
-            try {
-                PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(AliBase64.decode(privateKey));
-                KeyFactory keyf = KeyFactory.getInstance(ALGORITHM);
-                PrivateKey priKey = keyf.generatePrivate(priPKCS8);
-
-                java.security.Signature signature = java.security.Signature
-                        .getInstance(SIGN_ALGORITHMS);
-
-                signature.initSign(priKey);
-                signature.update(content.getBytes(DEFAULT_CHARSET));
-
-                byte[] signed = signature.sign();
-
-                return AliBase64.encode(signed);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-    }
 
 }
