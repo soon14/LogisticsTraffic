@@ -13,6 +13,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+import com.zhangzy.base.http.BaseEntity;
 import com.zhangzy.base.http.NetCallback;
 
 import org.json.JSONException;
