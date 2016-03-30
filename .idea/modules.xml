@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LogisticsTraffic.iml" filepath="$PROJECT_DIR$/LogisticsTraffic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/alipay/alipay.iml" filepath="$PROJECT_DIR$/alipay/alipay.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/baidusdk/baidusdk.iml" filepath="$PROJECT_DIR$/baidusdk/baidusdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/baseapp/baseapp.iml" filepath="$PROJECT_DIR$/baseapp/baseapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/weixinpay/weixinpay.iml" filepath="$PROJECT_DIR$/weixinpay/weixinpay.iml" />
       <module fileurl="file://$PROJECT_DIR$/zrcListView/zrcListView.iml" filepath="$PROJECT_DIR$/zrcListView/zrcListView.iml" />
     </modules>
   </component>

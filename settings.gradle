@@ -1,2 +1,2 @@
-include ':app', ':baidusdk'
+include ':app', ':baidusdk', ':alipay', ':baseapp', ':weixinpay'
 include ':zrcListView'
