@@ -53,6 +53,9 @@ public final class AppParams {
 
     /* 车源跳转 */
     public static final String SOURCE_PAGE_CAR_KEY = "SOURCE_PAGE_CAR_KEY";
+    public static final String SOURCE_PAGE_SELECT_DRIVER_KEY = "SOURCE_PAGE_SELECT_DRIVER_KEY";//选择抢单司机标记
+    public static final String SOURCE_PAGE_RESULT_SELECT_KEY = "SOURCE_PAGE_RESULT_SELECT_KEY";//选择结果标记
+
     /*  web页面 的页面名称 */
     public static final String WEB_PAGE_NAME = "WEB_PAGE_NAME";
     public static final String WEB_PAGE_URL = "WEB_PAGE_URL";//加载的地址
@@ -72,8 +75,10 @@ public final class AppParams {
      * 订单页面选择车队司机时的请求码
      */
     public static final int RESULT_CODE_SELECT_DEVICES = 0x001;//订单页面选择车队司机时的请求码
+    public static final int RESULT_CODE_CONFIRM_DRIVER = 0x020;//司机详情页面返回的请求码
     public static final String SELECT_DEVICES_SIZE_KEY = "SELECT_DEVICES_SIZE_KEY";//订单页面选择车队司机时的司机数量
     public static final String SELECT_DRIVES_LIST_KEY = "SELECT_DRIVES_LIST_KEY";//订单页面 跳转到 选择已接单司机的列表key值；
+    public static final String SELECTED_DRIVERS_LIST = "SELECTED_DRIVERS_LIST";//已选的 司机列表
 
 
     /**

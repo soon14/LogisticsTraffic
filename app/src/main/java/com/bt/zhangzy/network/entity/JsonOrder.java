@@ -4,13 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.alibaba.fastjson.JSON;
+import com.bt.zhangzy.logisticstraffic.data.OrderStatus;
+import com.bt.zhangzy.tools.Tools;
 
 import java.util.Date;
 
 /**
  * Created by ZhangZy on 2016-1-27.
  */
-public class JsonOrder extends BaseEntity implements Parcelable {
+public class JsonOrder extends BaseEntity implements Parcelable, Comparable<JsonOrder> {
     public JsonOrder() {
     }
 
@@ -122,6 +124,10 @@ public class JsonOrder extends BaseEntity implements Parcelable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status.ordinal();
     }
 
     public String getDescribe() {
@@ -240,12 +246,34 @@ public class JsonOrder extends BaseEntity implements Parcelable {
         return startCity;
     }
 
+    //地址简写
+    public String getStartCitySimple() {
+        String s = Tools.splitAddress(startCity, ",")[0];
+        return Tools.splitAddress(s,"·")[1];
+    }
+
+    //地址详细
+    public String getStartCityDetail() {
+        return Tools.splitAddress(startCity, ",")[1];
+    }
+
     public void setStartCity(String startCity) {
         this.startCity = startCity;
     }
 
     public String getStopCity() {
         return stopCity;
+    }
+
+    //地址简写
+    public String getStopCitySimple() {
+        String s = Tools.splitAddress(stopCity, ",")[0];
+        return Tools.splitAddress(s,"·")[1];
+    }
+
+    //地址详细
+    public String getStopCityDetail() {
+        return Tools.splitAddress(stopCity, ",")[1];
     }
 
     public void setStopCity(String stopCity) {
@@ -282,5 +310,12 @@ public class JsonOrder extends BaseEntity implements Parcelable {
 
     public void setInsurancePolicyNumber(String insurancePolicyNumber) {
         this.insurancePolicyNumber = insurancePolicyNumber;
+    }
+
+
+    @Override
+    public int compareTo(JsonOrder another) {
+        //倒序排列
+        return another.id - this.id;
     }
 }

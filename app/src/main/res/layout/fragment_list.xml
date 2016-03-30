@@ -2,15 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <ListView
         android:id="@+id/orderlist_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/transparent"
         android:divider="@color/def_line"
         android:dividerHeight="2px"
-        android:listSelector="@color/transparent">
+        android:listSelector="@drawable/list_item_selector">
 
     </ListView>
 </LinearLayout>

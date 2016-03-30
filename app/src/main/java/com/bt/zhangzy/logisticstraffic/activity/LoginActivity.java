@@ -3,13 +3,14 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.AppURL;
@@ -30,7 +31,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         setContentView(R.layout.activity_login);
         username = (EditText) findViewById(R.id.login_username_ed);
 //        if (!TextUtils.isEmpty(User.getInstance().getUserName())) {
@@ -48,7 +49,7 @@ public class LoginActivity extends BaseActivity {
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     //密码每次点击都重新输入
                     password.getText().clear();
                 }
@@ -74,6 +75,7 @@ public class LoginActivity extends BaseActivity {
         startActivity(RegisterActivity.class);
         finish();
     }
+
     public void onClick_Forget(View view) {
         startActivity(ForgetActivity.class);
         finish();
@@ -146,7 +148,7 @@ public class LoginActivity extends BaseActivity {
                         showToast("用户类型错误");
                         return;
                     }
-                }else{
+                } else {
                     if (User.getInstance().getUserType() == Type.DriverType) {
                         showToast("用户类型错误");
                         return;

@@ -1,5 +1,6 @@
 package com.bt.zhangzy.logisticstraffic.adapter;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.tools.ViewUtils;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,9 +21,57 @@ import java.util.List;
  */
 public class SourceCarListAdapter extends BaseAdapter {
     private List<JsonCar> list;
+    private ArrayList<Integer> selectedList = new ArrayList<>();
+    int needSize;
 
     public SourceCarListAdapter(List<JsonCar> list) {
         this.list = list;
+    }
+
+    public void initSelsect(int size) {
+        selectedList = new ArrayList<>(size);
+        needSize = size;
+    }
+
+    public boolean isSelect(int position) {
+        Iterator<Integer> it = selectedList.iterator();
+        while (it.hasNext()) {
+            if (position == it.next()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //
+    public void selectPosition(int position, boolean selected) {
+
+        if (selected) {
+            //防止重复添加
+            if (isSelect(position))
+                return;
+
+            if (selectedList.size() == needSize) {
+                //如果已经数量已经足够 则不能继续添加
+                return;
+            }
+            selectedList.add(position);
+        } else {
+            selectedList.remove(Integer.valueOf(position));
+        }
+
+        notifyDataSetChanged();
+        return;
+    }
+
+    public ArrayList<Integer> getSelectedList() {
+
+        return selectedList;
+    }
+
+
+    public int getSelectedListSize() {
+        return selectedList.size();
     }
 
     @Override
@@ -54,6 +105,7 @@ public class SourceCarListAdapter extends BaseAdapter {
             holder.lengthTx = (TextView) convertView.findViewById(R.id.item_length_tx);
             holder.weightTx = (TextView) convertView.findViewById(R.id.item_weight_tx);
             holder.locationTx = (TextView) convertView.findViewById(R.id.item_location_tx);
+            holder.checkBox = (ImageView) convertView.findViewById(R.id.item_it_select_btn);
 
         } else {
             holder = (Holder) convertView.getTag();
@@ -62,10 +114,24 @@ public class SourceCarListAdapter extends BaseAdapter {
         if (car != null) {
             ViewUtils.setText(holder.nameTx, car.getName() + "[" + car.getNumber() + "]");
             ViewUtils.setText(holder.typeTx, car.getType());
-            ViewUtils.setText(holder.lengthTx, car.getLength() + "米");
+            if (!TextUtils.isEmpty(car.getLength()))
+                ViewUtils.setText(holder.lengthTx, car.getLength() + "米");
             ViewUtils.setText(holder.weightTx, car.getCapacity());
             ViewUtils.setText(holder.locationTx, car.getUsualResidence());
-            ViewUtils.setImageUrl(holder.headImg,car.getFrontalPhotoUrl1());
+            ViewUtils.setImageUrl(holder.headImg, car.getFrontalPhotoUrl1());
+        }
+
+        if (needSize > 0) {
+            holder.checkBox.setVisibility(View.VISIBLE);
+            holder.checkBox.setSelected(false);
+            for (int s : selectedList) {
+                if (position == s) {
+                    holder.checkBox.setSelected(true);
+                    break;
+                }
+            }
+        } else {
+            holder.checkBox.setVisibility(View.GONE);
         }
 
         return convertView;
@@ -74,5 +140,6 @@ public class SourceCarListAdapter extends BaseAdapter {
     class Holder {
         TextView nameTx, typeTx, lengthTx, weightTx, locationTx;
         ImageView headImg, recommendImg;
+        ImageView checkBox;
     }
 }

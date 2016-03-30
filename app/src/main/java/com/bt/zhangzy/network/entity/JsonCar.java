@@ -7,6 +7,7 @@ public class JsonCar extends BaseEntity {
 
     String name, phoneNumber;
     int id, driverId;
+    int motocardesDriverId;//车队的对象id  仅在删除时用
     //行驶证照片URL  汽车正面照片URL
     String drivingLicensePhotoUrl, frontalPhotoUrl1, frontalPhotoUrl2;
     //汽车类型 车牌号
@@ -20,6 +21,14 @@ public class JsonCar extends BaseEntity {
     int status;
 
     public JsonCar() {
+    }
+
+    public int getMotocardesDriverId() {
+        return motocardesDriverId;
+    }
+
+    public void setMotocardesDriverId(int motocardesDriverId) {
+        this.motocardesDriverId = motocardesDriverId;
     }
 
     public String getName() {

@@ -5,11 +5,11 @@
     android:background="@color/white">
 
     <!--<ImageView-->
-        <!--android:id="@+id/item_recommend_img"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:src="@drawable/source_recommend" />-->
+    <!--android:id="@+id/item_recommend_img"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:src="@drawable/source_recommend" />-->
 
     <ImageView
         android:id="@+id/item_img"
@@ -22,7 +22,7 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/item_img">
 
@@ -74,5 +74,14 @@
             android:hint="车辆所在地" />
     </TableLayout>
 
+    <ImageView
+        android:id="@+id/item_it_select_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:background="@color/transparent"
+        android:src="@drawable/check_box_selector" />
 
 </RelativeLayout>

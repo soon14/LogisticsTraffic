@@ -31,6 +31,7 @@ http://182.92.77.31:8080/img/phone/softan.png
 
 
     /*=============支付 接口=======================*/
+    PayAli("/pay/alipay_submit"),
     PayWeiXin("/pay/weixin_submit"),
     GetPayStatus("/pay/status"),// 状态查询 用户id	userId
 

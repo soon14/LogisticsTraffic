@@ -1,6 +1,7 @@
 package com.bt.zhangzy.logisticstraffic.view;
 
 import android.app.Activity;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -115,6 +116,10 @@ public class InputDialog extends BaseDialog {
 
     public InputDialog setInputType(int type) {
         inputEd.setInputType(type);
+        return this;
+    }
+    public InputDialog setInputLength(int length) {
+        inputEd.setFilters(new InputFilter[]{new InputFilter.LengthFilter(length)});
         return this;
     }
 

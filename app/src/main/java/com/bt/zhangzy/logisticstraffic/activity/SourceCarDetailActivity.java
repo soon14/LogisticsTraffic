@@ -1,11 +1,13 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
@@ -23,6 +25,9 @@ import java.util.List;
 public class SourceCarDetailActivity extends BaseActivity {
 
     JsonCar jsonCar;
+    boolean isSelectDriverModel;//选择司机页面
+    boolean isSelectDriver;
+    boolean fromFleetPage = false;//标记是否从车源列表中来
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,10 @@ public class SourceCarDetailActivity extends BaseActivity {
             if (bundle.containsKey(AppParams.SOURCE_PAGE_CAR_KEY)) {
                 jsonCar = BaseEntity.ParseEntity(bundle.getString(AppParams.SOURCE_PAGE_CAR_KEY), JsonCar.class);
             }
+            fromFleetPage = bundle.containsKey(AppParams.SOURCE_PAGE_SELECT_DRIVER_KEY);
+            isSelectDriverModel = bundle.getBoolean(AppParams.SOURCE_PAGE_SELECT_DRIVER_KEY);
+            isSelectDriver = bundle.getBoolean(AppParams.SOURCE_PAGE_RESULT_SELECT_KEY);
+
         }
 
         initView();
@@ -57,7 +66,14 @@ public class SourceCarDetailActivity extends BaseActivity {
         setTextView(R.id.car_residence_tx, jsonCar.getUsualResidence());
         setTextView(R.id.car_remark_tx, jsonCar.getRemark());
 
+        Button confirmBt = (Button) findViewById(R.id.car_confirm_bt);
+        confirmBt.setVisibility(isSelectDriverModel ? View.VISIBLE : View.GONE);
+        if (isSelectDriverModel) {
 
+            confirmBt.setText(isSelectDriver ? "取消选择" : "确认选择");
+        }
+        if (fromFleetPage)
+            findViewById(R.id.car_join_bt).setVisibility(View.GONE);
     }
 
     public void onClick_Join(View view) {
@@ -79,7 +95,7 @@ public class SourceCarDetailActivity extends BaseActivity {
         getApp().callPhone(jsonCar.getPhoneNumber());
     }
 
-    private void requestAddMotorcade(){
+    private void requestAddMotorcade() {
         int motorcadeId = 0;
         List<JsonMotorcades> motorcades = User.getInstance().getMotorcades();
         if (motorcades != null && !motorcades.isEmpty()) {
@@ -101,5 +117,12 @@ public class SourceCarDetailActivity extends BaseActivity {
                 showToast("司机添加失败" + str);
             }
         });
+    }
+
+    public void onClick_ConfirmDrvier(View view) {
+        Intent intent = new Intent();
+        intent.putExtra(AppParams.SOURCE_PAGE_RESULT_SELECT_KEY, !isSelectDriver);
+        setResult(AppParams.RESULT_CODE_CONFIRM_DRIVER, intent);
+        finish();
     }
 }

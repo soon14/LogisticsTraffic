@@ -11,9 +11,19 @@ import java.io.Serializable;
  */
 public class People implements Parcelable, Serializable {
     private int id;
-    private int userId,driverId,motorcadeId;
+    private int userId, driverId, motorcadeId;
     private String name;
     private String phoneNumber;
+    private String jsonString;
+
+
+    public String getJsonString() {
+        return jsonString;
+    }
+
+    public void setJsonString(String jsonString) {
+        this.jsonString = jsonString;
+    }
 
     public int getUserId() {
         return userId;
@@ -74,6 +84,11 @@ public class People implements Parcelable, Serializable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(phoneNumber);
+        dest.writeString(jsonString);
+        dest.writeInt(id);
+        dest.writeInt(userId);
+        dest.writeInt(driverId);
+        dest.writeInt(motorcadeId);
     }
 
     //实例化静态内部对象CREATOR实现接口Parcelable.Creator
@@ -90,6 +105,11 @@ public class People implements Parcelable, Serializable {
             People people = new People();
             people.setName(source.readString());
             people.setPhoneNumber(source.readString());
+            people.setJsonString(source.readString());
+            people.setId(source.readInt());
+            people.setUserId(source.readInt());
+            people.setDriverId(source.readInt());
+            people.setMotorcadeId(source.readInt());
             return people;
         }
     };

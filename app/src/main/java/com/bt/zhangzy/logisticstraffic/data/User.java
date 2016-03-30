@@ -585,7 +585,7 @@ public class User implements Serializable {
                 ResponseUserInfo json = ParseJson_Object(result, ResponseUserInfo.class);
                 User user = User.getInstance();
                 user.setEnterpriseID(json.getEnterprise().getId());
-                user.setUserName(json.getEnterprise().getName());
+//                user.setUserName(json.getEnterprise().getName());
                 user.setJsonTypeEntity(json.getEnterprise());
 
 //                refreshView();
@@ -607,7 +607,7 @@ public class User implements Serializable {
                 User user = User.getInstance();
 
                 user.setCompanyID(json.getCompany().getId());
-                user.setUserName(json.getCompany().getName());
+//                user.setUserName(json.getCompany().getName());
                 user.setJsonTypeEntity(json.getCompany());
 
                 List<JsonMotorcades> motorcades = json.getMotorcades();

@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
@@ -38,7 +39,7 @@ public class LogisticsTrafficApplication extends Application {
 
     private static final String TAG = LogisticsTrafficApplication.class.getSimpleName();
 
-
+    private String versionName;
     private BaseActivity currentAct;
 
 //    private JSONArray jsonCityList;
@@ -69,6 +70,19 @@ public class LogisticsTrafficApplication extends Application {
 
     }
 
+    public String getVersionName() {
+        if (versionName == null) {
+            try {
+                PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                versionName = packageInfo.versionName;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return versionName;
+    }
+
     public void loadAppParams() {
         try {
             ApplicationInfo appInfo = getPackageManager()
@@ -77,7 +91,7 @@ public class LogisticsTrafficApplication extends Application {
             String type = appInfo.metaData.getString("APP_TYPE");
             String typeStr = getString(R.string.app_type);
             Log.w(TAG, "读取客户端类型" + type + " string-type=" + typeStr);
-            AppParams.DRIVER_APP = typeStr.equals("driver");
+            AppParams.DRIVER_APP = type.equals("driver");
 //            System.out.println("myMsg:" + msg);
         } catch (Exception e) {
             e.printStackTrace();
@@ -232,7 +246,7 @@ public class LogisticsTrafficApplication extends Application {
      * 登陆后才能打电话
      */
     public void callPhone(String phoneNumber) {
-        //todo 接口 更新拨打电话的次数
+        //to do 接口 更新拨打电话的次数
         if (!User.getInstance().getLogin()) {
             currentAct.gotoLogin();
 

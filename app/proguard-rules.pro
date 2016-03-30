@@ -18,18 +18,23 @@
 
 -dontwarn java.nio.file.**
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
--dontwarn com.alibaba.fastjson.**
--dontwarn com.google.gson.jpush.**
+
+# fastJson 相关的混淆规则
 #-libraryjars libs/fastjson-1.2.5.jar
-#微信混淆相关
-#-libraryjars libs/libammsdk.jar
--keep class com.tencent.mm.sdk.** {
-   *;
-}
-#支付宝混淆规则
--keep class com.alipay.android.app.IAlixPay{*;}
--keep class com.alipay.android.app.IAlixPay$Stub{*;}
--keep class com.alipay.android.app.IRemoteServiceCallback{*;}
--keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
--keep class com.alipay.sdk.app.PayTask{ public *;}
--keep class com.alipay.sdk.app.AuthTask{ public *;}
+-dontwarn com.alibaba.fastjson.**
+-keep  class com.alibaba.fastjson.**{ *;}
+-keep public class * implements java.io.Serializable { *;}
+#//避免混淆泛型
+-keepattributes Singature
+#//不混淆注释
+#-keepattributes *Annotation
+#bean class
+-keep class com.bt.zhangzy.network.entity.**{ *; }
+
+#Jpush 相关的混淆规则
+#-libraryjars libs/jpush-android-2.0.6.jar
+-dontwarn com.google.gson.jpush.**
+-keep class cn.jpush.** { *; }
+-keep class com.google.** { *; }
+
+

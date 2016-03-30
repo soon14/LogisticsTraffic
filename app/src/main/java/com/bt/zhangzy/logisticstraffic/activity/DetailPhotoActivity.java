@@ -10,9 +10,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
@@ -128,12 +128,7 @@ public class DetailPhotoActivity extends BaseActivity {
     //初始化 企业相关view
     private void initCompanyView() {
         User user = User.getInstance();
-        setTextView(R.id.photo_name_ed, user.getPhoneNum());
-
-//        ImageView yyzzImg = (ImageView) findViewById(R.id.photo_yyzz_img);
-//        ImageView frsfzImg = (ImageView) findViewById(R.id.photo_frsfz_img);
-//        ImageView mtzpImg = (ImageView) findViewById(R.id.photo_mtzp_img);
-//        ImageView swdjzImg = (ImageView) findViewById(R.id.photo_swdjz_img);
+//        setTextView(R.id.photo_name_ed, user.getPhoneNum());
         JsonUser jsonUser = user.getJsonUser();
         frsfzUrl = jsonUser.getIdCardPhotoUrl();
 //        ImageHelper.getInstance().load(frsfzUrl, frsfzImg);
@@ -143,6 +138,8 @@ public class DetailPhotoActivity extends BaseActivity {
                 JsonEnterprise enterprise = user.getJsonTypeEntity();
                 initUserStatus(enterprise.getStatus());
                 setTextView(R.id.photo_address_ed, enterprise.getAddress());
+                setTextView(R.id.photo_name_ed, enterprise.getName());
+//                setTextView(R.id.photo_city_tx, enterprise.get);
                 yyzzUrl = enterprise.getBusinessLicenseUrl();
                 swdjzUrl = enterprise.getTaxRegistrationCertificateUrl();
                 mtzpUrl = enterprise.getPhotoUrl();
@@ -150,7 +147,9 @@ public class DetailPhotoActivity extends BaseActivity {
                 JsonCompany company = user.getJsonTypeEntity();
                 requestJsonCompany = company;
                 initUserStatus(company.getStatus());
+                setTextView(R.id.photo_name_ed, company.getName());
                 setTextView(R.id.photo_address_ed, company.getAddress());
+                setTextView(R.id.photo_city_tx, company.getArea());
                 yyzzUrl = company.getBusinessLicenseUrl();
                 swdjzUrl = company.getTaxRegistrationCertificateUrl();
                 mtzpUrl = company.getPhotoUrl();

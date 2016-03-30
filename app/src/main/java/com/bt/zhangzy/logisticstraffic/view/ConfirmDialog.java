@@ -26,6 +26,11 @@ public class ConfirmDialog extends BaseDialog {
         confirmBt.setOnClickListener(this);
     }
 
+    public ConfirmDialog setHideCancelBt() {
+        cancelBt.setVisibility(View.GONE);
+        return this;
+    }
+
     public ConfirmDialog setMessage(String msg) {
         message.setText(msg);
         return this;

@@ -126,20 +126,7 @@ public class BaseDialog extends Dialog implements View.OnClickListener {
         return this;
     }
 
-    /**
-     * 创建拨打电话的对话框
-     *
-     * @param context
-     * @return
-     */
-    public static BaseDialog CreateChoosePhoneDialog(Activity context, String phoneNum) {
 
-        BaseDialog dialog = new BaseDialog(context);
-//        dialog.setContentView(R.layout.base_dialog);
-        dialog.setView(R.layout.dialog_call_phone);
-        dialog.setTextView(R.id.dialog_phone_num, phoneNum);
-        return dialog;
-    }
 
 
 

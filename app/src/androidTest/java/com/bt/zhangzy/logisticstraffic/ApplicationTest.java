@@ -4,7 +4,6 @@ import android.app.Application;
 import android.test.ApplicationTestCase;
 import android.util.Log;
 
-import com.bt.zhangzy.pay.WeiXinPay;
 import com.bt.zhangzy.tools.ContextTools;
 
 /**

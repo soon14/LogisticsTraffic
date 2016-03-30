@@ -58,8 +58,8 @@ public class SourceGoodsListAdapter extends BaseAdapter {
         }
 
         JsonOrder order = list.get(position);
-        ViewUtils.setText(holder.startCity, order.getStartCity());
-        ViewUtils.setText(holder.stopCity, order.getStopCity());
+        ViewUtils.setText(holder.startCity, order.getStartCitySimple());
+        ViewUtils.setText(holder.stopCity, order.getStopCitySimple());
         ViewUtils.setText(holder.goodsType, order.getGoodsType());
         ViewUtils.setText(holder.goodsWeight, order.getGoodsWeight());
         ViewUtils.setText(holder.creatTime, Tools.toStringDate(order.getPublishDate()));

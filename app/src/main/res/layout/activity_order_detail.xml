@@ -9,294 +9,336 @@
 
     <include layout="@layout/page_top" />
 
-    <TableLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
-
-
-        <TableRow
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                style="@style/tx_black_df_style"
-                android:layout_marginRight="10dp"
-                android:text="交易订单号" />
-
-            <TextView
-                android:id="@+id/order_detail_number_tx"
-                style="@style/tx_black_df_style"
-                android:text="0000000" />
-        </TableRow>
-
-        <View style="@style/line_style_horizontal" />
-
-        <TableLayout android:stretchColumns="1">
-
-            <TableRow>
-
-                <TextView
-                    style="@style/tx_black_df_style"
-                    android:text="货物来源" />
-
-                <TextView
-                    android:id="@+id/order_detail_enterprise_tx"
-                    style="@style/tx_black_df_style"
-                    android:hint="戴尔科技"
-                    android:padding="5dp" />
-            </TableRow>
-
-            <View style="@style/line_style_horizontal" />
-
-            <TableRow>
-
-                <TextView
-                    style="@style/tx_black_df_style"
-                    android:text="接单企业" />
-
-                <TextView
-                    android:id="@+id/order_detail_company_tx"
-                    style="@style/tx_black_df_style"
-                    android:background="@color/white"
-                    android:hint="德邦物流"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="10dp" />
-            </TableRow>
-
-        </TableLayout>
-
-        <View style="@style/line_style_horizontal" />
-
-        <TextView
-            style="@style/tx_black_df_style"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:text="货物详情"
-            android:textStyle="bold" />
-
-        <View style="@style/line_style_horizontal" />
+        android:layout_weight="1">
 
         <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:stretchColumns="1">
+            android:layout_marginRight="10dp">
 
 
             <TableRow
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp">
+                android:id="@+id/order_detail_number_ly"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     style="@style/tx_black_df_style"
-                    android:paddingRight="20dp"
-                    android:text="始  发  地" />
-
+                    android:layout_marginRight="10dp"
+                    android:textStyle="bold"
+                    android:text="交易订单号" />
 
                 <TextView
-                    android:id="@+id/order_detail_start_city_tx"
+                    android:id="@+id/order_detail_number_tx"
                     style="@style/tx_black_df_style"
-                    android:background="@color/white"
-                    android:clickable="true"
-                    android:hint="出发城市"
-                    android:onClick="onClick_ChangeLocation" />
-
-
+                    android:text="0000000" />
             </TableRow>
 
             <View style="@style/line_style_horizontal" />
 
             <TableRow
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp">
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp">
 
-                <EditText
-                    android:id="@+id/order_detail_start_loc_tx"
+                <TextView
                     style="@style/tx_black_df_style"
-                    android:layout_column="1"
-                    android:background="@color/white"
-                    android:clickable="true"
-                    android:hint="出发地详细地址" />
+                    android:layout_marginRight="10dp"
+                    android:textStyle="bold"
+                    android:text="订单状态" />
+
+                <TextView
+                    android:id="@+id/order_detail_status_tx"
+                    style="@style/tx_black_df_style"
+                    android:text="" />
             </TableRow>
 
             <View style="@style/line_style_horizontal" />
 
+            <TableLayout android:stretchColumns="1">
+
+                <TableRow>
+
+                    <TextView
+                        style="@style/tx_order_style"
+                        android:text="货物来源" />
+
+                    <TextView
+                        android:id="@+id/order_detail_enterprise_tx"
+                        style="@style/tx_order_style"
+                        android:hint="发货企业名称"/>
+                </TableRow>
+
+                <View style="@style/line_style_horizontal" />
+
+                <TableRow>
+
+                    <TextView
+                        style="@style/tx_order_style"
+                        android:text="接单企业" />
+
+                    <TextView
+                        android:id="@+id/order_detail_company_tx"
+                        style="@style/tx_order_style"
+                        android:background="@color/white"
+                        android:clickable="true"
+                        android:onClick="onClick_Company"
+                        android:hint="承接物流公司名称" />
+                </TableRow>
+
+            </TableLayout>
+
+            <View style="@style/line_style_horizontal" />
+
+            <TextView
+                style="@style/tx_order_style"
+                android:text="货物详情"
+                android:textStyle="bold" />
+
+            <View style="@style/line_style_horizontal" />
+
+            <TableLayout
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:shrinkColumns="1"
+                android:stretchColumns="1">
+
+
+                <TableRow
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp">
+
+                    <TextView
+                        style="@style/tx_order_style"
+                        android:text="始  发  地" />
+
+
+                    <TextView
+                        android:id="@+id/order_detail_start_city_tx"
+                        style="@style/tx_order_style"
+                        android:background="@color/white"
+                        android:clickable="true"
+                        android:hint="出发城市"
+                        android:onClick="onClick_ChangeLocation" />
+
+
+                </TableRow>
+
+                <View style="@style/line_style_horizontal" />
+
+                <TableRow
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp">
+
+                    <EditText
+                        android:id="@+id/order_detail_start_loc_tx"
+                        style="@style/tx_order_style"
+                        android:layout_column="1"
+                        android:layout_span="2"
+                        android:background="@color/white"
+                        android:clickable="true"
+                        android:hint="出发地详细地址"
+                        android:maxLines="4"
+                        android:minLines="1"
+                        android:singleLine="false"
+                        android:text="" />
+                </TableRow>
+
+                <View style="@style/line_style_horizontal" />
+
+                <TableRow
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp">
+
+                    <TextView
+                        style="@style/tx_order_style"
+                        android:text="目  的  地" />
+
+                    <TextView
+                        android:id="@+id/order_detail_stop_city_tx"
+                        style="@style/tx_order_style"
+                        android:background="@color/white"
+                        android:clickable="true"
+                        android:hint="到达城市"
+                        android:onClick="onClick_ChangeLocation" />
+                </TableRow>
+
+                <View style="@style/line_style_horizontal" />
+
+                <TableRow
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp">
+
+                    <EditText
+                        android:id="@+id/order_detail_stop_loc_tx"
+                        style="@style/tx_order_style"
+                        android:layout_column="1"
+                        android:layout_span="2"
+                        android:background="@color/white"
+                        android:hint="到达地详细地址"
+                        android:maxLines="4"
+                        android:minLines="1"
+                        android:singleLine="false" />
+                </TableRow>
+
+                <View style="@style/line_style_horizontal" />
+
+                <TableRow
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp">
+
+                    <TextView
+                        style="@style/tx_order_style"
+                        android:text="类        型" />
+
+                    <TextView
+                        android:id="@+id/order_detail_type_tx"
+                        style="@style/tx_order_style"
+                        android:layout_marginRight="5dp"
+                        android:clickable="true"
+                        android:hint="货物的类型"
+                        android:onClick="onClick_ChangeType" />
+
+                </TableRow>
+
+                <View style="@style/line_style_horizontal" />
+
+
+                <TableRow
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp">
+
+                    <TextView
+                        style="@style/tx_order_style"
+                        android:text="重        量" />
+
+                    <TextView
+                        android:id="@+id/order_detail_goods_weight_tx"
+                        style="@style/tx_order_style"
+                        android:clickable="true"
+                        android:hint="货物的重量"
+                        android:onClick="onClick_ChangeWeight" />
+                </TableRow>
+
+                <View style="@style/line_style_horizontal" />
+
+                <TableRow
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp">
+
+                    <TextView
+                        style="@style/tx_order_style"
+                        android:text="体        积" />
+
+                    <TextView
+                        android:id="@+id/order_detail_volume_tx"
+                        style="@style/tx_order_style"
+                        android:layout_marginRight="5dp"
+                        android:clickable="true"
+                        android:hint="货物的体积"
+                        android:onClick="onClick_InputVolume" />
+
+                </TableRow>
+
+                <View style="@style/line_style_horizontal" />
+
+                <TableRow
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp">
+
+                    <TextView
+                        style="@style/tx_order_style"
+                        android:text="收  货  人" />
+
+                    <TextView
+                        android:id="@+id/order_detail_receiver_name"
+                        style="@style/tx_order_style"
+                        android:background="@color/transparent"
+                        android:clickable="true"
+                        android:hint="收货人名称"
+                        android:inputType="text"
+                        android:onClick="onClick_InputReceiverName" />
+                </TableRow>
+
+                <View style="@style/line_style_horizontal" />
+
+                <TableRow
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp">
+
+                    <TextView
+                        style="@style/tx_order_style"
+                        android:text="电        话" />
+
+                    <TextView
+                        android:id="@+id/order_detail_receiver_phone_tx"
+                        style="@style/tx_order_style"
+                        android:background="@color/transparent"
+                        android:hint="收货人电话"
+                        android:inputType="phone"
+                        android:maxLength="11"
+                        android:phoneNumber="true"
+                        android:onClick="onClick_InputPhone" />
+                </TableRow>
+
+                <View style="@style/line_style_horizontal" />
+
+                <TableRow android:gravity="center">
+
+                    <TextView
+                        style="@style/tx_order_style"
+                        android:text="需要车辆数：" />
+
+                    <TextView
+                        android:id="@+id/order_detail_driver_size_ed"
+                        style="@style/tx_order_style"
+                        android:background="@color/transparent"
+                        android:hint="需要的车辆总数"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:onClick="onClick_InputDriverCount" />
+                    <!-- 选择 车队司机 -->
+                    <ImageButton
+                        android:id="@+id/order_detail_select_driver_bt"
+                        style="@style/tx_order_style"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        android:background="@color/transparent"
+                        android:src="@drawable/add_devices"
+                        android:onClick="onClick_SelectDriverBtn" />
+                </TableRow>
+
+            </TableLayout>
+
+            <View style="@style/line_style_horizontal" />
+            <!-- to do 已选司机列表-->
             <TableRow
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp">
 
                 <TextView
-                    style="@style/tx_black_df_style"
-                    android:paddingRight="20dp"
-                    android:text="目  的  地" />
+                    style="@style/tx_order_style"
+                    android:text="已选司机" />
 
                 <TextView
-                    android:id="@+id/order_detail_stop_city_tx"
-                    style="@style/tx_black_df_style"
-                    android:background="@color/white"
-                    android:clickable="true"
-                    android:hint="到达城市"
-                    android:onClick="onClick_ChangeLocation" />
-            </TableRow>
-
-            <View style="@style/line_style_horizontal" />
-
-            <TableRow
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp">
-
-                <EditText
-                    android:id="@+id/order_detail_stop_loc_tx"
-                    style="@style/tx_black_df_style"
-                    android:layout_column="1"
-                    android:background="@color/white"
-                    android:clickable="true"
-                    android:hint="到达地详细地址" />
-            </TableRow>
-
-            <View style="@style/line_style_horizontal" />
-
-            <TableRow
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp">
-
-                <TextView
-                    style="@style/tx_black_df_style"
-                    android:paddingRight="20dp"
-                    android:text="类        型" />
-
-                <TextView
-                    android:id="@+id/order_detail_type_tx"
-                    style="@style/tx_black_df_style"
-                    android:layout_marginRight="5dp"
-                    android:clickable="true"
-                    android:hint="货物的类型"
-                    android:onClick="onClick_ChangeType" />
-
-            </TableRow>
-
-            <View style="@style/line_style_horizontal" />
-
-
-            <TableRow
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp">
-
-                <TextView
-                    style="@style/tx_black_df_style"
-                    android:paddingRight="20dp"
-                    android:text="重        量" />
-
-                <TextView
-                    android:id="@+id/order_detail_goods_weight_tx"
-                    style="@style/tx_black_df_style"
-                    android:clickable="true"
-                    android:hint="货物的重量"
-                    android:onClick="onClick_ChangeWeight" />
-            </TableRow>
-
-            <View style="@style/line_style_horizontal" />
-
-            <TableRow
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp">
-
-                <TextView
-                    style="@style/tx_black_df_style"
-                    android:paddingRight="20dp"
-                    android:text="体        积" />
-
-                <TextView
-                    android:id="@+id/order_detail_volume_tx"
-                    style="@style/tx_black_df_style"
-                    android:layout_marginRight="5dp"
-                    android:clickable="true"
-                    android:hint="货物的体积"
-                    android:onClick="onClick_InputVolume" />
-
-            </TableRow>
-
-            <View style="@style/line_style_horizontal" />
-
-            <TableRow
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp">
-
-                <TextView
-                    style="@style/tx_black_df_style"
-                    android:paddingRight="20dp"
-                    android:text="收  货  人" />
-
-                <TextView
-                    android:id="@+id/order_detail_receiver_name"
-                    style="@style/tx_black_df_style"
+                    android:id="@+id/order_detail_select_drivers_tx"
+                    style="@style/tx_order_style"
                     android:background="@color/transparent"
-                    android:clickable="true"
-                    android:hint="收货人名称"
-                    android:inputType="text"
-                    android:onClick="onClick_InputReceiverName" />
+                    android:hint="已选的司机列表" />
             </TableRow>
-
-            <View style="@style/line_style_horizontal" />
-
-            <TableRow
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp">
-
-                <TextView
-                    style="@style/tx_black_df_style"
-                    android:paddingRight="20dp"
-                    android:text="电        话" />
-
-                <TextView
-                    android:id="@+id/order_detail_receiver_phone_tx"
-                    style="@style/tx_black_df_style"
-                    android:background="@color/transparent"
-                    android:hint="收货人电话"
-                    android:inputType="phone"
-                    android:onClick="onClick_InputPhone" />
-            </TableRow>
-
-            <View style="@style/line_style_horizontal" />
-
-            <TableRow android:gravity="center">
-
-                <TextView
-                    style="@style/tx_black_df_style"
-                    android:text="需要车辆数：" />
-
-                <TextView
-                    android:id="@+id/order_detail_driver_size_ed"
-                    style="@style/tx_black_df_style"
-                    android:background="@color/transparent"
-                    android:hint="需要的车辆总数"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:onClick="onClick_InputDriverCount" />
-                <!-- 选择 车队司机 -->
-                <Button
-                    android:id="@+id/order_detail_select_driver_bt"
-                    style="@style/tx_black_df_style"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/add_devices"
-                    android:onClick="onClick_SelectDriverBtn" />
-            </TableRow>
-
         </TableLayout>
-
-        <View style="@style/line_style_horizontal" />
-    </TableLayout>
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal">
 

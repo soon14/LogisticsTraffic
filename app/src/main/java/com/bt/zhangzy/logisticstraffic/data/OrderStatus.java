@@ -19,7 +19,7 @@ public enum OrderStatus {
     AllocationOrder,//订单分配中
     CommitOrder,//交易中订单
     FinishedOrder,//已完成订单
-    DiscardOrder, SubmittedMode;//已作废订单
+    DiscardOrder;//已作废订单
 
     //解析从服务器返回的状态码
     public static OrderStatus parseStatus(int status) {

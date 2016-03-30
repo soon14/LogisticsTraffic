@@ -3,6 +3,7 @@ package com.bt.zhangzy.network.entity;
 import java.util.List;
 
 /**
+ * 车队返回信息
  * Created by ZhangZy on 2016-1-25.
  */
 public class ResponseMotorcades extends BaseEntity {
@@ -13,6 +14,15 @@ public class ResponseMotorcades extends BaseEntity {
     JsonMotorcades motorcade;
     JsonCompany company;
     private List<JsonMotocardesDriver> motorcadeDrivers;
+    List<JsonCar> cars;
+
+    public List<JsonCar> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<JsonCar> cars) {
+        this.cars = cars;
+    }
 
     public JsonMotorcades getMotorcade() {
         return motorcade;

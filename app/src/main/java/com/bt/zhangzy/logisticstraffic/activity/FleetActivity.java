@@ -3,6 +3,7 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -10,11 +11,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.FleetListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.FleetListForDevicesAdapter;
+import com.bt.zhangzy.logisticstraffic.adapter.SourceCarListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
@@ -23,9 +25,11 @@ import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.BaseEntity;
+import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonMotocardesDriver;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
+import com.bt.zhangzy.network.entity.ResponseAllocationDriver;
 import com.bt.zhangzy.network.entity.ResponseMotorcades;
 
 import java.util.ArrayList;
@@ -39,33 +43,21 @@ public class FleetActivity extends BaseActivity {
 
     ListView listView;
     FleetListAdapter adapter;
+    SourceCarListAdapter adapterDrivers;
+    int currentDriverIndex = -1;
     boolean isSelectDriver = false;
     int motorcadeId = -1;
     private int needSelectDriverSize;//需要选择的司机数量
     private ArrayList<People> selectDriverListFromOrder;
+    private ArrayList<People> selectedDrivers;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
-        if (getIntent().getExtras() != null) {
-            Bundle bundle = getIntent().getExtras();
-            //标记是否为选择模式  只有在信息部call车时才有可能触发
-            if (bundle.containsKey(AppParams.RESULT_CODE_KEY)) {
-                if (bundle.getInt(AppParams.RESULT_CODE_KEY) == AppParams.RESULT_CODE_SELECT_DEVICES) {
-                    isSelectDriver = true;
-                }
-                needSelectDriverSize = bundle.getInt(AppParams.SELECT_DEVICES_SIZE_KEY);
-                if (bundle.containsKey(AppParams.SELECT_DRIVES_LIST_KEY)) {
-                    selectDriverListFromOrder = bundle.getParcelableArrayList(AppParams.SELECT_DRIVES_LIST_KEY);
-                }
-            }
-            // 标记是否为车队详情页
-            if (bundle.containsKey(AppParams.BUNDLE_MOTOCARDE_ID)) {
-                motorcadeId = bundle.getInt(AppParams.BUNDLE_MOTOCARDE_ID);
-            }
-        }
+        initData();
 
         setContentView(R.layout.activity_fleet);
         listView = (ListView) findViewById(R.id.fleet_list);
@@ -109,62 +101,179 @@ public class FleetActivity extends BaseActivity {
                 }
             } else {
                 setPageName("接单司机列表");
-                findViewById(R.id.fleet_add_bt).setVisibility(View.GONE);
-                if (adapter == null)
-                    adapter = new FleetListAdapter(AppParams.DRIVER_APP ? true : isSelectDriver, needSelectDriverSize);
-                adapter.setPeoples(selectDriverListFromOrder);
-                initView();
+                initSelectDriverModel();
             }
 
         }
 
     }
 
+    private void initSelectDriverModel() {
+        findViewById(R.id.fleet_add_bt).setVisibility(View.GONE);
+//                if (adapter == null)
+//                    adapter = new FleetListAdapter(AppParams.DRIVER_APP ? true : isSelectDriver, needSelectDriverSize);
+//                adapter.setPeoples(selectDriverListFromOrder);
+//                initView();
+
+        ArrayList<JsonCar> array = new ArrayList<>();
+        ResponseAllocationDriver json;
+        JsonCar jsonCar;
+        for (People people : selectDriverListFromOrder) {
+            json = BaseEntity.ParseEntity(people.getJsonString(), ResponseAllocationDriver.class);
+            if (json != null)
+                if (json.getCars() != null && !json.getCars().isEmpty()) {
+                    jsonCar = json.getCars().get(0);
+                    jsonCar.setName(people.getName());
+                    jsonCar.setPhoneNumber(people.getPhoneNumber());
+                    array.add(jsonCar);
+                }
+        }
+
+        adapterDrivers = new SourceCarListAdapter(array);
+        adapterDrivers.initSelsect(needSelectDriverSize);
+        if (selectedDrivers != null) {
+            People people;
+            for (People sp : selectedDrivers) {
+                for (int k = 0; k < selectDriverListFromOrder.size(); k++) {
+                    people = selectDriverListFromOrder.get(k);
+                    if (sp == people || sp.getDriverId() == people.getDriverId()) {
+                        adapterDrivers.selectPosition(k, true);
+                        break;
+                    }
+                }
+            }
+        }
+
+        listView.setAdapter(adapterDrivers);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                gotoDriverDetail(position, adapterDrivers.getItem(position), true);
+            }
+        });
+    }
+
+    private void initData() {
+        if (getIntent().getExtras() != null) {
+            Bundle bundle = getIntent().getExtras();
+            //标记是否为选择模式  只有在信息部call车时才有可能触发
+            if (bundle.containsKey(AppParams.RESULT_CODE_KEY)) {
+                if (bundle.getInt(AppParams.RESULT_CODE_KEY) == AppParams.RESULT_CODE_SELECT_DEVICES) {
+                    isSelectDriver = true;
+                }
+                needSelectDriverSize = bundle.getInt(AppParams.SELECT_DEVICES_SIZE_KEY);
+                if (bundle.containsKey(AppParams.SELECT_DRIVES_LIST_KEY)) {
+                    selectDriverListFromOrder = bundle.getParcelableArrayList(AppParams.SELECT_DRIVES_LIST_KEY);
+                }
+                selectedDrivers = bundle.getParcelableArrayList(AppParams.SELECTED_DRIVERS_LIST);
+            }
+            // 标记是否为车队详情页
+            if (bundle.containsKey(AppParams.BUNDLE_MOTOCARDE_ID)) {
+                motorcadeId = bundle.getInt(AppParams.BUNDLE_MOTOCARDE_ID);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == AppParams.RESULT_CODE_CONFIRM_DRIVER) {
+            if (currentDriverIndex > -1) {
+                if (data != null) {
+                    adapterDrivers.selectPosition(currentDriverIndex, data.getBooleanExtra(AppParams.SOURCE_PAGE_RESULT_SELECT_KEY, false));
+                }
+            }
+        }
+    }
+
+
     AdapterView.OnItemClickListener onItemSelectClickListener;
     FleetListAdapter.DelBtnListener delBtnListener;
 
     private void initView() {
-        if (adapter == null) {
+        if (adapterDrivers == null) {
             return;
         }
-        listView.setAdapter(adapter);
-        if (delBtnListener == null)
-            delBtnListener = new FleetListAdapter.DelBtnListener() {
-                @Override
-                public void onClick(int id, People people) {
-                    onclick_DelDriver(id, people);
-                }
-            };
-        adapter.setDelBtnListener(delBtnListener);
+        listView.setAdapter(adapterDrivers);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                onclick_DelDriver(id, people);
+                showDelDialog(adapterDrivers.getItem(position));
+                return false;
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if (isSelectDriver) {
-            if (onItemSelectClickListener == null)
-                onItemSelectClickListener = new AdapterView.OnItemClickListener() {
+                gotoDriverDetail(position, adapterDrivers.getItem(position), isSelectDriver);
+            }
+        });
+//        if (delBtnListener == null)
+//            delBtnListener = new FleetListAdapter.DelBtnListener() {
+//                @Override
+//                public void onClick(int id, People people) {
+//                    onclick_DelDriver(id, people);
+//                }
+//            };
+//        adapter.setDelBtnListener(delBtnListener);
 
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //// TO DO: 2016-1-30  这里的司机选择要改成多选
-                        if (!adapter.selected(position)) {
-                            showToast(getString(R.string.select_driver_failed, needSelectDriverSize));
-                        }
-//                    People people = (People) listView.getItemAtPosition(position);
-//                        People people = adapter.getItem(position);
-//                        returnOrderDetial(people);
-                    }
-                };
-            listView.setOnItemClickListener(onItemSelectClickListener);
-        }
+
+    }
+
+    /**
+     * @param position
+     * @param car
+     * @param selectDriverModel 是否为选择司机模式
+     */
+    private void gotoDriverDetail(int position, JsonCar car, boolean selectDriverModel) {
+        currentDriverIndex = position;
+        Bundle bundle = new Bundle();
+        bundle.putString(AppParams.SOURCE_PAGE_CAR_KEY, car.toString());
+        bundle.putBoolean(AppParams.SOURCE_PAGE_SELECT_DRIVER_KEY, selectDriverModel);
+        bundle.putBoolean(AppParams.SOURCE_PAGE_RESULT_SELECT_KEY, adapterDrivers.isSelect(position));
+
+        startActivityForResult(SourceCarDetailActivity.class, bundle, AppParams.RESULT_CODE_CONFIRM_DRIVER);
     }
 
     public void onClick_FinishSelect(View view) {
-        int select_size = adapter.getSelectedListSize();
+        int select_size = adapterDrivers.getSelectedListSize();
 //        ArrayList<People> peoples = adapter.getSelectedList();
         if (select_size != needSelectDriverSize) {
             int tmp = needSelectDriverSize - select_size;
             showToast(getString(R.string.need_driver_size, tmp));
             return;
         }
-        returnOrderDetial(adapter.getSelectedList());
+        ArrayList<Integer> selectedList = adapterDrivers.getSelectedList();
+        ArrayList<People> peoples = new ArrayList<>();
+        People people;
+        ResponseAllocationDriver json;
+        for (int index : selectedList) {
+            if (selectDriverListFromOrder == null) {
+                JsonCar jsonCar = adapterDrivers.getItem(index);
+                people = new People();
+                people.setMotorcadeId(jsonCar.getMotocardesDriverId());
+                people.setDriverId(jsonCar.getDriverId());
+                people.setId(jsonCar.getDriverId());
+                people.setName(jsonCar.getName());
+                people.setPhoneNumber(jsonCar.getPhoneNumber());
+            } else {
+                people = selectDriverListFromOrder.get(index);
+                json = BaseEntity.ParseEntity(people.getJsonString(), ResponseAllocationDriver.class);
+                if (people.getId() == 0)
+                    people.setId(json.getRoleId());
+                if (people.getDriverId() == 0) {
+                    people.setDriverId(json.getDriver().getId());
+                }
+                if (people.getUserId() == 0) {
+                    people.setUserId(json.getDriver().getUserId());
+                }
+            }
+            peoples.add(people);
+        }
+        returnOrderDetial(peoples);
     }
 
     //选择完成
@@ -256,9 +365,22 @@ public class FleetActivity extends BaseActivity {
                 json.getCompany();
                 json.getMotorcade();
                 List<JsonMotocardesDriver> motorcadeDrivers = json.getMotorcadeDrivers();
+                List<JsonCar> carList = json.getCars();
                 if (motorcadeDrivers != null && !motorcadeDrivers.isEmpty()) {
                     //// TO DO: 2016-1-25  车队列表信息更新；
-                    ArrayList<People> list = new ArrayList<People>();
+                    if (carList.size() != motorcadeDrivers.size()) {
+                        Log.w(TAG, "数据不统一! car size =" + carList.size() + " motorcade drivers size = " + motorcadeDrivers.size());
+                    }
+                    JsonCar car;
+                    JsonMotocardesDriver driver;
+                    for (int k = 0; k < carList.size(); k++) {
+                        car = carList.get(k);
+                        driver = motorcadeDrivers.get(k);
+                        car.setMotocardesDriverId(driver.getId());
+                        car.setName(driver.getName());
+                        car.setPhoneNumber(driver.getPhoneNumber());
+                    }
+                   /* ArrayList<People> list = new ArrayList<People>();
                     People people;
                     for (JsonMotocardesDriver driver : motorcadeDrivers) {
                         people = new People();
@@ -274,8 +396,10 @@ public class FleetActivity extends BaseActivity {
                     if (adapter == null)
                         adapter = new FleetListAdapter(AppParams.DRIVER_APP ? true : isSelectDriver, needSelectDriverSize);
                     adapter.setPeoples(list);
-//                    adapter.addPeople(User.getInstance().getDriverList());
+//                    adapter.addPeople(User.getInstance().getDriverList());*/
 
+                    adapterDrivers = new SourceCarListAdapter(carList);
+                    adapterDrivers.initSelsect(needSelectDriverSize);
                     showToast("车队信息获取成功");
 //                    notifyListAdapter();
                     getActivity().runOnUiThread(new Runnable() {
@@ -301,18 +425,17 @@ public class FleetActivity extends BaseActivity {
 
     }
 
-    public void onclick_DelDriver(final int id, final People people) {
-        showDelDialog(people);
-    }
 
-    private void showDelDialog(final People people) {
+    private void showDelDialog(JsonCar jsonCar) {
+        //删除是用 motocardes对象的id；
+        final int driverId = jsonCar.getMotocardesDriverId();
         ConfirmDialog.showConfirmDialog(this, "确认删除车队司机", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                FleetListAdapter adp = (FleetListAdapter) listView.getAdapter();
 //                adp.removePeople(id);
                 //todo 接口 删除车队 队员
-                requestDelDriver(people.getId());
+                requestDelDriver(driverId);
             }
         });
     }

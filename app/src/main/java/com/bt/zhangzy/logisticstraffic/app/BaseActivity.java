@@ -3,31 +3,32 @@ package com.bt.zhangzy.logisticstraffic.app;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.activity.DetailCompany;
 import com.bt.zhangzy.logisticstraffic.activity.LoginActivity;
 import com.bt.zhangzy.logisticstraffic.activity.PayActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.receiver.MessageReceiver;
-import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
+import com.bt.zhangzy.logisticstraffic.view.CallPhoneDialog;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.CustomProgress;
-import com.bt.zhangzy.network.AppURL;
-import com.bt.zhangzy.network.HttpHelper;
-import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.tools.ViewUtils;
 import com.zhangzy.baidusdk.BaiduMapActivity;
 
@@ -91,6 +92,56 @@ public class BaseActivity extends FragmentActivity {
         super.onDestroy();
     }
 
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (isShouldHideKeyboard(v, ev)) {
+                hideKeyboard(v.getWindowToken());
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    /**
+     * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时则不能隐藏
+     *
+     * @param v
+     * @param event
+     * @return
+     */
+    private boolean isShouldHideKeyboard(View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0],
+                    top = l[1],
+                    bottom = top + v.getHeight(),
+                    right = left + v.getWidth();
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                // 点击EditText的事件，忽略它。
+                return false;
+            } else {
+                return true;
+            }
+        }
+        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
+        return false;
+    }
+
+    /**
+     * 获取InputMethodManager，隐藏软键盘
+     *
+     * @param token
+     */
+    private void hideKeyboard(IBinder token) {
+        if (token != null) {
+            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
 
     /**
      * 显示进度条 用户不可取消
@@ -363,38 +414,17 @@ public class BaseActivity extends FragmentActivity {
         });
     }
 
-    public void showDialogCallPhone(final String phoneNum, final int companyId) {
+    public void showDialogCallPhone(String phoneNum, int companyId) {
         Log.d(TAG, ">>>showDialogCallPhone " + phoneNum);
         if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
             gotoPay();
             return;
         }
-        BaseDialog dialog = BaseDialog.CreateChoosePhoneDialog(this, phoneNum);
-        dialog.setOnClickListener(R.id.dialog_btn_no, null).setOnClickListener(R.id.dialog_btn_yes, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getId() == R.id.dialog_btn_yes) {
-                    getApp().callPhone(phoneNum);
-                    requestUploadCallNumber(companyId);
-                }
-            }
-        });
-        dialog.show();
+        new CallPhoneDialog(this)
+                .setCompanyId(companyId)
+                .setPhoneNum(phoneNum)
+                .show();
 
-    }
-
-    private void requestUploadCallNumber(int companyId) {
-        HttpHelper.getInstance().get(AppURL.GetUploadCallNum, new String[]{"companyId=" + companyId}, new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-
-            }
-
-            @Override
-            public void onFailed(String str) {
-
-            }
-        });
     }
 
 

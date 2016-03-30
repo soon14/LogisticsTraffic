@@ -171,7 +171,7 @@ public class HomeActivity extends BaseActivity {
                 return onTouchEvent(event);
             }
         });
-        contentViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -186,7 +186,9 @@ public class HomeActivity extends BaseActivity {
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        };
+//        contentViewPager.addOnPageChangeListener(onPageChangeListener);
+        contentViewPager.setOnPageChangeListener(onPageChangeListener);
 
 
     }
@@ -240,25 +242,31 @@ public class HomeActivity extends BaseActivity {
      * 初始化自定义按键
      */
     private void initCustomBtn() {
-        customBtn = (ImageButton) findViewById(R.id.home_bottom_services_btn);
-        if (!AppParams.DRIVER_APP) {
-            customBtn.setImageResource(R.drawable.home_source_car_btn_selector);
-//            customBtn.setText("车源");
-//            customBtn.setCompoundDrawables(null, getDrawable(R.drawable.home_source_btn_selector), null, null);
-            // 使用代码设置drawableleft
-//            Drawable drawable = getResources().getDrawable(R.drawable.home_source_btn_selector);
-//            // / 这一步必须要做,否则不会显示.
-//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-//            customBtn.setCompoundDrawables(null, drawable, null, null);
-        } else {
-            customBtn.setImageResource(R.drawable.home_source_btn_selector);
-//            customBtn.setText("货源");
-//            // 使用代码设置drawableleft
-//            Drawable drawable = getResources().getDrawable(R.drawable.goods_icon);
-//            // / 这一步必须要做,否则不会显示.
-//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-//            customBtn.setCompoundDrawables(null, drawable, null, null);
+        customBtn = (ImageButton) findViewById(R.id.home_bottom_custom_btn);
+        switch (User.getInstance().getUserType()) {
+            case DriverType:
+                customBtn.setImageResource(R.drawable.home_source_car_btn_selector);
+                break;
+            case CompanyInformationType:
+                customBtn.setImageResource(R.drawable.home_source_btn_selector);
+                break;
+            case EnterpriseType:
+                customBtn.setImageResource(R.drawable.home_source_btn_selector);
+                break;
         }
+//        if (!AppParams.DRIVER_APP) {
+//            customBtn.setImageResource(R.drawable.home_source_car_btn_selector);
+////            customBtn.setText("车源");
+////            customBtn.setCompoundDrawables(null, getDrawable(R.drawable.home_source_btn_selector), null, null);
+//            // 使用代码设置drawableleft
+////            Drawable drawable = getResources().getDrawable(R.drawable.home_source_btn_selector);
+////            // / 这一步必须要做,否则不会显示.
+////            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+////            customBtn.setCompoundDrawables(null, drawable, null, null);
+//        } else {
+//            customBtn.setImageResource(R.drawable.home_source_btn_selector);
+////            customBtn.setText("货源");
+//        }
     }
 
     private void setPage(int page) {
@@ -387,7 +395,7 @@ public class HomeActivity extends BaseActivity {
 //        setPage(INDEX_HAPPY, view);
     }
 
-    public void onClick_Services(View view) {
+    public void onClick_Custom(View view) {
 //        startActivity(ServicesActivity.class);
 //        replace(R.id.home_content, new ServicesFragment(), TAG_SERVICES);
 //        setPage(INDEX_SERVICES, view);
@@ -401,8 +409,10 @@ public class HomeActivity extends BaseActivity {
             } else {
                 gotoPay();
             }
-        } else {
+        } else if (User.getInstance().getUserType() == Type.CompanyInformationType) {
             startActivity(SourceCarActivity.class, null, true);
+        } else {
+            startActivity(ServicesActivity.class, null, true);
         }
     }
 

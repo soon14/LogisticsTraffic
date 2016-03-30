@@ -146,7 +146,7 @@
             style="@style/tx_black_df_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/location_btn"
+            android:background="@drawable/location_bt_selector"
             android:onClick="onClick_gotoMap"
             android:layout_marginRight="10dp"
             android:text="" />

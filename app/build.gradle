@@ -6,11 +6,23 @@ def releaseTime() {
 
 android {
     signingConfigs {
-        config {
-            storeFile file('D:/WorkSpaceStudio/LogisticsTraffic/app.keystore')
-            storePassword 'yyt2016'
+        yyt_wx {
             keyAlias 'yyt-wx'
             keyPassword 'yyt2016'
+            storeFile file('D:/WorkSpaceStudio/LogisticsTraffic/app.keystore')
+            storePassword 'yyt2016'
+        }
+        yyt {
+            keyAlias 'yyt'
+            keyPassword 'yyt2016'
+            storePassword 'yyt2016'
+            storeFile file('D:/WorkSpaceStudio/LogisticsTraffic/app.keystore')
+        }
+        eyt {
+            keyAlias 'eyt.keystore'
+            keyPassword 'eytandroid'
+            storeFile file('D:/WorkSpaceStudio/LogisticsTraffic/eyt.keystore')
+            storePassword 'eytandroid'
         }
     }
     compileSdkVersion 22
@@ -34,10 +46,10 @@ android {
             buildConfigField "boolean", "APP_DEBUG", "true"
             // 是否进行混淆
             minifyEnabled false
-            signingConfig signingConfigs.config
+            signingConfig signingConfigs.yyt
         }
         release {
-            signingConfig signingConfigs.config
+            signingConfig signingConfigs.yyt
             buildConfigField "boolean", "APP_DEBUG", "false"
             // 是否进行混淆
             minifyEnabled true
@@ -68,27 +80,25 @@ android {
     productFlavors {
         driver {
             applicationId "com.bt.zhangzy.logisticstraffic.d"
-            manifestPlaceholders = [APP_TYPE: "driver"]
-            manifestPlaceholders = [JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
+            manifestPlaceholders = [APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
+            signingConfig signingConfigs.yyt
         }
         company {
             applicationId "com.bt.zhangzy.logisticstraffic"
-
-            manifestPlaceholders = [APP_TYPE: "company"]
-            manifestPlaceholders = [JPUSH_APPKEY: "cba04bab06fa527b1113d749"]
+            manifestPlaceholders = [APP_TYPE_VALUE: "company", JPUSH_APPKEY: "cba04bab06fa527b1113d749"]
+            signingConfig signingConfigs.yyt
         }
-
     }
 
 
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.1.1'
-    compile 'com.alibaba:fastjson:1.2.8'
-    compile 'com.squareup.okhttp:okhttp:2.7.5'
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':zrcListView')
     compile project(':baidusdk')
+    compile project(':alipay')
+    compile project(':weixinpay')
+    compile project(':baseapp')
 }

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/transparent"
     android:orientation="vertical">
 
     <TableLayout
@@ -11,11 +12,12 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
-        android:background="@color/white"
+        android:background="@color/transparent"
         android:padding="10dp"
         android:stretchColumns="1">
 
-        <TableRow>
+        <TableRow
+            android:background="@color/transparent">
 
             <TextView
                 style="@style/tx_black_df_style"
@@ -28,7 +30,8 @@
                 android:hint="00000" />
         </TableRow>
 
-        <TableRow>
+        <TableRow
+            android:background="@color/transparent">
 
             <TextView
                 android:id="@+id/orderlist_item_enterprise_tx"
@@ -69,9 +72,9 @@
         android:id="@+id/orderlist_item_blankout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
         android:layout_alignBottom="@id/orderlist_item_ly"
         android:layout_alignRight="@id/orderlist_item_ly"
-        android:src="@drawable/blankout"/>
+        android:src="@drawable/blankout"
+        android:visibility="visible" />
 
 </RelativeLayout>

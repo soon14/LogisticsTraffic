@@ -142,11 +142,18 @@ public class UserFragment extends BaseHomeFragment {
 
             Date registerDate = jsonUser.getRegisterDate();
             TextView regdate = (TextView) findViewById(R.id.user_reg_date_tx);
-            if (registerDate != null) {
-                regdate.setText(Tools.toStringDate(registerDate));
+            if (AppParams.DEBUG) {
+                ViewUtils.setText(regdate, "版本号:" + getHomeActivity().getApp().getVersionName());
             } else {
-                regdate.setVisibility(View.GONE);
+                if (registerDate != null) {
+                    regdate.setText(Tools.toStringDate(registerDate, "yyyy-MM-dd"));
+                } else {
+                    regdate.setVisibility(View.GONE);
+                }
             }
+
+            //更新用户的支付状态
+            User.getInstance().requestPayStatus();
         }
     }
 

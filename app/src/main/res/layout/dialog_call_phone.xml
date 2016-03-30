@@ -12,18 +12,19 @@
         android:layout_margin="10dp">
 
         <TextView
+            android:id="@+id/dialog_phone_info_tx"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             style="@style/dialog_tip_style"
-            android:text="联系我时，请说是在物流汇上看到的，谢谢！" />
+            android:text="联系我时，请说是在物流汇上看到的，谢谢！\n 是否拨打？" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            style="@style/dialog_tx_style"
-            android:text="是否拨打？" />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--style="@style/dialog_tx_style"-->
+            <!--android:text="是否拨打？" />-->
 
         <TextView
             android:id="@+id/dialog_phone_num"
@@ -32,12 +33,12 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="13948488087" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            style="@style/dialog_hint_style"
-            android:text="（电话归属地：包头）" />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--style="@style/dialog_hint_style"-->
+            <!--android:text="（电话归属地：包头）" />-->
     </LinearLayout>
     <View
         android:layout_width="match_parent"

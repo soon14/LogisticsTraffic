@@ -1,6 +1,7 @@
 package com.bt.zhangzy.tools;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -12,6 +13,8 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 工具类
@@ -20,6 +23,57 @@ import java.util.Locale;
 public final class Tools {
 
     private static final String TAG = Tools.class.getSimpleName();
+
+
+    /**
+     * 验证手机号
+     *
+     * @param mobiles
+     * @return
+     */
+    public static boolean IsPhoneNum(String mobiles) {
+        Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+        Matcher m = p.matcher(mobiles);
+        return m.matches();
+    }
+
+    /**
+     * 验证邮箱
+     *
+     * @param email
+     * @return
+     */
+    public static boolean isEmail(String email) {
+        String strPattern = "^[a-zA-Z][\\w\\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$";
+        Pattern p = Pattern.compile(strPattern);
+        Matcher m = p.matcher(email);
+        return m.matches();
+    }
+
+
+    /**
+     * 按照sp分隔字符串，
+     *
+     * @param string
+     * @param sp     分隔符
+     * @return 返回一个字符串数组，最小两个元素
+     */
+    public static String[] splitAddress(String string, String sp) {
+        String[] split = {"", ""};
+        if (TextUtils.isEmpty(string))
+            return split;
+        String[] tmp_split = string.split(sp);
+        if (tmp_split.length > 0)
+            split[0] = tmp_split[0];
+        if (tmp_split.length > 1)
+            split[1] = tmp_split[1];
+        if (tmp_split.length > 2)
+            split = tmp_split;
+
+        return split;
+    }
+
+
     static final int GB_SP_DIFF = 160;
     // 存放国标一级汉字不同读音的起始区位码
     static final int[] secPosValueList = {1601, 1637, 1833, 2078, 2274, 2302,

@@ -52,13 +52,6 @@
         android:padding="5dp"
         android:src="@drawable/del_icon" />
 
-    <ImageView
-        android:id="@+id/fleet_it_select_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/transparent"
-        android:padding="5dp"
-        android:src="@drawable/star_select" />
+
 
 </LinearLayout>

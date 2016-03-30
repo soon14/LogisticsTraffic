@@ -15,11 +15,11 @@ import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
 import com.bt.zhangzy.logisticstraffic.activity.TenderListActivity;
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.activity.WebViewActivity;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeSpreadAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
@@ -136,7 +136,8 @@ public class HomeFragment extends BaseHomeFragment {
             ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_tender), AppURL.TOP_IMG_TENDER.toString());
         }
 
-        ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.home_flipper);
+//        ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.home_flipper);
+        ViewFlipper flipper = (ViewFlipper) view;
         flipper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,7 +202,7 @@ public class HomeFragment extends BaseHomeFragment {
                 }
             }
         };
-        spreadPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        spreadPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -361,7 +362,10 @@ public class HomeFragment extends BaseHomeFragment {
             }
         });
         if (listHeadView == null) {
-            listHeadView = LayoutInflater.from(getActivity()).inflate(R.layout.home_list_header, null);
+//            listHeadView = LayoutInflater.from(getActivity()).inflate(R.layout.home_list_header, null);
+            //删除推荐位
+            listHeadView = LayoutInflater.from(getActivity()).inflate(R.layout.home_adveriting_item, null);
+
         }
         if (listView.getHeaderViewsCount() == 0) {
             listView.addHeaderView(listHeadView);
@@ -369,7 +373,7 @@ public class HomeFragment extends BaseHomeFragment {
         //顶部 广告标题初始化
         initViewFlipper(listHeadView);
         //推荐位 初始化
-        initSpreadViewPager(listHeadView);
+//        initSpreadViewPager(listHeadView);
 
 //        listView.refresh();
         currentPageNum = 1;

@@ -66,19 +66,19 @@ public class OrderListAdapter extends BaseAdapter {
         }
         JsonOrder order = list.get(position);
         ViewUtils.setText(holder.orderNum, String.valueOf(order.getId()));
-        ViewUtils.setText(holder.enterpriseTx, String.valueOf(order.getEnterpriseId()));
-        ViewUtils.setText(holder.companyTx, String.valueOf(order.getCompanyId()));
-        ViewUtils.setText(holder.start_end_Tx, order.getStartCity() + "-" + order.getStopCity());
+        ViewUtils.setText(holder.enterpriseTx, order.getEnterpriseName());
+        ViewUtils.setText(holder.companyTx,order.getCompanyName());
+        ViewUtils.setText(holder.start_end_Tx, order.getStartCitySimple() + "-" + order.getStopCitySimple());
         ViewUtils.setText(holder.driverTx, order.getReceiverName());
         ViewUtils.setText(holder.driverPhoneTx, order.getReceiverPhone());
         if (OrderStatus.parseStatus(order.getStatus()) == OrderStatus.DiscardOrder) {
             holder.blankOut.setVisibility(View.VISIBLE);
 //            holder.ly.setBackgroundColor(parent.getResources().getColor(R.color.editpage_bg_color));
-            holder.ly.setBackgroundResource(R.color.gray);
+            holder.ly.setBackgroundResource(R.color.transparent);
         } else {
             holder.blankOut.setVisibility(View.INVISIBLE);
 //            holder.ly.setBackgroundColor(parent.getResources().getColor(R.color.white));
-            holder.ly.setBackgroundResource(R.color.white);
+            holder.ly.setBackgroundResource(R.color.transparent);
 
         }
 

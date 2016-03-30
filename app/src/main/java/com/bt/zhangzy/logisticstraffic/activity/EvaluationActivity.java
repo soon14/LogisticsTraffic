@@ -5,9 +5,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.RatingBar;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.AppURL;
@@ -49,7 +49,7 @@ public class EvaluationActivity extends BaseActivity {
             setTextView(R.id.orderlist_item_company_tx, "company=" + String.valueOf(jsonOrder.getCompanyId()));
             setTextView(R.id.orderlist_item_driver_tx, jsonOrder.getReceiverName());
             setTextView(R.id.orderlist_item_driver_phone_tx, jsonOrder.getReceiverPhone());
-            setTextView(R.id.orderlist_item_start_end_tx, jsonOrder.getStartCity() + " - " + jsonOrder.getStopCity());
+            setTextView(R.id.orderlist_item_start_end_tx, jsonOrder.getStartCitySimple() + " - " + jsonOrder.getStopCitySimple());
 
         }
         RatingBar ratingBar = (RatingBar) findViewById(R.id.evaluation_ratingbar1);

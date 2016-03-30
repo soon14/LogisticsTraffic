@@ -29,7 +29,7 @@
                 style="@style/tx_black_df_style"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="15dp"
-                android:background="@drawable/location_btn"
+                android:background="@drawable/location_bt_selector"
                 android:onClick="onClick_gotoMap" />
         </TableRow>
         <View
