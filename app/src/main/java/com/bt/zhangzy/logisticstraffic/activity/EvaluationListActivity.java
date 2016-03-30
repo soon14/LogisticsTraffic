@@ -7,7 +7,6 @@ import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.EvaluationListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.network.entity.JsonComment;
 
 import java.util.List;

@@ -2,7 +2,6 @@ package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,7 +13,6 @@ import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.UploadImageHelper;
-import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.network.entity.JsonTender;
 import com.bt.zhangzy.tools.ViewUtils;
 

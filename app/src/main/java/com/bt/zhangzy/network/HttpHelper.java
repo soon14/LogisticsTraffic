@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.bt.zhangzy.network.entity.BaseEntity;
 import com.bt.zhangzy.tools.UploadFileTask;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
@@ -14,6 +13,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+import com.zhangzy.base.http.NetCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;

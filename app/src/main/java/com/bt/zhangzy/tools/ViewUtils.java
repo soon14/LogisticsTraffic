@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bt.zhangzy.network.AppURL;
-import com.bt.zhangzy.network.ImageHelper;
 
 /**
  * Created by ZhangZy on 2016-1-18.

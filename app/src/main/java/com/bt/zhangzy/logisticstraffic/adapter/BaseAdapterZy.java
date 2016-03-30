@@ -4,8 +4,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.bt.zhangzy.network.entity.BaseEntity;
-
 import java.util.List;
 
 /**

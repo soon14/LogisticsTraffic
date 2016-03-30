@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.alibaba.fastjson.JSON;
 import com.bt.zhangzy.logisticstraffic.data.OrderStatus;
 import com.bt.zhangzy.tools.Tools;
+import com.zhangzy.base.http.BaseEntity;
 
 import java.util.Date;
 

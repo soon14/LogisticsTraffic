@@ -11,8 +11,6 @@ import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.network.HttpHelper;
-import com.bt.zhangzy.network.NetCallback;
-import com.bt.zhangzy.network.entity.BaseEntity;
 
 import java.util.ArrayList;
 import java.util.List;

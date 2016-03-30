@@ -1,11 +1,13 @@
 package com.bt.zhangzy.network.entity;
 
+import com.zhangzy.base.http.BaseEntity;
+
 import java.util.List;
 
 /**
  * Created by ZhangZy on 2016-1-23.
  */
-public class ResponseUserInfo extends BaseEntity{
+public class ResponseUserInfo extends BaseEntity {
     private JsonCompany company;
     private List<JsonMotorcades> motorcades;
     private JsonEnterprise enterprise;

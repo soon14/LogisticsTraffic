@@ -1,6 +1,7 @@
 package com.bt.zhangzy.network.entity;
 
 import com.bt.zhangzy.tools.Tools;
+import com.zhangzy.base.http.BaseEntity;
 
 import java.util.List;
 

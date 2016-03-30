@@ -1,6 +1,7 @@
 package com.bt.zhangzy.network.entity;
 
 import com.bt.zhangzy.logisticstraffic.data.People;
+import com.zhangzy.base.http.BaseEntity;
 
 /**
  * Created by ZhangZy on 2016-1-25.

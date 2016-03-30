@@ -1,6 +1,7 @@
 package com.bt.zhangzy.network.entity;
 
 import com.bt.zhangzy.logisticstraffic.data.Type;
+import com.zhangzy.base.http.BaseEntity;
 
 import java.util.Date;
 

@@ -1,9 +1,11 @@
 package com.bt.zhangzy.network.entity;
 
+import com.zhangzy.base.http.BaseEntity;
+
 /**
  * Created by ZhangZy on 2016-1-23.
  */
-public class JsonMotorcades extends BaseEntity{
+public class JsonMotorcades extends BaseEntity {
     int id;
     String name;
     int role;

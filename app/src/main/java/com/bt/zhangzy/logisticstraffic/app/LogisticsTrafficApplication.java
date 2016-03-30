@@ -14,7 +14,6 @@ import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.service.UpDataLocationService;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
-import com.bt.zhangzy.network.ImageHelper;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.tools.ContextTools;
 import com.zhangzy.baidusdk.BaiduSDK;

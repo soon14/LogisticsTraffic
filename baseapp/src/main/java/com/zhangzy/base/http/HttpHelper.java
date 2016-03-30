@@ -52,7 +52,7 @@ public class HttpHelper extends OkHttpClient {
      */
     private static HttpHelper instance;
 
-    private HttpHelper() {
+    HttpHelper() {
         this.setConnectTimeout(TIMEOUT, TimeUnit.SECONDS);
         this.setWriteTimeout(TIMEOUT, TimeUnit.SECONDS);
         this.setReadTimeout(TIMEOUT, TimeUnit.SECONDS);

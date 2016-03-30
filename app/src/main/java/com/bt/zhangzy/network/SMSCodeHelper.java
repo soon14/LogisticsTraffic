@@ -7,7 +7,8 @@ import android.util.Log;
 
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
-import com.bt.zhangzy.network.entity.BaseEntity;
+import com.zhangzy.base.http.BaseEntity;
+import com.zhangzy.base.http.NetCallback;
 
 /**
  * Created by ZhangZy on 2016-3-18.

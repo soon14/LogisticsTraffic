@@ -4,7 +4,8 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
-import com.bt.zhangzy.network.entity.BaseEntity;
+import com.zhangzy.base.http.BaseEntity;
+import com.zhangzy.base.http.NetCallback;
 
 import java.util.List;
 

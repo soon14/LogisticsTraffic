@@ -1,5 +1,7 @@
 package com.bt.zhangzy.network.entity;
 
+import com.zhangzy.base.http.BaseEntity;
+
 import java.util.List;
 
 /**

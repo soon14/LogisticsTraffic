@@ -14,7 +14,6 @@ import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
-import com.bt.zhangzy.network.NetCallback;
 import com.bt.zhangzy.tools.Json;
 import com.squareup.okhttp.Request;
 
