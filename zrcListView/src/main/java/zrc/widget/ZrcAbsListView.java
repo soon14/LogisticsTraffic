@@ -1,8 +1,5 @@
 package zrc.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -31,8 +28,10 @@ import android.view.animation.Interpolator;
 import android.widget.ListAdapter;
 import android.widget.Scroller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import zrc.util.APIUtil;
-import zrc.widget.ZrcListView.OnItemLongClickListener;
 import zrc.widget.ZrcListView.OnScrollListener;
 import zrc.widget.ZrcListView.OnScrollStateListener;
 import zrc.widget.ZrcListView.OnStartListener;
