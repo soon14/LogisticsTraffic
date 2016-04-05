@@ -17,6 +17,7 @@ import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.tools.ContextTools;
 import com.zhangzy.baidusdk.BaiduSDK;
+import com.zhangzy.base.http.ImageHelper;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

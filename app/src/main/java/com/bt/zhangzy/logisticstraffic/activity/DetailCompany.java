@@ -260,16 +260,18 @@ public class DetailCompany extends BaseActivity {
             gotoLogin();
             return;
         }
-        if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
-            gotoPay();
-            return;
-        }
-        //// TODO: 2016-1-29  考虑是否直接跳转到 OrderDetailActivity
-//        startActivity(OrderActivity.class);
         if (User.getInstance().getJsonTypeEntity() == null) {
             showToast("请先完成企业认证");
             return;
         }
+        if(User.getInstance().checkUserStatus(this)) {
+            return;
+        }
+        if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
+            gotoPay();
+            return;
+        }
+
         Bundle bundle = new Bundle();
         bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE, OrderDetailMode.CreateMode.ordinal());
         bundle.putSerializable(AppParams.BUNDLE_PRODUCT_KEY, product);

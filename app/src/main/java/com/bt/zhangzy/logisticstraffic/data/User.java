@@ -3,6 +3,7 @@ package com.bt.zhangzy.logisticstraffic.data;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -16,6 +17,7 @@ import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseFavorites;
 import com.bt.zhangzy.network.entity.ResponseLogin;
 import com.bt.zhangzy.network.entity.ResponseUserInfo;
+import com.zhangzy.base.http.BaseEntity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class User implements Serializable {
 
     private boolean isLogin = false;
     private Type userType = Type.EmptyType;
+    private UserStatus userStatus = UserStatus.UN_CHECKED;
     private long id;
     private int companyID, enterpriseID, driverID;
     private String userName, nickName;
@@ -57,6 +60,32 @@ public class User implements Serializable {
         return instance;
     }
 
+
+    /**
+     * 检查用户的审核状态
+     * @param activity
+     * @return
+     */
+    public boolean checkUserStatus(BaseActivity activity){
+        if(userStatus != UserStatus.CHECKED && userStatus != UserStatus.PAID){
+            switch (userStatus){
+                case UN_CHECKED:
+                    activity.showToast("用户未审核");
+                    break;
+                case LOCK:
+                    activity.showToast("用户已冻结");
+                    break;
+                case DELETE:
+                    activity.showToast("用户已删除");
+                    break;
+                case COMMITED:
+                    activity.showToast("用户已提交资料，请等待系统审核");
+                    break;
+            }
+            return true;
+        }
+        return false;
+    }
     /**
      * 加载用回对象，用于数据存储；
      *
@@ -81,6 +110,10 @@ public class User implements Serializable {
         instance.setPhoneNum(phone);
         instance.setPassword(password);
         instance.setIsSave(is_save);
+    }
+
+    public UserStatus getUserStatus() {
+        return userStatus;
     }
 
     public PayStatus getPayStatus() {
@@ -410,6 +443,7 @@ public class User implements Serializable {
         user.setUserName(jsonUser.getName());
         user.setPhoneNum(jsonUser.getPhoneNumber());
         user.setNickName(jsonUser.getNickname());
+        user.userStatus = UserStatus.parse(jsonUser.getStatus());
         user.setJsonUser(jsonUser);
         switch (jsonUser.getRole()) {
             case 1:

@@ -51,6 +51,8 @@ public class UserFragment extends BaseHomeFragment {
 //            findViewById(R.id.user_services_item).setVisibility(View.GONE);
             ViewUtils.setText(view, R.id.user_fleet_bt, "我加入的车队");
             view.findViewById(R.id.user_tender_item).setVisibility(View.GONE);
+            view.findViewById(R.id.user_shop_setting_bt).setVisibility(View.GONE);
+
         } else {
             view.findViewById(R.id.user_tender_item).setVisibility(View.GONE);
         }
@@ -153,7 +155,8 @@ public class UserFragment extends BaseHomeFragment {
             }
 
             //更新用户的支付状态
-            User.getInstance().requestPayStatus();
+            if (User.getInstance().getUserType() == Type.DriverType)
+                User.getInstance().requestPayStatus();
         }
     }
 

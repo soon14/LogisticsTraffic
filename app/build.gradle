@@ -33,13 +33,14 @@ android {
         applicationId "com.bt.zhangzy.logisticstraffic.d"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
 
         // dex突破65535的限制
 //        multiDexEnabled true
         //默认 的客户单类型
 //        manifestPlaceholders = [APP_TYPE_VALUE: "company"]
+        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
     buildTypes {
         debug {
@@ -52,12 +53,11 @@ android {
             signingConfig signingConfigs.yyt
             buildConfigField "boolean", "APP_DEBUG", "false"
             // 是否进行混淆
-            minifyEnabled true
+            minifyEnabled false
             // 移除无用的resource文件
             shrinkResources true
             //压缩
             zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //调试时关闭
 //            applicationVariants.all { variant ->
 //                variant.outputs.each { output ->

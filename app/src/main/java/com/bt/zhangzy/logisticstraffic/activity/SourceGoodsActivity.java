@@ -20,6 +20,7 @@ import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonOrder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class SourceGoodsActivity extends BaseActivity {
     private ViewPager viewPager;
     private SourceGoodsListFragment publicFragment;
     private SourceGoodsListFragment motorcadesFragment;
+    private SourceGoodsListFragment acceptFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,51 @@ public class SourceGoodsActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //刷新列表
+        requestOrderList(currentType);
+    }
+
+    class ResponseAcceptList extends JsonCallback {
+        @Override
+        public void onSuccess(String msg, String result) {
+            List<JsonOrder> list = ParseJson_Array(result, JsonOrder.class);
+            if (list == null && list.isEmpty()) {
+                showToast("数据列表为空");
+                return;
+            }
+            //排序
+            Collections.sort(list);
+            acceptFragment.addList(list);
+        }
+
+        @Override
+        public void onFailed(String str) {
+            showToast("已抢订单列表获取失败 " + str);
+        }
+    }
+
+    private void requestAcceptOrderList() {
+        acceptFragment.clearAdapter();
+        //已抢订单列表
+        HashMap<String, String> params = new HashMap<>();
+
+        params.put("orderType", String.valueOf(OrderType.MotorcadesType.ordinal()));
+        /*订单分配中（物流 -> 司机）	3*/
+        params.put("status", "3");
+        params.put("role", String.valueOf(User.getInstance().getUserType().toRole()));
+        params.put("roleId", String.valueOf(User.getInstance().getRoleId()));
+
+        HttpHelper.getInstance().get(AppURL.GetOrderAcceptList, params, new ResponseAcceptList());
+        //公共货源
+        params = new HashMap<>(params);
+        params.put("orderType", String.valueOf(OrderType.PublicType.ordinal()));
+        HttpHelper.getInstance().get(AppURL.GetOrderAcceptList, params, new ResponseAcceptList());
+
+    }
+
     private void requestOrderList(OrderType type) {
         //// TO DO: 2016-1-30  可抢订单列表获取失败
         //http://182.92.77.31:8080/orders/list?orderType=1&status=3
@@ -54,6 +101,8 @@ public class SourceGoodsActivity extends BaseActivity {
         params.put("orderType", String.valueOf(type.ordinal()));
         /*订单分配中（物流 -> 司机）	3*/
         params.put("status", "3");
+        params.put("role", String.valueOf(User.getInstance().getUserType().toRole()));
+        params.put("roleId", String.valueOf(User.getInstance().getRoleId()));
         HttpHelper.getInstance().get(AppURL.GetOrderList, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
@@ -62,6 +111,8 @@ public class SourceGoodsActivity extends BaseActivity {
                     showToast("数据列表为空");
                     return;
                 }
+                //排序
+                Collections.sort(list);
                 OrderType orderType = OrderType.parseOrderType(list.get(0).getOrderType());
                 if (orderType == OrderType.PublicType) {
                     publicFragment.setAdapter(list);
@@ -83,17 +134,26 @@ public class SourceGoodsActivity extends BaseActivity {
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
         publicFragment = new SourceGoodsListFragment();
         motorcadesFragment = new SourceGoodsListFragment();
+        acceptFragment = new SourceGoodsListFragment();
         fragments.add(publicFragment);
         fragments.add(motorcadesFragment);
+        fragments.add(acceptFragment);
 
         SourceGoodsListFragment.OnItemClickListener listener = new SourceGoodsListFragment.OnItemClickListener() {
             @Override
             public void OnItemClick(JsonOrder order) {
-                gotoDetail(order);
+                gotoDetail(order, true);
             }
         };
         publicFragment.setListener(listener);
         motorcadesFragment.setListener(listener);
+        acceptFragment.setListener(new SourceGoodsListFragment.OnItemClickListener() {
+            @Override
+            public void OnItemClick(JsonOrder order) {
+                gotoDetail(order, false);
+            }
+        });
+
 
         FragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -112,6 +172,9 @@ public class SourceGoodsActivity extends BaseActivity {
                         break;
                     case 1:
                         onClick_ChangeSourceType(findViewById(R.id.source_goods_motorcade_bt));
+                        break;
+                    case 2:
+                        onClick_ChangeSourceType(findViewById(R.id.source_goods_accept_bt));
                         break;
                 }
             }
@@ -142,6 +205,13 @@ public class SourceGoodsActivity extends BaseActivity {
             currentType = OrderType.PublicType;
         else if (view.getId() == R.id.source_goods_motorcade_bt)
             currentType = OrderType.MotorcadesType;
+        else if (view.getId() == R.id.source_goods_accept_bt) {
+            requestAcceptOrderList();
+            if (viewPager.getCurrentItem() != 2) {
+                viewPager.setCurrentItem(2);
+            }
+            return;
+        }
 
         requestOrderList(currentType);
         int currentPage = currentType == OrderType.PublicType ? 0 : 1;
@@ -150,7 +220,7 @@ public class SourceGoodsActivity extends BaseActivity {
         }
     }
 
-    private void gotoDetail(JsonOrder order) {
+    private void gotoDetail(JsonOrder order, boolean is_accept) {
         if (User.getInstance().getLogin()) {
             if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
                 gotoPay();
@@ -159,6 +229,7 @@ public class SourceGoodsActivity extends BaseActivity {
             Bundle bundle = new Bundle();
             bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE, OrderDetailMode.UntreatedMode.ordinal());
             bundle.putParcelable(AppParams.ORDER_DETAIL_KEY_ORDER, order);
+            bundle.putBoolean(AppParams.ORDER_CAN_ACCEPT, is_accept);
             startActivity(OrderDetailActivity.class, bundle);
         } else {
             gotoLogin();

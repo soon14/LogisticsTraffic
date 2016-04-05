@@ -37,6 +37,16 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="车队货源" />
+        <Button
+            android:id="@+id/source_goods_accept_bt"
+            style="@style/while_orange_tab_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick_ChangeSourceType"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="已抢货源" />
     </LinearLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/source_list_viewpager"

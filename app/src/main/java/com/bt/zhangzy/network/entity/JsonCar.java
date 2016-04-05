@@ -1,5 +1,6 @@
 package com.bt.zhangzy.network.entity;
 
+import com.bt.zhangzy.logisticstraffic.data.OrderReceiveStatus;
 import com.zhangzy.base.http.BaseEntity;
 
 /**
@@ -21,8 +22,17 @@ public class JsonCar extends BaseEntity {
 
     String remark;//备注
     int status;
+    OrderReceiveStatus receiveStatus;
 
     public JsonCar() {
+    }
+
+    public OrderReceiveStatus getReceiveStatus() {
+        return receiveStatus;
+    }
+
+    public void setReceiveStatus(OrderReceiveStatus receiveStatus) {
+        this.receiveStatus = receiveStatus;
     }
 
     public int getMotocardesDriverId() {

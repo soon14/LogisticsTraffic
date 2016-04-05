@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 订单状态-->
+    <string-array name="order_status_items">
+        <item>无效订单</item>
+        <item>创建中</item>
+        <item>物流已接单</item>
+        <item>司机已接单</item>
+        <item>运输中</item>
+        <item>订单已完成</item>
+        <item>订单已作废</item>
+
+    </string-array>
+
+    <!-- 当前角色是 司机时，运输状态的显示 -->
+    <string-array name="order_driver_loading_status_from_driver_items">
+        <item>确认装货</item>
+        <item>等待确认装货</item>
+        <item>验证收货</item>
+        <item>货已送达</item>
+    </string-array>
+
+    <!--  司机的运输状态展示-->
+    <string-array name="order_driver_loading_status_items">
+        <item>取货中</item>
+        <item>确认取货</item>
+        <item>运输中</item>
+        <item>货已送达</item>
+    </string-array>
+
+    <string-array name="order_change_type_items">
+        <item>建材</item>
+        <item>矿产</item>
+        <item>设备</item>
+        <item>生鲜</item>
+        <item>食品蔬菜</item>
+        <item>药品</item>
+        <item>化工</item>
+        <item>木材</item>
+        <item>日用放置</item>
+        <item>家畜</item>
+        <item>农副产品</item>
+        <item>电子电器</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="order_change_truck_type_items">
+        <item>平板车</item>
+        <item>高低板车</item>
+        <item>厢式车</item>
+        <item>低栏车</item>
+        <item>中栏车</item>
+        <item>高栏车</item>
+        <item>保温车</item>
+        <item>冷藏车</item>
+        <item>罐式车</item>
+        <item>集装箱</item>
+        <item>铁笼车</item>
+        <item>危险品车</item>
+        <item>自卸车</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="order_change_truck_length_items">
+        <item>4.2米</item>
+        <item>5.2米</item>
+        <item>5.8米</item>
+        <item>6.2米</item>
+        <item>6.5米</item>
+        <item>6.8米</item>
+        <item>7.2米</item>
+        <item>8米</item>
+        <item>9.6米</item>
+        <item>12米</item>
+        <item>13米</item>
+        <item>13.5米</item>
+        <item>15米</item>
+        <item>16.5米</item>
+        <item>17.5米</item>
+        <item>18.5米</item>
+        <item>20米</item>
+        <item>22米</item>
+        <item>24米</item>
+    </string-array>
+    <string-array name="order_change_truck_weight_items">
+        <item>2.5吨</item>
+        <item>3.5吨</item>
+        <item>8吨</item>
+        <item>10吨</item>
+        <item>12吨</item>
+        <item>15吨</item>
+        <item>20吨</item>
+        <item>25吨</item>
+        <item>28吨</item>
+        <item>30吨</item>
+        <item>35吨</item>
+        <item>40吨</item>
+
+
+    </string-array>
+
+    <string-array name="car_status_items">
+        <item>闲置</item>
+        <item>回程</item>
+        <item>半挂</item>
+        <item>其他</item>
+
+    </string-array>
+
+    <string-array name="company_introduce_items">
+        <item>我公司的服务宗旨是精准卡航，限时送达，汽运价格享空运速度！我们的服务目标是让每一辆车都安全，每一位客户都放心，公司将以优质的服务，高效的配送方式以及优惠的配送价格屹立于物流市场，用心经营，只做专业，我们一直在路上！</item>
+        <item>我公司坚持物流人的专业精神，以“安全、快捷、准确、方便”作为服务宗旨，为客户提供灵活多样的物流服务。在纷繁复杂的物流市场中，我公司将是您最佳的选择。让客户百分百满意是我们的第一要素，提供高效便捷的服务使我们的服务宗旨，创造全国最优物流品质是我们的奋斗目标！</item>
+        <item>我公司自成立以来，一直秉承着诚信经营，视顾客为伙伴的信念，为客户创造竞争优势的同时，努力创建自身的竞争优势。经过数年的不断努力，已经在众多城市建立了多家服务门店，面向全国各地的不同客户，提供最优质的物流服务，相信我公司一定是您发货找车的最佳选择！</item>
+        <item>我公司自成立以来一直以满足消费者的需求为目标，以先进的技术为体念，致力成为物流业的龙头品牌，一直以规范化，标准化的企业管理来严格要求自己，以确保公司的稳固发展，近年来在市场及客户之间形成了良好的口碑。公司以全心全意为客户服务为标准，凭借严谨的运作体系和持续完善的服务网络，竭诚为广大客户提供安全、快速、专业的精准物流服务。</item>
+        <item>我公司经营多年，拥有一站式服务，高效化、经济化的服务优势。多年来致力于提供物流方面的专业性服务。并承接大宗货物运输等业务，网点覆盖多个省市自治区。我公司经过多年来的拼搏与经验积累,已经形成了有自己特色的运作管理服务体系,在业内树立了良好的企业形象。随着企业的不断发展壮大,我公司将在新的一年里持续为客户提供更全面更优质的服务。</item>
+        <item>我公司自成立以来始终专注于服务质量的提升，不断满足市场的需求，公司的服务范围十分广泛，主要以物流运输为主，对生产、 流通、消费都有着巨大市场空间。首先考虑到通过顾客满意来开发其市场机遇的公司,为了满足顾客需求方面的根本能力将物品从供应地向接收地准确的、及时的、安全的、保质保量的、门到门的合理化服务模式和先进的服务流程，我们将竭力打造属于企业自身的物流品牌。</item>
+        <item>我公司承揽大件设备运输、工地搬家、零担运输、轿车运输、长途搬家、货物包装、仓储配送等业务。公司成立至今，始终以市场为导向，以客户为中心。把不断提高企业员工的自身素质，为客户提供优质、高效的服务作为企业的服务宗旨。近年来企业通过资源整合，分别与其它专线货运公司建立了长期的合作关系，我们将新老客户的货物"安全、快捷"地运送到全国各地，为新老客户提供安全、迅捷、周到的服务。</item>
+        <item>我公司自成立以来始终专注于服务质量的提升，不断满足于物流市场的需求。在全国各地建立了庞大的业务机构及服务体系。近年来，公司持续加强基础建设，不断整合资源、提升作业自动化水平，不断优化建设，实现了对物品流通运转过程中，全环节的信息监控、跟踪、查询及资源调度工作，确保了服务质量的稳步提升。企业以“成为最值得信赖和尊敬的物流公司”为远景，秉持“德才兼备，品德优先，共同成长”的用人理念，愿与您共同携手，梦想光速未来！</item>
+        <item>我公司是全国知名的物流企业，主营国内公路零担运输业务和空运代理服务。公司成立以来始终秉持“以物为根，铸物流名牌，以人为本，创行业一流”的服务宗旨，通过补充发展其他公司现行的标准、制度，制定了完善的服务标准。并且配合公司先进的管理制度，在实际操作过程中，严格按照标准为客户服务，努力创建服务名牌企业，引领公司向标准化、品牌化的方向发展，打造物流行业一流企业。</item>
+        <item>公司是具有多年丰富经验的专业物流企业，拥有庞大的仓储占地、先进的物流设施、完善的服务功能和各类物流专业人才，是找、发、收三个特点于一身的全能型物流公司。公司致力于创建营业网点、自购进口车辆、搭建最优线路，优化运力成本，为客户提供快速高效、便捷及时、安全可靠的服务体验，助力客户创造最大的价值。</item>
+    </string-array>
+
+</resources>

@@ -15,6 +15,7 @@ import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonComment;
 import com.bt.zhangzy.network.entity.JsonOrder;
+import com.zhangzy.base.http.BaseEntity;
 
 /**
  * Created by ZhangZy on 2015/6/24.

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.data.UserStatus;
 import com.bt.zhangzy.logisticstraffic.fragment.SourceCarListFragment;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
@@ -61,11 +63,17 @@ public class SourceCarActivity extends BaseActivity {
         locationBt = (Button) findViewById(R.id.source_car_location_bt);
 
 
-        List<JsonMotorcades> motorcades = User.getInstance().getMotorcades();
-        if (motorcades != null) {
-            if (!motorcades.isEmpty()) {
-                motorcadeId = motorcades.get(0).getId();
+        try {
+            Log.w(TAG, "Motorcades = " + User.getInstance().getMotorcades());
+            List<JsonMotorcades> motorcades = User.getInstance().getMotorcades();
+            if (motorcades != null) {
+                if (!motorcades.isEmpty()) {
+                    motorcadeId = motorcades.get(0).getId();
+                }
             }
+        } catch (Exception e) {
+            Log.w(TAG, "JsonMotorcades 错误", e);
+            e.printStackTrace();
         }
         initView();
 //        listView = (ListView) findViewById(R.id.source_list);
@@ -95,8 +103,14 @@ public class SourceCarActivity extends BaseActivity {
         fragments.add(publicFragment);
         fragments.add(motorcadeFragment);
         SourceCarListFragment.OnItemClickListener listener = new SourceCarListFragment.OnItemClickListener() {
+
             @Override
             public void OnItemClick(JsonCar car) {
+                // 车源点击
+                if (User.getInstance().getUserStatus() == UserStatus.UN_CHECKED) {
+                    showToast("用户资料不完善，无法使用此功能");
+                    return;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putString(AppParams.SOURCE_PAGE_CAR_KEY, car.toString());
 //                bundle.putSerializable(AppParams.SOURCE_PAGE_CAR_KEY,car);
@@ -279,7 +293,7 @@ public class SourceCarActivity extends BaseActivity {
         if (TextUtils.isEmpty(string)) {
             location = User.getInstance().getLocation();
         } else {
-            location = new Location(null,string);
+            location = new Location(null, string);
         }
         LocationView locationView = LocationView.creatPopupWindow(this);
         locationView.setCurrentLocation(location);
@@ -288,7 +302,7 @@ public class SourceCarActivity extends BaseActivity {
             public void onChanged(Location loc) {
             }
 
-            public void onCancel(Location location){
+            public void onCancel(Location location) {
                 if (TextUtils.isEmpty(location.getCityName()))
                     return;
                 if (location.getCityName().equals("不限")) {

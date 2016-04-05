@@ -140,7 +140,9 @@ public final class Tools {
     }
 
 
-    static SimpleDateFormat DefaultDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+    /*"yyyy-MM-dd HH:mm:ss"
+    * */
+    static SimpleDateFormat DefaultDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     /**
      * 转换显示日期

@@ -41,7 +41,7 @@ public class SearchActivity extends BaseActivity {
     private View keywordBtn;
     private View lineTypeLy;
     private View keywordTypeLy;
-    private View shopListLy;
+//    private View shopListLy;
     private ListView listView;
     private HomeListAdapter adapter;
     private AutoCompleteTextView searchKeyWord;
@@ -83,9 +83,6 @@ public class SearchActivity extends BaseActivity {
             lineTypeLy = findViewById(R.id.search_type_line_ly);
         if (keywordTypeLy == null)
             keywordTypeLy = findViewById(R.id.search_type_keyword_ly);
-        if (shopListLy == null)
-            shopListLy = findViewById(R.id.search_shop_ly);
-        shopListLy.setVisibility(View.VISIBLE);
 
 
         if (isKeyWord) {
@@ -229,8 +226,6 @@ public class SearchActivity extends BaseActivity {
 
     //点击了搜索按钮 // TODO: 2016-1-28 搜索接口 线路搜索
     public void onClick_Search(View view) {
-        if (shopListLy != null)
-            shopListLy.setVisibility(View.GONE);
         ContextTools.HideKeyboard(searchKeyWord);
         if (isKeyWordType) {
             searchKeyWord.clearFocus();

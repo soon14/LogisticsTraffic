@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.PictureHelper;
+import com.zhangzy.base.http.ImageHelper;
 
 import java.io.File;
 
@@ -56,7 +57,7 @@ public class UploadImageHelper {
         public void onSuccess(String msg, String result) {
             activity.showToast("图片上传成功" + msg);
             activity.cancelProgress();
-            String uploadImgURL = /*AppURL.Host + */result;
+            String uploadImgURL = /*AppURL.HostDebug + */result;
             Log.i(TAG, "上传图片地址：" + uploadImgURL);
             ImageHelper.getInstance().loadImgOnUiThread(activity, uploadImgURL, userImage);
             if (listener != null) {

@@ -71,8 +71,8 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
 
         switch (payMethodGroup.getCheckedRadioButtonId()) {
             case R.id.pay_method_weixin:
-                //微信 计费单位是分
-                WeiXinPay.getInstanse().payUnifiedOrder(this, message, (int) (payMoney * 100), (int) User.getInstance().getId());
+                //微信 计费单位是分  2016年4月5日：微信支付改成元为单位，和支付宝保持统一
+                WeiXinPay.getInstanse().payUnifiedOrder(this, message, (int) (payMoney /** 100*/), (int) User.getInstance().getId());
                 WeiXinPay.getInstanse().setCallback(new WXPayResultCallback() {
                     @Override
                     public void paySuccess() {

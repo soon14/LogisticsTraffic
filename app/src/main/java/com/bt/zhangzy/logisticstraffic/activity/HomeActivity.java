@@ -23,6 +23,7 @@ import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.data.UserStatus;
 import com.bt.zhangzy.logisticstraffic.fragment.BaseHomeFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.HomeFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.UserFragment;
@@ -245,13 +246,13 @@ public class HomeActivity extends BaseActivity {
         customBtn = (ImageButton) findViewById(R.id.home_bottom_custom_btn);
         switch (User.getInstance().getUserType()) {
             case DriverType:
-                customBtn.setImageResource(R.drawable.home_source_car_btn_selector);
+                customBtn.setImageResource(R.drawable.home_source_btn_selector);
                 break;
             case CompanyInformationType:
-                customBtn.setImageResource(R.drawable.home_source_btn_selector);
+                customBtn.setImageResource(R.drawable.home_source_car_btn_selector);
                 break;
             case EnterpriseType:
-                customBtn.setImageResource(R.drawable.home_source_btn_selector);
+                customBtn.setImageResource(R.drawable.home_services_btn_selector);
                 break;
         }
 //        if (!AppParams.DRIVER_APP) {
@@ -321,6 +322,9 @@ public class HomeActivity extends BaseActivity {
         if (User.getInstance().getUserType() == Type.DriverType) {
             startActivity(PublishCarActivity.class);
         } else {
+            if (User.getInstance().checkUserStatus(this)) {
+                return;
+            }
             Bundle bundle = new Bundle();
             bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE, OrderDetailMode.CreateMode.ordinal());
             startActivity(OrderDetailActivity.class, bundle);
@@ -404,6 +408,10 @@ public class HomeActivity extends BaseActivity {
             return;
         }
         if (User.getInstance().getUserType() == Type.DriverType) {
+            if (User.getInstance().getUserStatus() == UserStatus.UN_CHECKED) {
+                showToast("用户资料不完善，无法使用此功能");
+                return;
+            }
             if (User.getInstance().isVIP()) {
                 startActivity(SourceGoodsActivity.class, null, true);
             } else {
@@ -429,6 +437,9 @@ public class HomeActivity extends BaseActivity {
     public void onClick_gotoOrderList(View view) {
 //       startActivity(new Intent(this,OrderListActivity.class));
 //        Toast.makeText(this,">>>>>>>>>>>>>>>",Toast.LENGTH_LONG).show();
+        if (User.getInstance().checkUserStatus(this)) {
+            return;
+        }
         startActivity(OrderListActivity.class);
     }
 
@@ -472,6 +483,9 @@ public class HomeActivity extends BaseActivity {
      * @param view
      */
     public void onClick_Fleet(View view) {
+        if (User.getInstance().checkUserStatus(this)) {
+            return;
+        }
         startActivity(FleetActivity.class);
     }
 

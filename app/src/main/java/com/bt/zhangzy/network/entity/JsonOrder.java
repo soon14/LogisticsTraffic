@@ -123,6 +123,10 @@ public class JsonOrder extends BaseEntity implements Parcelable, Comparable<Json
         return status;
     }
 
+    public OrderStatus getOrderStatus(){
+        return OrderStatus.parseStatus(status);
+    }
+
     public void setStatus(int status) {
         this.status = status;
     }

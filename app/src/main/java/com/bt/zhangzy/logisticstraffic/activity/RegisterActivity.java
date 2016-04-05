@@ -110,7 +110,7 @@ public class RegisterActivity extends BaseActivity {
             showToast("密码输入不一致");
             return;
         }
-        if (phoneNumEd.getText().length() != 11) {
+        if (!Tools.IsPhoneNum(phoneNum)) {
             showToast("手机号输入错误");
             return;
         }
@@ -126,7 +126,14 @@ public class RegisterActivity extends BaseActivity {
 
         nickname = nicknameEd.getText().toString();
 
-        recommend = TextUtils.isEmpty(recommendEd.getText()) ? "0" : recommendEd.getText().toString();
+        recommend = "";
+        if (!TextUtils.isEmpty(recommendEd.getText())) {
+            recommend = recommendEd.getText().toString();
+            if (!Tools.IsPhoneNum(recommend)){
+                showToast("推荐人手机号错误");
+                return;
+            }
+        }
 
         requestRegister(nickname, phoneNum, Tools.MD5(password), recommend, verfication);
 

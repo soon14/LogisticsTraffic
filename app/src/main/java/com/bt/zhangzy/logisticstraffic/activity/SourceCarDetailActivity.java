@@ -14,6 +14,7 @@ import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
+import com.zhangzy.base.http.BaseEntity;
 
 import java.util.List;
 

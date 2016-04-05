@@ -7,15 +7,15 @@ import com.zhangzy.base.http.BaseEntity;
  */
 public class RequestOrderHistroy extends BaseEntity {
     int role, orderId;
-    int stauts;
+//    int status;
 
-    public int getStauts() {
-        return stauts;
-    }
-
-    public void setStauts(int stauts) {
-        this.stauts = stauts;
-    }
+//    public int getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(int status) {
+//        this.status = status;
+//    }
 
     public int getRole() {
         return role;

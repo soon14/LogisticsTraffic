@@ -1,5 +1,7 @@
 package com.bt.zhangzy.network;
 
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
+
 /**
  * Created by ZhangZy on 2016-1-5.
  */
@@ -12,7 +14,7 @@ http://182.92.77.31:8080/img/phone/softan.png
     * */
     TOP_IMG_BS("/img/phone/biaoshuan.png"),
     TOP_IMG_ABOUT("/img/phone/commpanyan.png"),
-    TOP_IMG_DOWNLOAD("/img/phone/dowan.png"),
+    TOP_IMG_DOWNLOAD("/img/phone/downan.png"),
     TOP_IMG_SOFTWARE("/img/phone/softan.png"),
     TOP_IMG_TENDER("/img/phone/biaoshuan.png"),
 
@@ -125,6 +127,7 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
     GetOrderDel("/orders/delete"),//删除订单 get方式，传orderId
     GetMyOrderList("/orders/show_user_order"),//获取用户所属的订单列表
     GetOrderList("/orders/list"),//获取可抢订单列表
+    GetOrderAcceptList("/orders/list_accept"),//已抢订单列表
     PostCallDriver("/orders/call_driver"),// call车接口
     PostCallMotorcade("/orders/call_motorcade"),// call 车队
     PostCallPublic("/orders/call_public"),// call 所有车
@@ -133,7 +136,9 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
     PostAllocationDriverList("/orders/list_orderhistory"),//抢单成功的司机列表（订单推送列表）
     PostAllocation("/orders/allocate"),//物流公司选择接受订单的司机并分配订单
     PostSaveOrderHistory("/orders/save_order_history"),//公共货源里，司机点抢单调用这个接口save_order_history    这个接口里会调用accept
-    PostFinishOrder("/orders/finish"),//根据订单号将订单修改成完成
+    PostStartLoading("/orders/loading"),//司机  已装车
+    PostConfirmLoading("/orders/loading_finish"),//企业 确认已装车
+    PostFinishOrder("/orders/finish"),//运输已完成 传orderId，role和roleId
 
 
     /*=========== 收藏 ============================*/
@@ -169,15 +174,18 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
     Empty("NULL");
     //  枚举类 URL 的自定义
      /*服务器端口  例：http://182.92.77.31:8080/freight/users/1  */
-    public static final String Host = "http://182.92.77.31:8080";
-    //    public static final String Host = "http://192.168.1.112:8080";
+    public static final String HostDebug = "http://182.92.77.31:8080";
+    public static final String ONLINE = "http://182.92.77.31:80";
     private String url;
 
     /**
      * @param url
      */
     AppURL(String url) {
-        this.url = Host + url;
+        if (AppParams.DEBUG)
+            this.url = HostDebug + url;
+        else
+            this.url = ONLINE + url;
     }
 
 

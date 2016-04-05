@@ -24,6 +24,16 @@ public class SourceGoodsListAdapter extends BaseAdapter {
         this.list = list;
     }
 
+    public void addList(List<JsonOrder> list) {
+        this.list.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        list.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return list.size();
@@ -67,6 +77,7 @@ public class SourceGoodsListAdapter extends BaseAdapter {
 
         return convertView;
     }
+
 
     class Holder {
         TextView startCity, stopCity;

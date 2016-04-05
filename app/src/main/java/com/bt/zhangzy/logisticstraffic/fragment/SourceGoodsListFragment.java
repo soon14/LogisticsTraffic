@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.SourceGoodsListAdapter;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.network.entity.JsonOrder;
 
 import java.util.List;
@@ -30,6 +30,24 @@ public class SourceGoodsListFragment extends Fragment {
     private SourceGoodsListAdapter adapter;
     private View layoutView;
     private OnItemClickListener listener;
+    private List<JsonOrder> waitNewList;//等待更新的数据
+    private Runnable notifyAdapter = new Runnable() {
+        @Override
+        public void run() {
+            if (adapter != null)
+                if (waitNewList != null && !waitNewList.isEmpty()) {
+                    adapter.addList(waitNewList);
+                    waitNewList = null;
+                }
+        }
+    };
+    private Runnable setAdapterRunable = new Runnable() {
+        @Override
+        public void run() {
+            if (adapter != null)
+                listView.setAdapter(adapter);
+        }
+    };
 
     public SourceGoodsListFragment() {
         super();
@@ -83,11 +101,30 @@ public class SourceGoodsListFragment extends Fragment {
         if (list == null || list.isEmpty())
             return;
         adapter = new SourceGoodsListAdapter(list);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                listView.setAdapter(adapter);
-            }
-        });
+        getActivity().runOnUiThread(setAdapterRunable);
     }
+
+    public void addList(List<JsonOrder> list) {
+        if (list == null || list.isEmpty())
+            return;
+        if (adapter == null)
+            setAdapter(list);
+        else {
+            if (waitNewList == null)
+                waitNewList = list;
+            else
+                waitNewList.addAll(list);
+
+            getActivity().runOnUiThread(notifyAdapter);
+        }
+
+    }
+
+    public void clearAdapter() {
+        if (adapter == null)
+            return;
+        adapter.clear();
+    }
+
+
 }

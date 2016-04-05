@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:autoStart="true"
     android:clickable="true"
-    android:flipInterval="3000"
+    android:flipInterval="5000"
     android:inAnimation="@anim/slide_in_right"
     android:longClickable="true"
     android:outAnimation="@anim/slide_out_left">

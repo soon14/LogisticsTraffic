@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.network.AppURL;
+import com.zhangzy.base.http.ImageHelper;
 
 /**
  * Created by ZhangZy on 2016-1-18.
@@ -64,7 +66,10 @@ public final class ViewUtils {
             ImageHelper.getInstance().load(null, img);
         } else {
             if (url.startsWith("/")) {
-                url = AppURL.Host + url;
+                if (AppParams.DEBUG)
+                    url = AppURL.HostDebug + url;
+                else
+                    url = AppURL.ONLINE + url;
             }
             if (url.startsWith("http://")) {
                 ImageHelper.getInstance().load(url, img);

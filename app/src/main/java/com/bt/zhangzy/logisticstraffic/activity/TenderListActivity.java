@@ -18,6 +18,7 @@ import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonTender;
+import com.zhangzy.base.http.BaseEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

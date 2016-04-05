@@ -153,7 +153,9 @@ public class OrderListActivity extends BaseActivity {
                 case AllocationOrder:
                     untreatedList.add(order);
                     break;
-                case CommitOrder:
+                case TradeOrder:
+                case LoadingOrder:
+                case LoadingFinishOrder:
                     submittedList.add(order);
                     order_id_list.add(order.getId());
                     break;

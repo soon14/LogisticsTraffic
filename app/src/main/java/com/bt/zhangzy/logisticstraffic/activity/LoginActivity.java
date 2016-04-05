@@ -2,11 +2,14 @@ package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
@@ -55,6 +58,19 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         });
+        password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_DONE:
+                    case EditorInfo.IME_ACTION_GO:
+                        onClick_Login(v);
+
+                        break;
+                }
+                return false;
+            }
+        });
 
         CheckBox checkBox = (CheckBox) findViewById(R.id.login_remember_ck);
         checkBox.setChecked(User.getInstance().isSave());
@@ -69,6 +85,7 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
+
 
     //跳转到注册页面
     public void onClick_Register(View view) {
@@ -91,6 +108,11 @@ public class LoginActivity extends BaseActivity {
         passwordStr = password.getText().toString();
         if (nameStr.isEmpty() || passwordStr.isEmpty()) {
             showToast("请填写用户名和密码");
+            return;
+        }
+
+        if (!Tools.IsPhoneNum(nameStr)) {
+            showToast("用户名格式错误");
             return;
         }
 

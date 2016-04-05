@@ -3,6 +3,9 @@ package com.bt.zhangzy.logisticstraffic.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.bt.zhangzy.network.entity.JsonCar;
+import com.bt.zhangzy.network.entity.ResponseAllocationDriver;
+
 import java.io.Serializable;
 
 /**
@@ -10,12 +13,52 @@ import java.io.Serializable;
  * Created by ZhangZy on 2015/7/10.
  */
 public class People implements Parcelable, Serializable {
-    private int id;
-    private int userId, driverId, motorcadeId;
+    private int id,role;
+    private int userId, driverId, motorcadeId,orderHistoryId;
     private String name;
     private String phoneNumber;
     private String jsonString;
 
+    public People() {
+    }
+
+    public People(ResponseAllocationDriver json){
+        if (json.getCars() != null && !json.getCars().isEmpty()) {
+            setMotorcadeId(json.getCars().get(0).getMotocardesDriverId());
+        }
+        //这里的 roleId = driverId
+        setDriverId(json.getDriver().getId());
+        setRole(json.getRole());
+        setId(json.getRoleId());
+        setName(json.getName());
+        setPhoneNumber(json.getPhoneNumber());
+        setUserId(json.getDriver().getUserId());
+        setOrderHistoryId(json.getId());
+    }
+
+    public People ( JsonCar jsonCar){
+        setMotorcadeId(jsonCar.getMotocardesDriverId());
+        setDriverId(jsonCar.getDriverId());
+        setId(jsonCar.getDriverId());
+        setName(jsonCar.getName());
+        setPhoneNumber(jsonCar.getPhoneNumber());
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
+    public int getOrderHistoryId() {
+        return orderHistoryId;
+    }
+
+    public void setOrderHistoryId(int orderHistoryId) {
+        this.orderHistoryId = orderHistoryId;
+    }
 
     public String getJsonString() {
         return jsonString;
@@ -89,6 +132,8 @@ public class People implements Parcelable, Serializable {
         dest.writeInt(userId);
         dest.writeInt(driverId);
         dest.writeInt(motorcadeId);
+        dest.writeInt(orderHistoryId);
+        dest.writeInt(role);
     }
 
     //实例化静态内部对象CREATOR实现接口Parcelable.Creator
@@ -110,6 +155,8 @@ public class People implements Parcelable, Serializable {
             people.setUserId(source.readInt());
             people.setDriverId(source.readInt());
             people.setMotorcadeId(source.readInt());
+            people.setOrderHistoryId(source.readInt());
+            people.setRole(source.readInt());
             return people;
         }
     };

@@ -10,7 +10,7 @@ import java.util.List;
 public class RequestOrderAllocation extends BaseEntity {
 
     int orderId;
-    List<Integer> orderHistory;
+    List<JsonOrderHistory> orderHistory;
 
 
     public int getOrderId() {
@@ -21,11 +21,11 @@ public class RequestOrderAllocation extends BaseEntity {
         this.orderId = orderId;
     }
 
-    public List<Integer> getOrderHistory() {
+    public List<JsonOrderHistory> getOrderHistory() {
         return orderHistory;
     }
 
-    public void setOrderHistory(List<Integer> orderHistory) {
+    public void setOrderHistory(List<JsonOrderHistory> orderHistory) {
         this.orderHistory = orderHistory;
     }
 }

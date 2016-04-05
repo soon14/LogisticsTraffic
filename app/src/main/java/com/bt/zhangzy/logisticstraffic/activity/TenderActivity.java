@@ -15,6 +15,7 @@ import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.UploadImageHelper;
 import com.bt.zhangzy.network.entity.JsonTender;
 import com.bt.zhangzy.tools.ViewUtils;
+import com.zhangzy.base.http.BaseEntity;
 
 /**
  * 标书信息展示  和 创建

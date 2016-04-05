@@ -29,6 +29,17 @@ public class Location implements Serializable {
             fistLatter = Tools.getFirstLetter(provinceName.charAt(0));
     }
 
+    public Location(Location location) {
+        if (location != null) {
+            this.cityName = location.getCityName();
+            this.provinceName = location.getProvinceName();
+            this.district = location.district;
+            this.latitude = location.latitude;
+            this.longitude = location.longitude;
+            this.fistLatter = location.fistLatter;
+        }
+    }
+
     public static Location Parse(String text) {
         if (TextUtils.isEmpty(text) || text.indexOf(SEPARATOR) < 0)
             return null;

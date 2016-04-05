@@ -3,11 +3,12 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.EvaluationListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.network.entity.JsonComment;
+import com.zhangzy.base.http.BaseEntity;
 
 import java.util.List;
 

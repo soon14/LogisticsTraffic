@@ -76,6 +76,7 @@ public final class AppParams {
      */
     public static final int RESULT_CODE_SELECT_DEVICES = 0x001;//订单页面选择车队司机时的请求码
     public static final int RESULT_CODE_CONFIRM_DRIVER = 0x020;//司机详情页面返回的请求码
+    public static final int RESULT_CODE_ACCEPT_DRIVERS = 0x030;//订单详情页 跳转到 司机的详情列表页
     public static final String SELECT_DEVICES_SIZE_KEY = "SELECT_DEVICES_SIZE_KEY";//订单页面选择车队司机时的司机数量
     public static final String SELECT_DRIVES_LIST_KEY = "SELECT_DRIVES_LIST_KEY";//订单页面 跳转到 选择已接单司机的列表key值；
     public static final String SELECTED_DRIVERS_LIST = "SELECTED_DRIVERS_LIST";//已选的 司机列表
@@ -92,6 +93,7 @@ public final class AppParams {
      */
     public static final String ORDER_DETAIL_KEY_TYPE = "ORDER_DETAIL_KEY_TYPE";
     public static final String ORDER_DETAIL_KEY_ORDER = "ORDER_DETAIL_KEY_ORDER";//跳转时传的 订单对象
+    public static final String ORDER_CAN_ACCEPT = "ORDER_CAN_ACCEPT";//标记这个订单是否可抢
 
     /**
      * product 在 bundle中的key值

@@ -84,4 +84,14 @@
         android:background="@color/transparent"
         android:src="@drawable/check_box_selector" />
 
+    <Button
+        android:id="@+id/item_loading_status_tx"
+        style="@style/def_btn_style_12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:hint="运输状态" />
+
 </RelativeLayout>

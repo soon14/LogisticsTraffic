@@ -7,17 +7,21 @@ package com.bt.zhangzy.logisticstraffic.data;
  未提交订单（已有订单的具体信息）<临时订单和未提交订单都属于未确认订单>	2
  订单分配中（物流 -> 司机）	3
  交易中订单（已绑定了司机 并开始配送）	4
- 已完成订单（收货人已确认收货）	5
- 已作废订单	6
+ 司机已经装货	5
+ 企业已经确认装货	6
+ 已完成订单（收货人已确认收货）	7
+ 已作废订单	8
  * Created by ZhangZy on 2016-1-29.
  */
 public enum OrderStatus {
 
     Empty,
-    TempOrder,//临时订单
-    UncommittedOrder,//未提交订单
-    AllocationOrder,//订单分配中
-    CommitOrder,//交易中订单
+    TempOrder,//临时订单  提交订单
+    UncommittedOrder,//未提交订单  发布货源
+    AllocationOrder,//订单分配中  开始交易
+    TradeOrder,//交易中订单
+    LoadingOrder,//司机已经装货	5
+    LoadingFinishOrder,//企业已经确认装货	6
     FinishedOrder,//已完成订单
     DiscardOrder;//已作废订单
 

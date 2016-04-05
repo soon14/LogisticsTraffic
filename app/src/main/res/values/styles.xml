@@ -59,6 +59,14 @@
     <style name="def_btn_style_12sp" parent="default_btn_style">
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="order_button_style" parent="default_btn_style">
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingLeft">20dp</item>
+    </style>
+
     <!-- 文本样式 带选中效果  黑色 变 白色-->
     <style name="black_while_text_style">
         <item name="android:background">@drawable/while_text_selector</item>
@@ -191,6 +199,7 @@
     <style name="home_button_style" parent="default_btn_style">
         <item name="android:background">@drawable/home_btn_selector</item>
     </style>
+
 
     <style name="orange_btn_style">
         <item name="android:background">@drawable/home_btn_selector</item>

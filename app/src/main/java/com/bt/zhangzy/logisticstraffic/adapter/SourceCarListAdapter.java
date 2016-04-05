@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.logisticstraffic.data.OrderReceiveStatus;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.tools.ViewUtils;
 
@@ -23,6 +25,9 @@ public class SourceCarListAdapter extends BaseAdapter {
     private List<JsonCar> list;
     private ArrayList<Integer> selectedList = new ArrayList<>();
     int needSize;
+    boolean isShowLoadingStatus;
+    BtnClickListener callback;
+    View.OnClickListener statusBtListener;
 
     public SourceCarListAdapter(List<JsonCar> list) {
         this.list = list;
@@ -31,6 +36,20 @@ public class SourceCarListAdapter extends BaseAdapter {
     public void initSelsect(int size) {
         selectedList = new ArrayList<>(size);
         needSize = size;
+    }
+
+    public void initLoadinStatus(BtnClickListener listener) {
+        isShowLoadingStatus = true;
+        callback = listener;
+        statusBtListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v != null && v.getTag() != null) {
+                    if (callback != null)
+                        callback.onClick((int) v.getTag());
+                }
+            }
+        };
     }
 
     public boolean isSelect(int position) {
@@ -106,6 +125,7 @@ public class SourceCarListAdapter extends BaseAdapter {
             holder.weightTx = (TextView) convertView.findViewById(R.id.item_weight_tx);
             holder.locationTx = (TextView) convertView.findViewById(R.id.item_location_tx);
             holder.checkBox = (ImageView) convertView.findViewById(R.id.item_it_select_btn);
+            holder.loadingStatusBt = (Button) convertView.findViewById(R.id.item_loading_status_tx);
 
         } else {
             holder = (Holder) convertView.getTag();
@@ -122,6 +142,7 @@ public class SourceCarListAdapter extends BaseAdapter {
         }
 
         if (needSize > 0) {
+            holder.loadingStatusBt.setVisibility(View.GONE);
             holder.checkBox.setVisibility(View.VISIBLE);
             holder.checkBox.setSelected(false);
             for (int s : selectedList) {
@@ -130,7 +151,28 @@ public class SourceCarListAdapter extends BaseAdapter {
                     break;
                 }
             }
+        } else if (isShowLoadingStatus) {
+            holder.loadingStatusBt.setVisibility(View.VISIBLE);
+
+            if (car.getReceiveStatus().ordinal() >= OrderReceiveStatus.Accept.ordinal()) {
+                // 取货中 确认取货  运输中  货已送达
+                String[] strings = parent.getResources().getStringArray(R.array.order_driver_loading_status_items);
+                holder.loadingStatusBt.setText(strings[car.getReceiveStatus().ordinal() - OrderReceiveStatus.Accept.ordinal()]);
+                switch (car.getReceiveStatus()) {
+                    case Accept:
+                    case LoadingFinish:
+                    case Finish:
+                        holder.loadingStatusBt.setEnabled(false);
+                        break;
+                    case Loading:
+                        holder.loadingStatusBt.setEnabled(true);
+                        holder.loadingStatusBt.setTag(position);
+                        holder.loadingStatusBt.setOnClickListener(statusBtListener);
+                        break;
+                }
+            }
         } else {
+            holder.loadingStatusBt.setVisibility(View.GONE);
             holder.checkBox.setVisibility(View.GONE);
         }
 
@@ -141,5 +183,10 @@ public class SourceCarListAdapter extends BaseAdapter {
         TextView nameTx, typeTx, lengthTx, weightTx, locationTx;
         ImageView headImg, recommendImg;
         ImageView checkBox;
+        Button loadingStatusBt;
+    }
+
+    public interface BtnClickListener {
+        public void onClick(int position);
     }
 }

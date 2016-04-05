@@ -1,5 +1,6 @@
 package com.bt.zhangzy.network.entity;
 
+import com.bt.zhangzy.logisticstraffic.data.OrderReceiveStatus;
 import com.zhangzy.base.http.BaseEntity;
 
 import java.util.Date;
@@ -62,6 +63,10 @@ public class JsonOrderHistory extends BaseEntity {
 
     public int getStatus() {
         return status;
+    }
+
+    public OrderReceiveStatus getReceiveStatus(){
+        return OrderReceiveStatus.parseStatus(status);
     }
 
     public void setStatus(int status) {

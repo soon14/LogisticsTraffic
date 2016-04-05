@@ -107,25 +107,6 @@
         <!-- test-->
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TestActivity" />
 
-        <!-- 微信相关-->
-        <activity
-            android:name="com.bt.zhangzy.logisticstraffic.d.wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="wxd8934ee255eb1e0f" />
-            </intent-filter>
-        </activity>
-
-        <receiver android:name="com.bt.zhangzy.pay.WXAppRegister">
-            <intent-filter>
-                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
-            </intent-filter>
-        </receiver>
-        <!--end-->
 
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->

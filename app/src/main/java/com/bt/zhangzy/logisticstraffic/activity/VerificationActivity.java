@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -66,8 +67,13 @@ public class VerificationActivity extends BaseActivity {
 
     private void requestFinishOrder() {
 
+//        RequestOrderAccept_Reject params = new RequestOrderAccept_Reject();
+//        params.setOrderId(orderId);
+
         RequestOrderAccept_Reject params = new RequestOrderAccept_Reject();
         params.setOrderId(orderId);
+        params.setRole(User.getInstance().getUserType().toRole());
+        params.setRoleId(User.getInstance().getRoleId());
         HttpHelper.getInstance().post(AppURL.PostFinishOrder, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {

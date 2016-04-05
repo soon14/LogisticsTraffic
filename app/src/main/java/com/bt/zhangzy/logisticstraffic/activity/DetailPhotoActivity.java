@@ -29,6 +29,7 @@ import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.RequestAddCar;
+import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 
 /**
@@ -123,6 +124,15 @@ public class DetailPhotoActivity extends BaseActivity {
             }
         }
 
+        //默认位置
+        String locStr = getStringFromTextView(R.id.detail_car_location);
+        if (TextUtils.isEmpty(locStr)) {
+            Location location = User.getInstance().getLocation();
+            if (location != null) {
+                setTextView(R.id.detail_car_location, location.toText());
+            }
+        }
+
     }
 
     //初始化 企业相关view
@@ -137,9 +147,12 @@ public class DetailPhotoActivity extends BaseActivity {
             if (user.getUserType() == Type.EnterpriseType) {
                 JsonEnterprise enterprise = user.getJsonTypeEntity();
                 initUserStatus(enterprise.getStatus());
-                setTextView(R.id.photo_address_ed, enterprise.getAddress());
                 setTextView(R.id.photo_name_ed, enterprise.getName());
-//                setTextView(R.id.photo_city_tx, enterprise.get);
+
+                String address = enterprise.getAddress();
+                String[] strings = Tools.splitAddress(address, ",");
+                setTextView(R.id.photo_city_tx, strings[0]);
+                setTextView(R.id.photo_address_ed, strings[1]);
                 yyzzUrl = enterprise.getBusinessLicenseUrl();
                 swdjzUrl = enterprise.getTaxRegistrationCertificateUrl();
                 mtzpUrl = enterprise.getPhotoUrl();
@@ -148,8 +161,12 @@ public class DetailPhotoActivity extends BaseActivity {
                 requestJsonCompany = company;
                 initUserStatus(company.getStatus());
                 setTextView(R.id.photo_name_ed, company.getName());
-                setTextView(R.id.photo_address_ed, company.getAddress());
-                setTextView(R.id.photo_city_tx, company.getArea());
+                String address = company.getAddress();
+                String[] strings = Tools.splitAddress(address, ",");
+                setTextView(R.id.photo_city_tx, strings[0]);
+                setTextView(R.id.photo_address_ed, strings[1]);
+//                setTextView(R.id.photo_address_ed, address);
+//                setTextView(R.id.photo_city_tx, company.getArea());
                 yyzzUrl = company.getBusinessLicenseUrl();
                 swdjzUrl = company.getTaxRegistrationCertificateUrl();
                 mtzpUrl = company.getPhotoUrl();

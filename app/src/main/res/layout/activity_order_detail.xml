@@ -29,8 +29,8 @@
                 <TextView
                     style="@style/tx_black_df_style"
                     android:layout_marginRight="10dp"
-                    android:textStyle="bold"
-                    android:text="交易订单号" />
+                    android:text="交易订单号"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/order_detail_number_tx"
@@ -47,8 +47,8 @@
                 <TextView
                     style="@style/tx_black_df_style"
                     android:layout_marginRight="10dp"
-                    android:textStyle="bold"
-                    android:text="订单状态" />
+                    android:text="订单状态"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/order_detail_status_tx"
@@ -69,7 +69,7 @@
                     <TextView
                         android:id="@+id/order_detail_enterprise_tx"
                         style="@style/tx_order_style"
-                        android:hint="发货企业名称"/>
+                        android:hint="发货企业名称" />
                 </TableRow>
 
                 <View style="@style/line_style_horizontal" />
@@ -85,8 +85,8 @@
                         style="@style/tx_order_style"
                         android:background="@color/white"
                         android:clickable="true"
-                        android:onClick="onClick_Company"
-                        android:hint="承接物流公司名称" />
+                        android:hint="承接物流公司名称"
+                        android:onClick="onClick_Company" />
                 </TableRow>
 
             </TableLayout>
@@ -282,8 +282,8 @@
                         android:hint="收货人电话"
                         android:inputType="phone"
                         android:maxLength="11"
-                        android:phoneNumber="true"
-                        android:onClick="onClick_InputPhone" />
+                        android:onClick="onClick_InputPhone"
+                        android:phoneNumber="true" />
                 </TableRow>
 
                 <View style="@style/line_style_horizontal" />
@@ -309,15 +309,25 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="15dp"
                         android:background="@color/transparent"
-                        android:src="@drawable/add_devices"
-                        android:onClick="onClick_SelectDriverBtn" />
+                        android:onClick="onClick_SelectDriverBtn"
+                        android:src="@drawable/add_devices" />
                 </TableRow>
 
             </TableLayout>
 
             <View style="@style/line_style_horizontal" />
+            <!-- to do 交易中的 司机列表-->
+
+            <Button
+                android:id="@+id/order_detail_drivers_list_bt"
+                style="@style/order_button_style"
+                android:text="司机列表"
+                android:onClick="onClick_DriverList" />
+
+            <View style="@style/line_style_horizontal" />
             <!-- to do 已选司机列表-->
             <TableRow
+                android:id="@+id/order_detail_select_driver_ly"
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp">
 
@@ -344,27 +354,19 @@
 
         <Button
             android:id="@+id/order_detail_submit"
-            style="@style/orange_btn_noPadding_style"
+            style="@style/order_button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick_SubmitOrder"
-            android:paddingBottom="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="5dp"
             android:text="提交订单" />
 
         <Button
             android:id="@+id/order_detail_call_phone_bt"
-            style="@style/orange_btn_noPadding_style"
+            style="@style/order_button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:onClick="onClick_CallPhone"
-            android:paddingBottom="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="5dp"
             android:text="联系客服" />
     </LinearLayout>
 
