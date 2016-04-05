@@ -27,4 +27,4 @@
 #-keepattributes *Annotation
 # bean
 -keep com.zhangzy.base.http.BaseEntity{ *; }
--keep public class * extends BaseEntity{ *; }
+-keep public class * extends com.zhangzy.base.http.BaseEntity{ *; }

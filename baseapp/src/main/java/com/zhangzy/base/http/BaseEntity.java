@@ -4,6 +4,7 @@ package com.zhangzy.base.http;
 import com.alibaba.fastjson.JSON;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,7 +60,38 @@ public class BaseEntity implements Serializable {
         return JSON.parseArray(str, tClass);
     }
 
-//    public static String toStringArray(){
-//        return JSON.toJSONString()
-//    }
+    /**
+     * 将数据 解析成 List< String >
+     *方便 bundle 中的数据传递
+     * @param list
+     * @param <T>
+     * @return
+     */
+    public static <T extends BaseEntity> ArrayList<String> ParseArrayToString(List<T> list) {
+        if (list == null || list.isEmpty())
+            return null;
+        ArrayList<String> arrayList = new ArrayList<String>();
+        for (T t : list) {
+            arrayList.add(t.toString());
+        }
+        return arrayList;
+    }
+
+    /**
+     * 将 string list 数据解析成 list json数据
+     *
+     * @param arrayList
+     * @param tClass
+     * @param <T>
+     * @return
+     */
+    public static <T extends BaseEntity> ArrayList<T> ParseArrayToEntity(ArrayList<String> arrayList, Class<T> tClass) {
+        if (arrayList == null || arrayList.isEmpty())
+            return null;
+        ArrayList<T> list = new ArrayList<T>();
+        for (String string : arrayList) {
+            list.add(BaseEntity.ParseEntity(string, tClass));
+        }
+        return list;
+    }
 }
