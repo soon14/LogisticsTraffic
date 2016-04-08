@@ -18,7 +18,16 @@ public class ResponseLogin extends BaseEntity {
     JsonMember member;
     ResponseFavorites favorites;
     List<JsonMotorcades> motorcades;
+    List<JsonCar> cars;
 
+
+    public List<JsonCar> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<JsonCar> cars) {
+        this.cars = cars;
+    }
 
     public JsonMember getMember() {
         return member;

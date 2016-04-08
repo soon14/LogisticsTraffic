@@ -24,6 +24,22 @@ public final class Tools {
 
     private static final String TAG = Tools.class.getSimpleName();
 
+    /**
+     * 判断多个参数是否为空
+     *
+     * @param params
+     * @return
+     */
+    public static boolean isEmptyStrings(String... params) {
+        if (params == null)
+            return true;
+        for (String string : params)
+            if (TextUtils.isEmpty(string))
+                return true;
+
+        return false;
+    }
+
 
     /**
      * 验证手机号
@@ -142,7 +158,8 @@ public final class Tools {
 
     /*"yyyy-MM-dd HH:mm:ss"
     * */
-    static SimpleDateFormat DefaultDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    static final String FORMAT_DEFAULT = "yyyy-MM-dd";
+    static SimpleDateFormat DefaultDateFormat = new SimpleDateFormat(FORMAT_DEFAULT, Locale.getDefault());
 
     /**
      * 转换显示日期
@@ -151,10 +168,15 @@ public final class Tools {
      * @return
      */
     public static String toStringDate(Date date) {
+        if (date == null)
+            return "";
         return DefaultDateFormat.format(date);
+//        return toStringDate(date,FORMAT_DEFAULT);
     }
 
     public static String toStringDate(Date date, String format) {
+        if (date == null)
+            return "";
         return new SimpleDateFormat(format, Locale.getDefault()).format(date);
     }
 

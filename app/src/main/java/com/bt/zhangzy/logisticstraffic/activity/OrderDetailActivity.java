@@ -48,6 +48,7 @@ import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 import com.zhangzy.base.http.BaseEntity;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -160,9 +161,10 @@ public class OrderDetailActivity extends BaseActivity {
 //            setTextView(R.id.order_detail_number_tx, String.valueOf(jsonOrder.getId()));
             //隐藏订单号
             findViewById(R.id.order_detail_number_ly).setVisibility(View.GONE);
-        } else
-            setTextView(R.id.order_detail_number_tx, String.valueOf(jsonOrder.getId()));
-
+        } else {
+            DecimalFormat format = new DecimalFormat("####-0000-0000");
+            setTextView(R.id.order_detail_number_tx, format.format(jsonOrder.getId()));
+        }
 
 //        setTextView(R.id.order_detail_enterprise_tx, "企业ID=" + jsonOrder.getEnterpriseId());
 //        setTextView(R.id.order_detail_company_tx, "物流ID=" + jsonOrder.getCompanyId());

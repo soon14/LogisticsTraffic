@@ -127,48 +127,47 @@ public class HomeFragment extends BaseHomeFragment {
     private void initViewFlipper(View view) {
         if (view == null)
             return;
-        ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_about), AppURL.TOP_IMG_ABOUT.toString());
+        ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_about), AppURL.TOP_IMG_DOWNLOAD.toString());
         ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_about_app), AppURL.TOP_IMG_SOFTWARE.toString());
-        ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_about_company), AppURL.TOP_IMG_DOWNLOAD.toString());
-        if (AppParams.DRIVER_APP) {
-            view.findViewById(R.id.home_flipper_tender).setVisibility(View.GONE);
-        } else {
+        ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_about_company), AppURL.TOP_IMG_ABOUT.toString());
+        if (!AppParams.DRIVER_APP)
             ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_tender), AppURL.TOP_IMG_TENDER.toString());
-        }
 
-//        ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.home_flipper);
+        //        ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.home_flipper);
         ViewFlipper flipper = (ViewFlipper) view;
         flipper.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ViewFlipper flipper = (ViewFlipper) v;
-                AppURL url = null;
-                String page_name = null;
-                switch (flipper.getCurrentView().getId()) {
-                    case R.id.home_flipper_about:
-                        url = AppURL.DOWNLOAD_APP;
-                        page_name = "下载";
-                        break;
-                    case R.id.home_flipper_about_app:
-                        url = AppURL.ABOUT_APP;
-                        page_name = "软件介绍";
-                        break;
-                    case R.id.home_flipper_about_company:
-                        url = AppURL.ABOUT_COMPANY;
-                        page_name = "公司介绍";
-                        break;
-                    case R.id.home_flipper_tender:
-                        getHomeActivity().startActivity(TenderListActivity.class);
-                        return;
-                }
-                if (!TextUtils.isEmpty(page_name)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(AppParams.WEB_PAGE_NAME, page_name);
-                    bundle.putString(AppParams.WEB_PAGE_URL, url.toString());
-                    getHomeActivity().startActivity(WebViewActivity.class, bundle);
-                }
-            }
-        });
+                                       @Override
+                                       public void onClick(View v) {
+                                           ViewFlipper flipper = (ViewFlipper) v;
+                                           AppURL url = null;
+                                           String page_name = null;
+                                           switch (flipper.getCurrentView().getId()) {
+                                               case R.id.home_flipper_about:
+                                                   url = AppURL.DOWNLOAD_APP;
+                                                   page_name = "下载";
+                                                   break;
+                                               case R.id.home_flipper_about_app:
+                                                   url = AppURL.ABOUT_APP;
+                                                   page_name = "软件介绍";
+                                                   break;
+                                               case R.id.home_flipper_about_company:
+                                                   url = AppURL.ABOUT_COMPANY;
+                                                   page_name = "公司介绍";
+                                                   break;
+                                               case R.id.home_flipper_tender:
+                                                   getHomeActivity().startActivity(TenderListActivity.class);
+                                                   return;
+                                           }
+                                           if (!TextUtils.isEmpty(page_name)) {
+                                               Bundle bundle = new Bundle();
+                                               bundle.putString(AppParams.WEB_PAGE_NAME, page_name);
+                                               bundle.putString(AppParams.WEB_PAGE_URL, url.toString());
+                                               getHomeActivity().startActivity(WebViewActivity.class, bundle);
+                                           }
+                                       }
+                                   }
+
+        );
 
     }
 
@@ -364,7 +363,8 @@ public class HomeFragment extends BaseHomeFragment {
         if (listHeadView == null) {
 //            listHeadView = LayoutInflater.from(getActivity()).inflate(R.layout.home_list_header, null);
             //删除推荐位
-            listHeadView = LayoutInflater.from(getActivity()).inflate(R.layout.home_adveriting_item, null);
+            int resource = AppParams.DRIVER_APP ? R.layout.home_adveriting_no_tender : R.layout.home_adveriting_item;
+            listHeadView = LayoutInflater.from(getActivity()).inflate(resource, null);
 
         }
         if (listView.getHeaderViewsCount() == 0) {

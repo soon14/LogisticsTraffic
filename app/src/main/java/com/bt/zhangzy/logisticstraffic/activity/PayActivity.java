@@ -1,8 +1,10 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
@@ -34,23 +36,32 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
         payGroup = (RadioGroup) findViewById(R.id.pay_select_group);
         payMethodGroup = (RadioGroup) findViewById(R.id.pay_method_group);
         payGroup.setOnCheckedChangeListener(this);
-        payGroup.check(R.id.pay_select_12m);
+        payGroup.check(R.id.pay_select_3y);
         payMethodGroup.setOnCheckedChangeListener(this);
         payMethodGroup.check(R.id.pay_method_weixin);
+        TextView textView = (TextView) findViewById(R.id.pay_select_2y);
+        textView.setText(Html.fromHtml(getString(R.string.pay_two_info)));
+        textView = (TextView) findViewById(R.id.pay_select_3y);
+        textView.setText(Html.fromHtml(getString(R.string.pay_three_info)));
+
+        if (!AppParams.DEBUG) {
+            //微信支付 暂时屏蔽
+            findViewById(R.id.pay_method_weixin_other).setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (group == payGroup) {
             switch (checkedId) {
-                case R.id.pay_select_3m:
-                    payMoney = 30;
-                    break;
-                case R.id.pay_select_6m:
-                    payMoney = 60;
-                    break;
-                case R.id.pay_select_12m:
+                case R.id.pay_select_1y:
                     payMoney = 120;
+                    break;
+                case R.id.pay_select_2y:
+                    payMoney = 216;
+                    break;
+                case R.id.pay_select_3y:
+                    payMoney = 288;
                     break;
             }
         } else if (group == payMethodGroup) {
@@ -65,8 +76,8 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
     }
 
     public void onClick_Pay(View view) {
-        if (AppParams.DEBUG)
-            payMoney = 0.01;
+//        if (AppParams.DEBUG)
+//            payMoney = 1;
         String message = "您需要支付费用：" + payMoney + "元";
 
         switch (payMethodGroup.getCheckedRadioButtonId()) {
@@ -85,6 +96,21 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
                     }
                 });
                 break;
+            case R.id.pay_method_weixin_other:
+
+                WeiXinPay.getInstanse().payOther(this, message, (int) payMoney, (int) User.getInstance().getId());
+                WeiXinPay.getInstanse().setCallback(new WXPayResultCallback() {
+                    @Override
+                    public void paySuccess() {
+//                        gotoWebPage();
+                    }
+
+                    @Override
+                    public void payFailed(String msg) {
+
+                    }
+                });
+                break;
             case R.id.pay_method_zhifubao:
 //                AliPayDemo.getInstance().pay(this);
                 AliPay.getInstance().payUnifiedOrder(this, message, payMoney, (int) User.getInstance().getId(), ContextTools.getLocalIpAddress());
@@ -98,7 +124,32 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
                     public void payFailed(String msg) {
                         showConfirmDialog("支付失败", msg);
                     }
+
+                    @Override
+                    public void payOther(String url) {
+
+                    }
                 });
+                break;
+            case R.id.pay_method_zhifubao_other:
+                String url = AliPay.getInstance().payOther(this, message, payMoney, (int) User.getInstance().getId(), ContextTools.getLocalIpAddress());
+                gotoWebPage("支付宝扫码支付", url);
+//                AliPay.getInstance().setCallback(new AliPayResultCallback() {
+//                    @Override
+//                    public void paySuccess() {
+//
+//                    }
+//
+//                    @Override
+//                    public void payFailed(String msg) {
+//
+//                    }
+//
+//                    @Override
+//                    public void payOther(String url) {
+//                        gotoWebPage("支付宝扫码支付", url);
+//                    }
+//                });
                 break;
         }
     }
@@ -108,7 +159,7 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
             @Override
             public void onClick(View v) {
                 //跟新用户的支付状态
-                User.getInstance().requestPayStatus();
+                User.getInstance().requestPayStatus(null);
                 finish();
             }
         };
@@ -119,6 +170,13 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
                 .show();
 
 
+    }
+
+    public void gotoWebPage(String title, String url) {
+        Bundle bundle = new Bundle();
+        bundle.putString(AppParams.WEB_PAGE_NAME, title);
+        bundle.putString(AppParams.WEB_PAGE_URL, url);
+        startActivity(WebViewActivity.class, bundle);
     }
 
 }

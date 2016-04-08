@@ -1,5 +1,6 @@
 package com.bt.zhangzy.logisticstraffic.data;
 
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -63,12 +64,13 @@ public class User implements Serializable {
 
     /**
      * 检查用户的审核状态
+     *
      * @param activity
      * @return
      */
-    public boolean checkUserStatus(BaseActivity activity){
-        if(userStatus != UserStatus.CHECKED && userStatus != UserStatus.PAID){
-            switch (userStatus){
+    public boolean checkUserStatus(BaseActivity activity) {
+        if (userStatus != UserStatus.CHECKED && userStatus != UserStatus.PAID) {
+            switch (userStatus) {
                 case UN_CHECKED:
                     activity.showToast("用户未审核");
                     break;
@@ -86,6 +88,7 @@ public class User implements Serializable {
         }
         return false;
     }
+
     /**
      * 加载用回对象，用于数据存储；
      *
@@ -327,7 +330,7 @@ public class User implements Serializable {
     }
 
 
-    public boolean getLogin() {
+    public boolean isLogin() {
         return isLogin;
     }
 
@@ -451,6 +454,10 @@ public class User implements Serializable {
                 if (json.getDriver() != null) {
                     user.setJsonTypeEntity(json.getDriver());
                     user.setDriverID(json.getDriver().getId());
+                    List<JsonCar> cars = json.getCars();
+                    if (cars != null && !cars.isEmpty()) {
+                        setJsonCar(cars.get(0));
+                    }
                 }
 //                user.setMotorcades(BaseEntity.ParseArray(json.getMotorcades(), JsonMotorcades.class));
                 break;
@@ -488,7 +495,7 @@ public class User implements Serializable {
     /**
      * 跟新用户的支付状态
      */
-    public void requestPayStatus() {
+    public void requestPayStatus(final Handler.Callback callback) {
         HashMap<String, String> params = new HashMap<>();
         params.put("userId", String.valueOf(getId()));
         HttpHelper.getInstance().get(AppURL.GetPayStatus, params, new JsonCallback() {
@@ -496,6 +503,8 @@ public class User implements Serializable {
             public void onSuccess(String msg, String result) {
                 JsonMember jsonMember = ParseJson_Object(result, JsonMember.class);
                 updatePayStatus(jsonMember);
+                if (callback != null)
+                    callback.handleMessage(null);
             }
 
             @Override
@@ -537,6 +546,7 @@ public class User implements Serializable {
                 user.setPhoneNum(jsonUser.getPhoneNumber());
                 user.setNickName(jsonUser.getNickname());
                 user.setHeadUrl(jsonUser.getPortraitUrl());
+                user.userStatus = UserStatus.parse(jsonUser.getStatus());
                 user.setJsonUser(jsonUser);
                 switch (jsonUser.getRole()) {
                     case 1:

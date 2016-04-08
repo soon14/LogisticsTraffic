@@ -166,7 +166,7 @@ public class ServicesActivity extends BaseActivity {
                 break;
             case R.id.services_cangchu_btn:
                 pageName = "仓储";
-                url = "jd";
+                url = "cc";
                 break;
             case R.id.services_canyin_btn:
                 pageName = "餐饮";
@@ -174,7 +174,7 @@ public class ServicesActivity extends BaseActivity {
                 break;
             case R.id.services_jiudian_btn:
                 pageName = "酒店";
-                url = "cc";
+                url = "jd";
                 break;
             case R.id.services_xiyu_btn:
                 pageName = "洗浴";

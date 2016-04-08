@@ -20,6 +20,10 @@ import java.util.HashMap;
 public class AliPay {
     private static final String TAG = AliPay.class.getSimpleName();
 
+    public static final String HOST = "http://182.92.77.31:8080";
+    public static final String PAY_URL = HOST + "/pay/alipay_submit";
+    public static final String PAY_OTHER_URL = HOST + "/pay/alipay_qr_submit";
+
     private static final int SDK_PAY_FLAG = 1;
     // 商户PID
     public static final String PARTNER = "2088121804817103";// APPID= "2016012101110584";
@@ -101,15 +105,8 @@ public class AliPay {
         this.callback = callback;
     }
 
-    public void payUnifiedOrder(Activity context, String msg, double amount, int userId, String ip) {
-        activity = context;
-//        activity.showProgress("支付中···");
-
-//        Log.d(TAG, "调用微信openWXApp:" + iwxapi.openWXApp());
-
-
-        String host = "http://182.92.77.31:8080";
-        String url = host + "/pay/alipay_submit";
+    public String  payOther(Activity context, String msg, double amount, int userId, String ip) {
+        //http://182.92.77.31:8080/pay/alipay_qr_submit?userId=164&subject=1&body=1&total_fee=1
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("subject", "会员购买");
         params.put("body", msg);
@@ -117,16 +114,34 @@ public class AliPay {
         params.put("userId", String.valueOf(userId));
         params.put("from", TextUtils.isEmpty(ip) ? "192.168.1.1" : ip);
 
-//        WeiXinJson params = new WeiXinJson();
-//        params.setTitle("会员购买");
-//        params.setDetail(msg);
-//        params.setAmount(amount);
-//        params.setUserId(userId);
-//        String localWifiIP = ContextTools.getLocalWifiIP(context);
-//        String localIpAddress = ContextTools.getLocalIpAddress();
-//        Log.d(TAG, "wifi IP=" + localWifiIP + " IP=" + localIpAddress);
-//        params.setFrom(localWifiIP.startsWith("0.") ? localIpAddress : localWifiIP);
-        HttpHelper.getInstance().get(url, params, new JsonCallback() {
+        return HttpHelper.toString(PAY_OTHER_URL,params);
+//        HttpHelper.getInstance().get(PAY_OTHER_URL, params, new JsonCallback() {
+//            @Override
+//            public void onSuccess(String msg, String result) {
+//                if(callback !=null)
+//                    callback.payOther(result);
+//            }
+//
+//            @Override
+//            public void onFailed(String str) {
+//
+//            }
+//        });
+    }
+    public void payUnifiedOrder(Activity context, String msg, double amount, int userId, String ip) {
+        activity = context;
+//        activity.showProgress("支付中···");
+
+
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("subject", "会员购买");
+        params.put("body", msg);
+        params.put("total_fee", String.valueOf(amount));
+        params.put("userId", String.valueOf(userId));
+        params.put("from", TextUtils.isEmpty(ip) ? "192.168.1.1" : ip);
+
+        HttpHelper.getInstance().get(PAY_URL, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 response = ParseJson_Object(result, Response.class);

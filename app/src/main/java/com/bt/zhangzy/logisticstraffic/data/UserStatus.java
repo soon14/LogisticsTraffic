@@ -21,6 +21,7 @@ public enum UserStatus {
     ;
 
     public static UserStatus parse(int status) {
+        status++;
         return status > -1 && status < values().length ? values()[status] : UN_CHECKED;
     }
 

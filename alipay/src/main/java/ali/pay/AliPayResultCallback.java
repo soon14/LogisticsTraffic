@@ -8,4 +8,6 @@ public interface AliPayResultCallback {
     void paySuccess();
 
     void payFailed(String msg);
+
+    void payOther(String url);
 }

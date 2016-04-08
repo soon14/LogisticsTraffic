@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             style="@style/dialog_tip_style"
-            android:text="联系我时，请说是在物流汇上看到的，谢谢！\n 是否拨打？" />
+            android:text="@string/call_phone_tx" />
 
         <!--<TextView-->
             <!--android:layout_width="match_parent"-->

@@ -58,7 +58,7 @@ public class HomeActivity extends BaseActivity {
 
     //中间的按钮
     private ImageButton customBtn;
-//    boolean lastLogin = User.getInstance().getLogin();
+//    boolean lastLogin = User.getInstance().isLogin();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -276,7 +276,7 @@ public class HomeActivity extends BaseActivity {
 
     private void setPage(int page, View view) {
         //登陆判断
-        if (page == INDEX_USER && !User.getInstance().getLogin()) {
+        if (page == INDEX_USER && !User.getInstance().isLogin()) {
             Bundle bundle = new Bundle();
             bundle.putString(AppParams.BUNDLE_PAGE_KEY, AppParams.PAGE_USER);
             startActivity(LoginActivity.class, bundle);
@@ -336,7 +336,7 @@ public class HomeActivity extends BaseActivity {
      */
     private void createView() {
         //TODO 浮窗音效 小汽车下单加入音效
-        if (!User.getInstance().getLogin() || User.getInstance().getUserType() == Type.EnterpriseType) {
+        if (!User.getInstance().isLogin() || User.getInstance().getUserType() == Type.EnterpriseType) {
             Log.w(TAG, "用户 不符合浮窗创建条件");
             floatView = null;
             return;
@@ -403,7 +403,7 @@ public class HomeActivity extends BaseActivity {
 //        startActivity(ServicesActivity.class);
 //        replace(R.id.home_content, new ServicesFragment(), TAG_SERVICES);
 //        setPage(INDEX_SERVICES, view);
-        if (!User.getInstance().getLogin()) {
+        if (!User.getInstance().isLogin()) {
             gotoLogin();
             return;
         }
@@ -535,7 +535,7 @@ public class HomeActivity extends BaseActivity {
             String[] str = ContextTools.OnActivityRsultForContacts(this, data);
             if (str != null && str.length > 1 && !TextUtils.isEmpty(str[1])) {
                 //给拿到的电话发送短信
-                ContextTools.SendSMS(this, str[1], "测试短信：推荐内容   快来使用易运通吧！！");
+                ContextTools.SendSMS(this, str[1], String.format(getString(R.string.app_recommend_sms), getString(R.string.app_name), AppURL.DOWNLOAD_APP.toString()));
             }
 
         } else if (UploadImageHelper.getInstance().onActivityResult(this, requestCode, resultCode, data)) {

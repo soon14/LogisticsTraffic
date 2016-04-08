@@ -221,7 +221,7 @@ public class SourceGoodsActivity extends BaseActivity {
     }
 
     private void gotoDetail(JsonOrder order, boolean is_accept) {
-        if (User.getInstance().getLogin()) {
+        if (User.getInstance().isLogin()) {
             if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
                 gotoPay();
                 return;

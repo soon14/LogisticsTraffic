@@ -247,7 +247,7 @@ public class LogisticsTrafficApplication extends Application {
      */
     public void callPhone(String phoneNumber) {
         //to do 接口 更新拨打电话的次数
-        if (!User.getInstance().getLogin()) {
+        if (!User.getInstance().isLogin()) {
             currentAct.gotoLogin();
 
         } else {

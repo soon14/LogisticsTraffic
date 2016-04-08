@@ -1,6 +1,8 @@
 package com.bt.zhangzy.logisticstraffic.fragment;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,7 @@ import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.entity.JsonMember;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseLogin;
 import com.bt.zhangzy.tools.Tools;
@@ -57,7 +60,7 @@ public class UserFragment extends BaseHomeFragment {
             view.findViewById(R.id.user_tender_item).setVisibility(View.GONE);
         }
         //更新用户信息
-        if (user.getLogin()) {
+        if (user.isLogin()) {
             if (user.isSave() && !TextUtils.isEmpty(user.getPassword())) {
                 //如果保存了密码 则自动登录
                 request_Login(user.getPhoneNum(), user.getPassword());
@@ -65,7 +68,7 @@ public class UserFragment extends BaseHomeFragment {
                 //更新用户信息；
                 User.getInstance().requestUserInfo();
             }
-            User.getInstance().requestPayStatus();
+//            User.getInstance().requestPayStatus();
 
             //启动服务 上传坐标 仅限司机用户
             if (user.getUserType() == Type.DriverType) {
@@ -138,26 +141,51 @@ public class UserFragment extends BaseHomeFragment {
         name.setText(User.getInstance().getPhoneNum());
 
 
-        if (User.getInstance().getLogin()) {
+        if (User.getInstance().isLogin()) {
             JsonUser jsonUser = User.getInstance().getJsonUser();
             ViewUtils.setImageUrl((ImageView) findViewById(R.id.user_head_img), jsonUser.getPortraitUrl());
 
+
             Date registerDate = jsonUser.getRegisterDate();
             TextView regdate = (TextView) findViewById(R.id.user_reg_date_tx);
-            if (AppParams.DEBUG) {
-                ViewUtils.setText(regdate, "版本号:" + getHomeActivity().getApp().getVersionName());
-            } else {
-                if (registerDate != null) {
-                    regdate.setText(Tools.toStringDate(registerDate, "yyyy-MM-dd"));
-                } else {
-                    regdate.setVisibility(View.GONE);
-                }
-            }
-
+//            if (AppParams.DEBUG) {
+            ViewUtils.setText(regdate, String.format(getString(R.string.app_version_tx), getHomeActivity().getApp().getVersionName()));
+//            } else {
+//                if (registerDate != null) {
+//                    regdate.setText(Tools.toStringDate(registerDate, "yyyy-MM-dd"));
+//                } else {
+//                    regdate.setVisibility(View.GONE);
+//                }
+//            }
+            refreshPayStatus();
             //更新用户的支付状态
             if (User.getInstance().getUserType() == Type.DriverType)
-                User.getInstance().requestPayStatus();
+                User.getInstance().requestPayStatus(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                refreshPayStatus();
+                            }
+                        });
+                        return false;
+                    }
+                });
         }
+    }
+
+    private void refreshPayStatus() {
+        TextView expireTx = (TextView) findViewById(R.id.user_expire_date_tx);
+        JsonMember payJson = User.getInstance().getPayJson();
+        if (payJson != null) {
+            if (payJson.getExpireTime() != null) {
+                ViewUtils.setText(expireTx, String.format(getString(R.string.user_expire_str), Tools.toStringDate(payJson.getExpireTime())));
+                return;
+            }
+        }
+        expireTx.setVisibility(View.GONE);
     }
 
     /*刷新 页面上的信息 在UI线程中*/

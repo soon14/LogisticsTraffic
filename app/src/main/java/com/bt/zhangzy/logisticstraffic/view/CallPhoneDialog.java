@@ -24,6 +24,7 @@ public class CallPhoneDialog extends BaseDialog {
         setView(R.layout.dialog_call_phone);
 //        confirmBt = (Button) findViewById(R.id.dialog_btn_yes);
         findViewById(R.id.dialog_btn_no).setOnClickListener(this);
+        setTextView(R.id.dialog_phone_info_tx, String.format(context.getString(R.string.call_phone_tx), context.getString(R.string.app_name)));
     }
 
     public CallPhoneDialog setCompanyId(int companyId) {

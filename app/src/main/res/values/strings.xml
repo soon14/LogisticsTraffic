@@ -4,7 +4,7 @@
     <string name="app_type">company</string>
     <string name="app_phone">4001689256</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="app_recommend_sms">我正在用“%1$s”，你也快来试试吧！下载地址:%2$s</string>
     <string name="action_settings">Settings</string>
     <string name="order_change_type_title">请选择货物类型</string>
     <string name="order_change_truck_type_title">请选择需要的车型</string>
@@ -24,10 +24,12 @@
     <string name="order_submit_order_driver_grab">抢单</string>
     <string name="order_submit_order_driver_finish">验证收货</string>
     <string name="order_submit_order_evaluate">评价</string>
-
-
-
-
+    <string name="pay_two_info"><![CDATA[两年 216元 <font color=\'red\'>(九折)</font>]]></string>
+    <string name="pay_three_info"><![CDATA[三年 288元 <font color=\'red\'>(八折)</font>]]></string>
+    <string name="pay_one_info">一年 120元</string>
+    <string name="user_expire_str">会员有效期至：%s</string>
+    <string name="app_version_tx">版本：%s</string>
+    <string name="call_phone_tx">联系我时，请说是在%s上看到的，谢谢！\n 是否拨打？</string>
 
 
 </resources>

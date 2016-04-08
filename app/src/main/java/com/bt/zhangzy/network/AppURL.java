@@ -11,12 +11,18 @@ public enum AppURL {
 http://182.92.77.31:8080/img/phone/commpanyan.png
 http://182.92.77.31:8080/img/phone/downan.png
 http://182.92.77.31:8080/img/phone/softan.png
+
+/phoneimg/phone/biaoshuan.png
+/phoneimg/phone/commpanyan.png
+/phoneimg/phone/downan.png
+/phoneimg/phone/softan.png
+/phoneimg/phone/biaoshuan.png
     * */
-    TOP_IMG_BS("/img/phone/biaoshuan.png"),
-    TOP_IMG_ABOUT("/img/phone/commpanyan.png"),
-    TOP_IMG_DOWNLOAD("/img/phone/downan.png"),
-    TOP_IMG_SOFTWARE("/img/phone/softan.png"),
-    TOP_IMG_TENDER("/img/phone/biaoshuan.png"),
+    TOP_IMG_BS("/phoneimg/phone/biaoshuan.png"),
+    TOP_IMG_ABOUT("/phoneimg/phone/commpanyan.png"),
+    TOP_IMG_DOWNLOAD("/phoneimg/phone/downan.png"),
+    TOP_IMG_SOFTWARE("/phoneimg/phone/softan.png"),
+    TOP_IMG_TENDER("/phoneimg/phone/biaoshuan.png"),
 
 
     ABOUT_APP("/html/software.html"),//软件
@@ -25,11 +31,11 @@ http://182.92.77.31:8080/img/phone/softan.png
     ABOUT_COMPANY("/html/company.html"),//公司介绍
     LOCATION_MAP("/mall/qiantai/ditu.html?longitude=%d1&latitude=%d2"),
     //周边服务
-    LOCATION_MAP_SERVERS("/ditu2.html?longitude=%f1&latitude=%f2&zf=%s"),
+    LOCATION_MAP_SERVERS("/ambitus.html?longitude=%f1&latitude=%f2&zf=%s"),
     //订单 中的司机位置
-    LOCATION_MAP_ORDER("/ditu.html?orderId=%s"),
+    LOCATION_MAP_ORDER("/cartrack.html?orderId=%s"),
     //根据信息部id 标识位置
-    LOCATION_MAP_COMPANY("/ditu3.html?id=%s"),
+    LOCATION_MAP_COMPANY("/companyposition.html?id=%s"),
 
 
     /*=============支付 接口=======================*/
@@ -95,7 +101,7 @@ http://182.92.77.31:8080/commons/sendVerificationCode/15011207876?template=83674
 
     /*============ 车队相关 ==================================================*/
     PostDriversAddCar("/drivers/add_car"),
-    PutDrviersCar("/cars/"),// /cars/{id} 修改车辆信息
+    PostDrviersUpdateCar("/cars/update"),// /cars/{id} 修改车辆信息
     PostDriversPublishCar("/drivers/publish_car"),
     //获取车队信息
     GetMotorcades("/motorcades/"),

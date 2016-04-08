@@ -86,16 +86,29 @@
                             android:onClick="onClick_gotoDetailPhoto"
                             android:text="完善详情" />
                     </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/user_reg_date_tx"
-                        style="@style/while_tx_style_12sp"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|right"
                         android:layout_marginRight="5dp"
                         android:gravity="bottom|right"
-                        android:text="注册日期" />
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/user_reg_date_tx"
+                            style="@style/while_tx_style_12sp"
+                            android:textSize="10sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/app_version_tx" />
+                        <TextView
+                            android:id="@+id/user_expire_date_tx"
+                            style="@style/while_tx_style_12sp"
+                            android:textSize="10sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/user_expire_str" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout

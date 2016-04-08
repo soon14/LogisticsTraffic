@@ -325,7 +325,7 @@ public class HttpHelper extends OkHttpClient {
     public void get(String url, HashMap textParams, NetCallback responseCallback) {
         //表单
         if (textParams != null && textParams.size() > 0) {
-            Log.i(TAG, "post url = " + url + " params = " + textParams.toString());
+            Log.i(TAG, "get url = " + url + " params = " + textParams.toString());
             String stringBuffer = toString(url, textParams);
 
             enqueue(new Request.Builder().url(stringBuffer).get().build(), responseCallback);

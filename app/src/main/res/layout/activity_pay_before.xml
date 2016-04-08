@@ -21,32 +21,32 @@
         android:layout_marginRight="10dp">
 
         <RadioButton
-            android:id="@+id/pay_select_3m"
+            android:id="@+id/pay_select_1y"
             style="@style/black_tx_style_12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@null"
             android:drawableRight="@android:drawable/btn_radio"
             android:paddingLeft="10dp"
-            android:text="三个月  30元" />
+            android:text="@string/pay_one_info" />
         <RadioButton
-            android:id="@+id/pay_select_6m"
+            android:id="@+id/pay_select_2y"
             style="@style/black_tx_style_12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@null"
             android:drawableRight="@android:drawable/btn_radio"
             android:paddingLeft="10dp"
-            android:text="六个月  60元" />
+            android:text="@string/pay_two_info" />
         <RadioButton
-            android:id="@+id/pay_select_12m"
+            android:id="@+id/pay_select_3y"
             style="@style/black_tx_style_12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@null"
             android:drawableRight="@android:drawable/btn_radio"
             android:paddingLeft="10dp"
-            android:text="一年  120元" />
+            android:text="@string/pay_three_info" />
     </RadioGroup>
 
     <TextView
@@ -73,6 +73,17 @@
             android:paddingLeft="10dp"
             android:text="微信支付" />
         <RadioButton
+            android:id="@+id/pay_method_weixin_other"
+            style="@style/black_tx_style_12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:drawableLeft="@drawable/weixin_icon"
+            android:paddingLeft="10dp"
+            android:text="微信扫码支付" />
+
+        <RadioButton
             android:id="@+id/pay_method_zhifubao"
             style="@style/black_tx_style_12sp"
             android:layout_width="match_parent"
@@ -82,6 +93,16 @@
             android:drawableLeft="@drawable/zhifubao_icon"
             android:paddingLeft="10dp"
             android:text="支付宝支付" />
+        <RadioButton
+            android:id="@+id/pay_method_zhifubao_other"
+            style="@style/black_tx_style_12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:drawableLeft="@drawable/zhifubao_icon"
+            android:paddingLeft="10dp"
+            android:text="支付宝扫码支付" />
     </RadioGroup>
 
     <Button

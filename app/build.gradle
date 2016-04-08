@@ -33,8 +33,8 @@ android {
         applicationId "com.bt.zhangzy.logisticstraffic.d"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 2
-        versionName "1.1"
+        versionCode 4
+        versionName "1.3"
 
         // dex突破65535的限制
 //        multiDexEnabled true
@@ -59,16 +59,17 @@ android {
             //压缩
             zipAlignEnabled true
             //调试时关闭
-//            applicationVariants.all { variant ->
-//                variant.outputs.each { output ->
-//                    def outputFile = output.outputFile
-//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-//                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
 //                        def fileName = "YYTwllm_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
-//                        output.outputFile = new File(outputFile.parent, fileName)
-//                    }
-//                }
-//            }
+                        def fileName = "AppYiYunTong_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
         }
     }
     sourceSets {

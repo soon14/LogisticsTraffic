@@ -10,6 +10,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.download.ImageDownloader;
+import com.zhangzy.base.R;
 
 
 /**
@@ -34,11 +35,11 @@ public class ImageHelper {
 
     //显示图片的配置
     private final DisplayImageOptions options = new DisplayImageOptions.Builder()
-//            .showImageOnLoading(R.drawable.ic_stub) // resource or drawablee  加载中
-//            .showImageForEmptyUri(R.mipmap.ic_launcher) // resource or drawable 如果地址为空
-//            .showImageOnFail(R.drawable.ic_error) // resource or drawable 如果加载失败
+            .showImageOnLoading(R.drawable.img_loading) // resource or drawablee  加载中
+//            .showImageForEmptyUri(R.drawable.img_load_failed) // resource or drawable 如果地址为空
+            .showImageOnFail(R.drawable.img_load_failed) // resource or drawable 如果加载失败
             .cacheInMemory(true)
-//            .cacheOnDisk(true)
+            .cacheOnDisk(true)
             .bitmapConfig(Bitmap.Config.RGB_565)
             .build();
 
@@ -71,23 +72,6 @@ public class ImageHelper {
                 load(url, (ImageView) view);
             }
         }
-    }
-
-    /**
-     * 加载网络图片 在Ui线程中
-     *
-     * @param url
-     * @param imageView
-     */
-    public void loadImgOnUiThread(Activity act, final String url, final ImageView imageView) {
-
-        act.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ImageHelper.getInstance().load(url, imageView);
-            }
-        });
-
     }
 
 
