@@ -1,8 +1,12 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -31,7 +35,6 @@ import com.bt.zhangzy.network.entity.ResponseCompany;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -231,27 +234,32 @@ public class DetailCompany extends BaseActivity {
     }
 
     public void onClick_OpenPicture(View view) {
-//        ImageView img = (ImageView) view;
-//        Drawable drawable = getResources().getDrawable(getResources().getDrawable(R.drawable.fake_detail_1));
-//        Uri parse = Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.raw.fake_detail_1);
-//        Uri parse = Uri.parse("file:///android_asset/fake_detail_1.png");
-//        Uri parse = Uri.parse("file:///android_asset/1.jpg");
-//        ContextTools.OpenPicture(this, parse);
-        final int[] ids = {R.id.detail_flipper_1, R.id.detail_flipper_2, R.id.detail_flipper_3};
-        ImageView imageView;
-        Bitmap bitmap;
-        ArrayList<String> list = new ArrayList<>();
-//        for (int id : ids) {
-//            imageView = (ImageView) findViewById(id);
-//            bitmap = ViewUtils.drawableToBitmap(imageView.getDrawable());
-//            list.add(bitmap);
-//        }
-        for (String str : product.getPhotoImgUrl())
-            list.add(str);
-        Bundle bundle = new Bundle();
-//        bundle.putString(AppParams.BUNDLE_PICTURE_URL, jsonCompany.getPhotoUrl());
-        bundle.putStringArrayList(AppParams.BUNDLE_PICTURE_ARRAY, list);
-        startActivity(PictureActivity.class, bundle);
+
+        ImageView img = (ImageView) view;
+        if (img != null) {
+            gotoActionView(img);
+            return;
+        }
+//        final int[] ids = {R.id.detail_flipper_1, R.id.detail_flipper_2, R.id.detail_flipper_3};
+//        ArrayList<String> list = new ArrayList<>();
+//        for (String str : product.getPhotoImgUrl())
+//            list.add(str);
+//        Bundle bundle = new Bundle();
+////        bundle.putString(AppParams.BUNDLE_PICTURE_URL, jsonCompany.getPhotoUrl());
+//        bundle.putStringArrayList(AppParams.BUNDLE_PICTURE_ARRAY, list);
+//        startActivity(PictureActivity.class, bundle);
+    }
+
+    public void gotoActionView(ImageView imageView) {
+        Intent intent = new Intent();
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+//        intent.setAction("android.intent.action.GET_CONTENT");
+        Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), image, null, null));
+        intent.setDataAndType(uri, "image/*");
+
+        startActivity(intent);
+
     }
 
     public void onClick_Order(View view) {
@@ -264,7 +272,7 @@ public class DetailCompany extends BaseActivity {
             showToast("请先完成企业认证");
             return;
         }
-        if(User.getInstance().checkUserStatus(this)) {
+        if (User.getInstance().checkUserStatus(this)) {
             return;
         }
         if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
