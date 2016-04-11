@@ -265,6 +265,7 @@ public class SetCompanyActivity extends BaseActivity {
             inEditMode = false;
             introduceEd.setEnabled(false);
             setTextView(R.id.set_company_edit_bt, "编辑");
+            findViewById(R.id.set_company_introduce_mode_bt).setVisibility(View.INVISIBLE);
             requestSetCompany();
         } else {
             inEditMode = true;

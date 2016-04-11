@@ -162,7 +162,7 @@ public class OrderDetailActivity extends BaseActivity {
             //隐藏订单号
             findViewById(R.id.order_detail_number_ly).setVisibility(View.GONE);
         } else {
-            DecimalFormat format = new DecimalFormat("####-0000-0000");
+            DecimalFormat format = new DecimalFormat("####00000000");
             setTextView(R.id.order_detail_number_tx, format.format(jsonOrder.getId()));
         }
 

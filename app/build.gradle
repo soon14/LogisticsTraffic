@@ -60,13 +60,16 @@ android {
             zipAlignEnabled true
             //调试时关闭
             applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
+                //判断打包的版本
+                if (variant.buildType.name.equals('release')) {
+                    variant.outputs.each { output ->
+                        def outputFile = output.outputFile
+                        if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                            // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
 //                        def fileName = "YYTwllm_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
-                        def fileName = "AppYiYunTong_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
+                            def fileName = "AppYiYunTong_${variant.productFlavors[0].name}_v${defaultConfig.versionName}.apk"
+                            output.outputFile = new File(outputFile.parent, fileName)
+                        }
                     }
                 }
             }

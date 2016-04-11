@@ -157,9 +157,13 @@ public class UserFragment extends BaseHomeFragment {
 //                    regdate.setVisibility(View.GONE);
 //                }
 //            }
-            refreshPayStatus();
+
+            //跟新用户审核状态
+            User.getInstance().requestUserInfo();
             //更新用户的支付状态
-            if (User.getInstance().getUserType() == Type.DriverType)
+            if (User.getInstance().getUserType() == Type.DriverType) {
+                //刷新用户的会员有效期 显示
+                refreshPayStatus();
                 User.getInstance().requestPayStatus(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -173,6 +177,7 @@ public class UserFragment extends BaseHomeFragment {
                         return false;
                     }
                 });
+            }
         }
     }
 

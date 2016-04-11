@@ -1,12 +1,22 @@
 package com.zhangzy.base.tools;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Created by ZhangZy on 2016-1-18.
@@ -14,7 +24,43 @@ import android.widget.TextView;
 public final class ViewUtils {
     private static final String TAG = ViewUtils.class.getSimpleName();
 
-    public static Bitmap drawableToBitmap(Drawable drawable) {
+    /**
+     * bitmap 转 uri
+     *
+     * @param context
+     * @param bitmap
+     * @return
+     */
+    public static Uri BitmapToUri(Context context, Bitmap bitmap) {
+        return Uri.parse(MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, null, null));
+    }
+
+    public static Bitmap UriToBitmap(Context context, Uri uri) throws IOException {
+        return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+    }
+
+    static File BitmapToFile(Bitmap bmp, String path) {
+        File file = null;
+        Bitmap.CompressFormat format = Bitmap.CompressFormat.JPEG;
+        int quality = 50;
+        OutputStream stream = null;
+        try {
+            file = new File(path);
+            if (!file.exists()) {
+                file.mkdir();
+            }
+//            获取要保存到的文件的文件流
+            stream = new FileOutputStream(path);
+        } catch (FileNotFoundException e) {
+            Log.w(TAG, e);
+            e.printStackTrace();
+        }
+//把指定的bitmp压缩到文件中 就是保存在指定文件中 format是文件格式（Bitmap.CompressFormat.JPEG jpeg） quality 是品质（100 就是原质量）
+        bmp.compress(format, quality, stream);
+        return file;
+    }
+
+    public static Bitmap DrawableToBitmap(Drawable drawable) {
 
         Bitmap bitmap = Bitmap.createBitmap(
                 drawable.getIntrinsicWidth(),

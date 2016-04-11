@@ -36,7 +36,7 @@ public class ImageHelper {
     //显示图片的配置
     private final DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.drawable.img_loading) // resource or drawablee  加载中
-//            .showImageForEmptyUri(R.drawable.img_load_failed) // resource or drawable 如果地址为空
+            .showImageForEmptyUri(R.drawable.img_empty) // resource or drawable 如果地址为空
             .showImageOnFail(R.drawable.img_load_failed) // resource or drawable 如果加载失败
             .cacheInMemory(true)
             .cacheOnDisk(true)

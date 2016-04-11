@@ -75,7 +75,9 @@ public class TestActivity extends BaseActivity {
     }
 
     //    String url = "http://192.168.1.114:8080/freight/html/ditu.html?id=1";
-    String url = "http://192.168.1.112:8080/freight/html/software.html";
+//    String url = "http://192.168.1.112:8080/freight/html/software.html";
+    String url = "http://192.168.1.112:8080/freight/html/download.html";
+
     String response;
 
     public void onClick_Request(View view) {

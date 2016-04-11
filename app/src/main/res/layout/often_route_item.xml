@@ -9,9 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:onClick="onClick_ChangeLocation"
         android:layout_marginTop="2dp"
-        android:hint="始发地" />
+        android:hint="始发地"
+        android:onClick="onClick_ChangeLocation"
+        android:paddingBottom="5dp"
+        android:paddingTop="10dp" />
 
     <View
         android:layout_width="100dp"
@@ -27,8 +29,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:onClick="onClick_ChangeLocation"
         android:layout_centerVertical="true"
         android:layout_marginTop="2dp"
-        android:hint="目的地" />
+        android:hint="目的地"
+        android:onClick="onClick_ChangeLocation"
+        android:paddingBottom="5dp"
+        android:paddingTop="10dp" />
 </RelativeLayout>

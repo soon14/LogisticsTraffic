@@ -42,7 +42,7 @@ public class Product implements Serializable {
         Product product = ParseJson(company);
         product.userId = user.getId();
         product.phoneNumber = user.getPhoneNumber();
-        product.iconImgUrl = user.getPortraitUrl();
+        product.iconImgUrl = company.getPhotoUrl();
         product.setCompany(response);
         return product;
     }

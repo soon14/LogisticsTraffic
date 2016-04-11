@@ -13,9 +13,11 @@ import com.bt.zhangzy.logisticstraffic.fragment.PictureFragment;
 import java.util.ArrayList;
 
 /**
+ * 废弃 2016年4月8日
  * 图片展示页 有缩放功能
  * Created by ZhangZy on 2015/7/7.
  */
+@Deprecated
 public class PictureActivity extends BaseActivity {
 
 

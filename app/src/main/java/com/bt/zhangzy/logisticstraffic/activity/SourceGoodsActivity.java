@@ -94,6 +94,14 @@ public class SourceGoodsActivity extends BaseActivity {
     }
 
     private void requestOrderList(OrderType type) {
+        //过滤未加入车队的司机
+        if(type == OrderType.MotorcadesType){
+            if(User.getInstance().getMotorcades() == null
+                    || User.getInstance().getMotorcades().isEmpty()){
+                showToast("您还没有加入车队");
+                return;
+            }
+        }
         //// TO DO: 2016-1-30  可抢订单列表获取失败
         //http://182.92.77.31:8080/orders/list?orderType=1&status=3
         HashMap<String, String> params = new HashMap<>();

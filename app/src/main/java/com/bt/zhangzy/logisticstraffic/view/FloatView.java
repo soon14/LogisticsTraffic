@@ -42,7 +42,7 @@ public class FloatView extends ImageView {
 //            super.handleMessage(msg);
             if (System.currentTimeMillis() - lastTouchTime > 3000)
                 alpha = 150;
-                getDrawable().setAlpha(alpha);
+            getDrawable().setAlpha(alpha);
         }
     };
 
@@ -68,7 +68,8 @@ public class FloatView extends ImageView {
         floatView.setImageResource(R.drawable.float_view_left_icon);
         // 设置LayoutParams(全局变量）相关参数
 //        windowManagerParams = ((LogisticsTrafficApplication) getApplication()).getWindowParams();
-        windowManagerParams.type = WindowManager.LayoutParams.TYPE_PHONE; // 设置window type
+//        windowManagerParams.type = WindowManager.LayoutParams.TYPE_PHONE; // 设置window type
+        windowManagerParams.type = WindowManager.LayoutParams.TYPE_TOAST;//解决MIUI上无法显示浮窗的问题！
         windowManagerParams.format = PixelFormat.RGBA_8888; // 设置图片格式，效果为背景透明
         // 设置Window flag
         windowManagerParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
@@ -92,7 +93,7 @@ public class FloatView extends ImageView {
     }
 
     long action_down_time;
-    int alpha  = 255;
+    int alpha = 255;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
@@ -20,9 +21,7 @@ import com.bt.zhangzy.logisticstraffic.adapter.HomeListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeSpreadAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.d.R;
-import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Product;
-import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -49,6 +48,7 @@ public class HomeFragment extends BaseHomeFragment {
     private ZrcListView listView;
     private HomeListAdapter adapter;
     private View listHeadView;
+    private Button locationBtn;
     //    private ViewFlipper flipper;
     //    private GestureDetector detector;
 //    private View topView;
@@ -73,6 +73,7 @@ public class HomeFragment extends BaseHomeFragment {
     void init(View view) {
 //        super.init();
         View topView = view.findViewById(R.id.home_top_ly);
+        locationBtn = (Button) topView.findViewById(R.id.home_location_btn);
         topDrawable = new ColorDrawable(getResources().getColor(R.color.main_bg_color));
         topDrawable.setAlpha(0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -461,9 +462,12 @@ public class HomeFragment extends BaseHomeFragment {
         HashMap<String, String> params = new HashMap<>();
         params.put("pageSize", "10");//每次20条数据
         params.put("pageNum", String.valueOf(currentPageNum));
-        Location location = User.getInstance().getLocation();
-        if (location != null) {
+        if (locationBtn != null) {
+            params.put("area", locationBtn.getText().toString());
+//            Location location = User.getInstance().getLocation();
+//            if (location != null) {
 //            params.put("area", location.getProvinceName() + "_" + location.getCityName() + "_" + location.getDistrict());//内蒙古_包头市_青山区 这样的格式
+//            }
         }
         HttpHelper.getInstance().get(AppURL.GetCompanyList, params, new JsonCallback() {
             @Override
