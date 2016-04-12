@@ -166,9 +166,12 @@ public class OrderListActivity extends BaseActivity {
             }
         }
         //订单排序
-        Collections.sort(untreatedList);
-        Collections.sort(submittedList);
-        Collections.sort(completedList);
+        if (!untreatedList.isEmpty())
+            Collections.sort(untreatedList);
+        if (!submittedList.isEmpty())
+            Collections.sort(submittedList);
+        if (!completedList.isEmpty())
+            Collections.sort(completedList);
 
         runOnUiThread(new Runnable() {
             @Override

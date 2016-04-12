@@ -118,11 +118,12 @@
                     android:text="联邦物流" />
 
                 <RatingBar
+                    android:id="@+id/detail_lv_bar"
                     style="@style/RatingBar_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
                     android:numStars="5"
                     android:rating="3.5" />
             </LinearLayout>

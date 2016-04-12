@@ -45,8 +45,8 @@ public class EvaluationActivity extends BaseActivity {
         findViewById(R.id.orderlist_item_blankout).setVisibility(View.GONE);
         if (jsonOrder != null) {
             setTextView(R.id.orderlist_item_num_tx, String.valueOf(jsonOrder.getId()));
-            setTextView(R.id.orderlist_item_enterprise_tx, "enterprise=" + String.valueOf(jsonOrder.getEnterpriseId()));
-            setTextView(R.id.orderlist_item_company_tx, "company=" + String.valueOf(jsonOrder.getCompanyId()));
+            setTextView(R.id.orderlist_item_enterprise_tx, jsonOrder.getEnterpriseName());
+            setTextView(R.id.orderlist_item_company_tx, jsonOrder.getCompanyName());
             setTextView(R.id.orderlist_item_driver_tx, jsonOrder.getReceiverName());
             setTextView(R.id.orderlist_item_driver_phone_tx, jsonOrder.getReceiverPhone());
             setTextView(R.id.orderlist_item_start_end_tx, jsonOrder.getStartCitySimple() + " - " + jsonOrder.getStopCitySimple());

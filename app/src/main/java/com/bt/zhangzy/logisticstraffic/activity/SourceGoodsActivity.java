@@ -93,11 +93,11 @@ public class SourceGoodsActivity extends BaseActivity {
 
     }
 
-    private void requestOrderList(OrderType type) {
+    private void requestOrderList(final OrderType type) {
         //过滤未加入车队的司机
-        if(type == OrderType.MotorcadesType){
-            if(User.getInstance().getMotorcades() == null
-                    || User.getInstance().getMotorcades().isEmpty()){
+        if (type == OrderType.MotorcadesType) {
+            if (User.getInstance().getMotorcades() == null
+                    || User.getInstance().getMotorcades().isEmpty()) {
                 showToast("您还没有加入车队");
                 return;
             }
@@ -115,8 +115,13 @@ public class SourceGoodsActivity extends BaseActivity {
             @Override
             public void onSuccess(String msg, String result) {
                 List<JsonOrder> list = ParseJson_Array(result, JsonOrder.class);
-                if (list == null && list.isEmpty()) {
+                if (list == null || list.isEmpty()) {
                     showToast("数据列表为空");
+                    if (type == OrderType.PublicType) {
+                        publicFragment.setAdapter(null);
+                    } else if (type == OrderType.MotorcadesType) {
+                        motorcadesFragment.setAdapter(null);
+                    }
                     return;
                 }
                 //排序

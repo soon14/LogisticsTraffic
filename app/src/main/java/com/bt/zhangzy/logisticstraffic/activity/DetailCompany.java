@@ -27,10 +27,10 @@ import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
-import com.bt.zhangzy.network.entity.JsonComment;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonFavorite;
 import com.bt.zhangzy.network.entity.JsonUser;
+import com.bt.zhangzy.network.entity.ResponseComment;
 import com.bt.zhangzy.network.entity.ResponseCompany;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
@@ -117,7 +117,7 @@ public class DetailCompany extends BaseActivity {
 
     //更新店铺信息
     private void requestGetCompany(int id) {
-        // todo 店铺信息没有返回
+        // to do 店铺信息没有返回
         HttpHelper.getInstance().get(AppURL.GetCompany.toString() + id, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
@@ -181,6 +181,12 @@ public class DetailCompany extends BaseActivity {
                         setTextView(R.id.detail_cp_distance_tx, str);
                     }
 
+                    RatingBar bar = (RatingBar) findViewById(R.id.detail_lv_bar);
+                    if (jsonCompany.getStar() > 0) {
+                        bar.setRating((float) jsonCompany.getStar());
+                    } else {
+                        bar.setVisibility(View.GONE);
+                    }
                 }
             }
         });
@@ -382,7 +388,8 @@ public class DetailCompany extends BaseActivity {
         HttpHelper.getInstance().get(AppURL.GetCommentList, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
-                List<JsonComment> commentList = ParseJson_Array(result, JsonComment.class);
+//                List<JsonComment> commentList = ParseJson_Array(result, JsonComment.class);
+                List<ResponseComment> commentList = ParseJson_Array(result, ResponseComment.class);
                 if (commentList == null || commentList.isEmpty()) {
                     showToast("评价列表为空");
                     runOnUiThread(new Runnable() {
@@ -405,29 +412,30 @@ public class DetailCompany extends BaseActivity {
         });
     }
 
-    private void setSampleList(final List<JsonComment> commentList) {
+    private void setSampleList(final List<ResponseComment> commentList) {
 
         if (commentList != null && !commentList.isEmpty()) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     final int[] ly_ids = {R.id.detail_evaluate_1_ly, R.id.detail_evaluate_2_ly};
-                    int index = 0;
                     View view_ly;
                     RatingBar starBar;
-                    for (JsonComment json : commentList) {
-                        if (index < ly_ids.length) {
-                            view_ly = findViewById(ly_ids[index]);
-                            index++;
-                            ViewUtils.setText((TextView) view_ly.findViewById(R.id.item_name_tx), "name=" + json.getId());
-                            ViewUtils.setText((TextView) view_ly.findViewById(R.id.item_content_tx), json.getContent());
-                            ViewUtils.setText((TextView) view_ly.findViewById(R.id.item_date_tx), Tools.toStringDate(json.getDate()));
+                    for (int k = 0; k < ly_ids.length; k++) {
+                        view_ly = findViewById(ly_ids[k]);
+                        if (k < commentList.size()) {
+                            ResponseComment json = commentList.get(k);
+                            ViewUtils.setText((TextView) view_ly.findViewById(R.id.item_name_tx), json.getRoleObject().getName());
+                            ViewUtils.setText((TextView) view_ly.findViewById(R.id.item_content_tx), json.getComment().getContent());
+                            ViewUtils.setText((TextView) view_ly.findViewById(R.id.item_date_tx), Tools.toStringDate(json.getComment().getDate()));
                             starBar = (RatingBar) view_ly.findViewById(R.id.item_star_bar);
-                            starBar.setRating((float) json.getRate());
+                            starBar.setRating((float) json.getComment().getRate());
+                            ViewUtils.setImageUrl((ImageView) view_ly.findViewById(R.id.evaluate_list_user_img), json.getRoleObject().getPersonPhotoUrl());
                         } else {
-                            break;
+                            view_ly.setVisibility(View.GONE);
                         }
                     }
+
                 }
             });
 

@@ -41,6 +41,7 @@ public class Product implements Serializable {
 
         Product product = ParseJson(company);
         product.userId = user.getId();
+//        product.name = user.getName();
         product.phoneNumber = user.getPhoneNumber();
         product.iconImgUrl = company.getPhotoUrl();
         product.setCompany(response);

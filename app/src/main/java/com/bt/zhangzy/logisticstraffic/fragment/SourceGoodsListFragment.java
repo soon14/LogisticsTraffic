@@ -44,8 +44,8 @@ public class SourceGoodsListFragment extends Fragment {
     private Runnable setAdapterRunable = new Runnable() {
         @Override
         public void run() {
-            if (adapter != null)
-                listView.setAdapter(adapter);
+//            if (adapter != null)
+            listView.setAdapter(adapter);
         }
     };
 
@@ -98,9 +98,10 @@ public class SourceGoodsListFragment extends Fragment {
     }
 
     public void setAdapter(List<JsonOrder> list) {
-        if (list == null || list.isEmpty())
-            return;
-        adapter = new SourceGoodsListAdapter(list);
+        if (list == null || list.isEmpty()) {
+            adapter = null;
+        } else
+            adapter = new SourceGoodsListAdapter(list);
         getActivity().runOnUiThread(setAdapterRunable);
     }
 

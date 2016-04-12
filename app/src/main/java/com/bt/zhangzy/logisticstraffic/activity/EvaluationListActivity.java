@@ -8,6 +8,7 @@ import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.network.entity.JsonComment;
+import com.bt.zhangzy.network.entity.ResponseComment;
 import com.zhangzy.base.http.BaseEntity;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class EvaluationListActivity extends BaseActivity {
             Bundle bundle = getIntent().getExtras();
             if (bundle.containsKey(AppParams.BUNDLE_EVALUATION_JSON_LIST)) {
                 String json = bundle.getString(AppParams.BUNDLE_EVALUATION_JSON_LIST);
-                List<JsonComment> commentList = BaseEntity.ParseArray(json, JsonComment.class);
+                List<ResponseComment> commentList = BaseEntity.ParseArray(json, ResponseComment.class);
                 if (commentList != null && !commentList.isEmpty()) {
                     adapter = new EvaluationListAdapter(commentList);
                     this.list.setAdapter(adapter);

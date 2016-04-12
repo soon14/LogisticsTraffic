@@ -9,7 +9,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.d.R;
-import com.bt.zhangzy.network.entity.JsonComment;
+import com.bt.zhangzy.network.entity.ResponseComment;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 
@@ -19,9 +19,9 @@ import java.util.List;
  * Created by ZhangZy on 2015/6/24.
  */
 public class EvaluationListAdapter extends BaseAdapter {
-    List<JsonComment> list;
+    List<ResponseComment> list;
 
-    public EvaluationListAdapter(List<JsonComment> commentList) {
+    public EvaluationListAdapter(List<ResponseComment> commentList) {
         list = commentList;
     }
 
@@ -63,13 +63,13 @@ public class EvaluationListAdapter extends BaseAdapter {
             holder = (Holder) convertView.getTag();
         }
 
-        JsonComment json = list.get(position);
-        ViewUtils.setText(holder.nameTx, "name=" + json.getId());
-        ViewUtils.setText(holder.contentTx, json.getContent());
-        ViewUtils.setText(holder.dateTx, Tools.toStringDate(json.getDate()));
-        holder.lvBar.setRating((float) json.getRate());
-        //// TODO: 2016-3-2  评价内容缺少 名字、头像图片、是否vip 等参数
-//        ViewUtils.setImageUrl(holder.headImg,json.);
+        ResponseComment json = list.get(position);
+        ViewUtils.setText(holder.nameTx, json.getRoleObject().getName());
+        ViewUtils.setText(holder.contentTx, json.getComment().getContent());
+        ViewUtils.setText(holder.dateTx, Tools.toStringDate(json.getComment().getDate()));
+        holder.lvBar.setRating((float) json.getComment().getRate());
+        //// TO DO: 2016-3-2  评价内容缺少 名字、头像图片、是否vip 等参数
+        ViewUtils.setImageUrl(holder.headImg, json.getRoleObject().getPersonPhotoUrl());
 
         return convertView;
     }
