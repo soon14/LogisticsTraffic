@@ -177,7 +177,10 @@ public class UserFragment extends BaseHomeFragment {
                         return false;
                     }
                 });
+            } else {
+                findViewById(R.id.user_expire_date_tx).setVisibility(View.GONE);
             }
+
         }
     }
 

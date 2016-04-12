@@ -10,11 +10,8 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -59,11 +56,12 @@ public class PictureHelper {
             // 从剪裁页面返回
             if (croppedFile == null)
                 return false;
+            Log.d(TAG, "压缩前图片：" + croppedFile.getPath());
             // 压缩图片
 //            compressImage(croppedFile, 500);
-            Bitmap compress = compress(croppedFile.getPath(), 300, 300);
+//            Bitmap compress = compress(croppedFile.getPath(), 300f, 300f);
 //                imageFile = createImageFile();
-            saveBitmap2file(compress, croppedFile.getPath());
+            compressByte(croppedFile.getPath(), 200);
             Log.d(TAG, "压缩后图片：" + croppedFile.getPath());
             if (callBack != null) {
                 callBack.handlerImage(croppedFile);
@@ -214,71 +212,81 @@ public class PictureHelper {
 
     }
 
+
     /**
-     * 将图片image压缩成大小为 size的图片（size表示图片大小，单位是KB）
+     * 压缩图片质量
      *
-     * @param imageFile 图片资源
-     * @param size      图片大小
-     * @return Bitmap
+     * @param imgPath 源文件路径
+     * @param size    压缩目标大小 单位：Kb
+     * @return
      */
-    private Bitmap compressImage(File imageFile, int size) {
-
-        Bitmap bitmap = null;
+    private boolean compressByte(String imgPath, int size) {
         try {
-            bitmap = BitmapFactory.decodeStream(new FileInputStream(imageFile));
+            Bitmap bitmap = readFile(imgPath);
 
+//            Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(imgPath),null,opts);
+            Log.d(TAG, "读取图片:" + imgPath + "->" + bitmap);
+            if (bitmap == null) {
+                Log.w(TAG, "压缩图片失败");
+                return false;
+            }
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            // 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            int quality = 100;
-            // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
-            while (baos.toByteArray().length / 1024 > size) {
-                Log.d(TAG, "当前大小：" + baos.toByteArray().length / 1024);
+            int quality = 110;
+            int currentSize;
+            do {
                 // 重置baos即清空baos
                 baos.reset();
                 // 每次都减少10
                 quality -= 10;
+                if (quality < 0) {
+                    break;
+                }
+                // 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
                 // 这里压缩options%，把压缩后的数据存放到baos中
                 bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+                currentSize = baos.toByteArray().length / 1024;
+                Log.d(TAG, "当前大小：" + currentSize + "->" + quality);
 
-            }
-            // 把压缩后的数据baos存放到ByteArrayInputStream中
-            ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
-            // 把ByteArrayInputStream数据生成图片
-            bitmap = BitmapFactory.decodeStream(isBm, null, null);
-
-            //替换源文件
-            FileOutputStream fos = new FileOutputStream(imageFile);
-            fos.write(baos.toByteArray());
-            fos.flush();
-            fos.close();
-            //            获取要保存到的文件的文件流
-//            OutputStream stream = new FileOutputStream(imageFile.getPath());
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream);
-//            stream.close();
-
-            baos.flush();
+                // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            } while (currentSize > size);
             baos.close();
+            //新建一个文件 用于存放压缩后的图片
+//            File file = createImageFile();// 去掉创建图片  改为替换原有的图片
+            OutputStream outputStream = new FileOutputStream(imgPath);
+            if (bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream))
+                Log.d(TAG, "写入压缩文件成功");
+            outputStream.close();
+            return true;
         } catch (IOException e) {
-            Log.w(TAG, e);
             e.printStackTrace();
+            Log.w(TAG, e);
         }
-        return bitmap;
+        Log.d(TAG, "压缩失败");
+        return false;
     }
 
-    static boolean saveBitmap2file(Bitmap bmp, String path) {
-        Bitmap.CompressFormat format = Bitmap.CompressFormat.JPEG;
-        int quality = 50;
-        OutputStream stream = null;
-        try {
-//            获取要保存到的文件的文件流
-            stream = new FileOutputStream(path);
-        } catch (FileNotFoundException e) {
-            Log.w(TAG, e);
-            e.printStackTrace();
+    /**
+     * 读取文件
+     * @param imgPath
+     * @return
+     */
+    private Bitmap readFile(String imgPath) {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inPreferredConfig = Bitmap.Config.RGB_565;
+        opts.inSampleSize = 1;
+        opts.inJustDecodeBounds = true;
+        Bitmap bitmap = BitmapFactory.decodeFile(imgPath, opts);
+        if (bitmap == null) {
+            opts.inJustDecodeBounds = false;
+            try {
+                bitmap = BitmapFactory.decodeFile(imgPath, opts);
+            } catch (OutOfMemoryError e) {
+                //如果内存不够用 则压缩图片
+                opts.inSampleSize = 3;
+                bitmap = BitmapFactory.decodeFile(imgPath, opts);
+            }
         }
-//把指定的bitmp压缩到文件中 就是保存在指定文件中 format是文件格式（Bitmap.CompressFormat.JPEG jpeg） quality 是品质（100 就是原质量）
-        return bmp.compress(format, quality, stream);
+        return bitmap;
     }
 
 //    public void compress(File imageFile, int size) {
@@ -291,35 +299,53 @@ public class PictureHelper {
      * Used to get thumbnail
      *
      * @param imgPath image path
-     * @param pixelW  target pixel of width
-     * @param pixelH  target pixel of height
+     * @param out_w   target pixel of width
+     * @param out_h   target pixel of height
      * @return
      */
-    public Bitmap compress(String imgPath, float pixelW, float pixelH) {
+    public Bitmap compress(String imgPath, float out_w, float out_h) {
         BitmapFactory.Options newOpts = new BitmapFactory.Options();
         // 开始读入图片，此时把options.inJustDecodeBounds 设回true，即只读边不读内容
         newOpts.inJustDecodeBounds = true;
         newOpts.inPreferredConfig = Bitmap.Config.RGB_565;
         // Get bitmap info, but notice that bitmap is null now
-        Bitmap bitmap = BitmapFactory.decodeFile(imgPath, newOpts);
 
-        newOpts.inJustDecodeBounds = false;
+        Bitmap bitmap = BitmapFactory.decodeFile(imgPath, newOpts);
+        if (newOpts.outWidth < 0 || newOpts.outHeight < 0) {
+            Log.d(TAG, "边界读取失败!");
+            newOpts.inJustDecodeBounds = false;
+            bitmap = BitmapFactory.decodeFile(imgPath, newOpts);
+        }
+
         int w = newOpts.outWidth;
         int h = newOpts.outHeight;
-        // 想要缩放的目标尺寸
-        float hh = pixelH;// 设置高度为240f时，可以明显看到图片缩小了
-        float ww = pixelW;// 设置宽度为120f，可以明显看到图片缩小了
+        Log.d(TAG, "原始尺寸：" + w + "-" + h + " --> " + out_w + "-" + out_h);
+
         // 缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
         int be = 1;//be=1表示不缩放
-        if (w > h && w > ww) {//如果宽度大的话根据宽度固定大小缩放
-            be = (int) (newOpts.outWidth / ww);
-        } else if (w < h && h > hh) {//如果高度高的话根据宽度固定大小缩放
-            be = (int) (newOpts.outHeight / hh);
+        if (w >= h && w > out_w) {//如果宽度大的话根据宽度固定大小缩放
+            be = (int) (newOpts.outWidth / out_w);
+        } else if (w < h && h > out_h) {//如果高度高的话根据宽度固定大小缩放
+            be = (int) (newOpts.outHeight / out_h);
         }
         if (be <= 0) be = 1;
         newOpts.inSampleSize = be;//设置缩放比例
+        Log.d(TAG, "inSampleSize=" + newOpts.inSampleSize);
         // 开始压缩图片，注意此时已经把options.inJustDecodeBounds 设回false了
+        newOpts.inJustDecodeBounds = false;
         bitmap = BitmapFactory.decodeFile(imgPath, newOpts);
+        Log.d(TAG, "压缩后尺寸：" + newOpts.outWidth + "-" + newOpts.outHeight + " --> " + out_w + "-" + out_h);
+        if (bitmap == null)
+            Log.w(TAG, "图片压缩失败");
+
+        try {
+            OutputStream outputStream = new FileOutputStream(imgPath);
+            if (bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream))
+                Log.d(TAG, "覆盖源文件-成功");
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // 压缩好比例大小后再进行质量压缩
 //        return compress(bitmap, maxSize); // 这里再进行质量压缩的意义不大，反而耗资源，删除
         return bitmap;

@@ -2,6 +2,7 @@ package com.bt.zhangzy.logisticstraffic.adapter;
 
 import android.content.res.Resources;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.util.List;
  * Created by ZhangZy on 2015/6/9.
  */
 public class HomeListAdapter extends BaseAdapter {
+    private static final String TAG = HomeListAdapter.class.getSimpleName();
 
 //    ArrayList<ViewHolder> listView = new ArrayList<ViewHolder>();
 
@@ -32,7 +34,36 @@ public class HomeListAdapter extends BaseAdapter {
     }
 
     public void addList(List<Product> list) {
-        this.list.addAll(list);
+        Log.d(TAG, "before list size=" + list.size());
+        //增加数据对比
+        Product last_p = this.list.get(this.list.size() - 1);
+        Product last_np;
+        int removeSize = 0;
+        for (int j = list.size() - 1; j >= 0; j--) {
+            last_np = list.get(j);
+//                Log.d(TAG, "addList check data k=" + k + ",j=" + j);
+            if (last_np.equals(last_p)) {
+                removeSize = j;
+                Log.d(TAG, "check one :" + last_np.getID());
+                break;
+            }
+        }
+        if (removeSize > 0) {
+            if (removeSize >= list.size() - 1) {
+                Log.d(TAG, "no new data!!!");
+                return;
+            }
+            for (int k = removeSize + 1; k < list.size(); k++) {
+                this.list.add(list.get(k));
+                Log.d(TAG, "add new data :" + k);
+            }
+
+
+        } else {
+            this.list.addAll(list);
+            Log.d(TAG,"all new data!");
+        }
+
 //        notifyDataSetChanged();
     }
 
@@ -80,7 +111,7 @@ public class HomeListAdapter extends BaseAdapter {
             holder.button.setOnClickListener(holder.listener);
             holder.layout.setOnClickListener(holder.listener);
 
-        }else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.position = position;

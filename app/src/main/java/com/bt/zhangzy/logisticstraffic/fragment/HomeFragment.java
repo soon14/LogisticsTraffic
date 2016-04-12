@@ -56,6 +56,7 @@ public class HomeFragment extends BaseHomeFragment {
     private int currentPageNum = 1;//当前显示的页数
     boolean onLoading;//标记为加载中。。防止重复加载
     long loadingTime;
+    boolean haveNextPage = true;
 
     public HomeFragment() {
         super(null);
@@ -319,6 +320,7 @@ public class HomeFragment extends BaseHomeFragment {
             public void onStart() {
                 //刷新数据，重新从第一页请求数据
                 currentPageNum = 1;
+                haveNextPage = true;
                 requestGetCompanyList();
             }
         });
@@ -332,7 +334,8 @@ public class HomeFragment extends BaseHomeFragment {
                         loadingTime = System.currentTimeMillis();
                         onLoading = true;
                         //加载更多数据  页数加一
-                        currentPageNum += 1;
+                        if (haveNextPage)
+                            currentPageNum += 1;
                         requestGetCompanyList();
                     } else {
                         listView.setLoadMoreSuccess();
@@ -462,6 +465,7 @@ public class HomeFragment extends BaseHomeFragment {
         HashMap<String, String> params = new HashMap<>();
         params.put("pageSize", "10");//每次20条数据
         params.put("pageNum", String.valueOf(currentPageNum));
+        params.put("ts", String.valueOf(System.currentTimeMillis()));
         if (locationBtn != null) {
             params.put("area", locationBtn.getText().toString());
 //            Location location = User.getInstance().getLocation();
@@ -473,6 +477,7 @@ public class HomeFragment extends BaseHomeFragment {
             @Override
             public void onFailed(String str) {
                 onLoading = false;
+                haveNextPage = false;
                 if (currentPageNum > 1) {
 //                    listView.stopLoadMore();
                 } else {
@@ -485,11 +490,13 @@ public class HomeFragment extends BaseHomeFragment {
                 onLoading = false;
                 List<ResponseCompany> list = ParseJson_Array(json, ResponseCompany.class);
                 if (list == null || list.isEmpty()) {
+                    haveNextPage = false;
                     getHomeActivity().showToast("没有新的数据");
 //                    listView.stopLoadMore();
                     listView.setLoadMoreSuccess();
                     return;
                 }
+
 //                Log.w(TAG, "Test==>>>>" + toJsonString(list));
                 ArrayList<Product> arrayList = new ArrayList<Product>();
                 Product p;
@@ -499,6 +506,11 @@ public class HomeFragment extends BaseHomeFragment {
                     if (p != null)
                         arrayList.add(p);
                 }
+                if (!arrayList.isEmpty() && arrayList.size() >= 10)
+                    haveNextPage = true;
+                else
+                    haveNextPage = false;
+
                 setListAdapter(arrayList);
                 if (currentPageNum > 1) {
                     listView.setLoadMoreSuccess();
