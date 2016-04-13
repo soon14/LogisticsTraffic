@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.SourceCarListAdapter;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.network.entity.JsonCar;
 
 import java.util.List;
@@ -81,8 +81,9 @@ public class SourceCarListFragment extends Fragment {
 
     public void setAdapter(List<JsonCar> list) {
         if (list == null || list.isEmpty())
-            return;
-        adapter = new SourceCarListAdapter(list);
+            adapter = null;
+        else
+            adapter = new SourceCarListAdapter(list);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

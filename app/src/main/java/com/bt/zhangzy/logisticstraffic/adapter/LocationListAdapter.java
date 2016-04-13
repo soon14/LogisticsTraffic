@@ -36,7 +36,7 @@ public class LocationListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return locationList.size();
+        return locationList == null ? 0 : locationList.size();
     }
 
     @Override

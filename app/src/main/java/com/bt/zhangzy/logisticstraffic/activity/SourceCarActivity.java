@@ -30,6 +30,7 @@ import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
+import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 
 import java.util.ArrayList;
@@ -293,7 +294,8 @@ public class SourceCarActivity extends BaseActivity {
         if (TextUtils.isEmpty(string)) {
             location = User.getInstance().getLocation();
         } else {
-            location = new Location(null, string);
+            String[] strings = Tools.splitAddress(string, "·");
+            location = new Location(strings[0], strings[1]);
         }
         LocationView locationView = LocationView.creatPopupWindow(this);
         locationView.setCurrentLocation(location);
@@ -303,13 +305,13 @@ public class SourceCarActivity extends BaseActivity {
             }
 
             public void onCancel(Location location) {
-                if (TextUtils.isEmpty(location.getCityName()))
-                    return;
-                if (location.getCityName().equals("不限")) {
-                    locationBt.setText("");
-                } else {
-                    locationBt.setText(location.getCityName());
-                }
+//                if (TextUtils.isEmpty(location.getCityName()))
+//                    return;
+//                if (location.getCityName().equals("不填")) {
+//                    locationBt.setText("");
+//                } else {
+                locationBt.setText(location.toText());
+//                }
                 requestSearch(getMotorcadeId());
             }
         });
@@ -351,8 +353,8 @@ public class SourceCarActivity extends BaseActivity {
         if (btn == null || TextUtils.isEmpty(btn.getText()))
             return null;
         String str = btn.getText().toString();
-        if (!TextUtils.isEmpty(suffix) && str.endsWith(suffix))
-            str = str.substring(0, str.lastIndexOf(suffix));
+//        if (!TextUtils.isEmpty(suffix) && str.endsWith(suffix))
+//            str = str.substring(0, str.lastIndexOf(suffix));
         return str;
     }
 
@@ -385,7 +387,7 @@ public class SourceCarActivity extends BaseActivity {
                 List<JsonCar> list = ParseJson_Array(result, JsonCar.class);
                 if (list == null || list.isEmpty()) {
                     showToast("搜索结果为空");
-                    return;
+                    list = null;
                 }
                 if (m_id >= 0) {
                     motorcadeFragment.setAdapter(list);

@@ -7,8 +7,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
@@ -21,8 +21,9 @@ import com.bt.zhangzy.network.entity.JsonLocationCity;
  */
 public class LocationActivity extends BaseActivity {
 
-//    private View listLayout;
-
+    //    private View listLayout;
+    boolean isOpenCityList;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class LocationActivity extends BaseActivity {
 
             @Override
             public void chooseLocation(Location location) {
+                isOpenCityList = false;
                 setCityName(location.getCityName());
             }
         });
@@ -47,19 +49,27 @@ public class LocationActivity extends BaseActivity {
     }
 
     private void setCityName(String cityname) {
+        if (TextUtils.isEmpty(cityname))
+            return;
         TextView textView = (TextView) findViewById(R.id.location_info);
         textView.setText("定位成功");
         textView = (TextView) findViewById(R.id.location_city_name_btn);
         textView.setText(cityname);
         requestCityInfo(cityname);
-        new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                startActivity(HomeActivity.class);
-                finish();
-            }
-        }.sendEmptyMessageDelayed(0, 1000);
+        if (handler == null)
+            handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    if (isOpenCityList)
+                        return;
+
+                    startActivity(HomeActivity.class);
+                    finish();
+                }
+            };
+        if (!isOpenCityList)
+            handler.sendEmptyMessageDelayed(0, 3000);
     }
 
     JsonLocationCity cityInfo;
@@ -95,7 +105,7 @@ public class LocationActivity extends BaseActivity {
     }
 
     public void onClick_OpenCityList(View view) {
-
+        isOpenCityList = true;
 //        getApp().showLoacaitonList(view);
         LocationView.getInstance().showLoacaitonList(this, view);
 

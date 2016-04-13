@@ -465,7 +465,7 @@ public class FleetActivity extends BaseActivity {
             public void onClick(View v) {
 //                FleetListAdapter adp = (FleetListAdapter) listView.getAdapter();
 //                adp.removePeople(id);
-                //todo 接口 删除车队 队员
+                //to do 接口 删除车队 队员
                 requestDelDriver(driverId);
             }
         });
