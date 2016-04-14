@@ -124,6 +124,21 @@ public class LoginActivity extends BaseActivity {
         request_Login(nameStr, passwordStr);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onClick_Back(null);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onClick_Back(View view) {
+//        super.onClick_Back(view);
+        startActivity(HomeActivity.class);
+        finish();
+    }
+
     private void loginSusses() {
 //        Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
 //        User.getInstance().setLogin(true);
@@ -137,6 +152,7 @@ public class LoginActivity extends BaseActivity {
         if (bundle != null)
             startActivity(HomeActivity.class, bundle);
         finish();
+
     }
 
     // 发起登录请求

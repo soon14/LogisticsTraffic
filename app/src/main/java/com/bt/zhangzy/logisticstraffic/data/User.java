@@ -14,6 +14,7 @@ import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonFavorite;
 import com.bt.zhangzy.network.entity.JsonMember;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
+import com.bt.zhangzy.network.entity.JsonOrder;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseFavorites;
 import com.bt.zhangzy.network.entity.ResponseLogin;
@@ -489,7 +490,15 @@ public class User implements Serializable {
 //        }
         user.setMotorcades(json.getMotorcades());
         user.setJsonFavorites(json.getFavorites());
-
+        if (json.getOrders() != null && !json.getOrders().isEmpty()) {
+            //保存交易中的订单id 便于位置上传；
+            ArrayList<Integer> order_id_list = new ArrayList<Integer>();
+            for (JsonOrder order : json.getOrders()) {
+                Log.i(TAG, "running order id=" + order.getId());
+                order_id_list.add(order.getId());
+            }
+            setOrderIdList(order_id_list);
+        }
     }
 
     /**

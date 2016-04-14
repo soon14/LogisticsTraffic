@@ -108,7 +108,7 @@ public class UpDataLocationService extends Service implements Handler.Callback, 
 
                 }
             };
-        Log.d(TAG, "requestUpdataLocation() ");
+        Log.i(TAG, "requestUpdataLocation() ");
         //更新用户信息
         User user = User.getInstance();
         params.setDriverId(user.getDriverID());
@@ -120,7 +120,7 @@ public class UpDataLocationService extends Service implements Handler.Callback, 
         if (orderId_list != null && !orderId_list.isEmpty()) {
             for (int orderId : orderId_list) {
                 params.setOrderId(orderId);
-                Log.d(TAG, "requestUpdataLocation() -- 发送请求");
+                Log.i(TAG, "requestUpdataLocation() -- 发送请求 orderId=" + orderId);
                 HttpHelper.getInstance().post(AppURL.PostUploadLocation, params, callback);
             }
         }
@@ -130,6 +130,7 @@ public class UpDataLocationService extends Service implements Handler.Callback, 
 
     @Override
     public void callbackCityName(String province, String cityname, String latitude, String longitude) {
+        Log.i(TAG, "callbackCityName(" + province + "-" + cityname + "-" + latitude + "-" + longitude + ")");
         if (params != null) {
             params.setLongitude(Float.valueOf(longitude));
             params.setLatitude(Float.valueOf(latitude));

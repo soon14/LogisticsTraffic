@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -391,6 +392,20 @@ public class DetailPhotoActivity extends BaseActivity {
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onClick_Back(null);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onClick_Back(View view) {
+        startActivity(HomeActivity.class);
+        finish();
+    }
+
     public void onClick_Submit(View view) {
         if (checkStauts())
             return;
@@ -532,8 +547,10 @@ public class DetailPhotoActivity extends BaseActivity {
                         //todo 拨打客服电话
                     }
                 }).setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        startActivity(HomeActivity.class);
                         finish();
                     }
                 });

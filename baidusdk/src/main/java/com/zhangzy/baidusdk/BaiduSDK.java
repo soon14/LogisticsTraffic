@@ -1,7 +1,6 @@
 package com.zhangzy.baidusdk;
 
 import android.content.Context;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -35,7 +34,7 @@ public class BaiduSDK extends BDNotifyListener implements BDLocationListener {
     }
 
     private LocationClient client;
-    private LocationListener listener;
+    private ArrayList<LocationListener> listeners = new ArrayList<LocationListener>();
 
     public void showVoiceDialog(Context context) {
         Bundle params = new Bundle();
@@ -53,9 +52,9 @@ public class BaiduSDK extends BDNotifyListener implements BDLocationListener {
 // 共 8 种主题，开发者可以按需选择，取值参考 BaiduASRDigitalDialog 中前缀为 THEME_的常量。默认为亮蓝色
         params.putInt(BaiduASRDigitalDialog.PARAM_DIALOG_THEME, BaiduASRDigitalDialog.THEME_BLUE_LIGHTBG);
         baiduASRDigitalDialog = new BaiduASRDigitalDialog(context, params);
-        baiduASRDigitalDialog.getParams().putBoolean(BaiduASRDigitalDialog.PARAM_START_TONE_ENABLE, true);//播放开始音
-        baiduASRDigitalDialog.getParams().putBoolean(BaiduASRDigitalDialog.PARAM_END_TONE_ENABLE, true);//结束音
-        baiduASRDigitalDialog.getParams().putBoolean(BaiduASRDigitalDialog.PARAM_TIPS_TONE_ENABLE, true);
+//        baiduASRDigitalDialog.getParams().putBoolean(BaiduASRDigitalDialog.PARAM_START_TONE_ENABLE, true);//播放开始音
+//        baiduASRDigitalDialog.getParams().putBoolean(BaiduASRDigitalDialog.PARAM_END_TONE_ENABLE, true);//结束音
+//        baiduASRDigitalDialog.getParams().putBoolean(BaiduASRDigitalDialog.PARAM_TIPS_TONE_ENABLE, true);
         //设置回调
         if (mRecognitionListener == null) {
             mRecognitionListener = new DialogRecognitionListener() {
@@ -89,7 +88,8 @@ public class BaiduSDK extends BDNotifyListener implements BDLocationListener {
     }
 
     public void setLocationListener(LocationListener listener) {
-        this.listener = listener;
+        listeners.add(listener);
+//        this.listener = listener;
     }
 
 
@@ -189,8 +189,9 @@ public class BaiduSDK extends BDNotifyListener implements BDLocationListener {
 
         Log.i(TAG, "百度地图定位 --结果：" + sb.toString());
 //        stopLocationServer();
-        if (listener != null) {
-            listener.callbackCityName(bdLocation.getProvince(), bdLocation.getCity(), String.valueOf(bdLocation.getLatitude()), String.valueOf(bdLocation.getLongitude()));
+        if (listeners != null && !listeners.isEmpty()) {
+            for (LocationListener listener : listeners)
+                listener.callbackCityName(bdLocation.getProvince(), bdLocation.getCity(), String.valueOf(bdLocation.getLatitude()), String.valueOf(bdLocation.getLongitude()));
         }
     }
 

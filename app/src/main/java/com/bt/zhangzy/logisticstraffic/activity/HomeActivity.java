@@ -280,7 +280,7 @@ public class HomeActivity extends BaseActivity {
             Bundle bundle = new Bundle();
             bundle.putString(AppParams.BUNDLE_PAGE_KEY, AppParams.PAGE_USER);
             startActivity(LoginActivity.class, bundle);
-//            finish();
+            finish();
             if (contentViewPager.getCurrentItem() == INDEX_USER) {
                 contentViewPager.setCurrentItem(INDEX_HOME);
             }

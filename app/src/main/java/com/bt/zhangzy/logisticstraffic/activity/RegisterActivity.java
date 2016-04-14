@@ -3,6 +3,7 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -38,14 +39,6 @@ public class RegisterActivity extends BaseActivity {
         } else {
             setContentView(R.layout.activity_register);
         }
-    }
-
-    @Override
-    public void onClick_Back(View view) {
-        if (!AppParams.DRIVER_APP) {
-
-        }
-        super.onClick_Back(view);
     }
 
     /**
@@ -129,7 +122,7 @@ public class RegisterActivity extends BaseActivity {
         recommend = "";
         if (!TextUtils.isEmpty(recommendEd.getText())) {
             recommend = recommendEd.getText().toString();
-            if (!Tools.IsPhoneNum(recommend)){
+            if (!Tools.IsPhoneNum(recommend)) {
                 showToast("推荐人手机号错误");
                 return;
             }
@@ -185,6 +178,21 @@ public class RegisterActivity extends BaseActivity {
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onClick_Back(null);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onClick_Back(View view) {
+//        super.onClick_Back(view);
+            startActivity(HomeActivity.class);
+        finish();
+    }
+
     /**
      * 注册成功
      */
@@ -193,7 +201,7 @@ public class RegisterActivity extends BaseActivity {
         getApp().saveUser();
         getApp().setAliasAndTag();
         //注册后默认跳转到验证审核页面
-        startActivity(DetailPhotoActivity.class);
+        startActivity(DetailPhotoActivity.class, null);
 //        if (type == Type.DriverType) {
 //            startActivity(DetailPhotoActivity.class);
 //        } else {

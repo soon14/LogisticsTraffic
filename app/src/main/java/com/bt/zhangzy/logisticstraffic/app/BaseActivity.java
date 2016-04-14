@@ -314,6 +314,7 @@ public class BaseActivity extends FragmentActivity {
 
     public void startNewActivity(Class<?> cls, Bundle bundle) {
         startActivity(cls, bundle, Intent.FLAG_ACTIVITY_NEW_TASK, false);
+
     }
 
     private void startActivity(Class<?> cls, Bundle bundle, int flags, boolean istop) {
@@ -398,6 +399,7 @@ public class BaseActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 startActivity(LoginActivity.class);
+                finish();
             }
         });
     }

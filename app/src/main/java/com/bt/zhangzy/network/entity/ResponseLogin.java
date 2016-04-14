@@ -19,7 +19,16 @@ public class ResponseLogin extends BaseEntity {
     ResponseFavorites favorites;
     List<JsonMotorcades> motorcades;
     List<JsonCar> cars;
+    List<JsonOrder> orders;
 
+
+    public List<JsonOrder> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<JsonOrder> orders) {
+        this.orders = orders;
+    }
 
     public List<JsonCar> getCars() {
         return cars;
