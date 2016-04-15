@@ -55,7 +55,8 @@ public class UserFragment extends BaseHomeFragment {
 
         } else if (user.getUserType() == Type.EnterpriseType) {
             view.findViewById(R.id.user_services_item).setVisibility(View.GONE);
-            view.findViewById(R.id.user_fleet_item).setVisibility(View.GONE);
+//            view.findViewById(R.id.user_fleet_item).setVisibility(View.GONE);
+            view.findViewById(R.id.user_shop_setting_bt).setVisibility(View.GONE);
             view.findViewById(R.id.user_tender_item).setVisibility(View.VISIBLE);
         } else {
             view.findViewById(R.id.user_tender_item).setVisibility(View.GONE);

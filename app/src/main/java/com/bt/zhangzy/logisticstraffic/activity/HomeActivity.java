@@ -227,7 +227,9 @@ public class HomeActivity extends BaseActivity {
                 setCityName(location.getCityName());
             }
         });
-        setCityName(User.getInstance().getLocation().getCityName());
+        Location location = User.getInstance().getLocation();
+        if (location != null)
+            setCityName(location.getCityName());
     }
 
     private void setCityName(String cityName) {

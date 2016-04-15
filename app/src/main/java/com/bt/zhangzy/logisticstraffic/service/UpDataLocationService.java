@@ -67,8 +67,8 @@ public class UpDataLocationService extends Service implements Handler.Callback, 
             params.setCarId(user.getJsonCar().getId());
 //        params.setOrderId();
         if (user.getLocation() != null) {
-            params.setLongitude(Float.valueOf(user.getLocation().getLongitude()));
-            params.setLatitude(Float.valueOf(user.getLocation().getLatitude()));
+            params.setLongitude(Double.valueOf(user.getLocation().getLongitude()));
+            params.setLatitude(Double.valueOf(user.getLocation().getLatitude()));
         }
     }
 
@@ -132,8 +132,8 @@ public class UpDataLocationService extends Service implements Handler.Callback, 
     public void callbackCityName(String province, String cityname, String latitude, String longitude) {
         Log.i(TAG, "callbackCityName(" + province + "-" + cityname + "-" + latitude + "-" + longitude + ")");
         if (params != null) {
-            params.setLongitude(Float.valueOf(longitude));
-            params.setLatitude(Float.valueOf(latitude));
+            params.setLongitude(Double.valueOf(longitude));
+            params.setLatitude(Double.valueOf(latitude));
         }
     }
 }

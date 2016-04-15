@@ -132,15 +132,12 @@ public class OrderListFragment extends Fragment {
 
     public void setAdapter(List<JsonOrder> list) {
         if (list == null || list.isEmpty()) {
-            listView.setAdapter(null);
-            return;
-        }
-//        if (listView == null) {
-//            initListView(layoutView);
-//        }
+            adapter = null;
+        } else
+            adapter = new OrderListAdapter(list);
         //// TO DO: 2016-3-3  为什么 listView 为空?????
         //解释，setAdapter方法是网络回调执行的，而listFragment对象是有缓冲机制的，所以不一定创建了实例，这里需要先缓存adapter对象，等初始化的时候再赋值；
-        adapter = new OrderListAdapter(list);
+
         if (listView != null)
             listView.setAdapter(adapter);
 

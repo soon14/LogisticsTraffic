@@ -116,7 +116,7 @@ public class SourceGoodsActivity extends BaseActivity {
             public void onSuccess(String msg, String result) {
                 List<JsonOrder> list = ParseJson_Array(result, JsonOrder.class);
                 if (list == null || list.isEmpty()) {
-                    showToast("数据列表为空");
+                    showToast("数据列表为空 ->" + type.name());
                     if (type == OrderType.PublicType) {
                         publicFragment.setAdapter(null);
                     } else if (type == OrderType.MotorcadesType) {

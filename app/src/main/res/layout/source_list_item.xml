@@ -92,6 +92,8 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:hint="运输状态" />
+        android:hint="运输状态"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" />
 
 </RelativeLayout>

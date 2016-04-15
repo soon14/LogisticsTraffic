@@ -176,9 +176,15 @@ public class BaseActivity extends FragmentActivity {
      * 取消精度条
      */
     public void cancelProgress() {
-        if (progress == null)
-            return;
-        progress.cancel();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (progress == null)
+                    return;
+                progress.cancel();
+            }
+        });
+
     }
 
 
@@ -317,7 +323,7 @@ public class BaseActivity extends FragmentActivity {
 
     }
 
-    private void startActivity(Class<?> cls, Bundle bundle, int flags, boolean istop) {
+    protected void startActivity(Class<?> cls, Bundle bundle, int flags, boolean istop) {
         Intent intent = new Intent(this, cls);
         intent.setFlags(flags);
         if (bundle != null) {
@@ -331,6 +337,7 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
+
     /**
      * 跳转封装
      *
@@ -339,8 +346,13 @@ public class BaseActivity extends FragmentActivity {
      * @param requestCode 请求码
      */
     public void startActivityForResult(Class<?> cls, Bundle bundle, int requestCode) {
+
+        startActivityForResult(cls, bundle, Intent.FLAG_ACTIVITY_CLEAR_TOP, requestCode);
+    }
+
+    public void startActivityForResult(Class<?> cls, Bundle bundle, int flags, int requestCode) {
         Intent intent = new Intent(this, cls);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(flags);
         if (bundle != null) {
             intent.putExtras(bundle);
         }

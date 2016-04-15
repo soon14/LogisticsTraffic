@@ -17,7 +17,9 @@ import com.bt.zhangzy.logisticstraffic.adapter.SourceCarListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.People;
+import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.BaseDialog;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
@@ -67,6 +69,7 @@ public class FleetActivity extends BaseActivity {
         //TO DO 接口 更新车队信息；
         if (AppParams.DRIVER_APP) {
             initDriverView();
+
         } else {
             initCompanyView();
 
@@ -77,6 +80,9 @@ public class FleetActivity extends BaseActivity {
     private void initCompanyView() {
         if (!isSelectDriver)
             findViewById(R.id.fleet_finish_bt).setVisibility(View.GONE);
+        if (isSelectDriver || isShowLoadingDriver || User.getInstance().getUserType() != Type.EnterpriseType) {
+            findViewById(R.id.fleet_create_order_bt).setVisibility(View.GONE);
+        }
         if (selectDriverListFromOrder == null) {
             setPageName("我的车队");
             try {
@@ -110,6 +116,7 @@ public class FleetActivity extends BaseActivity {
                 finish();
                 return;
             }
+            findViewById(R.id.fleet_create_order_bt).setVisibility(View.GONE);
             findViewById(R.id.fleet_button_ly).setVisibility(View.GONE);
             setPageName("我加入的车队");
             JsonDriver jsonDriver = User.getInstance().getJsonTypeEntity();
@@ -391,7 +398,7 @@ public class FleetActivity extends BaseActivity {
         HttpHelper.getInstance().get(AppURL.GetMotorcades, String.valueOf(motorcadeId), new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
-                cancelProgress();
+
                 ResponseMotorcades json = ParseJson_Object(result, ResponseMotorcades.class);
 //                json.getCompany();
 //                json.getMotorcade();
@@ -403,31 +410,18 @@ public class FleetActivity extends BaseActivity {
                         Log.w(TAG, "数据不统一! car size =" + carList.size() + " motorcade drivers size = " + motorcadeDrivers.size());
                     }
                     JsonCar car;
-                    JsonMotocardesDriver driver;
                     for (int k = 0; k < carList.size(); k++) {
                         car = carList.get(k);
-                        driver = motorcadeDrivers.get(k);
-                        car.setMotocardesDriverId(driver.getId());
-                        car.setName(driver.getName());
-                        car.setPhoneNumber(driver.getPhoneNumber());
+                        for (JsonMotocardesDriver driver : motorcadeDrivers) {
+//                            driver = motorcadeDrivers.get(k);
+                            if (driver.getDriverId() == car.getDriverId()) {
+                                car.setMotocardesDriverId(driver.getMotorcadeId());
+                                car.setName(driver.getName());
+                                car.setPhoneNumber(driver.getPhoneNumber());
+                                break;
+                            }
+                        }
                     }
-                   /* ArrayList<People> list = new ArrayList<People>();
-                    People people;
-                    for (JsonMotocardesDriver driver : motorcadeDrivers) {
-                        people = new People();
-                        people.setName(driver.getName());
-                        people.setId(driver.getId());
-                        people.setUserId(driver.getUserId());
-                        people.setDriverId(driver.getDriverId());
-                        people.setMotorcadeId(driver.getMotorcadeId());
-                        people.setPhoneNumber(driver.getPhoneNumber());
-                        list.add(people);
-                    }
-//                    User.getInstance().setDriverList(list);
-                    if (adapter == null)
-                        adapter = new FleetListAdapter(AppParams.DRIVER_APP ? true : isSelectDriver, needSelectDriverSize);
-                    adapter.setPeoples(list);
-//                    adapter.addPeople(User.getInstance().getDriverList());*/
 
                     adapterDrivers = new SourceCarListAdapter(carList);
                     adapterDrivers.initSelsect(needSelectDriverSize);
@@ -437,13 +431,22 @@ public class FleetActivity extends BaseActivity {
                         @Override
                         public void run() {
                             initView();
+
                         }
                     });
 
                 } else {
                     showToast("车队还没有添加过成员哦！");
+                    if (listView.getAdapter() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                listView.setAdapter(null);
+                            }
+                        });
+                    }
                 }
-
+                cancelProgress();
             }
 
             @Override
@@ -502,6 +505,20 @@ public class FleetActivity extends BaseActivity {
                 showToast("删除失败" + str);
             }
         });
+    }
+
+    public void onClick_CreateOrder(View view) {
+        //企业没有车队无法下单
+//        if (.getUserType() == Type.EnterpriseType) {
+//        List<JsonMotorcades> motorcades = User.getInstance().getMotorcades();
+        if (listView.getAdapter() == null) {
+            showToast("请先添加车队成员！");
+            return;
+        }
+//        }
+        Bundle bundle = new Bundle();
+        bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE, OrderDetailMode.CreateMode.ordinal());
+        startActivity(OrderDetailActivity.class, bundle, 0, false);
     }
 
     public void onclick_AddDriver(View view) {

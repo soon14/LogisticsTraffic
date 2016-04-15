@@ -248,6 +248,14 @@ public class OrderDetailActivity extends BaseActivity {
         }
         if (statusStr != null)
             setTextView(R.id.order_detail_status_tx, statusStr);
+
+
+        if (jsonOrder.getOrderStatus().ordinal() >= OrderStatus.FinishedOrder.ordinal()) {
+            //判断是否为企业下单，如果是 则不能评价
+            if (jsonOrder.getCompanyId() == 0) {
+                findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
+            }
+        }
     }
 
 
@@ -363,16 +371,14 @@ public class OrderDetailActivity extends BaseActivity {
                 }
                 break;
             case SubmittedMode:
-//                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                 //修改为定位图标
-//                findViewById(R.id.order_detail_select_driver_bt).setBackgroundResource(R.drawable.location_bt_selector);
                 ImageButton driverBt = (ImageButton) findViewById(R.id.order_detail_select_driver_bt);
                 driverBt.setImageResource(R.drawable.location_bt_selector);
 //                setTextView(R.id.order_detail_submit, "订单已提交");
                 findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
                 break;
             case CompletedMode:
-//                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
+//                findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
 //                setTextView(R.id.order_detail_submit, "订单已完成");
                 findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
@@ -387,24 +393,30 @@ public class OrderDetailActivity extends BaseActivity {
                 findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
                 setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_temp));
                 //企业创建订单的时候不能选择司机
-                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
+//                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_call_phone_bt).setVisibility(View.GONE);
 
                 break;
             case UntreatedMode://未提交订单
 
+//                findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
+//                findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
+//                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
-                findViewById(R.id.order_detail_submit).setVisibility(View.INVISIBLE);
-                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_call_phone_bt).setVisibility(View.GONE);
+                setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_uncommitted));
+                if (currentOrderStatus == OrderStatus.AllocationOrder) {
+                    setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_allocation));
+                }
                 break;
             case SubmittedMode:
-//                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                 //修改为定位图标
-                findViewById(R.id.order_detail_select_driver_bt).setBackgroundResource(R.drawable.location_bt_selector);
+                ImageButton driverBt = (ImageButton) findViewById(R.id.order_detail_select_driver_bt);
+                driverBt.setImageResource(R.drawable.location_bt_selector);
                 findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
                 break;
             case CompletedMode:
-//                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
+//                findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
 //                setTextView(R.id.order_detail_submit, "订单已完成");
                 findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
@@ -744,7 +756,7 @@ public class OrderDetailActivity extends BaseActivity {
             bundle.putStringArrayList(AppParams.SELECT_DRIVES_LIST_KEY, BaseEntity.ParseArrayToString(list));
         if (selectedDrivers != null && !selectedDrivers.isEmpty())
             bundle.putParcelableArrayList(AppParams.SELECTED_DRIVERS_LIST, selectedDrivers);
-        startActivityForResult(FleetActivity.class, bundle, AppParams.RESULT_CODE_SELECT_DEVICES);
+        startActivityForResult(FleetActivity.class, bundle, 0, AppParams.RESULT_CODE_SELECT_DEVICES);
     }
 
 
@@ -803,7 +815,7 @@ public class OrderDetailActivity extends BaseActivity {
     public void onClick_CallPhone(View view) {
 
         new ConfirmDialog(this)
-                .setMessage("是否拨打客服电话")
+                .setMessage(String.format(getString(R.string.service_tel_dialog), getString(R.string.app_phone)))
                 .setConfirm("拨打")
                 .setConfirmListener(new View.OnClickListener() {
                     @Override
@@ -852,11 +864,11 @@ public class OrderDetailActivity extends BaseActivity {
                 //司机抢单
                 if (user.getUserType() == Type.DriverType) {
                     submitOrder_Drivers();
-                } else if (user.getUserType() == Type.CompanyInformationType) {
+                } else /*if (user.getUserType() == Type.CompanyInformationType)*/ {
                     submitOrder_Company();
-                } else {
+                } /*else {
                     showToast("无权操作订单");
-                }
+                }*/
                 break;
             case SubmittedMode://已提交订单
                 if (user.getUserType() == Type.DriverType) {
@@ -866,7 +878,7 @@ public class OrderDetailActivity extends BaseActivity {
                 break;
             case CompletedMode:// 已完成订单
                 //跳转评价
-                if (user.getUserType() == Type.DriverType) {
+                if (user.getUserType() == Type.DriverType && jsonOrder.getCompanyId() > 0) {
                     Bundle bundle = new Bundle();
 //                    bundle.putInt(AppParams.BUNDLE_EVALUATION_ROLE,Type.CompanyInformationType.toRole());
                     bundle.putString(AppParams.BUNDLE_EVALUATION_ORDER, jsonOrder.toString());
@@ -931,21 +943,27 @@ public class OrderDetailActivity extends BaseActivity {
     private void submitOrder_Company_Call() {
         //                //先判断有没有选司机
         if (selectedDrivers == null) {
-            if (currentOrderStatus == OrderStatus.AllocationOrder
-                    && allocationList != null) {
-                showToast("请从已抢单司机列表中选择司机");
-                // 如果已经从 抢单司机列表中选择了，则直接走callDriver接口进行通知；callDriver成功后会自动调用allocation
+            if (User.getInstance().getUserType() == Type.EnterpriseType) {
+                //企业直接call车队车辆
+                requestCallMotorcade();
+
             } else {
-//                  没有选择司机，或者没有可选的接单列表 弹出CALL车选项
-                if (getMainLooper() == Looper.myLooper()) {
-                    showChooseCallDialog();
+                if (currentOrderStatus == OrderStatus.AllocationOrder
+                        && allocationList != null) {
+                    showToast("请从已抢单司机列表中选择司机");
+                    // 如果已经从 抢单司机列表中选择了，则直接走callDriver接口进行通知；callDriver成功后会自动调用allocation
                 } else {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            showChooseCallDialog();
-                        }
-                    });
+//                  没有选择司机，或者没有可选的接单列表 弹出CALL车选项
+                    if (getMainLooper() == Looper.myLooper()) {
+                        showChooseCallDialog();
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                showChooseCallDialog();
+                            }
+                        });
+                    }
                 }
             }
         } else if (allocationList != null && !allocationList.isEmpty()) {
@@ -1292,13 +1310,14 @@ public class OrderDetailActivity extends BaseActivity {
                 jsonOrder = tmp_json;
                 currentOrderStatus = OrderStatus.parseStatus(jsonOrder.getStatus());
                 if (isSubmit) {
-                    Type userType = User.getInstance().getUserType();
-                    if (userType == Type.CompanyInformationType) {
-                        submitOrder_Company_Call();
-                    } else if (userType == Type.EnterpriseType) {
-                        //企业直接call车队车辆
-                        requestCallMotorcade();
-                    }
+//                    Type userType = User.getInstance().getUserType();
+//                    if (userType == Type.CompanyInformationType) {
+                    submitOrder_Company_Call();
+//                    } else if (userType == Type.EnterpriseType) {
+//                        //企业直接call车队车辆
+//                        requestCallMotorcade();
+//
+//                    }
                 } else {
                     runOnUiThread(new Runnable() {
                         @Override
@@ -1318,6 +1337,10 @@ public class OrderDetailActivity extends BaseActivity {
 
     //企业将订单指派到物流公司
     private void requestSendToCompany(String orderId) {
+        //企业下单没有物流公司
+        if (jsonOrder.getCompanyId() == 0) {
+            return;
+        }
         User user = User.getInstance();
         HashMap<String, String> params = new HashMap<>();
         params.put("orderId", orderId);
