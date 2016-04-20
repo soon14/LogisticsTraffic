@@ -24,7 +24,7 @@ import java.net.URISyntaxException;
 public class PictureHelper {
 
     private static final String TAG = PictureHelper.class.getSimpleName();
-    static final boolean IS_CUT_PHOTO = true;//标记 是否需要切图的步骤
+    static final boolean IS_CUT_PHOTO = false;//标记 是否需要切图的步骤
 
     public interface CallBack {
         void handlerImage(File file);
@@ -54,19 +54,7 @@ public class PictureHelper {
     public boolean onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
         if (requestCode == PHOTO_REQUEST_CUT) {
             // 从剪裁页面返回
-            if (croppedFile == null)
-                return false;
-            Log.d(TAG, "压缩前图片：" + croppedFile.getPath());
-            // 压缩图片
-//            compressImage(croppedFile, 500);
-//            Bitmap compress = compress(croppedFile.getPath(), 300f, 300f);
-//                imageFile = createImageFile();
-            compressByte(croppedFile.getPath(), 200);
-            Log.d(TAG, "压缩后图片：" + croppedFile.getPath());
-            if (callBack != null) {
-                callBack.handlerImage(croppedFile);
-                return true;
-            }
+            return callback(croppedFile);
 //            String path = galleryManager.selectImage(data);
 //            connectUpLoadImage(path);
             //头像上传成功后在设置图像
@@ -78,13 +66,10 @@ public class PictureHelper {
                 // 从照相机返回，去剪裁页面
                 cropPicture(activity, Uri.fromFile(photoFile));
             } else {
-                if (callBack != null) {
-                    callBack.handlerImage(photoFile);
-                    return true;
-                }
+                return callback(photoFile);
             }
             return true;
-        } else if (requestCode == SELECT_PHOTO) {// 来自头像页面 从相册返回，去剪裁页面
+        } else if (requestCode == SELECT_PHOTO) {// 从相册返回，去剪裁页面
             if (data == null) {
                 return false;
             } else {
@@ -101,11 +86,29 @@ public class PictureHelper {
                             Log.w(TAG, e);
                             photoFile = new File(getRealPathFromURI(activity, selectedImage));
                         }
-                        callBack.handlerImage(photoFile);
+                        return callback(photoFile);
+//                        callBack.handlerImage(photoFile);
                     }
                 }
                 return true;
             }
+        }
+        return false;
+    }
+
+    private boolean callback(File file) {
+        if (file == null)
+            return false;
+        Log.d(TAG, "压缩前图片：" + file.getPath());
+        // 压缩图片
+//            compressImage(croppedFile, 500);
+//            Bitmap compress = compress(croppedFile.getPath(), 300f, 300f);
+//                imageFile = createImageFile();
+        compressByte(file.getPath(), 500);
+        Log.d(TAG, "压缩后图片：" + file.getPath());
+        if (callBack != null) {
+            callBack.handlerImage(file);
+            return true;
         }
         return false;
     }
@@ -225,7 +228,7 @@ public class PictureHelper {
             Bitmap bitmap = readFile(imgPath);
 
 //            Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(imgPath),null,opts);
-            Log.d(TAG, "读取图片:" + imgPath + "->" + bitmap);
+            Log.d(TAG, "读取图片:" + imgPath + "->" + bitmap+" 目标压缩大小："+size);
             if (bitmap == null) {
                 Log.w(TAG, "压缩图片失败");
                 return false;
@@ -237,8 +240,11 @@ public class PictureHelper {
                 // 重置baos即清空baos
                 baos.reset();
                 // 每次都减少10
-                quality -= 10;
-                if (quality < 0) {
+                if (quality > 10)
+                    quality -= 10;
+                else
+                    quality -= 1;
+                if (quality < 5) {
                     break;
                 }
                 // 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
@@ -253,6 +259,8 @@ public class PictureHelper {
             //新建一个文件 用于存放压缩后的图片
 //            File file = createImageFile();// 去掉创建图片  改为替换原有的图片
             OutputStream outputStream = new FileOutputStream(imgPath);
+            quality = Math.max(5, quality);
+            Log.d(TAG, "最终压缩比率：" + quality);
             if (bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream))
                 Log.d(TAG, "写入压缩文件成功");
             outputStream.close();
@@ -267,6 +275,7 @@ public class PictureHelper {
 
     /**
      * 读取文件
+     *
      * @param imgPath
      * @return
      */

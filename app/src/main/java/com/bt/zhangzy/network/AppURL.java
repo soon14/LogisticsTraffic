@@ -3,6 +3,7 @@ package com.bt.zhangzy.network;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 
 /**
+ * App 内接口地址封装；
  * Created by ZhangZy on 2016-1-5.
  */
 public enum AppURL {
