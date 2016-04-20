@@ -44,7 +44,7 @@ public class LoginActivity extends BaseActivity {
             username.setText(User.getInstance().getPhoneNum());
         }
 
-        if (User.getInstance().isSave()) {
+        if (AppParams.DEBUG && User.getInstance().isSave()) {
             setTextView(R.id.login_password_ed, User.getInstance().getPassword());
         }
 
