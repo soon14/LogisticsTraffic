@@ -20,6 +20,8 @@
     <!-- 地图定位-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 下载文件权限-->
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 
 
     <permission
@@ -59,7 +61,12 @@
         <service
             android:name="com.bt.zhangzy.logisticstraffic.service.UpDataLocationService"
             android:enabled="true"></service>
-
+        <receiver android:name="com.bt.zhangzy.logisticstraffic.receiver.DownloadReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED"/>
+            </intent-filter>
+        </receiver>
         <activity
             android:name="com.bt.zhangzy.logisticstraffic.activity.MainActivity"
             android:label="@string/app_name">
@@ -106,7 +113,6 @@
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.ForgetActivity" />
         <!-- test-->
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TestActivity" />
-
 
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->

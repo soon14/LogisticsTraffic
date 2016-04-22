@@ -8,6 +8,12 @@ import com.bt.zhangzy.logisticstraffic.app.AppParams;
  */
 public enum AppURL {
 
+    /*
+http://www.yyt56.net:8080/conf/AndroidDriverConfig.properties
+http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
+* */
+    APP_UPDATA_DRIVER("/conf/AndroidDriverConfig.properties"),
+    APP_UPDATA_COMPANY("/conf/AndroidCompanyConfig.properties"),
     /*http://182.92.77.31:8080/img/phone/biaoshuan.png
 http://182.92.77.31:8080/img/phone/commpanyan.png
 http://182.92.77.31:8080/img/phone/downan.png

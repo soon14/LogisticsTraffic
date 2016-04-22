@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.bt.zhangzy.tools.UploadFileTask;
+import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
@@ -351,7 +352,7 @@ public class HttpHelper extends OkHttpClient {
         enqueue(new Request.Builder().url(url).post(body).build(), callback);
     }
 
-    public void get(String url, NetCallback callback) {
+    public void get(String url, Callback callback) {
         Log.i(TAG, "get url = " + url);
         enqueue(new Request.Builder().url(url).get().build(), callback);
     }
@@ -542,7 +543,7 @@ public class HttpHelper extends OkHttpClient {
      * @param request
      * @param responseCallback
      */
-    public void enqueue(Request request, NetCallback responseCallback) {
+    public void enqueue(Request request, Callback responseCallback) {
         try {
             this.newCall(request).enqueue(responseCallback);
         } catch (Exception e) {

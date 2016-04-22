@@ -19,8 +19,8 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.adapter.LocationListAdapter;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.AppURL;
@@ -134,6 +134,20 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
         return getInstance();
     }
 
+    public static LocationView createDialogForOrder(Activity context) {
+        BaseDialog dialog = new BaseDialog(context);
+        dialog.setContentView(R.layout.order_location_wheel);
+
+        getInstance().init(context, dialog);
+        dialog.setOnClickListener(R.id.order_location_confirm_bt, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getInstance().dialog.cancel();
+            }
+        });
+        return getInstance();
+    }
+
     public LocationView setTitle(String title) {
         if (dialog != null) {
             dialog.setTitle(title);
@@ -157,8 +171,8 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
 
     public void dismiss() {
         if (listener != null) {
-            if(currentLocation == null){
-                currentLocation = new Location("","");
+            if (currentLocation == null) {
+                currentLocation = new Location("", "");
             }
             listener.onCancel(currentLocation);
         }

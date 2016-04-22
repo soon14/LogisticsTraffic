@@ -42,6 +42,8 @@
         <item>家畜</item>
         <item>农副产品</item>
         <item>电子电器</item>
+        <item>工业产品</item>
+        <item>钢材</item>
         <item>其他</item>
     </string-array>
 

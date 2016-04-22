@@ -83,7 +83,8 @@ public class MainActivity extends BaseActivity {
 
 
     public void onClick_Test(View view) {
-        startActivity(TestActivity.class);
+//        startActivity(TestActivity.class);
+//        loadConfig();
     }
 
     public void onClick_Enterprise(View view) {

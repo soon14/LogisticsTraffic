@@ -538,7 +538,7 @@ public class OrderDetailActivity extends BaseActivity {
         } else {
             location = Location.Parse(string);
         }
-        LocationView.createDialog(this)
+        LocationView.createDialogForOrder(this)
                 .setCurrentLocation(location)
                 .setListener(new LocationView.ChangingListener() {
                     @Override
@@ -624,9 +624,13 @@ public class OrderDetailActivity extends BaseActivity {
                 .setCallback(new InputDialog.Callback() {
                     @Override
                     public void inputCallback(String string) {
-                        updateJsonOrder = true;
-                        setTextView(R.id.order_detail_driver_size_ed, string);
-                        jsonOrder.setDriverCount(Integer.valueOf(string));
+                        if (string != null && string.length() < 3) {
+                            updateJsonOrder = true;
+                            setTextView(R.id.order_detail_driver_size_ed, string);
+                            jsonOrder.setDriverCount(Integer.valueOf(string));
+                        } else {
+                            showToast("司机数量错误！");
+                        }
                     }
                 }).show();
     }

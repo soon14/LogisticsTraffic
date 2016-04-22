@@ -76,6 +76,7 @@ public class HomeActivity extends BaseActivity {
             }
         });
 
+        getApp().checkAppVersion();
     }
 
     @Override
