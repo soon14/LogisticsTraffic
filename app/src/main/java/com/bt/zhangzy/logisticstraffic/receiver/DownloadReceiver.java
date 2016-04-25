@@ -33,16 +33,19 @@ public class DownloadReceiver extends BroadcastReceiver {
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);//TO DO 判断这个id与之前的id是否相等，如果相等说明是之前的那个要下载的文件
             if (id == Long.parseLong(getApkId(context))) {//TO DO 判断这个id与之前的id是否相等，如果相等说明是之前的那个要下载的文件
                 DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-//                Uri uriForDownloadedFile = downloadManager.getUriForDownloadedFile(id);
-//                Log.d(TAG, "download manager = " + uriForDownloadedFile);
-//                if (uriForDownloadedFile != null) {
-//                    installAPK(context, uriForDownloadedFile);
-//                    showToast(context, "开始安装");
-//                } else {
-//                    showToast(context, "下载失败-文件为空");
-//                }
+                Uri uriForDownloadedFile = downloadManager.getUriForDownloadedFile(id);
+                Log.d(TAG, "download manager = " + uriForDownloadedFile);
+                if (uriForDownloadedFile != null) {
+                    String uriString = getFilePathFromUri(context, uriForDownloadedFile);
+                    Log.d(TAG, "download uriString = " + uriString);
+                    Uri uri = Uri.fromFile(new File(uriString));
+                    installAPK(context, uri);
+                    showToast(context, "开始安装");
+                } else {
+                    showToast(context, "下载失败-文件为空");
+                }
 
-                ortherInstallAPK(context, id, downloadManager);
+//                ortherInstallAPK(context, id, downloadManager);
             }
         } else if (action.equals(DownloadManager.ACTION_NOTIFICATION_CLICKED)) {
 //            Toast.makeText(context, "点击通知了....", Toast.LENGTH_LONG).show();
