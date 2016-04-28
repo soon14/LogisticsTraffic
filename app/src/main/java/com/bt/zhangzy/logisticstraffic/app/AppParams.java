@@ -49,7 +49,7 @@ public final class AppParams {
     /* 标记调试模式 */
     public static boolean DEBUG = BuildConfig.APP_DEBUG;
 
-    public static String APP_HOST;
+    public static String APP_HOST = "http://182.92.77.31";//默认值
 
     /*=============activity跳转请求常量 =================*/
 

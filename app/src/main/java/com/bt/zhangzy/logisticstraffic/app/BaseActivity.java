@@ -430,8 +430,7 @@ public class BaseActivity extends FragmentActivity {
 
     public void showDialogCallPhone(String phoneNum, int companyId) {
         Log.d(TAG, ">>>showDialogCallPhone " + phoneNum);
-        if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
-            gotoPay();
+        if (!User.getInstance().checkUserVipStatus(this)) {
             return;
         }
         new CallPhoneDialog(this)

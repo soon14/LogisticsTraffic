@@ -88,8 +88,7 @@ public class SourceCarDetailActivity extends BaseActivity {
 
     public void onClick_CallPhone(View view) {
 //        ContextTools.callPhone(this, "10010");
-        if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
-            gotoPay();
+        if (!User.getInstance().checkUserVipStatus(this)) {
             return;
         }
         getApp().callPhone(jsonCar.getPhoneNumber());

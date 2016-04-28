@@ -211,8 +211,7 @@ public class DetailCompany extends BaseActivity {
     boolean openCall;
 
     public void onClick_CallPhone(View view) {
-        if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
-            gotoPay();
+        if (!User.getInstance().checkUserVipStatus(this)) {
             return;
         }
         openCall = true;
@@ -281,8 +280,7 @@ public class DetailCompany extends BaseActivity {
         if (User.getInstance().checkUserStatus(this)) {
             return;
         }
-        if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
-            gotoPay();
+        if (!User.getInstance().checkUserVipStatus(this)) {
             return;
         }
 
@@ -298,8 +296,7 @@ public class DetailCompany extends BaseActivity {
     }
 
     public void onClick_CollectAdd(View view) {
-        if (AppParams.DRIVER_APP && !User.getInstance().isVIP()) {
-            gotoPay();
+        if (!User.getInstance().checkUserVipStatus(this)) {
             return;
         }
         if (findViewById(R.id.detail_colletion).isSelected()) {

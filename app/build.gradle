@@ -46,7 +46,7 @@ android {
     buildTypes {
         debug {
             buildConfigField "boolean", "APP_DEBUG", "true"
-            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:8080"]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:80"]
             // 是否进行混淆
             minifyEnabled false
             signingConfig signingConfigs.yyt
@@ -55,7 +55,7 @@ android {
             signingConfig signingConfigs.yyt
             buildConfigField "boolean", "APP_DEBUG", "false"
             //配置APP内的请求网关
-            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:80"]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:8080"]
             // 是否进行混淆
             minifyEnabled false
             // 移除无用的resource文件

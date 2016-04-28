@@ -100,6 +100,10 @@ public class RegisterActivity extends BaseActivity {
         }
         password = passwordEd.getText().toString();
         phoneNum = phoneNumEd.getText().toString();
+        if(password.length()<6){
+            showToast("密码长度太短");
+            return;
+        }
         if (!password.equals(passwordConfirmEd.getText().toString())) {
             showToast("密码输入不一致");
             return;

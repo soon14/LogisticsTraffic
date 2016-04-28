@@ -34,6 +34,7 @@ import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.entity.JsonCarTrack;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
@@ -366,6 +367,8 @@ public class OrderDetailActivity extends BaseActivity {
             switch (currentDriverLoadingStatus) {
                 case Accept:
                     setTextView(R.id.order_detail_submit, strings[0]);
+//                    自动触发一次位置上传
+                    requestUploadLocation();
                     break;
                 case Loading://等待确认装货 不可点击
                     setTextView(R.id.order_detail_submit, strings[1]);
@@ -384,6 +387,7 @@ public class OrderDetailActivity extends BaseActivity {
             }
         }
     }
+
 
     private void initView_Company() {
         switch (currentMode) {
@@ -1428,5 +1432,31 @@ public class OrderDetailActivity extends BaseActivity {
         return Integer.valueOf(num_str);
     }
 
+
+    private void requestUploadLocation() {
+        Log.i(TAG, "requestUploadLocation - first");
+        JsonCarTrack params = new JsonCarTrack();
+        User user = User.getInstance();
+        params.setDriverId(user.getDriverID());
+        if (user.getJsonCar() != null)
+            params.setCarId(user.getJsonCar().getId());
+//        params.setOrderId();
+        if (user.getLocation() != null) {
+            params.setLongitude(Double.valueOf(user.getLocation().getLongitude()));
+            params.setLatitude(Double.valueOf(user.getLocation().getLatitude()));
+        }
+        params.setOrderId(jsonOrder.getId());
+        HttpHelper.getInstance().post(AppURL.PostUploadLocation, params, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                Log.i(TAG, "requestUploadLocation - success:" + result);
+            }
+
+            @Override
+            public void onFailed(String str) {
+                Log.i(TAG, "requestUploadLocation - failed:" + str);
+            }
+        });
+    }
 
 }

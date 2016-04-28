@@ -323,10 +323,9 @@ public class HomeActivity extends BaseActivity {
     public void onClick_FloatView(View view) {
 //                startActivity(OrderDetailActivity.class);
         if (User.getInstance().getUserType() == Type.DriverType) {
-            if (!User.getInstance().isVIP()) {
-                gotoPay();
-            } else
+            if (User.getInstance().checkUserVipStatus(this)) {
                 startActivity(PublishCarActivity.class);
+            }
         } else {
             if (User.getInstance().checkUserStatus(this)) {
                 return;
@@ -418,10 +417,8 @@ public class HomeActivity extends BaseActivity {
                 showToast("用户资料不完善，无法使用此功能");
                 return;
             }
-            if (User.getInstance().isVIP()) {
+            if (User.getInstance().checkUserVipStatus(this)) {
                 startActivity(SourceGoodsActivity.class, null, true);
-            } else {
-                gotoPay();
             }
         } else if (User.getInstance().getUserType() == Type.CompanyInformationType) {
             startActivity(SourceCarActivity.class, null, true);

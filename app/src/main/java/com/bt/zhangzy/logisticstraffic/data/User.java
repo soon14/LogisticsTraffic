@@ -532,6 +532,29 @@ public class User implements Serializable {
     }
 
     /**
+     * 检测用户的支付状态，并弹出支付对话框
+     * @param activity
+     * @return 是否已支付
+     */
+    public boolean checkUserVipStatus(BaseActivity activity) {
+        if(getUserType() == Type.DriverType) {
+            if (getUserStatus() == UserStatus.UN_CHECKED) {
+                activity.showToast("用户资料不完善，无法使用此功能");
+                return false;
+            } else if (getUserStatus() == UserStatus.COMMITED) {
+                activity.showToast("用户资料正在审核，请耐心等待审核通过");
+                return false;
+            }
+            if (!User.getInstance().isVIP()) {
+                activity.gotoPay();
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * 更新用户信息 和 角色信息
      */
     public void requestUserInfo() {
