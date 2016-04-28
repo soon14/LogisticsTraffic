@@ -1,14 +1,17 @@
 package com.bt.zhangzy.network;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.tools.Tools;
 import com.zhangzy.base.http.BaseEntity;
-import com.zhangzy.base.http.NetCallback;
 
 /**
  * Created by ZhangZy on 2016-3-18.
@@ -17,6 +20,11 @@ public class SMSCodeHelper implements Handler.Callback {
     private static final String TAG = SMSCodeHelper.class.getSimpleName();
     private static final long DELAY_TIME = 3 * 1000;//延时时间
     public static final int REQUSET_COUNT = 5;//请求次数
+
+    private static final int WHAT_SEND_BT_HIDE = 2;//显示等待发送按钮
+    private static final int WHAT_SEND_BT_WAITING = 3;//更新按钮文字
+    private static final int WHAT_SEND_BT_AGAIN = 4;//重新发送
+
     static SMSCodeHelper instance = new SMSCodeHelper();
     private int verificationCode;//返回的验证码
     int requestNum;
@@ -25,13 +33,15 @@ public class SMSCodeHelper implements Handler.Callback {
     String phoneNum;//发送的手机号
     String SMScode;//短信模板的编号
     Handler handler;//验证码延时获取处理
+    private TextView sendBt;//发送按钮
+    int waitingTime = 60;
 
     public static SMSCodeHelper getInstance() {
         return instance;
     }
 
     private SMSCodeHelper() {
-        handler = new Handler(this);
+        handler = new Handler(Looper.getMainLooper(), this);
     }
 
     /**
@@ -67,16 +77,82 @@ public class SMSCodeHelper implements Handler.Callback {
     @Override
     public boolean handleMessage(Message msg) {
         if (msg != null) {
-            if (msg.what == 1) {
-                //从服务器获取短信验证码
-                requestNum++;
-                if (requestNum < REQUSET_COUNT) {
-                    requestVerificationCode(phoneNum);
-                }
-                return true;
+            switch (msg.what) {
+                case 1:
+//            if (msg.what == 1) {
+                    //从服务器获取短信验证码
+                    requestNum++;
+                    if (requestNum < REQUSET_COUNT) {
+                        requestVerificationCode(phoneNum);
+                    }
+                    return true;
+                case WHAT_SEND_BT_HIDE:
+//            }else if(msg.what == WHAT_SEND_BT_HIDE){
+                    if (sendBt != null) {
+                        sendBt.setEnabled(false);
+                        waitingTime = 60;
+                        sendBt.setText(String.format(activity.getString(R.string.sms_send_bt_waiting), waitingTime));
+                        handler.sendEmptyMessageDelayed(WHAT_SEND_BT_WAITING, 1000);
+                    }
+                    return true;
+                case WHAT_SEND_BT_WAITING:
+                    if (sendBt != null) {
+                        waitingTime -= 1;
+                        sendBt.setText(String.format(activity.getString(R.string.sms_send_bt_waiting), waitingTime));
+                        if (waitingTime > 0) {
+                            handler.sendEmptyMessageDelayed(WHAT_SEND_BT_WAITING, 1000);
+                        } else {
+                            handler.sendEmptyMessage(WHAT_SEND_BT_AGAIN);
+                        }
+                    }
+                    return true;
+                case WHAT_SEND_BT_AGAIN:
+                    if (sendBt != null) {
+                        sendBt.setEnabled(true);
+                        sendBt.setText(R.string.sms_send_bt);
+                    }
+                    return true;
             }
+
         }
         return false;
+    }
+
+    /**
+     * 验证收货 短信发送接口
+     *
+     * @param activity
+     * @param fromPhone
+     * @param toPhone
+     * @param code
+     */
+    public void sendSMS_Receiver(BaseActivity activity, final TextView sendBt, String fromPhone, String toPhone, String code) {
+        if (Tools.isEmptyStrings(fromPhone, toPhone, code)) {
+            activity.showToast("参数不能为空");
+            return;
+        }
+
+        this.activity = activity;
+        this.sendBt = sendBt;
+        this.phoneNum = fromPhone + toPhone;
+        SMScode = code;
+        requestNum = 0;
+        verificationCode = 0;
+        String params = fromPhone + '/' + toPhone + "?template=" + code;
+        HttpHelper.getInstance().get(AppURL.SendVerificationCodeToReceiver, params, new JsonCallback() {
+            @Override
+            public void onFailed(String str) {
+                showToast("验证码发送失败[" + str + "]");
+            }
+
+            @Override
+            public void onSuccess(String msg, String result) {
+                showToast("验证码发送成功");
+                getInstance().handler.sendEmptyMessage(WHAT_SEND_BT_HIDE);
+                requestVerificationCode(getInstance().phoneNum);
+            }
+
+        });
     }
 
     /**
@@ -86,29 +162,31 @@ public class SMSCodeHelper implements Handler.Callback {
      * @param phoneNum
      * @param code
      */
-    public void sendSMS(BaseActivity activity, String phoneNum, String code) {
+    public void sendSMS(BaseActivity activity, TextView sendBt, String phoneNum, String code) {
         if (TextUtils.isEmpty(phoneNum) || TextUtils.isEmpty(code)) {
             activity.showToast("参数不能为空");
         }
         this.activity = activity;
+        this.sendBt = sendBt;
         this.phoneNum = phoneNum;
         SMScode = code;
         requestNum = 0;
         verificationCode = 0;
         String params = phoneNum + "?template=" + code;
-        HttpHelper.getInstance().get(AppURL.SendVerificationCode, params, new NetCallback() {
+        HttpHelper.getInstance().get(AppURL.SendVerificationCode, params, new JsonCallback() {
 
             @Override
             public void onFailed(String str) {
-                showToast("验证码发送失败");
+                showToast("验证码发送失败[" + str + "]");
             }
 
             @Override
-            public void onSuccess(String str) {
-//                Json js = Json.ToJson(str);
+            public void onSuccess(String msg, String result) {
                 showToast("验证码发送成功");
+                getInstance().handler.sendEmptyMessage(WHAT_SEND_BT_HIDE);
                 requestVerificationCode(getInstance().phoneNum);
             }
+
         });
     }
 

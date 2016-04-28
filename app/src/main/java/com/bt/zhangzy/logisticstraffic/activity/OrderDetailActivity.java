@@ -78,10 +78,14 @@ public class OrderDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_order_detail);
         setPageName("订单详情");
 
+        // 获取订单数据
         initData();
 
+        // 针对用户角色 对页面进行修改
         initView();
 
+        //针对订单数据 对页面进行修改
+        //如果没有订单数据，也就是创建订单，这里会进行初始化的操作
         initJsonOrder();
 
 
@@ -213,42 +217,56 @@ public class OrderDetailActivity extends BaseActivity {
         setTextView(R.id.order_detail_volume_tx, jsonOrder.getGoodsVolume());
         setTextView(R.id.order_detail_receiver_name, jsonOrder.getReceiverName());
         setTextView(R.id.order_detail_receiver_phone_tx, jsonOrder.getReceiverPhone());
+        setTextView(R.id.order_detail_consignor_name, jsonOrder.getConsignorName());
+        setTextView(R.id.order_detail_consignor_phone_tx, jsonOrder.getConsignorPhone());
+        setTextView(R.id.order_detail_remark_ed, jsonOrder.getRemark());
         if (jsonOrder.getDriverCount() > 0)
             setTextView(R.id.order_detail_driver_size_ed, String.valueOf(jsonOrder.getDriverCount()));
 //        setTextView(R.id.order_detail_volume_tx,jsonOrder.getGoodsVolume());
 
 
         //订单状态
-        String statusStr = null;
-        String[] strings = getResources().getStringArray(R.array.order_status_items);
-        switch (jsonOrder.getOrderStatus()) {
-            case Empty:
-                statusStr = strings[0];
-                break;
-            case TempOrder:
-                statusStr = strings[1];//"创建中";
-                break;
-            case UncommittedOrder:
-            case AllocationOrder:
-                statusStr = strings[2];//"物流已接单";
-                break;
-            case TradeOrder:
-                statusStr = strings[3];// "司机已接单";
-                break;
-            case LoadingOrder:
-            case LoadingFinishOrder:
-                statusStr = strings[4];// "运输中";
-                break;
-            case FinishedOrder:
-                statusStr = strings[5];//"订单已完成";
-                break;
-            case DiscardOrder:
-                statusStr = strings[6];// "订单已作废";
-                break;
-        }
-        if (statusStr != null)
-            setTextView(R.id.order_detail_status_tx, statusStr);
+        if (User.getInstance().getUserType() != Type.DriverType) {
+            String statusStr = null;
+//            String[] strings = getResources().getStringArray(R.array.order_status_items);
+            Log.i(TAG, "json order status = " + jsonOrder.getOrderStatus().name());
+            switch (jsonOrder.getOrderStatus()) {
+                case Empty:
+                    statusStr = getString(R.string.order_status_empty);
+                    break;
+                case TempOrder:
+                    statusStr = getString(R.string.order_status_create);
+                    break;
+                case UncommittedOrder:
+                    statusStr = getString(R.string.order_status_wait_company);
+                    //特殊判断  企业直接下单 不需要物流公司接单
+                    if (jsonOrder.getCompanyId() == 0)
+                        statusStr = getString(R.string.order_status_wait_driver);
+                    break;
+                case AllocationOrder:
+                    statusStr = getString(R.string.order_status_wait_driver);
+                    ;//"物流已接单";
 
+                    break;
+                case TradeOrder:
+                    statusStr = getString(R.string.order_status_transit);
+                    ;// "司机已接单";
+                    break;
+                case LoadingOrder:
+                case LoadingFinishOrder:
+                    statusStr = getString(R.string.order_status_transit);// "运输中";
+                    break;
+                case FinishedOrder:
+                    statusStr = getString(R.string.order_status_finished);//"订单已完成";
+                    break;
+                case DiscardOrder:
+                    statusStr = getString(R.string.order_status_discard);// "订单已作废";
+                    break;
+            }
+            if (statusStr != null)
+                setTextView(R.id.order_detail_status_tx, statusStr);
+
+        }
 
         if (jsonOrder.getOrderStatus().ordinal() >= OrderStatus.FinishedOrder.ordinal()) {
             //判断是否为企业下单，如果是 则不能评价
@@ -262,9 +280,11 @@ public class OrderDetailActivity extends BaseActivity {
     private void initView() {
         EditText start_ed = (EditText) findViewById(R.id.order_detail_start_loc_tx);
         EditText stop_ed = (EditText) findViewById(R.id.order_detail_stop_loc_tx);
+        EditText remark_ed = (EditText) findViewById(R.id.order_detail_remark_ed);
         if (cannotEditStatus()) {
             start_ed.setEnabled(false);
             stop_ed.setEnabled(false);
+            remark_ed.setEnabled(false);
         } else {
             TextWatcher watcher = new TextWatcher() {
                 @Override
@@ -284,6 +304,7 @@ public class OrderDetailActivity extends BaseActivity {
             };
             start_ed.addTextChangedListener(watcher);
             stop_ed.addTextChangedListener(watcher);
+            remark_ed.addTextChangedListener(watcher);
         }
 
         //已抢司机列表 默认为不显示
@@ -303,11 +324,20 @@ public class OrderDetailActivity extends BaseActivity {
     private void initView_Drivers() {
         findViewById(R.id.order_detail_select_driver_ly).setVisibility(View.GONE);
         findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
+        //默认司机用户 不显示订单状态
+        findViewById(R.id.order_detail_status_ly).setVisibility(View.GONE);
+        findViewById(R.id.order_detail_status_line).setVisibility(View.GONE);
         switch (currentMode) {
             case CreateMode:
 
                 break;
             case UntreatedMode://未提交订单
+                //没抢到的订单 不显示 发货人信息
+                findViewById(R.id.order_detail_consignor_name_ly).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_consignor_name_line).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_consignor_phone_ly).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_consignor_phone_line).setVisibility(View.GONE);
+
                 findViewById(R.id.order_detail_call_phone_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                 if (canAccept) {
@@ -404,10 +434,15 @@ public class OrderDetailActivity extends BaseActivity {
 //                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_call_phone_bt).setVisibility(View.GONE);
-                setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_uncommitted));
-                if (currentOrderStatus == OrderStatus.AllocationOrder) {
-                    setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_allocation));
-                }
+                if (jsonOrder.getCompanyId() == 0) {
+                    setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_uncommitted));
+                    if (currentOrderStatus == OrderStatus.AllocationOrder) {
+//                    setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_allocation));
+                        setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_allocation));
+
+                    }
+                } else
+                    findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
                 break;
             case SubmittedMode:
                 //修改为定位图标
@@ -620,7 +655,7 @@ public class OrderDetailActivity extends BaseActivity {
         new InputDialog(this)
                 .setInputType(InputType.TYPE_CLASS_NUMBER)
                 .setEditHintString("请输入需要的司机数量")
-//                .setSuffixString("立方米")
+                .setInputLength(2)
                 .setCallback(new InputDialog.Callback() {
                     @Override
                     public void inputCallback(String string) {
@@ -638,26 +673,39 @@ public class OrderDetailActivity extends BaseActivity {
     public void onClick_InputReceiverName(View view) {
         if (cannotEditStatus())
             return;
+        //标记是否为收货人，否则为发货人
+        boolean is_receiver = view.getId() == R.id.order_detail_receiver_name;
+        InputDialog.Callback callback = is_receiver ? new InputDialog.Callback() {
+            @Override
+            public void inputCallback(String string) {
+                updateJsonOrder = true;
+                jsonOrder.setReceiverName(string);
+                setTextView(R.id.order_detail_receiver_name, string);
+            }
+        } : new InputDialog.Callback() {
+            @Override
+            public void inputCallback(String string) {
+                updateJsonOrder = true;
+                jsonOrder.setConsignorName(string);
+                setTextView(R.id.order_detail_consignor_name, string);
+            }
+        };
         new InputDialog(this)
                 .setInputType(InputType.TYPE_CLASS_TEXT)
-                .setEditHintString("请输入货主姓名")
+                .setInputLength(10)
+                .setEditHintString(is_receiver ? "请输入收货人姓名" : "请输入发货人姓名")
 //                .setSuffixString("立方米")
-                .setCallback(new InputDialog.Callback() {
-                    @Override
-                    public void inputCallback(String string) {
-                        updateJsonOrder = true;
-                        jsonOrder.setReceiverName(string);
-                        setTextView(R.id.order_detail_receiver_name, string);
-                    }
-                }).show();
+                .setCallback(callback).show();
     }
 
     public void onClick_InputPhone(View view) {
+        //标记是否为收货人，否则为发货人
+        boolean is_receiver = view.getId() == R.id.order_detail_receiver_phone_tx;
         if (cannotEditStatus()) {
 //            if (AppParams.DRIVER_APP)
             new CallPhoneDialog(this)
-                    .setInfoMessage("是否拨打收货人电话？")
-                    .setPhoneNum(jsonOrder.getReceiverPhone())
+                    .setInfoMessage("是否拨打" + (is_receiver ? "收货人" : "发货人") + "电话？")
+                    .setPhoneNum(is_receiver ? jsonOrder.getReceiverPhone() : jsonOrder.getConsignorPhone())
                     .show();
 
             return;
@@ -665,14 +713,24 @@ public class OrderDetailActivity extends BaseActivity {
         new InputDialog(this)
                 .setInputType(InputType.TYPE_CLASS_PHONE)
                 .setInputLength(11)
-                .setEditHintString("请输入货主电话号码")
-                .setCallback(new InputDialog.Callback() {
+                .setEditHintString("请输入" + (is_receiver ? "收货人" : "发货人") + "电话号码")
+                .setCallback(is_receiver ? new InputDialog.Callback() {
                     @Override
                     public void inputCallback(String string) {
                         if (Tools.IsPhoneNum(string)) {
                             updateJsonOrder = true;
                             jsonOrder.setReceiverPhone(string);
                             setTextView(R.id.order_detail_receiver_phone_tx, string);
+                        } else
+                            showToast("电话号码格式错误");
+                    }
+                } : new InputDialog.Callback() {
+                    @Override
+                    public void inputCallback(String string) {
+                        if (Tools.IsPhoneNum(string)) {
+                            updateJsonOrder = true;
+                            jsonOrder.setConsignorPhone(string);
+                            setTextView(R.id.order_detail_consignor_phone_tx, string);
                         } else
                             showToast("电话号码格式错误");
                     }
@@ -698,30 +756,6 @@ public class OrderDetailActivity extends BaseActivity {
                 }).show();
     }
 
-    /**
-     * 车长选择
-     *
-     * @param view
-     */
-    public void onClick_ChangeTruckLength(View view) {
-        if (cannotEditStatus())
-            return;
-        final TextView textView = (TextView) view;
-        ChooseItemsDialog.showChooseItemsDialog(this, getString(R.string.order_change_truck_length_title), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v != null && v instanceof TextView) {
-                    TextView tx = (TextView) v;
-                    CharSequence text = tx.getText();
-                    if (TextUtils.isEmpty(text))
-                        return;
-                    textView.setText(text);
-                    updateJsonOrder = true;
-                    jsonOrder.setNeedCarLength(text.toString());
-                }
-            }
-        }, getResources().getStringArray(R.array.order_change_truck_length_items));
-    }
 
     /**
      * 货物重量选择
@@ -733,6 +767,7 @@ public class OrderDetailActivity extends BaseActivity {
             return;
         new InputDialog(this)
                 .setInputType(InputType.TYPE_CLASS_NUMBER)
+                .setInputLength(4)
                 .setEditHintString("请输入货物重量")
                 .setSuffixString("吨")
                 .setCallback(new InputDialog.Callback() {
@@ -740,7 +775,7 @@ public class OrderDetailActivity extends BaseActivity {
                     public void inputCallback(String string) {
                         updateJsonOrder = true;
                         jsonOrder.setGoodsWeight(string);
-                        setTextView(R.id.order_detail_goods_weight_tx, string + "吨");
+                        setTextView(R.id.order_detail_goods_weight_tx, string);
                     }
                 }).show();
 
@@ -773,6 +808,12 @@ public class OrderDetailActivity extends BaseActivity {
         }
         Bundle bundle = new Bundle();
         bundle.putInt(AppParams.RESULT_CODE_KEY, AppParams.RESULT_CODE_ACCEPT_DRIVERS);
+        if (User.getInstance().getUserType() == Type.EnterpriseType)
+            bundle.putBoolean(AppParams.SELECTED_DRIVERS_EDIT, true);
+        else if (User.getInstance().getUserType() == Type.CompanyInformationType) {
+            //物流公司只有在 没有企业的情况下才能操作订单
+            bundle.putBoolean(AppParams.SELECTED_DRIVERS_EDIT, jsonOrder.getEnterpriseId() == 0);
+        }
         bundle.putStringArrayList(AppParams.SELECT_DRIVES_LIST_KEY, BaseEntity.ParseArrayToString(acceptList));
         startActivityForResult(FleetActivity.class, bundle, AppParams.RESULT_CODE_ACCEPT_DRIVERS);
     }
@@ -844,19 +885,25 @@ public class OrderDetailActivity extends BaseActivity {
 //        TextView editText = (TextView) findViewById(R.id.order_detail_open_ed);
         switch (currentMode) {
             case CreateMode://创建订单
-                if (jsonOrder == null || TextUtils.isEmpty(jsonOrder.getStartCity()) || TextUtils.isEmpty(jsonOrder.getStopCity())
+                if (jsonOrder == null
+                        || TextUtils.isEmpty(jsonOrder.getStartCity()) || TextUtils.isEmpty(jsonOrder.getStopCity())
                         || TextUtils.isEmpty(jsonOrder.getReceiverName()) || TextUtils.isEmpty(jsonOrder.getReceiverPhone())
-                        || TextUtils.isEmpty(jsonOrder.getGoodsType())) {
+                        || TextUtils.isEmpty(jsonOrder.getGoodsType())
+                        || TextUtils.isEmpty(jsonOrder.getConsignorName()) || TextUtils.isEmpty(jsonOrder.getConsignorPhone())
+                        || TextUtils.isEmpty(jsonOrder.getGoodsWeight())) {
                     showToast("订单信息不完整");
                     return;
                 }
-                if (TextUtils.isEmpty(jsonOrder.getGoodsVolume()) && TextUtils.isEmpty(jsonOrder.getGoodsWeight())) {
-                    showToast("重量和体积至少填一项");
-                    return;
-                }
+//                if (TextUtils.isEmpty(jsonOrder.getGoodsVolume()) && TextUtils.isEmpty(jsonOrder.getGoodsWeight())) {
+//                    showToast("重量和体积至少填一项");
+//                    return;
+//                }
 
                 //更新始发地信息
                 updateLocationInfo();
+                //更新备注信息
+                String remark = getStringFromTextView(R.id.order_detail_remark_ed);
+                jsonOrder.setRemark(remark);
                 //企业 向 信息部下单
                 requestCreateOrder();
                 break;
@@ -949,7 +996,10 @@ public class OrderDetailActivity extends BaseActivity {
         if (selectedDrivers == null) {
             if (User.getInstance().getUserType() == Type.EnterpriseType) {
                 //企业直接call车队车辆
-                requestCallMotorcade();
+                if (jsonOrder.getCompanyId() == 0)
+                    requestCallMotorcade();
+                else
+                    finish();
 
             } else {
                 if (currentOrderStatus == OrderStatus.AllocationOrder
@@ -1124,16 +1174,20 @@ public class OrderDetailActivity extends BaseActivity {
                     for (ResponseAllocationDriver json : list) {
 
                         if (json.getReceiveStatus() == OrderReceiveStatus.Receive) {
-//                        people = new People();
-//                        people.setId(json.getRoleId());
-//                        people.setDriverId(json.getRoleId());
-//                        people.setName(json.getName());
-//                        people.setPhoneNumber(json.getPhoneNumber());
-//                        people.setJsonString(json.toString());
                             allocationList.add(json);
                         } else if (json.getStatus() >= OrderReceiveStatus.Accept.ordinal()) {
                             acceptList.add(json);
                         }
+                    }
+
+                    if (!allocationList.isEmpty()) {
+                        //更新订单状态
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setTextView(R.id.order_detail_status_tx, getString(R.string.order_status_confirm_driver));
+                            }
+                        });
                     }
                 }
 //

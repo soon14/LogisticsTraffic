@@ -28,11 +28,12 @@
             android:inputType="number" />
 
         <Button
+            android:id="@+id/order_verification_send_bt"
             style="@style/home_button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick_SendVerificationCode"
-            android:text="发送验证码" />
+            android:text="@string/sms_send_bt" />
     </LinearLayout>
 
 

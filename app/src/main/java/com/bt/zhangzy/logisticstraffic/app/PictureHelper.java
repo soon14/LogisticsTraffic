@@ -7,8 +7,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
+
+import com.zhangzy.base.view.CustomProgress;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -54,7 +57,7 @@ public class PictureHelper {
     public boolean onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
         if (requestCode == PHOTO_REQUEST_CUT) {
             // 从剪裁页面返回
-            return callback(croppedFile);
+            return callback(activity, croppedFile);
 //            String path = galleryManager.selectImage(data);
 //            connectUpLoadImage(path);
             //头像上传成功后在设置图像
@@ -66,7 +69,7 @@ public class PictureHelper {
                 // 从照相机返回，去剪裁页面
                 cropPicture(activity, Uri.fromFile(photoFile));
             } else {
-                return callback(photoFile);
+                return callback(activity, photoFile);
             }
             return true;
         } else if (requestCode == SELECT_PHOTO) {// 从相册返回，去剪裁页面
@@ -86,7 +89,7 @@ public class PictureHelper {
                             Log.w(TAG, e);
                             photoFile = new File(getRealPathFromURI(activity, selectedImage));
                         }
-                        return callback(photoFile);
+                        return callback(activity, photoFile);
 //                        callBack.handlerImage(photoFile);
                     }
                 }
@@ -96,21 +99,36 @@ public class PictureHelper {
         return false;
     }
 
-    private boolean callback(File file) {
+    private boolean callback(Context context, File file) {
         if (file == null)
             return false;
-        Log.d(TAG, "压缩前图片：" + file.getPath());
-        // 压缩图片
+        Log.i(TAG, "创建压缩图片任务");
+        final CustomProgress customProgress = CustomProgress.show(context, "图片压缩中···");
+        new AsyncTask<File, String, File>() {
+
+            @Override
+            protected File doInBackground(File... params) {
+                File file = params[0];
+                Log.d(TAG, "压缩前图片：" + file.getPath());
+                // 压缩图片
 //            compressImage(croppedFile, 500);
 //            Bitmap compress = compress(croppedFile.getPath(), 300f, 300f);
 //                imageFile = createImageFile();
-        compressByte(file.getPath(), 500);
-        Log.d(TAG, "压缩后图片：" + file.getPath());
-        if (callBack != null) {
-            callBack.handlerImage(file);
-            return true;
-        }
-        return false;
+                compressByte(file.getPath(), 500);
+                Log.d(TAG, "压缩后图片：" + file.getPath());
+                return file;
+            }
+
+            @Override
+            protected void onPostExecute(File file) {
+//                super.onPostExecute(file);
+                customProgress.cancel();
+                if (callBack != null) {
+                    callBack.handlerImage(file);
+                }
+            }
+        }.execute(file);
+        return true;
     }
 
     private String getRealPathFromURI(Context context, Uri contentUri) {
@@ -228,7 +246,7 @@ public class PictureHelper {
             Bitmap bitmap = readFile(imgPath);
 
 //            Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(imgPath),null,opts);
-            Log.d(TAG, "读取图片:" + imgPath + "->" + bitmap+" 目标压缩大小："+size);
+            Log.d(TAG, "读取图片:" + imgPath + "->" + bitmap + " 目标压缩大小：" + size);
             if (bitmap == null) {
                 Log.w(TAG, "压缩图片失败");
                 return false;

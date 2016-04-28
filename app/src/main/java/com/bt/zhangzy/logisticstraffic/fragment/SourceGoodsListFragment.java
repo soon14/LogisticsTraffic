@@ -127,5 +127,9 @@ public class SourceGoodsListFragment extends Fragment {
         adapter.clear();
     }
 
+    public boolean isEmpty(){
+        return adapter==null || adapter.isEmpty();
+    }
+
 
 }

@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
@@ -69,7 +70,7 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         String phoneNum = phoneNumEd.getText().toString();
-        SMSCodeHelper.getInstance().sendSMS(this, phoneNum, "83674");
+        SMSCodeHelper.getInstance().sendSMS(this, (TextView) view, phoneNum, getString(R.string.sms_code_register));
 
 
     }
@@ -189,7 +190,7 @@ public class RegisterActivity extends BaseActivity {
     @Override
     public void onClick_Back(View view) {
 //        super.onClick_Back(view);
-            startActivity(HomeActivity.class);
+        startActivity(HomeActivity.class);
         finish();
     }
 

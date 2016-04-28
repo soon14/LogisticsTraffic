@@ -323,7 +323,10 @@ public class HomeActivity extends BaseActivity {
     public void onClick_FloatView(View view) {
 //                startActivity(OrderDetailActivity.class);
         if (User.getInstance().getUserType() == Type.DriverType) {
-            startActivity(PublishCarActivity.class);
+            if (!User.getInstance().isVIP()) {
+                gotoPay();
+            } else
+                startActivity(PublishCarActivity.class);
         } else {
             if (User.getInstance().checkUserStatus(this)) {
                 return;

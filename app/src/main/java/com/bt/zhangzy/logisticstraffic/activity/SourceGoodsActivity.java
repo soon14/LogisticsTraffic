@@ -1,6 +1,8 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -60,7 +62,7 @@ public class SourceGoodsActivity extends BaseActivity {
         public void onSuccess(String msg, String result) {
             List<JsonOrder> list = ParseJson_Array(result, JsonOrder.class);
             if (list == null && list.isEmpty()) {
-                showToast("数据列表为空");
+                showToast("没有已抢货源");
                 return;
             }
             //排序
@@ -116,7 +118,7 @@ public class SourceGoodsActivity extends BaseActivity {
             public void onSuccess(String msg, String result) {
                 List<JsonOrder> list = ParseJson_Array(result, JsonOrder.class);
                 if (list == null || list.isEmpty()) {
-                    showToast("数据列表为空 ->" + type.name());
+//                    showToast("货源列表为空 ->" + type.name());
                     if (type == OrderType.PublicType) {
                         publicFragment.setAdapter(null);
                     } else if (type == OrderType.MotorcadesType) {
@@ -197,7 +199,31 @@ public class SourceGoodsActivity extends BaseActivity {
 
             }
         });
-        onClick_ChangeSourceType(findViewById(R.id.source_goods_public_bt));
+//        onClick_ChangeSourceType(findViewById(R.id.source_goods_public_bt));
+        requestOrderList(OrderType.PublicType);
+        requestOrderList(OrderType.MotorcadesType);
+
+        //增加一个小的延时任务，哪个列表有数据就显示哪个列表
+        new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (currentType == OrderType.Empty) {
+                    if (!publicFragment.isEmpty())
+                        currentType = OrderType.PublicType;
+                    else if (!motorcadesFragment.isEmpty())
+                        currentType = OrderType.MotorcadesType;
+                    else
+                        currentType = OrderType.PublicType;
+
+                    View view = findViewById(currentType == OrderType.PublicType ? R.id.source_goods_public_bt : R.id.source_goods_motorcade_bt);
+                    view.setSelected(true);
+                    lastSelectBtn = view;
+
+                    viewPager.setCurrentItem(currentType == OrderType.PublicType ? 0 : 1);
+                }
+                return false;
+            }
+        }).sendEmptyMessageDelayed(1, 500);
     }
 
 

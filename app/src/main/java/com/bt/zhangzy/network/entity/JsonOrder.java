@@ -42,8 +42,25 @@ public class JsonOrder extends BaseEntity implements Parcelable, Comparable<Json
     int orderType;//订单类型（车队货源/公共货源）
     int driverCount;
 
+    String consignorName;//发货人名字
+    String consignorPhone;//电话
     /*===============================*/
 
+    public String getConsignorName() {
+        return consignorName;
+    }
+
+    public void setConsignorName(String consignorName) {
+        this.consignorName = consignorName;
+    }
+
+    public String getConsignorPhone() {
+        return consignorPhone;
+    }
+
+    public void setConsignorPhone(String consignorPhone) {
+        this.consignorPhone = consignorPhone;
+    }
 
     public String getCompanyName() {
         return companyName;

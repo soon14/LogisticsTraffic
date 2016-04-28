@@ -3,8 +3,8 @@
     <string name="app_url">www.yyt56.net</string>
     <string name="app_type">company</string>
     <string name="app_phone">4001689256</string>
-<!--赏一场梦里花落，观一次美丽烟火，听一段少年往事，领一份如火真情，下载“易运通”http://182.92.77.31:8080/download.html，寻找货源信息，海量货车即发即走，我们等着您！-->
-    <string name="app_recommend_sms">赏一场梦里花落，观一次美丽烟火，听一段少年往事，领一份如火真情，下载“%1$s”%2$s，寻找货源信息，海量货车即发即走，我们等着您！</string>
+    <!--朋友，你还在苦恼无人配送，找不到物流吗？“易运通”帮您解决所有难题，物流信息，海量发布，运货专车，即刻出发！点击即可下载 http://www.yyt56.net/download.html-->
+    <string name="app_recommend_sms">朋友，你还在苦恼无人配送，找不到物流吗？“%1$s”帮您解决所有难题，物流信息，海量发布，运货专车，即刻出发！点击即可下载 %2$s</string>
     <string name="action_settings">Settings</string>
     <string name="order_change_type_title">请选择货物类型</string>
     <string name="order_change_truck_type_title">请选择需要的车型</string>
@@ -31,6 +31,25 @@
     <string name="app_version_tx">版本：%s</string>
     <string name="call_phone_tx">联系我时，请说是在%s上看到的，谢谢！\n 是否拨打？</string>
     <string name="service_tel_dialog">是否拨打客服电话%s</string>
+
+
+    <!-- 订单状态-->
+    <string name="order_status_empty">无效订单</string>
+    <string name="order_status_create">创建中</string>
+    <string name="order_status_wait_company">等待物流接单</string>
+    <string name="order_status_wait_driver">等待司机抢单</string>
+    <string name="order_status_confirm_driver">等待分配司机</string>
+    <string name="order_status_transit">运输中</string>
+    <string name="order_status_finished">货物已送达</string>
+    <string name="order_status_discard">已作废</string>
+
+    <!-- 短信发送模板 -->
+    <string name="sms_code_register">register</string>
+    <string name="sms_code_login">login</string>
+    <string name="sms_code_receiver">receiver</string>
+    <!-- 发送短信按钮提示-->
+    <string name="sms_send_bt">发送验证码</string>
+    <string name="sms_send_bt_waiting">%s秒后重发</string>
 
 
 </resources>

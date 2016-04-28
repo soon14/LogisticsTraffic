@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.Toast;
@@ -36,9 +38,9 @@ import java.util.Set;
 public class WeiXinPay {
     static final String TAG = WeiXinPay.class.getSimpleName();
     static WeiXinPay instanse = new WeiXinPay();
-    final String Host = "http://182.92.77.31:8080";
-    final String PayURL = Host + "/pay/weixin_submit";//    PayWeiXin("/pay/weixin_submit"),
-    final String PayOtherURL = Host + "/pay/weixin_qr_submit";
+    String Host = null;//"http://182.92.77.31";
+    final String PayURL = "/pay/weixin_submit";//    PayWeiXin("/pay/weixin_submit"),
+    final String PayOtherURL = "/pay/weixin_qr_submit";
     public final String APPID = "wxd8934ee255eb1e0f";//wxd8934ee255eb1e0f wxd8934ee255eb1e0f
 //    static final String KEY = "";//key设置路径：微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
 
@@ -69,6 +71,7 @@ public class WeiXinPay {
     private void init(Activity context) {
         //获取实例
         iwxapi = WXAPIFactory.createWXAPI(context, APPID, false);
+        loadAppParams(context);
 //        iwxapi = WXAPIFactory.createWXAPI(context, null);
         // 将该app注册到微信
 //        boolean registerApp = iwxapi.registerApp(APPID);
@@ -76,7 +79,21 @@ public class WeiXinPay {
 //        iwxapi.handleIntent(Intent.getIntent())
     }
 
-    public void payOther(Activity context, String msg, int amount, int userId){
+    public void loadAppParams(Context context) {
+        try {
+            ApplicationInfo appInfo = context.getPackageManager()
+                    .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+
+            String host = appInfo.metaData.getString("APP_Host");
+            Log.w(TAG, "请求地址：" + host);
+            Host = host;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void payOther(Activity context, String msg, int amount, int userId) {
         activity = context;
         showProgress();
 
@@ -91,12 +108,12 @@ public class WeiXinPay {
         String localIpAddress = ContextTools.getLocalIpAddress();
         Log.d(TAG, "wifi IP=" + localWifiIP + " IP=" + localIpAddress);
         params.setFrom(localWifiIP.startsWith("0.") ? localIpAddress : localWifiIP);
-        HttpHelper.getInstance().get(PayOtherURL, params, new JsonCallback() {
+        HttpHelper.getInstance().get(Host + PayOtherURL, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 cancelProgress();
                 Log.w(TAG, "下单成功:" + result);
-                if(callback !=null){
+                if (callback != null) {
 
                 }
             }
@@ -125,7 +142,7 @@ public class WeiXinPay {
         String localIpAddress = ContextTools.getLocalIpAddress();
         Log.d(TAG, "wifi IP=" + localWifiIP + " IP=" + localIpAddress);
         params.setFrom(localWifiIP.startsWith("0.") ? localIpAddress : localWifiIP);
-        HttpHelper.getInstance().get(PayURL, params, new JsonCallback() {
+        HttpHelper.getInstance().get(Host + PayURL, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 Log.i(TAG, "http:" + msg + " result=" + result);

@@ -249,13 +249,11 @@
         <meta-data
             android:name="APP_TYPE"
             android:value="${APP_TYPE_VALUE}" />
-        <!--<meta-data-->
-        <!--android:name="APP_TYPE"-->
-        <!--android:value="driver"-->
-        <!--/>-->
-        <!--<meta-data-->
-        <!--android:name="APP_TYPE"-->
-        <!--android:value="company" />-->
+        <!-- 软件的请求地址 -->
+        <meta-data
+        android:name="APP_Host"
+        android:value="${APP_HOST_VALUE}"
+        />
     </application>
 
 </manifest>

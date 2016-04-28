@@ -242,6 +242,11 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
             Log.w(TAG, "读取客户端类型" + type + " string-type=" + typeStr);
             AppParams.DRIVER_APP = type.equals("driver");
 //            System.out.println("myMsg:" + msg);
+
+            String host = appInfo.metaData.getString("APP_Host");
+            Log.w(TAG, "请求地址：" + host);
+            AppParams.APP_HOST = host;
+
         } catch (Exception e) {
             e.printStackTrace();
         }

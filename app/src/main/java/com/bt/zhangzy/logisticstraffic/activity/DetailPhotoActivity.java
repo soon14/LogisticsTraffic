@@ -115,7 +115,9 @@ public class DetailPhotoActivity extends BaseActivity {
         setTextView(R.id.driver_name_ed, user.getUserName());
         setTextView(R.id.driver_phone_ed, user.getPhoneNum());
         JsonUser jsonUser = user.getJsonUser();
-        setImageUrl(R.id.driver_sfz_img, jsonUser.getIdCardPhotoUrl());
+        if (!TextUtils.isEmpty(jsonUser.getIdCardPhotoUrl())) {
+            setImageUrl(R.id.driver_sfz_img, jsonUser.getIdCardPhotoUrl());
+        }
 //        setImageUrl(R.id.devices_jsz_img, jsonUser.getPersonPhotoUrl());
         if (user.getJsonTypeEntity() != null) {
             JsonDriver jsonDriver = user.getJsonTypeEntity();
@@ -439,7 +441,7 @@ public class DetailPhotoActivity extends BaseActivity {
                 return;
             }
 
-            if (Tools.isEmptyStrings(requestJsonDriver.getLicensePhotoUrl(), requestJsonDriver.getSpecialQualificationsPhotoUrl(),
+            if (Tools.isEmptyStrings(requestJsonDriver.getLicensePhotoUrl(), /*requestJsonDriver.getSpecialQualificationsPhotoUrl(),*/
                     requestJsonCar.getDrivingLicensePhotoUrl(), requestJsonCar.getFrontalPhotoUrl1(), requestJsonCar.getFrontalPhotoUrl2())) {
                 showToast("图片信息不完整");
                 return;

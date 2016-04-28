@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
@@ -102,7 +103,7 @@ public class VerificationActivity extends BaseActivity {
 //            showToast("手机号输入错误");
 //            return;
 //        }
-        SMSCodeHelper.getInstance().sendSMS(this, phoneNumber, "83717");
+        SMSCodeHelper.getInstance().sendSMS_Receiver(this, (TextView) view, User.getInstance().getPhoneNum(), phoneNumber, getString(R.string.sms_code_receiver));
 
 
     }

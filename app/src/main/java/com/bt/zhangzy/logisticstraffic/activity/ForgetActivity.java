@@ -2,8 +2,10 @@ package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
@@ -28,6 +30,21 @@ public class ForgetActivity extends BaseActivity {
         setPageName("验证码登录");
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onClick_Back(null);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onClick_Back(View view) {
+//        super.onClick_Back(view);
+        startActivity(LoginActivity.class);
+        finish();
+    }
+
     public void onClick_SendVerificationCode(View view) {
         EditText phoneNumEd = (EditText) findViewById(R.id.forget_phoneNum_ed);
         if (TextUtils.isEmpty(phoneNumEd.getText()) || phoneNumEd.getText().length() != 11) {
@@ -35,7 +52,8 @@ public class ForgetActivity extends BaseActivity {
             return;
         }
         String phoneNum = phoneNumEd.getText().toString();
-        SMSCodeHelper.getInstance().sendSMS(this, phoneNum, "83803");
+        //83803
+        SMSCodeHelper.getInstance().sendSMS(this, (TextView) view, phoneNum, getString(R.string.sms_code_login));
     }
 
 

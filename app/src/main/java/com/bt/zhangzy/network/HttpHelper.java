@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.tools.UploadFileTask;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -192,7 +193,7 @@ public class HttpHelper extends OkHttpClient {
 
     /*=================== 单线程请求 ===========================*/
     private String get(String url) throws IOException {
-        Request request = new Request.Builder().url(url).build();
+        Request request = createRequestBuilder(url).build();
         Response response = this.newCall(request).execute();
         if (response.isSuccessful()) {
             return response.body().string();
@@ -230,8 +231,7 @@ public class HttpHelper extends OkHttpClient {
     }
 
     private String post(String url, RequestBody body) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
+        Request request = createRequestBuilder(url)
                 .post(body)
                 .build();
         Response response = this.newCall(request).execute();
@@ -250,7 +250,7 @@ public class HttpHelper extends OkHttpClient {
         Log.i(TAG, "post url = " + url + " json = " + json.toString());
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json.toString());
 //        post(url, body, callback);
-        enqueue(new Request.Builder().url(url).post(body).build(), callback);
+        enqueue(createRequestBuilder(url).post(body).build(), callback);
     }
 
     public void get(String url, JSONObject json, NetCallback callback) {
@@ -349,30 +349,30 @@ public class HttpHelper extends OkHttpClient {
         Log.i(TAG, "post url = " + url + " json = " + json);
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
 //        post(url, body, callback);
-        enqueue(new Request.Builder().url(url).post(body).build(), callback);
+        enqueue(createRequestBuilder(url).post(body).build(), callback);
     }
 
     public void get(String url, Callback callback) {
         Log.i(TAG, "get url = " + url);
-        enqueue(new Request.Builder().url(url).get().build(), callback);
+        enqueue(createRequestBuilder(url).get().build(), callback);
     }
 
     public void put(String url, String json, NetCallback callback) {
         Log.i(TAG, "put url = " + url + " json = " + json);
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
 //        put(url, body, callback);
-        enqueue(new Request.Builder().url(url).put(body).build(), callback);
+        enqueue(createRequestBuilder(url).put(body).build(), callback);
     }
 
     public void del(String url, String json, NetCallback callback) {
         Log.i(TAG, "del url = " + url + " json = " + json);
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
 //        del(url, body, callback);
-        enqueue(new Request.Builder().url(url).delete(body).build(), callback);
+        enqueue(createRequestBuilder(url).delete(body).build(), callback);
     }
 
     public void del(String url, NetCallback callback) {
-        enqueue(new Request.Builder().url(url).delete().build(), callback);
+        enqueue(createRequestBuilder(url).delete().build(), callback);
     }
 
     /***
@@ -399,10 +399,17 @@ public class HttpHelper extends OkHttpClient {
             }
             RequestBody body = builder.build();
 //            post(url, body, responseCallback);
-            enqueue(new Request.Builder().url(url).post(body).build(), responseCallback);
+            enqueue(createRequestBuilder(url).post(body).build(), responseCallback);
         } catch (Exception e) {
             Log.w(TAG, "post(" + url + "," + textParams == null ? "" : textParams.toString() + ")", e);
         }
+    }
+
+    private Request.Builder createRequestBuilder(String url) {
+        if (!url.startsWith("http")) {
+            url = AppParams.APP_HOST + url;
+        }
+        return new Request.Builder().url(url);
     }
 
     public void get(String url, HashMap textParams, NetCallback responseCallback) {
@@ -411,7 +418,7 @@ public class HttpHelper extends OkHttpClient {
             Log.i(TAG, "post url = " + url + " params = " + textParams.toString());
             String stringBuffer = toString(url, textParams);
 
-            enqueue(new Request.Builder().url(stringBuffer).get().build(), responseCallback);
+            enqueue(createRequestBuilder(stringBuffer).get().build(), responseCallback);
         }
     }
 
@@ -425,8 +432,7 @@ public class HttpHelper extends OkHttpClient {
      */
     public void postFile(String url, File file, NetCallback rspCallback) {
 
-        Request request = new Request.Builder()
-                .url(url)
+        Request request = createRequestBuilder(url)
                 .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, file))
                 .build();
         enqueue(request, rspCallback);
@@ -445,7 +451,7 @@ public class HttpHelper extends OkHttpClient {
      */
     public static void uploadImagePost(String url, File file, final NetCallback rspCallback) {
         //  照片上传逻辑
-        new UploadFileTask(url) {
+        new UploadFileTask(AppParams.APP_HOST + url) {
             @Override
             protected void onPostExecute(String result) {
 //                super.onPostExecute(s);
@@ -495,8 +501,7 @@ public class HttpHelper extends OkHttpClient {
 
 //        Headers handler = Headers.Builder.;
         RequestBody requestBody = builder.build();
-        Request request = new Request.Builder()
-                .url(url)
+        Request request = createRequestBuilder(url)
                 .post(requestBody)
                 .build();
 

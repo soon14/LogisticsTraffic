@@ -50,6 +50,7 @@ public class FleetActivity extends BaseActivity {
     int currentDriverIndex = -1;
     boolean isSelectDriver = false;// 选择司机
     boolean isShowLoadingDriver = false;//显示司机的运输状态
+    boolean isShowLoadingDriverEdit = false;//标记是否可以确认装货
     int motorcadeId = -1;
     private int needSelectDriverSize;//需要选择的司机数量
     private ArrayList<ResponseAllocationDriver> selectDriverListFromOrder;
@@ -176,10 +177,14 @@ public class FleetActivity extends BaseActivity {
 
                 @Override
                 public void onClick(int position) {
-                    if (position > -1 && position < selectDriverListFromOrder.size()) {
-                        ResponseAllocationDriver driver = selectDriverListFromOrder.get(position);
-                        if (driver != null)
-                            requestLoadingAccept(driver);
+                    if (isShowLoadingDriverEdit) {
+                        if (position > -1 && position < selectDriverListFromOrder.size()) {
+                            ResponseAllocationDriver driver = selectDriverListFromOrder.get(position);
+                            if (driver != null)
+                                requestLoadingAccept(driver);
+                        }
+                    } else {
+                        showToast("您无权更改此状态");
                     }
                 }
             });
@@ -210,6 +215,7 @@ public class FleetActivity extends BaseActivity {
                 } else if (bundle.getInt(AppParams.RESULT_CODE_KEY) == AppParams.RESULT_CODE_ACCEPT_DRIVERS) {
                     //展示司机 的 运输状态
                     isShowLoadingDriver = true;
+                    isShowLoadingDriverEdit = bundle.getBoolean(AppParams.SELECTED_DRIVERS_EDIT, false);
                 }
                 if (bundle.containsKey(AppParams.SELECT_DRIVES_LIST_KEY)) {
                     ArrayList<String> list = bundle.getStringArrayList(AppParams.SELECT_DRIVES_LIST_KEY);
@@ -607,7 +613,7 @@ public class FleetActivity extends BaseActivity {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("确认装货成功");
-                // TODO: 2016-4-1 这里需要从新请求数据，刷新页面
+                // TO DO: 2016-4-1 这里需要从新请求数据，刷新页面
                 setResult(AppParams.RESULT_CODE_ACCEPT_DRIVERS);
                 finish();
             }

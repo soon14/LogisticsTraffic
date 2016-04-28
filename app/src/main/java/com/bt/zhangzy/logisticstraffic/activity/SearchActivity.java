@@ -184,7 +184,7 @@ public class SearchActivity extends BaseActivity {
          */
         HashMap<String, String> params = new HashMap<>();
         params.put("fieldName", "name");
-        params.put("value", keyWord);
+        params.put("value", "*"+keyWord+"*");
         HttpHelper.getInstance().get(AppURL.GetSearch, params, getJsonCallback());
     }
 

@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
-import com.bt.zhangzy.network.AppURL;
 import com.zhangzy.base.http.ImageHelper;
 
 /**
@@ -66,10 +65,7 @@ public final class ViewUtils {
             ImageHelper.getInstance().load(null, img);
         } else {
             if (url.startsWith("/")) {
-                if (AppParams.DEBUG)
-                    url = AppURL.HostDebug + url;
-                else
-                    url = AppURL.ONLINE + url;
+                url = AppParams.APP_HOST + url;
             }
             if (url.startsWith("http://")) {
                 ImageHelper.getInstance().load(url, img);

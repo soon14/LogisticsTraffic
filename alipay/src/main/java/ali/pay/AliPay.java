@@ -2,6 +2,9 @@ package ali.pay;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -20,9 +23,9 @@ import java.util.HashMap;
 public class AliPay {
     private static final String TAG = AliPay.class.getSimpleName();
 
-    public static final String HOST = "http://182.92.77.31:8080";
-    public static final String PAY_URL = HOST + "/pay/alipay_submit";
-    public static final String PAY_OTHER_URL = HOST + "/pay/alipay_qr_submit";
+    static String HOST = null;
+    public static final String PAY_URL = "/pay/alipay_submit";
+    public static final String PAY_OTHER_URL = "/pay/alipay_qr_submit";
 
     private static final int SDK_PAY_FLAG = 1;
     // 商户PID
@@ -34,6 +37,7 @@ public class AliPay {
     private Activity activity;
 
     private AliPay() {
+
     }
 
     public static AliPay getInstance() {
@@ -101,12 +105,29 @@ public class AliPay {
         ;
     };
 
+    public void loadAppParams(Context context) {
+        try {
+            ApplicationInfo appInfo = context.getPackageManager()
+                    .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+
+            String host = appInfo.metaData.getString("APP_Host");
+            Log.w(TAG, "请求地址：" + host);
+            HOST = host;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setCallback(AliPayResultCallback callback) {
         this.callback = callback;
     }
 
-    public String  payOther(Activity context, String msg, double amount, int userId, String ip) {
+    public String payOther(Activity context, String msg, double amount, int userId, String ip) {
         //http://182.92.77.31:8080/pay/alipay_qr_submit?userId=164&subject=1&body=1&total_fee=1
+        if (TextUtils.isEmpty(HOST)) {
+            loadAppParams(context);
+        }
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("subject", "会员购买");
         params.put("body", msg);
@@ -114,7 +135,7 @@ public class AliPay {
         params.put("userId", String.valueOf(userId));
         params.put("from", TextUtils.isEmpty(ip) ? "192.168.1.1" : ip);
 
-        return HttpHelper.toString(PAY_OTHER_URL,params);
+        return HttpHelper.toString(HOST + PAY_OTHER_URL, params);
 //        HttpHelper.getInstance().get(PAY_OTHER_URL, params, new JsonCallback() {
 //            @Override
 //            public void onSuccess(String msg, String result) {
@@ -128,10 +149,13 @@ public class AliPay {
 //            }
 //        });
     }
+
     public void payUnifiedOrder(Activity context, String msg, double amount, int userId, String ip) {
+        if (TextUtils.isEmpty(HOST)) {
+            loadAppParams(context);
+        }
         activity = context;
 //        activity.showProgress("支付中···");
-
 
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -141,7 +165,7 @@ public class AliPay {
         params.put("userId", String.valueOf(userId));
         params.put("from", TextUtils.isEmpty(ip) ? "192.168.1.1" : ip);
 
-        HttpHelper.getInstance().get(PAY_URL, params, new JsonCallback() {
+        HttpHelper.getInstance().get(HOST + PAY_URL, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 response = ParseJson_Object(result, Response.class);

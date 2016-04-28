@@ -71,6 +71,9 @@ public class WebViewActivity extends BaseActivity {
 //        String url = "http://192.168.1.115:8080/mall/qiantai/ditu.html?longitude=" + location.getLongitude() + "&latitude=" + location.getLatitude();
 //        url = "http://map.baidu.com/";
         if (!TextUtils.isEmpty(url)) {
+            if (!url.startsWith("http")) {
+                url = AppParams.APP_HOST + url;
+            }
             webView.loadUrl(url);
             Log.d(TAG, "URL=" + url);
         } else if (!TextUtils.isEmpty(data)) {

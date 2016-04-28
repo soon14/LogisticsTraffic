@@ -111,7 +111,7 @@ public class InputDialog extends BaseDialog implements TextView.OnEditorActionLi
                 Toast.makeText(getContext(), "信息不完整", Toast.LENGTH_SHORT).show();
                 return;
             }
-            String string = inputLengthEd.getText() + "*" + inputWidthEd.getText() + "*" + inputHeightEd.getText() + "方";
+            String string = inputLengthEd.getText() + "*" + inputWidthEd.getText() + "*" + inputHeightEd.getText();
             if (callback != null) {
                 callback.inputCallback(string);
             }

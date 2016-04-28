@@ -149,8 +149,7 @@ public class LoginActivity extends BaseActivity {
         getApp().setAliasAndTag();
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null)
-            startActivity(HomeActivity.class, bundle);
+        startActivity(HomeActivity.class, bundle);
         finish();
 
     }

@@ -49,6 +49,8 @@ public final class AppParams {
     /* 标记调试模式 */
     public static boolean DEBUG = BuildConfig.APP_DEBUG;
 
+    public static String APP_HOST;
+
     /*=============activity跳转请求常量 =================*/
 
     /* 车源跳转 */
@@ -80,6 +82,7 @@ public final class AppParams {
     public static final String SELECT_DEVICES_SIZE_KEY = "SELECT_DEVICES_SIZE_KEY";//订单页面选择车队司机时的司机数量
     public static final String SELECT_DRIVES_LIST_KEY = "SELECT_DRIVES_LIST_KEY";//订单页面 跳转到 选择已接单司机的列表key值；
     public static final String SELECTED_DRIVERS_LIST = "SELECTED_DRIVERS_LIST";//已选的 司机列表
+    public static final String SELECTED_DRIVERS_EDIT = "SELECTED_DRIVERS_EDIT";//标记是否有编辑的权限 （是否可以确认装货)
 
 
     /**

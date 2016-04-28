@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- 订单状态-->
-    <string-array name="order_status_items">
-        <item>无效订单</item>
-        <item>创建中</item>
-        <item>物流已接单</item>
-        <item>司机已接单</item>
-        <item>运输中</item>
-        <item>订单已完成</item>
-        <item>订单已作废</item>
 
-    </string-array>
 
     <!-- 当前角色是 司机时，运输状态的显示 -->
     <string-array name="order_driver_loading_status_from_driver_items">
@@ -32,25 +22,25 @@
     <string-array name="order_change_type_items">
         <item>建材</item>
         <item>矿产</item>
+        <item>食品蔬菜</item>
         <item>设备</item>
         <item>生鲜</item>
-        <item>食品蔬菜</item>
+        <item>日用放置</item>
         <item>药品</item>
         <item>化工</item>
-        <item>木材</item>
-        <item>日用放置</item>
-        <item>家畜</item>
         <item>农副产品</item>
+        <item>木材</item>
+        <item>家畜</item>
         <item>电子电器</item>
-        <item>工业产品</item>
         <item>钢材</item>
         <item>其他</item>
+        <item>工业产品</item>
     </string-array>
 
     <string-array name="order_change_truck_type_items">
         <item>平板车</item>
-        <item>高低板车</item>
         <item>厢式车</item>
+        <item>高低板车</item>
         <item>低栏车</item>
         <item>中栏车</item>
         <item>高栏车</item>

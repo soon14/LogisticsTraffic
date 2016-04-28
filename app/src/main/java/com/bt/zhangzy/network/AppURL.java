@@ -1,7 +1,5 @@
 package com.bt.zhangzy.network;
 
-import com.bt.zhangzy.logisticstraffic.app.AppParams;
-
 /**
  * App 内接口地址封装；
  * Created by ZhangZy on 2016-1-5.
@@ -72,6 +70,9 @@ http://182.92.77.31:8080/commons/sendVerificationCode/15011207876?template=83674
 
     /* 获取手机验证码 /commons/getVerificationCode/{phoneNumber}*/
     GetVerificationCode("/commons/getVerificationCode/"),
+
+    /* 验证收货的短信发送接口 /sendVerificationCodeToReceiver/ */
+    SendVerificationCodeToReceiver("/commons/sendVerificationCodeToReceiver/"),
 
     /*图片上传接口*/
     UpLoadImage("/upload"),
@@ -186,19 +187,13 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
 
     Empty("NULL");
     //  枚举类 URL 的自定义
-     /*服务器端口  例：http://182.92.77.31:8080/freight/users/1  */
-    public static final String HostDebug = "http://182.92.77.31:8080";
-    public static final String ONLINE = "http://182.92.77.31:80";
     private String url;
 
     /**
      * @param url
      */
     AppURL(String url) {
-        if (AppParams.DEBUG)
-            this.url = HostDebug + url;
-        else
-            this.url = ONLINE + url;
+        this.url = url;
     }
 
 
