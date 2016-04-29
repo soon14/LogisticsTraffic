@@ -68,6 +68,8 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:text="用户名" />
+                        <!--  android:drawableRight="@drawable/vip_icon"-->
+
 
                         <TextView
                             android:id="@+id/user_phone_tx"
@@ -86,6 +88,7 @@
                             android:onClick="onClick_gotoDetailPhoto"
                             android:text="完善详情" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -93,20 +96,22 @@
                         android:layout_marginRight="5dp"
                         android:gravity="bottom|right"
                         android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/user_reg_date_tx"
                             style="@style/while_tx_style_12sp"
-                            android:textSize="10sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/app_version_tx" />
+                            android:text="@string/app_version_tx"
+                            android:textSize="10sp" />
+
                         <TextView
                             android:id="@+id/user_expire_date_tx"
                             style="@style/while_tx_style_12sp"
-                            android:textSize="10sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/user_expire_str" />
+                            android:text="@string/user_expire_str"
+                            android:textSize="10sp" />
                     </LinearLayout>
 
                 </LinearLayout>

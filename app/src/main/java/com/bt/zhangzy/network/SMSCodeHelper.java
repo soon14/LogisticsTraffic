@@ -1,8 +1,11 @@
 package com.bt.zhangzy.network;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
@@ -18,6 +21,11 @@ import com.zhangzy.base.http.BaseEntity;
  */
 public class SMSCodeHelper implements Handler.Callback {
     private static final String TAG = SMSCodeHelper.class.getSimpleName();
+    private static final String SMS_TAG_PHONE = "SMS_TAG_PHONE";
+    private static final String SMS_TAG_CODE = "SMS_TAG_CODE";
+    private static final String SMS_TAG_TIME = "SMS_TAG_TIME";
+
+
     private static final long DELAY_TIME = 3 * 1000;//延时时间
     public static final int REQUSET_COUNT = 5;//请求次数
 
@@ -59,11 +67,15 @@ public class SMSCodeHelper implements Handler.Callback {
      * @param inputCode
      * @return 是否一致
      */
-    public boolean checkVerificationCode(String inputCode) {
+    public boolean checkVerificationCode(BaseActivity act, String inputCode) {
 
         if (!TextUtils.isEmpty(inputCode))
             if (TextUtils.isDigitsOnly(inputCode)) {
 //                int input_code = Integer.valueOf(inputCode);
+                //如果还没有验证码 则到配置文件里去读取上次的验证码
+                if (verificationCode == 0) {
+                    loadCode(act);
+                }
                 if (inputCode.equals(String.valueOf(verificationCode)))
                     return true;
                 else
@@ -228,6 +240,7 @@ public class SMSCodeHelper implements Handler.Callback {
                 }
                 BaseEntity entity = ParseJson_Object(result, BaseEntity.class);
                 verificationCode = entity.getCode();
+                saveCode();
                 Log.w(TAG, "获取验证码成功" + entity);
             }
 
@@ -237,6 +250,32 @@ public class SMSCodeHelper implements Handler.Callback {
                 handler.sendEmptyMessageDelayed(1, DELAY_TIME);
             }
         });
+    }
+
+
+    private void saveCode() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(SMS_TAG_PHONE, phoneNum);
+        editor.putInt(SMS_TAG_CODE, verificationCode);
+        editor.putLong(SMS_TAG_TIME, System.currentTimeMillis());
+        editor.commit();
+        Log.i(TAG, preferences.toString());
+    }
+
+    private void loadCode(Activity act) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(act);
+        String phone = preferences.getString(SMS_TAG_PHONE, "0");
+//        if (phone.equals(phoneNum)) {
+            long time = preferences.getLong(SMS_TAG_TIME, 0);
+            //有效时间 5分钟
+            if (System.currentTimeMillis() - time < 5 * 60 * 1000) {
+                verificationCode = preferences.getInt(SMS_TAG_CODE, 0);
+                Log.d(TAG, "load preferences code=" + verificationCode);
+            } else
+                Log.d(TAG, "load preferences time out");
+//        } else
+            Log.d(TAG, "load preferences change phone old=" + phone + " new=" + phoneNum);
     }
 
 

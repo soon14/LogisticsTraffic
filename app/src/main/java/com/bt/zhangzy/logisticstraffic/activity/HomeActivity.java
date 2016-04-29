@@ -3,6 +3,8 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -65,6 +67,7 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
+
 
 //        add(R.id.home_content, new HomeFragment(), TAG_HOME);
 //
@@ -135,12 +138,14 @@ public class HomeActivity extends BaseActivity {
             floatView.setVisibility(View.VISIBLE);
             Log.d(TAG, "浮窗 显示");
         } else {
-            runOnUiThread(new Runnable() {
+            //防止 oppo类的手机 浮窗点击失效的问题 增加延时任务
+            new Handler(getMainLooper(), new Handler.Callback() {
                 @Override
-                public void run() {
+                public boolean handleMessage(Message msg) {
                     createView();
+                    return true;
                 }
-            });
+            }).sendEmptyMessageDelayed(0, 500);
         }
     }
 
@@ -151,8 +156,25 @@ public class HomeActivity extends BaseActivity {
             floatView.setVisibility(View.INVISIBLE);
             Log.d(TAG, "浮窗 隐藏");
         }
+        //保存用户数据
+        getApp().saveUser();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //重新读取用户数据
+        getApp().LoadAppData();
+        //重新配置软件网关 防止oppo类的手机适配问题
+        getApp().reloadAppParams();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+
+    }
 
     private void createViewPage() {
         contentViewPager = (ViewPager) findViewById(R.id.home_content_pager);
@@ -362,6 +384,7 @@ public class HomeActivity extends BaseActivity {
         floatView.setVisibility(View.VISIBLE);
         // 显示myFloatView图像
         windowManager.addView(floatView, floatView.getWindowManagerParams());
+
     }
 
 

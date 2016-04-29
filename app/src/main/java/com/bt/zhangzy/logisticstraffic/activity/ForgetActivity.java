@@ -69,7 +69,7 @@ public class ForgetActivity extends BaseActivity {
             showToast("内容不能为空");
             return;
         }
-        if (SMSCodeHelper.getInstance().checkVerificationCode(input_code)) {
+        if (SMSCodeHelper.getInstance().checkVerificationCode(this,input_code)) {
             request_Login(nameStr, input_code);
         } else {
             showToast("验证码错误");

@@ -1,8 +1,10 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.View;
 
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
@@ -89,11 +91,19 @@ public class MainActivity extends BaseActivity {
 
     public void onClick_Enterprise(View view) {
         AppParams.DRIVER_APP = false;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(getApp().APP_TYPE, "company");
+        editor.commit();
         loginHome();
     }
 
     public void onClick_Driver(View view) {
         AppParams.DRIVER_APP = true;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(getApp().APP_TYPE, "driver");
+        editor.commit();
         loginHome();
     }
 

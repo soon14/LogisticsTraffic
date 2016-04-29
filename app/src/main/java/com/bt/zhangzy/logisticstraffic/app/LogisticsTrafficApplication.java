@@ -52,6 +52,8 @@ import cn.jpush.android.api.TagAliasCallback;
 public class LogisticsTrafficApplication extends Application {
 
     private static final String TAG = LogisticsTrafficApplication.class.getSimpleName();
+    public static final String APP_TYPE = "APP_TYPE";
+    public static final String APP_HOST = "APP_HOST";
 
     private String versionName;
     private BaseActivity currentAct;
@@ -239,18 +241,36 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
 
             String type = appInfo.metaData.getString("APP_TYPE");
             String typeStr = getString(R.string.app_type);
-            Log.w(TAG, "读取客户端类型" + type + " string-type=" + typeStr);
+            Log.w(TAG, "=====>读取客户端类型" + type + " string-type=" + typeStr);
             AppParams.DRIVER_APP = type.equals("driver");
 //            System.out.println("myMsg:" + msg);
 
             String host = appInfo.metaData.getString("APP_Host");
-            Log.w(TAG, "请求地址：" + host);
+            Log.i(TAG, "=====>请求地址：" + host);
             AppParams.APP_HOST = host;
+
+            // 将配置信息保存到本地
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(APP_TYPE, type);
+            editor.putString(APP_HOST, host);
+            editor.commit();
+            Log.i(TAG, "==============保存配置===================");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public void reloadAppParams() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String type = preferences.getString(APP_TYPE, " ");
+        AppParams.DRIVER_APP = type.equals("driver");
+        AppParams.APP_HOST = preferences.getString(APP_HOST, AppParams.APP_HOST);
+        Log.i(TAG, "==============重新读取配置（type=" + type + "  APP_HOST=" + AppParams.APP_HOST + "）===================");
+
+    }
+
 
     /**
      * 设置推送标签

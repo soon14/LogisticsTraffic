@@ -56,6 +56,7 @@
         android:name="com.bt.zhangzy.logisticstraffic.app.LogisticsTrafficApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:screenOrientation="portrait"
         android:theme="@style/AppTheme">
 
         <!-- 位置上传服务 -->
@@ -65,13 +66,15 @@
         <!-- 下载完成 接受者-->
         <receiver android:name="com.bt.zhangzy.logisticstraffic.receiver.DownloadReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
-                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED"/>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name="com.bt.zhangzy.logisticstraffic.activity.MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -251,9 +254,8 @@
             android:value="${APP_TYPE_VALUE}" />
         <!-- 软件的请求地址 -->
         <meta-data
-        android:name="APP_Host"
-        android:value="${APP_HOST_VALUE}"
-        />
+            android:name="APP_Host"
+            android:value="${APP_HOST_VALUE}" />
     </application>
 
 </manifest>

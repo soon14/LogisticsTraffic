@@ -1,6 +1,7 @@
 package com.bt.zhangzy.logisticstraffic.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -93,9 +94,18 @@ public class UserFragment extends BaseHomeFragment {
     @Override
     public void onStart() {
         super.onStart();
-        initView();
 
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                initView();
+            }
+        });
     }
 
     // 发起登录请求
@@ -187,6 +197,14 @@ public class UserFragment extends BaseHomeFragment {
     }
 
     private void refreshPayStatus() {
+        if (User.getInstance().isVIP()) {
+            //加图标
+            TextView name = (TextView) findViewById(R.id.user_name_tx);
+            Drawable drawable = getResources().getDrawable(R.drawable.vip_icon);
+/// 这一步必须要做,否则不会显示.
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            name.setCompoundDrawables(null, null, drawable, null);
+        }
         TextView expireTx = (TextView) findViewById(R.id.user_expire_date_tx);
         JsonMember payJson = User.getInstance().getPayJson();
         if (payJson != null) {
@@ -198,16 +216,5 @@ public class UserFragment extends BaseHomeFragment {
         expireTx.setVisibility(View.GONE);
     }
 
-    /*刷新 页面上的信息 在UI线程中*/
-    private void refreshView() {
-        if (getActivity() == null)
-            return;
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                initView();
-            }
-        });
-    }
 
 }

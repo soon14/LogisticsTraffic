@@ -117,7 +117,7 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         verfication = verficationEd.getText().toString().trim();
-        if (!SMSCodeHelper.getInstance().checkVerificationCode(verfication)) {
+        if (!SMSCodeHelper.getInstance().checkVerificationCode(this,verfication)) {
             showToast("验证码错误");
             return;
         }

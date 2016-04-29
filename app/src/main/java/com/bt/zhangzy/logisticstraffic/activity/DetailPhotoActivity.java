@@ -118,11 +118,18 @@ public class DetailPhotoActivity extends BaseActivity {
         if (!TextUtils.isEmpty(jsonUser.getIdCardPhotoUrl())) {
             setImageUrl(R.id.driver_sfz_img, jsonUser.getIdCardPhotoUrl());
         }
+        //手持身份证
+        if (!Tools.isEmptyStrings(jsonUser.getPersonPhotoUrl())) {
+            setImageUrl(R.id.driver_sfz_sc_img, jsonUser.getPersonPhotoUrl());
+        }
 //        setImageUrl(R.id.devices_jsz_img, jsonUser.getPersonPhotoUrl());
         if (user.getJsonTypeEntity() != null) {
             JsonDriver jsonDriver = user.getJsonTypeEntity();
             setImageUrl(R.id.devices_jsz_img, jsonDriver.getLicensePhotoUrl());
             setImageUrl(R.id.devices_tszz_img, jsonDriver.getSpecialQualificationsPhotoUrl());
+
+            setImageUrl(R.id.devices_jsz_sc_img, jsonDriver.getPersonLicensePhotoUrl());
+
 
             requestJsonDriver = jsonDriver;
             //to do 车的信息更新
@@ -362,7 +369,11 @@ public class DetailPhotoActivity extends BaseActivity {
 //                        case R.id.photo_frsfz_img:
                         case R.id.driver_sfz_img:
 //                            frsfzUrl = uploadImgURL;
-                            requestChangeUserInfo(uploadImgURL);
+                            requestChangeUserInfo(true, uploadImgURL);
+                            break;
+                        case R.id.driver_sfz_sc_img:
+                            //手持身份证
+                            requestChangeUserInfo(false, uploadImgURL);
                             break;
                         case R.id.photo_mtzp_img:
                             mtzpUrl = uploadImgURL;
@@ -373,6 +384,10 @@ public class DetailPhotoActivity extends BaseActivity {
                         //司机的相关图片
                         case R.id.devices_jsz_img:
                             requestJsonDriver.setLicensePhotoUrl(uploadImgURL);
+                            break;
+                        case R.id.devices_jsz_sc_img:
+                            //手持驾驶证照片
+                            requestJsonDriver.setPersonLicensePhotoUrl(uploadImgURL);
                             break;
                         case R.id.devices_tszz_img:
                             requestJsonDriver.setSpecialQualificationsPhotoUrl(uploadImgURL);
@@ -441,8 +456,14 @@ public class DetailPhotoActivity extends BaseActivity {
                 return;
             }
 
+            if (Tools.isEmptyStrings(User.getInstance().getJsonUser().getIdCardPhotoUrl(), User.getInstance().getJsonUser().getPersonPhotoUrl())) {
+                showToast("图片信息不完整");
+                return;
+            }
+
             if (Tools.isEmptyStrings(requestJsonDriver.getLicensePhotoUrl(), /*requestJsonDriver.getSpecialQualificationsPhotoUrl(),*/
-                    requestJsonCar.getDrivingLicensePhotoUrl(), requestJsonCar.getFrontalPhotoUrl1(), requestJsonCar.getFrontalPhotoUrl2())) {
+                    requestJsonCar.getDrivingLicensePhotoUrl(), requestJsonCar.getFrontalPhotoUrl1(), requestJsonCar.getFrontalPhotoUrl2()
+                    , requestJsonDriver.getPersonLicensePhotoUrl())) {
                 showToast("图片信息不完整");
                 return;
             }
@@ -464,9 +485,12 @@ public class DetailPhotoActivity extends BaseActivity {
 //        showSuccessDialog();
     }
 
-    private void requestChangeUserInfo(String frsfzUrl) {
+    private void requestChangeUserInfo(boolean isidcard, String frsfzUrl) {
         JsonUser jsonUser = User.getInstance().getJsonUser();
-        jsonUser.setIdCardPhotoUrl(frsfzUrl);
+        if (isidcard)
+            jsonUser.setIdCardPhotoUrl(frsfzUrl);
+        else
+            jsonUser.setPersonPhotoUrl(frsfzUrl);
 
         HttpHelper.getInstance().put(AppURL.PutUserInfo, String.valueOf(jsonUser.getId()), jsonUser, new JsonCallback() {
             @Override

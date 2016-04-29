@@ -57,8 +57,10 @@ public class UploadImageHelper {
     JsonCallback rspCallback = new JsonCallback() {
         @Override
         public void onSuccess(String msg, String result) {
-            activity.showToast("图片上传成功" + msg);
-            activity.cancelProgress();
+            if(activity!=null) {
+                activity.showToast("图片上传成功" + msg);
+                activity.cancelProgress();
+            }
             final String uploadImgURL = /*AppURL.HostDebug + */result;
             Log.i(TAG, "上传图片地址：" + uploadImgURL);
             if (activity != null) {
@@ -76,8 +78,10 @@ public class UploadImageHelper {
 
         @Override
         public void onFailed(String str) {
-            activity.showToast("图片上传失败：" + str);
-            activity.cancelProgress();
+            if(activity!=null) {
+                activity.showToast("图片上传失败：" + str);
+                activity.cancelProgress();
+            }
         }
     };
 
@@ -86,6 +90,7 @@ public class UploadImageHelper {
     }
 
     private void uploadFile(File file) {
+        if(activity!=null)
         activity.showProgress("图片上传中...");
         //  照片上传逻辑
 //        UploadFileTask task = new UploadFileTask(AppURL.UpLoadImage);

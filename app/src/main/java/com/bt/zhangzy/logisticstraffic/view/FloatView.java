@@ -9,17 +9,19 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.tools.ContextTools;
 
 /**
  * 悬浮窗功能实现  通过静态方法createView创建
  * <p/>
  * Created by ZhangZy on 2015/6/10.
  */
-public class FloatView extends ImageView {
+public class FloatView extends ImageView implements View.OnTouchListener{
     private static final String TAG = FloatView.class.getSimpleName();
     private float mTouchX;
     private float mTouchY;
@@ -48,6 +50,9 @@ public class FloatView extends ImageView {
 
     public FloatView(Context context) {
         super(context);
+        setOnTouchListener(this);
+        setEnabled(true);
+
         updateWindow.sendEmptyMessageDelayed(0, 3000);
     }
 
@@ -68,9 +73,14 @@ public class FloatView extends ImageView {
         floatView.setImageResource(R.drawable.float_view_left_icon);
         // 设置LayoutParams(全局变量）相关参数
 //        windowManagerParams = ((LogisticsTrafficApplication) getApplication()).getWindowParams();
-//        windowManagerParams.type = WindowManager.LayoutParams.TYPE_PHONE; // 设置window type
-        windowManagerParams.type = WindowManager.LayoutParams.TYPE_TOAST;//解决MIUI上无法显示浮窗的问题！
+
+        if(ContextTools.isMIUI()) {
+            windowManagerParams.type = WindowManager.LayoutParams.TYPE_TOAST;//解决MIUI上无法显示浮窗的问题！
+        }else{
+            windowManagerParams.type = WindowManager.LayoutParams.TYPE_PHONE; // 设置window type
+        }
         windowManagerParams.format = PixelFormat.RGBA_8888; // 设置图片格式，效果为背景透明
+
         // 设置Window flag
         windowManagerParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
@@ -84,7 +94,7 @@ public class FloatView extends ImageView {
         windowManagerParams.gravity = Gravity.LEFT | Gravity.TOP;
         // 以屏幕左上角为原点，设置x、y初始值
         windowManagerParams.x = 0;
-        windowManagerParams.y = 0;
+        windowManagerParams.y = 100;
         // 设置悬浮窗口长宽数据
         windowManagerParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         windowManagerParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -95,6 +105,10 @@ public class FloatView extends ImageView {
     long action_down_time;
     int alpha = 255;
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return onTouchEvent(event);
+    }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         lastTouchTime = System.currentTimeMillis();
@@ -207,4 +221,6 @@ public class FloatView extends ImageView {
         resID = resId;
         super.setImageResource(resId);
     }
+
+
 }

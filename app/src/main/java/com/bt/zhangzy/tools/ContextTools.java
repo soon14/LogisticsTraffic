@@ -1,6 +1,5 @@
 package com.bt.zhangzy.tools;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
@@ -11,7 +10,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
@@ -297,46 +295,11 @@ public class ContextTools {
         act.startActivity(it);
     }
 
-    /**
-     * 判断MIUI的悬浮窗权限
-     *
-     * @param context
-     * @return
-     */
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public static boolean isMiuiFloatWindowOpAllowed(Context context) {
-        final int version = Build.VERSION.SDK_INT;
-        //TODO:判断MIUI的悬浮窗权限 http://www.cnblogs.com/fangyucun/p/4027750.html
-/*
-        if (version >= 19) {
-            return checkOp(context, OP_SYSTEM_ALERT_WINDOW);  //自己写就是24 为什么是24?看AppOpsManager
-        } else {
-            if ((context.getApplicationInfo().flags & 1 << 27) == 1) {
-                return true;
-            } else {
-                return false;
-            }
+    public static boolean isMIUI(){
+        Log.i(TAG,"================== current system BRAND="+android.os.Build.BRAND+"  MODEL="+android.os.Build.MODEL);
+        if(android.os.Build.BRAND.equals("Xiaomi")|| android.os.Build.MODEL.startsWith("MI") || android.os.Build.MODEL.startsWith("HM")){
+            return true;
         }
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public static boolean checkOp(Context context, int op) {
-        final int version = Build.VERSION.SDK_INT;
-
-        if (version >= 19) {
-            AppOpsManager manager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-            try {
-                if (AppOpsManager.MODE_ALLOWED == (Integer) ReflectUtils.invokeMethod(manager, "checkOp", op, Binder.getCallingUid(), context.packageName())) {  //这儿反射就自己写吧
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
-        } else {
-            Log.e(TAG, "Below API 19 cannot invoke!");
-        }*/
         return false;
     }
 

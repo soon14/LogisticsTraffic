@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -96,6 +97,9 @@ public class WeiXinPay {
     public void payOther(Activity context, String msg, int amount, int userId) {
         activity = context;
         showProgress();
+        if (TextUtils.isEmpty(Host)) {
+            loadAppParams(context);
+        }
 
 //        Log.d(TAG, "调用微信openWXApp:" + iwxapi.openWXApp());
 
@@ -130,7 +134,9 @@ public class WeiXinPay {
     public void payUnifiedOrder(Activity context, String msg, int amount, int userId) {
         activity = context;
         showProgress();
-
+        if (TextUtils.isEmpty(Host)) {
+            loadAppParams(context);
+        }
 //        Log.d(TAG, "调用微信openWXApp:" + iwxapi.openWXApp());
 
         WXRequest params = new WXRequest();
