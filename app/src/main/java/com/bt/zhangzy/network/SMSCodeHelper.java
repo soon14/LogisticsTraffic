@@ -67,21 +67,22 @@ public class SMSCodeHelper implements Handler.Callback {
      * @param inputCode
      * @return 是否一致
      */
-    public boolean checkVerificationCode(BaseActivity act, String inputCode) {
+    public boolean checkVerificationCode(BaseActivity act, String phoneNum, String inputCode) {
 
-        if (!TextUtils.isEmpty(inputCode))
-            if (TextUtils.isDigitsOnly(inputCode)) {
-//                int input_code = Integer.valueOf(inputCode);
-                //如果还没有验证码 则到配置文件里去读取上次的验证码
-                if (verificationCode == 0) {
-                    loadCode(act);
+        //如果内存中没有缓存数据 则到配置文件里去读取上次的验证码
+        if (TextUtils.isEmpty(this.phoneNum)) {
+            loadCode(act);
+        }
+        //先验证是不是上次发的手机号
+        if (!TextUtils.isEmpty(phoneNum) && phoneNum.equals(this.phoneNum))
+            if (!TextUtils.isEmpty(inputCode))
+                if (TextUtils.isDigitsOnly(inputCode)) {
+                    if (inputCode.equals(String.valueOf(verificationCode)))
+                        return true;
+                    else
+                        //测试用
+                        return AppParams.DEBUG && inputCode.equals("0000");
                 }
-                if (inputCode.equals(String.valueOf(verificationCode)))
-                    return true;
-                else
-                    //测试用
-                    return AppParams.DEBUG && inputCode.equals("0000");
-            }
         return false;
 
     }
@@ -265,17 +266,18 @@ public class SMSCodeHelper implements Handler.Callback {
 
     private void loadCode(Activity act) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(act);
-        String phone = preferences.getString(SMS_TAG_PHONE, "0");
+        phoneNum = preferences.getString(SMS_TAG_PHONE, "0");
+
 //        if (phone.equals(phoneNum)) {
-            long time = preferences.getLong(SMS_TAG_TIME, 0);
-            //有效时间 5分钟
-            if (System.currentTimeMillis() - time < 5 * 60 * 1000) {
-                verificationCode = preferences.getInt(SMS_TAG_CODE, 0);
-                Log.d(TAG, "load preferences code=" + verificationCode);
-            } else
-                Log.d(TAG, "load preferences time out");
+        long time = preferences.getLong(SMS_TAG_TIME, 0);
+        //有效时间 5分钟
+        if (System.currentTimeMillis() - time < 5 * 60 * 1000) {
+            verificationCode = preferences.getInt(SMS_TAG_CODE, 0);
+            Log.d(TAG, "load preferences code=" + verificationCode);
+        } else
+            Log.d(TAG, "load preferences time out");
 //        } else
-            Log.d(TAG, "load preferences change phone old=" + phone + " new=" + phoneNum);
+        Log.d(TAG, "load preferences change phone=" + phoneNum);
     }
 
 

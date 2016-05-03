@@ -55,10 +55,7 @@ public class VerificationActivity extends BaseActivity {
             return;
         }
         String verfication = verficationEd.getText().toString().trim();
-        //test 万能验证码
-        if (AppParams.DEBUG && verfication.equals("0000")) {
-
-        } else if (!SMSCodeHelper.getInstance().checkVerificationCode(this,verfication)) {
+       if (!SMSCodeHelper.getInstance().checkVerificationCode(this, phoneNumber, verfication)) {
             showToast("验证码错误");
             return;
         }

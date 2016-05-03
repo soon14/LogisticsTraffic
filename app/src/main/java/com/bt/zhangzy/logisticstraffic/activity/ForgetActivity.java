@@ -59,9 +59,6 @@ public class ForgetActivity extends BaseActivity {
 
     //进行登录操作
     public void onClick_Login(View view) {
-//        loginSusses();
-//        EditText username = (EditText) findViewById(R.id.login_username_ed);
-//        EditText password = (EditText) findViewById(R.id.login_password_ed);
         String nameStr, input_code;
         nameStr = getStringFromTextView(R.id.forget_phoneNum_ed);
         input_code = getStringFromTextView(R.id.forget_verification_ed);
@@ -69,7 +66,8 @@ public class ForgetActivity extends BaseActivity {
             showToast("内容不能为空");
             return;
         }
-        if (SMSCodeHelper.getInstance().checkVerificationCode(this,input_code)) {
+
+        if (SMSCodeHelper.getInstance().checkVerificationCode(this,nameStr,input_code)) {
             request_Login(nameStr, input_code);
         } else {
             showToast("验证码错误");
