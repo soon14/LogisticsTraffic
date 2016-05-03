@@ -256,6 +256,8 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void setCityName(String cityName) {
+        if (TextUtils.isEmpty(cityName))
+            return;
         if (contentViewPager != null && contentViewPager.getCurrentItem() == INDEX_HOME) {
             Button btn = (Button) findViewById(R.id.home_location_btn);
             if (btn != null) {

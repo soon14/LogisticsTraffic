@@ -79,10 +79,11 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
     private WheelView mCityView;
     private ArrayWheelAdapter mProvinceAdapter;//adapter缓存
     private ArrayWheelAdapter[] mCityAdapterList;
-    private String mProvinceCurrent;
-    private String mCityCurrent;
+    //    private String mProvinceCurrent;
+//    private String mCityCurrent;
     private PopupWindow popupWindow;
     private Dialog dialog;
+    private PopupWindow rightPopupWindow;//右侧的城市选择列表
 
     private ChangingListener listener;
     private Location currentLocation;
@@ -176,8 +177,10 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
             }
             listener.onCancel(currentLocation);
         }
-        mProvinceView.removeChangingListener(this);
-        mCityView.removeChangingListener(this);
+        if (mProvinceView != null)
+            mProvinceView.removeChangingListener(this);
+        if (mCityView != null)
+            mCityView.removeChangingListener(this);
         mProvinceView = null;
         mCityView = null;
         listener = null;
@@ -318,7 +321,7 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
 
         if (location == null)
             return this;
-        if(cityList == null || cityList.isEmpty()){
+        if (cityList == null || cityList.isEmpty()) {
             requestCityList();
             return this;
         }
@@ -443,7 +446,10 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
         //用于显示网络定位的结果
         locationNetworkTx = (TextView) tmp_view.findViewById(R.id.location_network_tx);
         if (location != null) {
-            locationNetworkTx.setText(location.getCityName());
+            if (TextUtils.isEmpty(location.getCityName()))
+                locationNetworkTx.setText("定位失败");
+            else
+                locationNetworkTx.setText(location.getCityName());
         }
 
         listView = (ListView) tmp_view.findViewById(R.id.location_city_list);
@@ -457,9 +463,14 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
 //                Toast.makeText(getBaseContext(),"点击了："+
                 if (locationCallback != null) {
                     location = loc;
-                    if (locationNetworkTx != null)
-                        locationNetworkTx.setText(location.getCityName());
+                    //更新用户的定位信息
+                    User.getInstance().setLocation(location);
+//                    if (locationNetworkTx != null)
+//                        locationNetworkTx.setText(location.getCityName());
                     locationCallback.chooseLocation(loc);
+
+                    if (rightPopupWindow != null)
+                        rightPopupWindow.dismiss();
                 }
             }
         });
@@ -470,12 +481,15 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
 
     public void showLoacaitonList(Activity act, View view) {
         context = act;
-        PopupWindow popupWindow = creatPopupWindow(act);
-        if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
+        if (rightPopupWindow == null) {
+            PopupWindow popupWindow = creatPopupWindow(act);
+            rightPopupWindow = popupWindow;
+        }
+        if (rightPopupWindow.isShowing()) {
+            rightPopupWindow.dismiss();
         } else {
             shadowWindow = act.getWindow();
-            popupWindow.showAtLocation(view, Gravity.RIGHT | Gravity.TOP, 0, 0);
+            rightPopupWindow.showAtLocation(view, Gravity.RIGHT | Gravity.TOP, 0, 0);
             WindowManager.LayoutParams lp = shadowWindow.getAttributes();
             lp.alpha = 0.3f;
             shadowWindow.setAttributes(lp);
@@ -502,7 +516,10 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
         //更新用户的定位信息
         User.getInstance().setLocation(location);
         if (locationNetworkTx != null) {
-            locationNetworkTx.setText(cityname);
+            if (TextUtils.isEmpty(cityname))
+                locationNetworkTx.setText("定位失败");
+            else
+                locationNetworkTx.setText(cityname);
         }
         if (locationCallback != null) {
             locationCallback.networkLocation(location);

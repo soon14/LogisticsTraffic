@@ -413,7 +413,7 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
             ois.close();
             inStream.close();
         } catch (FileNotFoundException e) {
-            Log.e(TAG, "读取数据- 文件找不到", e);
+            Log.w(TAG, "读取数据- 文件找不到", e);
             e.printStackTrace();
         } catch (Exception e) {
             Log.e(TAG, "读取数据", e);
