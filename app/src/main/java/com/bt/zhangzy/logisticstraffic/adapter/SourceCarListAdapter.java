@@ -100,6 +100,8 @@ public class SourceCarListAdapter extends BaseAdapter {
 
     @Override
     public JsonCar getItem(int position) {
+        if (list == null || list.isEmpty())
+            return null;
         return list.get(position);
     }
 

@@ -58,11 +58,11 @@ public class SourceCarDetailActivity extends BaseActivity {
         setTextView(R.id.car_length_tx, jsonCar.getLength());
         setTextView(R.id.car_weight_tx, jsonCar.getCapacity());
         setTextView(R.id.car_num_tx, jsonCar.getNumber());
-        setTextView(R.id.car_situation_tx, jsonCar.getSituation());
+//        setTextView(R.id.car_situation_tx, jsonCar.getSituation());
         setTextView(R.id.car_name_tx, jsonCar.getName());
-        setTextView(R.id.car_star_city_tx, jsonCar.getStartCity());
-        setTextView(R.id.car_stop_city_tx, jsonCar.getStopCity());
-        setTextView(R.id.car_location_tx, jsonCar.getCurrentLocation());
+//        setTextView(R.id.car_star_city_tx, jsonCar.getStartCity());
+//        setTextView(R.id.car_stop_city_tx, jsonCar.getStopCity());
+//        setTextView(R.id.car_location_tx, jsonCar.getCurrentLocation());
         setTextView(R.id.car_residence_tx, jsonCar.getUsualResidence());
         setTextView(R.id.car_remark_tx, jsonCar.getRemark());
 
