@@ -535,6 +535,7 @@ public class OrderDetailActivity extends BaseActivity {
 
         BaseDialog baseDialog = new BaseDialog(this);
         baseDialog.setView(R.layout.dialog_call);
+        baseDialog.setCanceledOnTouchOutside(false);
         baseDialog.setOnClickListener(R.id.dialog_call_me_btn, listener);
         baseDialog.setOnClickListener(R.id.dialog_call_all_btn, listener);
         baseDialog.show();
