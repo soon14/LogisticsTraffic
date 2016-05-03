@@ -263,7 +263,7 @@ public class FleetActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                position -=1;
                 gotoDriverDetail(position, adapterDrivers.getItem(position), isSelectDriver);
             }
         });
@@ -285,6 +285,10 @@ public class FleetActivity extends BaseActivity {
      * @param selectDriverModel 是否为选择司机模式
      */
     private void gotoDriverDetail(int position, JsonCar car, boolean selectDriverModel) {
+        if (car == null) {
+            Log.w(TAG, "gotoDriverDetail car=" + car);
+            return;
+        }
         currentDriverIndex = position;
         Bundle bundle = new Bundle();
         bundle.putString(AppParams.SOURCE_PAGE_CAR_KEY, car.toString());
