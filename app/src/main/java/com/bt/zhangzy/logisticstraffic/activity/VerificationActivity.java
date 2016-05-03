@@ -55,7 +55,7 @@ public class VerificationActivity extends BaseActivity {
             return;
         }
         String verfication = verficationEd.getText().toString().trim();
-       if (!SMSCodeHelper.getInstance().checkVerificationCode(this, phoneNumber, verfication)) {
+       if (!SMSCodeHelper.getInstance().checkVerificationCode(this, User.getInstance().getPhoneNum()+phoneNumber, verfication)) {
             showToast("验证码错误");
             return;
         }

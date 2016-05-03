@@ -3,14 +3,13 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.ChooseItemsDialog;
@@ -32,7 +31,6 @@ import com.bt.zhangzy.tools.ViewUtils;
 public class PublishCarActivity extends BaseActivity {
 
     TextView licenceEd;
-    View contentView;
 //    private ImageView userImage;
     JsonCar requestCarJson = new JsonCar();
     boolean isAuth;
@@ -40,12 +38,11 @@ public class PublishCarActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        contentView = LayoutInflater.from(this).inflate(R.layout.activity_publish, null);
-        setContentView(contentView);
+        setContentView(R.layout.activity_publish);
         setPageName("发布车辆");
         licenceEd = (TextView) findViewById(R.id.publish_licence_ed);
 
-        //// TODO: 2016-2-26  发布车辆不能填写信息，只能修改备注信息，页面需要做限制
+        //// TO DO: 2016-2-26  发布车辆不能填写信息，只能修改备注信息，页面需要做限制
         initView();
 
 
@@ -84,19 +81,6 @@ public class PublishCarActivity extends BaseActivity {
             super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void onClick_Reset(View view) {
-        if (isAuth)
-            return;
-        //重置按钮
-        final int[] ids = {R.id.publish_address_ed, R.id.publish_length_ed, R.id.publish_licence_ed,/* R.id.publish_status_ed,*/ R.id.publish_type_ed, R.id.publish_weight_ed};
-        View tmpV;
-        for (int id : ids) {
-            tmpV = findViewById(id);
-            if (tmpV != null && tmpV instanceof EditText) {
-                ((EditText) tmpV).setText("");
-            }
-        }
-    }
 
     public void onClick_ShowLicence(View view) {
         if (isAuth)

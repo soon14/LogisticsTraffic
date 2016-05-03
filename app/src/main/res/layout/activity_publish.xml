@@ -9,21 +9,21 @@
 
     <include layout="@layout/page_top" />
     <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
 
-        <!-- -->
+    <!-- -->
 
-        <!--<Button-->
-            <!--style="@style/orange_btn_style"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginEnd="10dp"-->
-            <!--android:onClick="onClick_Reset"-->
-            <!--android:text="重置"-->
-            <!--android:textSize="16sp" />-->
+    <!--<Button-->
+    <!--style="@style/orange_btn_style"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginEnd="10dp"-->
+    <!--android:onClick="onClick_Reset"-->
+    <!--android:text="重置"-->
+    <!--android:textSize="16sp" />-->
 
     <!--</RelativeLayout>-->
 
@@ -35,27 +35,30 @@
         android:paddingRight="10dp"
         android:stretchColumns="1">
 
-        <TableRow android:gravity="center">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
 
             <TextView
                 style="@style/black_tx_12_style.source_detail"
+                android:layout_height="match_parent"
                 android:text="车 牌 号：" />
 
             <TextView
                 android:id="@+id/publish_licence_ed"
                 style="@style/black_tx_12_style.source_detail"
-                android:clickable="true"
                 android:hint="请输入车牌号"
                 android:onClick="onClick_ShowLicence"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp" />
 
-            <ImageButton
-                style="@style/while_orange_btn_style"
-                android:onClick="onClick_ShowLicence"
-                android:src="@drawable/keyboard"
-                android:text="虚拟\n键盘"
-                android:textSize="12sp" />
+            <!--<ImageButton-->
+            <!--style="@style/while_orange_btn_style"-->
+            <!--android:onClick="onClick_ShowLicence"-->
+            <!--android:src="@drawable/keyboard"-->
+            <!--android:text="虚拟\n键盘"-->
+            <!--android:textSize="12sp" />-->
         </TableRow>
 
         <View
@@ -140,32 +143,33 @@
         </TableRow>
 
         <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="2px"-->
-            <!--android:background="@color/def_line" />-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="2px"-->
+        <!--android:background="@color/def_line" />-->
 
         <!--<TableRow>-->
 
 
-            <!--<TextView-->
-                <!--style="@style/black_tx_12_style.source_detail"-->
-                <!--android:text="车辆状况：" />-->
+        <!--<TextView-->
+        <!--style="@style/black_tx_12_style.source_detail"-->
+        <!--android:text="车辆状况：" />-->
 
-            <!--<TextView-->
-                <!--android:id="@+id/publish_status_ed"-->
-                <!--style="@style/black_tx_12_style.source_detail"-->
-                <!--android:layout_span="2"-->
-                <!--android:clickable="true"-->
-                <!--android:hint="车辆状况"-->
-                <!--android:onClick="onClick_Status"-->
-                <!--android:paddingBottom="8dp"-->
-                <!--android:paddingTop="8dp" />-->
+        <!--<TextView-->
+        <!--android:id="@+id/publish_status_ed"-->
+        <!--style="@style/black_tx_12_style.source_detail"-->
+        <!--android:layout_span="2"-->
+        <!--android:clickable="true"-->
+        <!--android:hint="车辆状况"-->
+        <!--android:onClick="onClick_Status"-->
+        <!--android:paddingBottom="8dp"-->
+        <!--android:paddingTop="8dp" />-->
         <!--</TableRow>-->
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
             android:background="@color/def_line" />
+
         <TableRow>
 
             <TextView
@@ -186,6 +190,7 @@
             android:layout_width="match_parent"
             android:layout_height="2px"
             android:background="@color/def_line" />
+
         <TableRow>
 
             <TextView
@@ -225,26 +230,40 @@
             android:layout_width="match_parent"
             android:layout_height="2px"
             android:background="@color/def_line" />
-        <TableRow>
 
-            <TextView
-                style="@style/black_tx_12_style.source_detail"
-                android:text="备注：" />
-
-            <EditText
-                android:id="@+id/publish_remark_tx"
-                style="@style/black_tx_12_style.source_detail"
-                android:hint="备注信息"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp" />
-        </TableRow>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@color/def_line" />
 
     </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            style="@style/black_tx_12_style.source_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="备注：" />
+
+        <EditText
+            android:id="@+id/publish_remark_tx"
+            style="@style/black_tx_12_style.source_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="备注信息"
+            android:maxLines="5"
+            android:minLines="1"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:singleLine="false" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/def_line" />
 
 
     <TextView

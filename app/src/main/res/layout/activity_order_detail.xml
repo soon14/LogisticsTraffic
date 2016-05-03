@@ -369,12 +369,12 @@
                         android:onClick="onClick_InputDriverCount" />
                     <!-- 选择 车队司机 -->
                     <ImageButton
-                        android:id="@+id/order_detail_select_driver_bt"
+                        android:id="@+id/order_detail_location_driver_bt"
                         style="@style/tx_order_style"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="15dp"
                         android:background="@color/transparent"
-                        android:onClick="onClick_SelectDriverBtn"
+                        android:onClick="onClick_LocationDriverBtn"
                         android:src="@drawable/add_devices" />
                 </TableRow>
 
@@ -406,8 +406,12 @@
             </TableLayout>
 
             <View style="@style/line_style_horizontal" />
+            <Button
+                android:id="@+id/order_detail_select_driver_bt"
+                style="@style/order_button_style"
+                android:onClick="onClick_SelectDriverBtn"
+                android:text="选择司机" />
             <!-- to do 交易中的 司机列表-->
-
             <Button
                 android:id="@+id/order_detail_drivers_list_bt"
                 style="@style/order_button_style"

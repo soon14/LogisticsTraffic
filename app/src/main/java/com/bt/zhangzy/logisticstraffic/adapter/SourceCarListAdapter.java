@@ -102,6 +102,7 @@ public class SourceCarListAdapter extends BaseAdapter {
     public JsonCar getItem(int position) {
         if (list == null || list.isEmpty())
             return null;
+        position = Math.max(0, Math.min(position, list.size() - 1));
         return list.get(position);
     }
 

@@ -120,7 +120,8 @@ public class OrderDetailActivity extends BaseActivity {
         JsonOrder jsonOrder = new JsonOrder();//如果没有则创建一个订单
         //填写默认的订单数据
         Location loc = user.getLocation();
-        jsonOrder.setStartCity(loc.toText());
+        if (loc != null && !TextUtils.isEmpty(loc.getCityName()))
+            jsonOrder.setStartCity(loc.toText());
         jsonOrder.setDriverCount(1);
         jsonOrder.setStatus(OrderStatus.TempOrder);
         if (user.getUserType() == Type.CompanyInformationType) {
@@ -328,6 +329,8 @@ public class OrderDetailActivity extends BaseActivity {
         //默认司机用户 不显示订单状态
         findViewById(R.id.order_detail_status_ly).setVisibility(View.GONE);
         findViewById(R.id.order_detail_status_line).setVisibility(View.GONE);
+        findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
+        findViewById(R.id.order_detail_location_driver_bt).setVisibility(View.GONE);
         switch (currentMode) {
             case CreateMode:
 
@@ -340,7 +343,6 @@ public class OrderDetailActivity extends BaseActivity {
                 findViewById(R.id.order_detail_consignor_phone_line).setVisibility(View.GONE);
 
                 findViewById(R.id.order_detail_call_phone_bt).setVisibility(View.GONE);
-                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                 if (canAccept) {
                     setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_driver_grab));
                 } else {
@@ -348,14 +350,9 @@ public class OrderDetailActivity extends BaseActivity {
                 }
                 break;
             case SubmittedMode:
-                // // TO DO: 2016-4-1 缺少 装货 和 验证收货过程
-                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
-//                findViewById(R.id.order_detail_no).setVisibility(View.GONE);
                 setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_driver_finish));
                 break;
             case CompletedMode:
-                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
-//                findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
                 setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_evaluate));
                 break;
         }
@@ -394,26 +391,31 @@ public class OrderDetailActivity extends BaseActivity {
             case CreateMode:
                 findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_call_phone_bt).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_location_driver_bt).setVisibility(View.GONE);
                 setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_temp));
                 break;
             case UntreatedMode://未提交订单
                 findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_call_phone_bt).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_location_driver_bt).setVisibility(View.GONE);
                 setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_uncommitted));
                 if (currentOrderStatus == OrderStatus.AllocationOrder) {
                     setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_allocation));
+                    setTextView(R.id.order_detail_select_driver_bt, "选择已接单司机");
                 }
                 break;
             case SubmittedMode:
                 //修改为定位图标
-                ImageButton driverBt = (ImageButton) findViewById(R.id.order_detail_select_driver_bt);
+                ImageButton driverBt = (ImageButton) findViewById(R.id.order_detail_location_driver_bt);
                 driverBt.setImageResource(R.drawable.location_bt_selector);
 //                setTextView(R.id.order_detail_submit, "订单已提交");
                 findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                 break;
             case CompletedMode:
 //                findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_location_driver_bt).setVisibility(View.GONE);
 //                setTextView(R.id.order_detail_submit, "订单已完成");
                 findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
                 break;
@@ -427,7 +429,7 @@ public class OrderDetailActivity extends BaseActivity {
                 findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
                 setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_temp));
                 //企业创建订单的时候不能选择司机
-//                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_location_driver_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_call_phone_bt).setVisibility(View.GONE);
 
                 break;
@@ -435,7 +437,7 @@ public class OrderDetailActivity extends BaseActivity {
 
 //                findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
 //                findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
-//                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_location_driver_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_call_phone_bt).setVisibility(View.GONE);
                 if (jsonOrder.getCompanyId() == 0) {
@@ -450,13 +452,15 @@ public class OrderDetailActivity extends BaseActivity {
                 break;
             case SubmittedMode:
                 //修改为定位图标
-                ImageButton driverBt = (ImageButton) findViewById(R.id.order_detail_select_driver_bt);
+                ImageButton driverBt = (ImageButton) findViewById(R.id.order_detail_location_driver_bt);
                 driverBt.setImageResource(R.drawable.location_bt_selector);
                 findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                 break;
             case CompletedMode:
 //                findViewById(R.id.order_detail_drivers_list_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
+                findViewById(R.id.order_detail_location_driver_bt).setVisibility(View.GONE);
 //                setTextView(R.id.order_detail_submit, "订单已完成");
                 findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
                 break;
@@ -823,6 +827,15 @@ public class OrderDetailActivity extends BaseActivity {
         startActivityForResult(FleetActivity.class, bundle, AppParams.RESULT_CODE_ACCEPT_DRIVERS);
     }
 
+    public void onClick_LocationDriverBtn(View view) {
+        if (currentOrderStatus == OrderStatus.TradeOrder
+                || currentOrderStatus == OrderStatus.LoadingOrder
+                || currentOrderStatus == OrderStatus.LoadingFinishOrder) {
+            gotoMap();
+            return;
+        }
+    }
+
     //选择 司机 call车
     public void onClick_SelectDriverBtn(View view) {
 //        if (cannotEditStatus())
@@ -830,7 +843,7 @@ public class OrderDetailActivity extends BaseActivity {
         if (currentOrderStatus == OrderStatus.TradeOrder
                 || currentOrderStatus == OrderStatus.LoadingOrder
                 || currentOrderStatus == OrderStatus.LoadingFinishOrder) {
-            gotoMap();
+//            gotoMap();
             return;
         } else if (currentOrderStatus == OrderStatus.AllocationOrder) {
             //to do 订单分配中 这里需要请求 抢单成功的司机列表

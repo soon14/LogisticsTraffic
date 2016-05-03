@@ -76,13 +76,13 @@ public class SMSCodeHelper implements Handler.Callback {
         //先验证是不是上次发的手机号
         if (!TextUtils.isEmpty(phoneNum) && phoneNum.equals(this.phoneNum))
             if (!TextUtils.isEmpty(inputCode))
-                if (TextUtils.isDigitsOnly(inputCode)) {
+                if (TextUtils.isDigitsOnly(inputCode))
                     if (inputCode.equals(String.valueOf(verificationCode)))
                         return true;
                     else
                         //测试用
                         return AppParams.DEBUG && inputCode.equals("0000");
-                }
+
         return false;
 
     }
