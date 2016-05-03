@@ -96,6 +96,7 @@ android {
             manifestPlaceholders = [APP_TYPE_VALUE: "company", JPUSH_APPKEY: "cba04bab06fa527b1113d749"]
             signingConfig signingConfigs.yyt
         }
+
     }
 
 

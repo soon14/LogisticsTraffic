@@ -318,6 +318,10 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
 
         if (location == null)
             return this;
+        if(cityList == null || cityList.isEmpty()){
+            requestCityList();
+            return this;
+        }
 
         if (!TextUtils.isEmpty(location.getProvinceName())) {
             JsonLocationProvince province;

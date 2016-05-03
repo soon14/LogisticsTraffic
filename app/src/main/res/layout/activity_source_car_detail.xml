@@ -120,14 +120,25 @@
                     android:layout_height="2px"
                     android:background="@color/def_line" />
 
+                <!--<TableRow>-->
+
+                    <!--<TextView-->
+                        <!--style="@style/black_tx_12_style.source_detail"-->
+                        <!--android:text="状况：" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/car_situation_tx"-->
+                        <!--style="@style/black_tx_12_style.source_detail"-->
+                        <!--android:text="" />-->
+                <!--</TableRow>-->
                 <TableRow>
 
                     <TextView
                         style="@style/black_tx_12_style.source_detail"
-                        android:text="状况：" />
+                        android:text="联系人：" />
 
                     <TextView
-                        android:id="@+id/car_situation_tx"
+                        android:id="@+id/car_name_tx"
                         style="@style/black_tx_12_style.source_detail"
                         android:text="" />
                 </TableRow>
@@ -154,17 +165,7 @@
                 android:layout_height="2px"
                 android:background="@color/def_line" />
 
-            <TableRow>
 
-                <TextView
-                    style="@style/black_tx_12_style.source_detail"
-                    android:text="联系人：" />
-
-                <TextView
-                    android:id="@+id/car_name_tx"
-                    style="@style/black_tx_12_style.source_detail"
-                    android:text="" />
-            </TableRow>
         </TableLayout>
     </TableLayout>
 
@@ -190,56 +191,56 @@
             android:layout_height="2px"
             android:background="@color/def_line" />
 
-        <TableRow>
+        <!--<TableRow>-->
 
-            <TextView
-                style="@style/black_tx_12_style.source_detail"
-                android:text="始 发 地：" />
+            <!--<TextView-->
+                <!--style="@style/black_tx_12_style.source_detail"-->
+                <!--android:text="始 发 地：" />-->
 
-            <TextView
-                android:id="@+id/car_star_city_tx"
-                style="@style/black_tx_12_style.source_detail"
-                android:text="" />
-        </TableRow>
+            <!--<TextView-->
+                <!--android:id="@+id/car_star_city_tx"-->
+                <!--style="@style/black_tx_12_style.source_detail"-->
+                <!--android:text="" />-->
+        <!--</TableRow>-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@color/def_line" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2px"-->
+            <!--android:background="@color/def_line" />-->
 
-        <TableRow>
+        <!--<TableRow>-->
 
-            <TextView
-                style="@style/black_tx_12_style.source_detail"
-                android:text="目 的 地：" />
+            <!--<TextView-->
+                <!--style="@style/black_tx_12_style.source_detail"-->
+                <!--android:text="目 的 地：" />-->
 
-            <TextView
-                android:id="@+id/car_stop_city_tx"
-                style="@style/black_tx_12_style.source_detail"
-                android:text="" />
-        </TableRow>
+            <!--<TextView-->
+                <!--android:id="@+id/car_stop_city_tx"-->
+                <!--style="@style/black_tx_12_style.source_detail"-->
+                <!--android:text="" />-->
+        <!--</TableRow>-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@color/def_line" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2px"-->
+            <!--android:background="@color/def_line" />-->
 
-        <TableRow>
+        <!--<TableRow>-->
 
-            <TextView
-                style="@style/black_tx_12_style.source_detail"
-                android:text="当前位置：" />
+            <!--<TextView-->
+                <!--style="@style/black_tx_12_style.source_detail"-->
+                <!--android:text="当前位置：" />-->
 
-            <TextView
-                android:id="@+id/car_location_tx"
-                style="@style/black_tx_12_style.source_detail"
-                android:text="" />
-        </TableRow>
+            <!--<TextView-->
+                <!--android:id="@+id/car_location_tx"-->
+                <!--style="@style/black_tx_12_style.source_detail"-->
+                <!--android:text="" />-->
+        <!--</TableRow>-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@color/def_line" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2px"-->
+            <!--android:background="@color/def_line" />-->
 
         <TableRow>
 
@@ -267,6 +268,9 @@
             <TextView
                 android:id="@+id/car_remark_tx"
                 style="@style/black_tx_12_style.source_detail"
+                android:minLines="1"
+                android:maxLines="10"
+                android:singleLine="false"
                 android:text="" />
         </TableRow>
     </TableLayout>

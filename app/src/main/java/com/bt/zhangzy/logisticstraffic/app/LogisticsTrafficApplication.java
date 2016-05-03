@@ -249,6 +249,13 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
             Log.i(TAG, "=====>请求地址：" + host);
             AppParams.APP_HOST = host;
 
+            //亿利
+//            String recommend = "18686118394";//appInfo.metaData.getString("APP_RECOMMEND", "");
+            //默认
+            String recommend = "";
+            Log.i(TAG, "=====>预留推荐码：" + recommend);
+            AppParams.RECOMMEND = recommend;
+
             // 将配置信息保存到本地
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = preferences.edit();

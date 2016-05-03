@@ -37,6 +37,13 @@ public class RegisterActivity extends BaseActivity {
             type = Type.DriverType;
             setContentView(R.layout.register_beginning);
             setPageName("司机用户注册");
+
+            //预留推荐码
+            if (!TextUtils.isEmpty(AppParams.RECOMMEND)) {
+                EditText recommendEd = (EditText) findViewById(R.id.reg_recommend_ed);
+                recommendEd.setText(AppParams.RECOMMEND);
+                recommendEd.setEnabled(false);
+            }
         } else {
             setContentView(R.layout.activity_register);
         }
@@ -100,7 +107,7 @@ public class RegisterActivity extends BaseActivity {
         }
         password = passwordEd.getText().toString();
         phoneNum = phoneNumEd.getText().toString();
-        if(password.length()<6){
+        if (password.length() < 6) {
             showToast("密码长度太短");
             return;
         }
@@ -117,7 +124,7 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         verfication = verficationEd.getText().toString().trim();
-        if (!SMSCodeHelper.getInstance().checkVerificationCode(this,verfication)) {
+        if (!SMSCodeHelper.getInstance().checkVerificationCode(this, verfication)) {
             showToast("验证码错误");
             return;
         }
