@@ -127,6 +127,8 @@ public class FleetActivity extends BaseActivity {
             View headView = getLayoutInflater().inflate(R.layout.activity_fleet_devices, null);
             listView.addHeaderView(headView);
             setPageName("车队详情");
+            findViewById(R.id.fleet_finish_bt).setVisibility(View.GONE);
+            findViewById(R.id.fleet_create_order_bt).setVisibility(View.GONE);
             Button button = (Button) findViewById(R.id.fleet_add_bt);
             button.setText("退出车队");
             button.setVisibility(View.VISIBLE);
@@ -196,7 +198,7 @@ public class FleetActivity extends BaseActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    gotoDriverDetail(position, adapterDrivers.getItem(position), true);
+                    gotoDriverDetail(position, (JsonCar) parent.getAdapter().getItem(position), true);
                 }
             });
         }
@@ -252,20 +254,25 @@ public class FleetActivity extends BaseActivity {
             return;
         }
         listView.setAdapter(adapterDrivers);
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        if (User.getInstance().getUserType() != Type.DriverType) {
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 //                onclick_DelDriver(id, people);
-                showDelDialog(adapterDrivers.getItem(position));
-                return true;
-            }
-        });
+                    showDelDialog(adapterDrivers.getItem(position));
+                    return true;
+                }
+            });
+        }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                position -=1;
-                gotoDriverDetail(position, adapterDrivers.getItem(position), isSelectDriver);
+//                position -=1;
+//                gotoDriverDetail(position, adapterDrivers.getItem(position), isSelectDriver);
+                gotoDriverDetail(position, (JsonCar) parent.getAdapter().getItem(position), isSelectDriver);
+
             }
+
         });
 //        if (delBtnListener == null)
 //            delBtnListener = new FleetListAdapter.DelBtnListener() {
