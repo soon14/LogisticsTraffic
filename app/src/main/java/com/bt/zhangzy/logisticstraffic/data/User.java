@@ -35,7 +35,7 @@ public class User implements Serializable {
 
     private static User instance = new User();
     private String registrationID;//推送标识符
-    private List<JsonFavorite> jsonFavorites;//收藏标识 // TO DO: 2016-1-29 拿到收藏列表后要根据列表内容判断 是否已收藏
+    private List<JsonFavorite> jsonFavorites = new ArrayList<JsonFavorite>();//收藏标识 // TO DO: 2016-1-29 拿到收藏列表后要根据列表内容判断 是否已收藏
 
     private boolean isLogin = false;
     private Type userType = Type.EmptyType;
@@ -329,6 +329,7 @@ public class User implements Serializable {
     /*添加历史记录*/
     public void addHistoryList(Product product) {
         historyList.add(product);
+//        historyList.add(new Product(product));
     }
 
 

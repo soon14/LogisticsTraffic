@@ -14,8 +14,9 @@
 
         <ImageView
             android:id="@+id/collect_list_img_other"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
             android:layout_alignParentLeft="true"
             android:src="@drawable/ic_launcher" />
 
@@ -39,16 +40,19 @@
 
         <ImageView
             android:id="@+id/collect_list_img_me"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
             android:src="@mipmap/ic_launcher" />
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
             <LinearLayout
+                android:id="@+id/collect_ly"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
@@ -100,8 +104,8 @@
                 style="@style/tx_gray_12sp_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
                 android:text="已被浏览：#n次" />
         </RelativeLayout>
 

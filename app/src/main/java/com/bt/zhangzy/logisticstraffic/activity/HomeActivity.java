@@ -164,7 +164,8 @@ public class HomeActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         //重新读取用户数据
-        getApp().LoadAppData();
+        if (User.getInstance().getId() == 0)
+            getApp().LoadAppData();
         //重新配置软件网关 防止oppo类的手机适配问题
         getApp().reloadAppParams();
     }
@@ -453,7 +454,10 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void onClick_gotoHistory(View view) {
-        startActivity(HistoryActivity.class);
+        if (User.getInstance().isLogin())
+            startActivity(HistoryActivity.class);
+        else
+            showToast("请先登录！");
     }
 
 

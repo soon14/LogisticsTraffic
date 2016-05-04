@@ -33,6 +33,24 @@ public class Product implements Serializable {
         this.ID = ID;
     }
 
+    public Product(Product p) {
+        this.ID = p.ID;
+        this.userId = p.userId;
+        this.type = p.type;
+        this.name = p.name;
+        this.phoneNumber = p.phoneNumber;
+        this.describe = p.describe;
+        this.address = p.address;
+        this.times = p.times;
+        this.callTimes = p.callTimes;
+        this.level = p.level;
+        this.isVip = p.isVip;
+        this.location = p.location;
+        this.iconImgUrl = p.iconImgUrl;
+        this.photoImgUrl = p.photoImgUrl;
+        this.company = p.company;
+    }
+
     public static Product ParseJson(ResponseCompany response) {
         JsonUser user = response.getUser();
         JsonCompany company = response.getCompany();
