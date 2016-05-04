@@ -15,6 +15,7 @@ import com.bt.zhangzy.logisticstraffic.app.PictureHelper;
 import com.bt.zhangzy.tools.ViewUtils;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * 负责处理图片的选择 和 上传 功能
@@ -57,7 +58,7 @@ public class UploadImageHelper {
     JsonCallback rspCallback = new JsonCallback() {
         @Override
         public void onSuccess(String msg, String result) {
-            if(activity!=null) {
+            if (activity != null) {
                 activity.showToast("图片上传成功" + msg);
                 activity.cancelProgress();
             }
@@ -78,7 +79,7 @@ public class UploadImageHelper {
 
         @Override
         public void onFailed(String str) {
-            if(activity!=null) {
+            if (activity != null) {
                 activity.showToast("图片上传失败：" + str);
                 activity.cancelProgress();
             }
@@ -90,15 +91,26 @@ public class UploadImageHelper {
     }
 
     private void uploadFile(File file) {
-        if(activity!=null)
-        activity.showProgress("图片上传中...");
+        if (activity != null)
+            activity.showProgress("图片上传中...");
+        //图片上传不支持中文文件名
+        // 这里做重命名操作
+        Log.d(TAG, "old file name = " + file.getName() + "  path=" + file.getAbsolutePath());
+        File newPath = null;//new File(file, "sys" + System.currentTimeMillis());
+        try {
+            newPath = PictureHelper.getInstance().createImageFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        file.renameTo(newPath);
+        Log.d(TAG, "newPath file name = " + newPath.getName() + "  path=" + newPath.getAbsolutePath() + " exists=" + newPath.exists());
         //  照片上传逻辑
 //        UploadFileTask task = new UploadFileTask(AppURL.UpLoadImage);
 //        task.execute(file);
 
 //        HttpHelper.getInstance().postImage(AppURL.UpLoadImage, file, rspCallback);
 
-        HttpHelper.uploadImagePost(AppURL.UpLoadImage, file, rspCallback);
+        HttpHelper.uploadImagePost(AppURL.UpLoadImage, newPath, rspCallback);
     }
 
     @NonNull
