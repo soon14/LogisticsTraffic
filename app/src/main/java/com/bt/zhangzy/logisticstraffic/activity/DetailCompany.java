@@ -168,7 +168,7 @@ public class DetailCompany extends BaseActivity {
                     }
                     setTextView(R.id.detail_size_tx, jsonCompany.getScaleOfOperation());
 
-                    setImageUrl(R.id.detail_user_head_img, jsonCompany.getPhotoUrl());
+                    setImageUrl(R.id.detail_user_head_img, product.getCompany().getUser().getPortraitUrl());
                     setImageUrl(R.id.detail_flipper_1, jsonCompany.getPhotoUrl());
                     setImageUrl(R.id.detail_flipper_2, jsonCompany.getPhotoUrl2());
                     setImageUrl(R.id.detail_flipper_3, jsonCompany.getPhotoUrl3());

@@ -90,7 +90,7 @@
                 </ViewFlipper>
 
                 <!-- 头像展示-->
-                <ImageView
+                <com.bt.zhangzy.logisticstraffic.view.ImageViewCircle
                     android:id="@+id/detail_user_head_img"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
