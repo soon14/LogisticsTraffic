@@ -174,8 +174,14 @@ public class AliPay {
             }
 
             @Override
-            public void onFailed(String str) {
+            public void onFailed(final String str) {
 //                activity.showToast("下单失败");
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(activity, "下单失败:" + str, Toast.LENGTH_LONG).show();
+                    }
+                });
                 Log.w(TAG, "下单失败:" + str);
 //                activity.cancelProgress();
             }

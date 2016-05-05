@@ -214,7 +214,13 @@ public class WeiXinPay {
             progress.setIndeterminate(true); // 设置进度条是否为不明确
             progress.setCancelable(false); // 设置进度条是否按返回键取消
         }
-        progress.show();
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (progress != null)
+                    progress.show();
+            }
+        });
     }
 
     private void cancelProgress() {
