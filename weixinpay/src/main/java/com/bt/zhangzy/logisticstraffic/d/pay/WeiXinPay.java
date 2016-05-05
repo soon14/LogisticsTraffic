@@ -205,22 +205,28 @@ public class WeiXinPay {
     }
 
     private void showProgress() {
-        if (progress == null) {
-            progress = new ProgressDialog(activity); // 获取对象
-            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER); // 设置样式为圆形样式
-//        progress.setTitle("友情提示"); // 设置进度条的标题信息
-            progress.setMessage("支付中···"); // 设置进度条的提示信息
-//        progress.setIcon(R.drawable.ic_launcher); // 设置进度条的图标
-            progress.setIndeterminate(true); // 设置进度条是否为不明确
-            progress.setCancelable(false); // 设置进度条是否按返回键取消
-        }
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (progress != null)
-                    progress.show();
+        try {
+            if (progress == null) {
+                progress = new ProgressDialog(activity); // 获取对象
+                progress.setProgressStyle(ProgressDialog.STYLE_SPINNER); // 设置样式为圆形样式
+                //        progress.setTitle("友情提示"); // 设置进度条的标题信息
+                progress.setMessage("支付中···"); // 设置进度条的提示信息
+                //        progress.setIcon(R.drawable.ic_launcher); // 设置进度条的图标
+                progress.setIndeterminate(true); // 设置进度条是否为不明确
+                progress.setCancelable(false); // 设置进度条是否按返回键取消
             }
-        });
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (progress != null)
+                        progress.show();
+                }
+            });
+        } catch (Exception e) {
+            progress = null;
+            e.printStackTrace();
+            Log.w(TAG, e);
+        }
     }
 
     private void cancelProgress() {
