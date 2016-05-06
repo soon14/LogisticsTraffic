@@ -1,9 +1,13 @@
 package com.bt.zhangzy.logisticstraffic.app;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.bt.zhangzy.logisticstraffic.d.BuildConfig;
 import com.bt.zhangzy.tools.ContextTools;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * app的常用配置 和 一些常用功能 单例
@@ -12,6 +16,7 @@ import com.bt.zhangzy.tools.ContextTools;
 public final class AppParams {
 
 
+    private static final String TAG = AppParams.class.getSimpleName();
     static AppParams instance = new AppParams();
 
     private AppParams() {
@@ -30,6 +35,27 @@ public final class AppParams {
         cacheImageDir = path + "/Image/";
         crashLogDir = path + "/Crash/";
         paramsDir = path + "/params/";
+    }
+
+    public File createImageFile() throws IOException {
+//        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+//        String imageFileName = "JPEG_" + timeStamp + "_";
+//        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File storageDir = new File(AppParams.getInstance().getCacheImageDir());
+        Log.i(TAG, "storageDir:" + storageDir.getPath());
+        if (!storageDir.exists()) {
+            storageDir.mkdir();
+        }
+        String imageFileName = "Android_Crop_JPEG";
+        File image = File.createTempFile(imageFileName, /* prefix */
+                ".jpg", /* suffix */
+                storageDir /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        // / mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
+
     }
 
     public String getCrashLogDir() {

@@ -72,10 +72,12 @@ public class RegisterActivity extends BaseActivity {
     public void onClick_SendVerificationCode(View view) {
 //        testSMS();
         EditText phoneNumEd = (EditText) findViewById(R.id.reg_phoneNum_ed);
-        if (TextUtils.isEmpty(phoneNumEd.getText()) || phoneNumEd.getText().length() != 11) {
+        if (TextUtils.isEmpty(phoneNumEd.getText()) || phoneNumEd.getText().length() != 11
+                || !Tools.IsPhoneNum(phoneNumEd.getText().toString())) {
             showToast("手机号输入错误");
             return;
         }
+
         String phoneNum = phoneNumEd.getText().toString();
         SMSCodeHelper.getInstance().sendSMS(this, (TextView) view, phoneNum, getString(R.string.sms_code_register));
 
@@ -124,7 +126,7 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         verfication = verficationEd.getText().toString().trim();
-        if (!SMSCodeHelper.getInstance().checkVerificationCode(this,phoneNum, verfication)) {
+        if (!SMSCodeHelper.getInstance().checkVerificationCode(this, phoneNum, verfication)) {
             showToast("验证码错误");
             return;
         }

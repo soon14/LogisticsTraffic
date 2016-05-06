@@ -67,15 +67,15 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/search_keyword_voice_btn"
-                    style="@style/home_button_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/orange_shape_btn_selector"
-                    android:onClick="onClick_SearchVoice"
-                    android:text="语音" />
+                <!--<Button-->
+                    <!--android:id="@+id/search_keyword_voice_btn"-->
+                    <!--style="@style/home_button_style"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:background="@drawable/orange_shape_btn_selector"-->
+                    <!--android:onClick="onClick_SearchVoice"-->
+                    <!--android:text="语音" />-->
 
                 <AutoCompleteTextView
                     android:id="@+id/search_keyword_ed"

@@ -274,6 +274,7 @@ public class SearchActivity extends BaseActivity {
      * @param view
      */
     public void onClick_SearchVoice(View view) {
+        showToast("功能开发中");
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.adapter.FleetListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.FleetListForDevicesAdapter;
@@ -33,6 +32,7 @@ import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.RequestOrderAccept_Reject;
 import com.bt.zhangzy.network.entity.ResponseAllocationDriver;
 import com.bt.zhangzy.network.entity.ResponseMotorcades;
+import com.bt.zhangzy.tools.Tools;
 import com.zhangzy.base.http.BaseEntity;
 
 import java.util.ArrayList;
@@ -556,7 +556,11 @@ public class FleetActivity extends BaseActivity {
 //                EditText name = (EditText) dialog.findViewById(R.id.add_driver_dl_name_ed);
                 EditText phone = (EditText) dialog.findViewById(R.id.add_driver_dl_phone_ed);
                 if (TextUtils.isEmpty(phone.getText())) {
-                    Toast.makeText(context, "请检查填写内容", Toast.LENGTH_SHORT).show();
+                    showToast("请检查填写内容");
+                    return;
+                }
+                if (!Tools.IsPhoneNum(phone.getText().toString())) {
+                    showToast("手机号格式错误");
                     return;
                 }
 

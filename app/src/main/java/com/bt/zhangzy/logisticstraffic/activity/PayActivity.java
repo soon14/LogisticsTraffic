@@ -38,7 +38,7 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
         payGroup.setOnCheckedChangeListener(this);
         payGroup.check(R.id.pay_select_3y);
         payMethodGroup.setOnCheckedChangeListener(this);
-        payMethodGroup.check(R.id.pay_method_weixin);
+        payMethodGroup.check(R.id.pay_method_zhifubao);
         TextView textView = (TextView) findViewById(R.id.pay_select_2y);
         textView.setText(Html.fromHtml(getString(R.string.pay_two_info)));
         textView = (TextView) findViewById(R.id.pay_select_3y);
@@ -155,6 +155,7 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
     }
 
     private void showConfirmDialog(String title, String msg) {
+
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {

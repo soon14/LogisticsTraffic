@@ -40,8 +40,8 @@
 
         <ImageView
             android:id="@+id/collect_list_img_me"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_launcher" />
 
@@ -93,7 +93,8 @@
                     style="@style/tx_black_df_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="包头--呼和浩特"
+                    android:hint=""
+                    android:singleLine="true"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
 

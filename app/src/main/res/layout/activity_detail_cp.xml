@@ -26,14 +26,14 @@
             android:onClick="onClick_CollectAdd"
             android:src="@drawable/collection_selector" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/detail_colletion"
-            android:onClick="onClick_Share"
-            android:src="@drawable/share_icon" />
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="15dp"-->
+            <!--android:layout_toLeftOf="@id/detail_colletion"-->
+            <!--android:onClick="onClick_Share"-->
+            <!--android:src="@drawable/share_icon" />-->
     </RelativeLayout>
 
     <ScrollView
