@@ -66,6 +66,9 @@ public class WebViewActivity extends BaseActivity {
         //设置加载进来的页面自适应手机屏幕
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
+        //设置默认字号
+        webSettings.setDefaultFixedFontSize(18);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
         //http://192.168.1.115:8080/mall/qiantai/ditu.html?a=116.39&b=39.116
 //        String url = "http://192.168.1.115:8080/mall/qiantai/ditu.html?longitude=" + location.getLongitude() + "&latitude=" + location.getLatitude();
