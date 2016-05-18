@@ -188,7 +188,23 @@
                         android:minLines="1"
                         android:singleLine="false" />
                 </TableRow>
+                <View style="@style/line_style_horizontal" />
 
+                <TableRow>
+
+                    <TextView
+                        style="@style/tx_order_style"
+                        android:gravity="right"
+                        android:text="发货日期：" />
+
+                    <TextView
+                        android:id="@+id/order_detail_start_date"
+                        style="@style/tx_order_style"
+                        android:background="@color/transparent"
+                        android:hint="选择发货日期"
+                        android:inputType="date"
+                        android:onClick="onClick_InputDate" />
+                </TableRow>
                 <View style="@style/line_style_horizontal" />
 
                 <TableRow
@@ -378,6 +394,7 @@
                         android:src="@drawable/add_devices" />
                 </TableRow>
 
+
                 <View style="@style/line_style_horizontal" />
 
                 <TableRow
@@ -406,6 +423,7 @@
             </TableLayout>
 
             <View style="@style/line_style_horizontal" />
+
             <Button
                 android:id="@+id/order_detail_select_driver_bt"
                 style="@style/order_button_style"

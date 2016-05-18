@@ -1,5 +1,6 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
@@ -9,6 +10,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -52,6 +54,9 @@ import com.zhangzy.base.http.BaseEntity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -124,6 +129,7 @@ public class OrderDetailActivity extends BaseActivity {
             jsonOrder.setStartCity(loc.toText());
         jsonOrder.setDriverCount(1);
         jsonOrder.setStatus(OrderStatus.TempOrder);
+        jsonOrder.setDeliverDate(new Date());
         if (user.getUserType() == Type.CompanyInformationType) {
             JsonCompany company = user.getJsonTypeEntity();
             if (company != null) {
@@ -222,6 +228,8 @@ public class OrderDetailActivity extends BaseActivity {
         setTextView(R.id.order_detail_consignor_name, jsonOrder.getConsignorName());
         setTextView(R.id.order_detail_consignor_phone_tx, jsonOrder.getConsignorPhone());
         setTextView(R.id.order_detail_remark_ed, jsonOrder.getRemark());
+        if (jsonOrder.getDeliverDate() != null)
+            setTextView(R.id.order_detail_start_date, Tools.toStringDate(jsonOrder.getDeliverDate()));
         if (jsonOrder.getDriverCount() > 0)
             setTextView(R.id.order_detail_driver_size_ed, String.valueOf(jsonOrder.getDriverCount()));
 //        setTextView(R.id.order_detail_volume_tx,jsonOrder.getGoodsVolume());
@@ -431,7 +439,10 @@ public class OrderDetailActivity extends BaseActivity {
                 //企业创建订单的时候不能选择司机
                 findViewById(R.id.order_detail_location_driver_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_call_phone_bt).setVisibility(View.GONE);
-
+                //如果是给物流公司下单 则不能选择车队司机
+                if(jsonOrder.getCompanyId()!=0){
+                    findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
+                }
                 break;
             case UntreatedMode://未提交订单
 
@@ -447,8 +458,10 @@ public class OrderDetailActivity extends BaseActivity {
                         setTextView(R.id.order_detail_submit, getString(R.string.order_submit_order_allocation));
 
                     }
-                } else
+                } else {
                     findViewById(R.id.order_detail_submit).setVisibility(View.GONE);
+                    findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
+                }
                 break;
             case SubmittedMode:
                 //修改为定位图标
@@ -560,6 +573,42 @@ public class OrderDetailActivity extends BaseActivity {
                 && currentOrderStatus != OrderStatus.UncommittedOrder)
             return true;
         return false;
+    }
+
+    public void onClick_InputDate(View view) {
+        if (cannotEditStatus())
+            return;
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int monthOfYear = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        final Date current_date = new GregorianCalendar(year, monthOfYear, dayOfMonth).getTime();
+        //读取上次设定的日期
+        if (jsonOrder.getDeliverDate() != null) {
+            calendar.setTime(jsonOrder.getDeliverDate());
+            year = calendar.get(Calendar.YEAR);
+            monthOfYear = calendar.get(Calendar.MONTH);
+            dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        }
+        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                Log.d(TAG, "您选择了：" + year + "年" + (monthOfYear) + "月" + dayOfMonth + "日");
+//                Tools.getCurrentTime()
+                GregorianCalendar date = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+
+                if (date.getTime().getTime() >= current_date.getTime()) {
+                    setTextView(R.id.order_detail_start_date, Tools.toStringDate(date.getTime()));
+                    jsonOrder.setDeliverDate(date.getTime());
+                } else
+                    showToast("日期不能倒退哦");
+            }
+        },
+                year,
+                monthOfYear,
+                dayOfMonth
+        )
+                .show();
     }
 
     /**
@@ -877,15 +926,10 @@ public class OrderDetailActivity extends BaseActivity {
      */
     public void onClick_CallPhone(View view) {
 
-        new ConfirmDialog(this)
-                .setMessage(String.format(getString(R.string.service_tel_dialog), getString(R.string.app_phone)))
-                .setConfirm("拨打")
-                .setConfirmListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        getApp().callPhone(getString(R.string.app_phone));
-                    }
-                }).show();
+        new CallPhoneDialog(this)
+                .setInfoMessage(String.format(getString(R.string.service_tel_dialog), getString(R.string.app_phone)))
+                .setPhoneNum(getString(R.string.app_phone))
+                .show();
     }
 
     public void onClick_Company(View view) {

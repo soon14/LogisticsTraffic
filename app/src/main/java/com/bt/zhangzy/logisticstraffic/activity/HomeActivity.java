@@ -480,7 +480,7 @@ public class HomeActivity extends BaseActivity {
         ConfirmDialog.showConfirmDialog(this, "是否退出?", "返回", "退出", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getApp().Exit(User.getInstance().isSave());
+                getApp().Exit(HomeActivity.this,User.getInstance().isSave());
             }
         });
     }
@@ -490,7 +490,7 @@ public class HomeActivity extends BaseActivity {
         ConfirmDialog.showConfirmDialog(this, "是否注销并退出程序?", "返回", "退出", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getApp().Exit(false);
+                getApp().Exit(HomeActivity.this,false);
             }
         });
     }

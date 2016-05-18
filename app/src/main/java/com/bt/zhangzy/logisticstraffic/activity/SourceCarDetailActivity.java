@@ -9,6 +9,7 @@ import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.view.CallPhoneDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -91,7 +92,9 @@ public class SourceCarDetailActivity extends BaseActivity {
         if (!User.getInstance().checkUserVipStatus(this)) {
             return;
         }
-        getApp().callPhone(jsonCar.getPhoneNumber());
+        new CallPhoneDialog(this)
+                .setPhoneNum(jsonCar.getPhoneNumber())
+                .show();
     }
 
     private void requestAddMotorcade() {

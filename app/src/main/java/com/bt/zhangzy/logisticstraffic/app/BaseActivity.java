@@ -62,7 +62,7 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getApp().setCurrentAct(this);
+        Log.w(TAG, "当前Activity=" + this.TAG);
         //避免弹出的键盘遮挡输入框的问题
         //这样会让屏幕整体上移。如果加上的 是 android:windowSoftInputMode="adjustPan"这样键盘就会覆盖屏幕。
         //AndroidManifest.xml的Activity设置属性：android:windowSoftInputMode = "adjustResize"

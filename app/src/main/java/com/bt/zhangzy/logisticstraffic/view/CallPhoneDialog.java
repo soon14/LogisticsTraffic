@@ -69,16 +69,4 @@ public class CallPhoneDialog extends BaseDialog {
         });
     }
 
-    /**
-     * 创建拨打电话的对话框
-     *
-     * @param context
-     * @return
-     */
-    public static void ShowCallPhoneDialog(Activity context, String phoneNum) {
-
-        new CallPhoneDialog(context)
-                .setPhoneNum(phoneNum)
-                .show();
-    }
 }

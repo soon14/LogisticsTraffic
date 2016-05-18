@@ -1,5 +1,6 @@
 package com.bt.zhangzy.logisticstraffic.app;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.app.DatePickerDialog;
@@ -13,6 +14,9 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -23,7 +27,6 @@ import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
-import com.bt.zhangzy.tools.ContextTools;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -56,7 +59,6 @@ public class LogisticsTrafficApplication extends Application {
     public static final String APP_HOST = "APP_HOST";
 
     private String versionName;
-    private BaseActivity currentAct;
 
 //    private JSONArray jsonCityList;
 
@@ -108,12 +110,13 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
 //                properties.load(response.body().byteStream());
                 properties.load(new InputStreamReader(response.body().byteStream(), "UTF-8"));
                 Log.d(TAG, "properties = " + properties.toString());
-                currentAct.runOnUiThread(new Runnable() {
+                new Handler(Looper.getMainLooper(), new Handler.Callback() {
                     @Override
-                    public void run() {
+                    public boolean handleMessage(Message msg) {
                         checkAppVersionProperties(properties);
+                        return true;
                     }
-                });
+                }).sendEmptyMessage(0);
 
             }
         });
@@ -133,7 +136,7 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
                     String message = "升级内容:\n" + properties.getProperty("message");
                     Log.i(TAG, "有新的版本 versionName=" + versionName);
 
-                    new AlertDialog.Builder(currentAct)
+                    new AlertDialog.Builder(getApplicationContext())
                             .setIcon(android.R.drawable.ic_dialog_info)
                             .setTitle("请升级APP至版本" + versionName)
                             .setMessage(message)
@@ -329,10 +332,6 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
     }
 
 
-    public void setCurrentAct(BaseActivity act) {
-        currentAct = act;
-        Log.w(TAG, "设置当前Activity=" + act.TAG);
-    }
 
 
     public void stopLocationServer() {
@@ -340,7 +339,7 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
     }
 
 
-    public void Exit(boolean isSave) {
+    public void Exit(Activity activity,boolean isSave) {
 
         //语音服务退出
         BaiduSDK.getInstance().dismissVoiceDialog();
@@ -358,8 +357,8 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
             stopService(new Intent(this, UpDataLocationService.class));
         }
         saveUser();
-        if (currentAct != null)
-            currentAct.finish();
+        if (activity != null)
+            activity.finish();
         System.exit(0);
 //        android.os.Process.killProcess(android.os.Process.myPid());
     }
@@ -424,19 +423,6 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
     }
 
 
-    /**
-     * 登陆后才能打电话
-     */
-    public void callPhone(String phoneNumber) {
-        //to do 接口 更新拨打电话的次数
-        if (!User.getInstance().isLogin()) {
-            currentAct.gotoLogin();
-
-        } else {
-            ContextTools.CallPhone(currentAct, phoneNumber);
-        }
-    }
-
 
     /**
      * 显示 设置日期 对话框
@@ -446,7 +432,7 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
     public final void showDataPickerDialog(DatePickerDialog.OnDateSetListener listener) {
         Calendar calendar = Calendar.getInstance();
         // 直接创建一个DatePickerDialog对话框实例，并将它显示出来
-        new DatePickerDialog(currentAct,
+        new DatePickerDialog(getApplicationContext(),
                 // 绑定监听器
                 listener
                 // 设置初始日期
@@ -461,7 +447,7 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
      */
     public final void showTimeDialog(TimePickerDialog.OnTimeSetListener callback) {
         Calendar calendar = Calendar.getInstance();
-        new TimePickerDialog(currentAct, callback, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
+        new TimePickerDialog(getApplicationContext(), callback, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
     }
 
 
