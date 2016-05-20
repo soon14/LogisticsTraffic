@@ -253,9 +253,9 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
             AppParams.APP_HOST = host;
 
             //亿利
-//            String recommend = "18686118394";//appInfo.metaData.getString("APP_RECOMMEND", "");
+            String recommend = "18686118394";//appInfo.metaData.getString("APP_RECOMMEND", "");
             //默认
-            String recommend = "";
+//            String recommend = "";
             Log.i(TAG, "=====>预留推荐码：" + recommend);
             AppParams.RECOMMEND = recommend;
 
