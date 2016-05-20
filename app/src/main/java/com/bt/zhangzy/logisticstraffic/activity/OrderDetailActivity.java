@@ -440,7 +440,7 @@ public class OrderDetailActivity extends BaseActivity {
                 findViewById(R.id.order_detail_location_driver_bt).setVisibility(View.GONE);
                 findViewById(R.id.order_detail_call_phone_bt).setVisibility(View.GONE);
                 //如果是给物流公司下单 则不能选择车队司机
-                if(jsonOrder.getCompanyId()!=0){
+                if (jsonOrder != null && jsonOrder.getCompanyId() != 0) {
                     findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                 }
                 break;
