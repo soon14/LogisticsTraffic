@@ -6,10 +6,18 @@
 
     <include layout="@layout/page_top" />
 
-    <include
-        layout="@layout/home_adveriting_item"
+    <!--<include-->
+    <!--layout="@layout/home_adveriting_item"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="160dp" />-->
+
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="160dp" />
+        android:layout_height="160dp"
+        android:background="@color/transparent"
+        android:clickable="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/ad_top_default" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,37 +28,49 @@
         android:paddingBottom="5dp"
         android:paddingTop="5dp">
 
-        <ImageView
+        <TextView
             android:id="@+id/services_qiye_btn"
+            style="@style/tx_black_df_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableTop="@drawable/icon_xinxibu"
+            android:gravity="center"
             android:onClick="onClick_InfoLocation"
-            android:src="@drawable/icon_xinxibu" />
+            android:text="信息部" />
 
-        <ImageView
+        <TextView
             android:id="@+id/services_jiayouzhan_btn"
+            style="@style/tx_black_df_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableTop="@drawable/icon_jiayouzhan"
+            android:gravity="center"
             android:onClick="onClick_InfoLocation"
-            android:src="@drawable/icon_jiayouzhan" />
+            android:text="加油站" />
 
-        <ImageView
+        <TextView
             android:id="@+id/services_wuliu_btn"
+            style="@style/tx_black_df_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableTop="@drawable/icon_wuliuyuanqu"
+            android:gravity="center"
             android:onClick="onClick_InfoLocation"
-            android:src="@drawable/icon_wuliuyuanqu" />
+            android:text="物流园" />
 
-        <ImageView
+        <TextView
             android:id="@+id/services_cangchu_btn"
+            style="@style/tx_black_df_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableTop="@drawable/icon_cangchu"
+            android:gravity="center"
             android:onClick="onClick_InfoLocation"
-            android:src="@drawable/icon_cangchu" />
+            android:text="仓储" />
 
 
     </LinearLayout>
@@ -64,37 +84,49 @@
         android:paddingBottom="5dp"
         android:paddingTop="1dp">
 
-        <ImageView
+        <TextView
             android:id="@+id/services_jiudian_btn"
+            style="@style/tx_black_df_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableTop="@drawable/icon_jiudian"
+            android:gravity="center"
             android:onClick="onClick_InfoLocation"
-            android:src="@drawable/icon_jiudian" />
+            android:text="酒店" />
 
-        <ImageView
+        <TextView
             android:id="@+id/services_canyin_btn"
+            style="@style/tx_black_df_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableTop="@drawable/icon_canying"
+            android:gravity="center"
             android:onClick="onClick_InfoLocation"
-            android:src="@drawable/icon_canying" />
+            android:text="餐饮" />
 
-        <ImageView
+        <TextView
             android:id="@+id/services_xiyu_btn"
+            style="@style/tx_black_df_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableTop="@drawable/icon_xiyu"
+            android:gravity="center"
             android:onClick="onClick_InfoLocation"
-            android:src="@drawable/icon_xiyu" />
+            android:text="洗浴" />
 
-        <ImageView
+        <TextView
             android:id="@+id/services_chaoshi_btn"
+            style="@style/tx_black_df_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableTop="@drawable/icon_chaoshi"
+            android:gravity="center"
             android:onClick="onClick_InfoLocation"
-            android:src="@drawable/icon_chaoshi" />
+            android:text="超市" />
     </LinearLayout>
 
     <LinearLayout
@@ -133,8 +165,8 @@
                 android:id="@+id/services_id_ed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:inputType="number" />
 
             <Button
                 style="@style/default_btn_style"
