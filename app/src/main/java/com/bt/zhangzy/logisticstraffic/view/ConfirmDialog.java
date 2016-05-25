@@ -15,6 +15,11 @@ public class ConfirmDialog extends BaseDialog {
 
     TextView message;
     Button confirmBt, cancelBt;
+    ConfirmDialogListener listener;
+
+    public interface ConfirmDialogListener {
+        public void onClick(boolean isConfirm);
+    }
 
     public ConfirmDialog(Activity context) {
         super(context);
@@ -58,6 +63,25 @@ public class ConfirmDialog extends BaseDialog {
         return this;
     }
 
+    /**
+     * 设置一个 只关心是否按了确定按钮的Listener
+     *
+     * @param listener
+     * @return
+     */
+    public ConfirmDialog setListener(ConfirmDialogListener listener) {
+        this.listener = listener;
+        return this;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        if (listener != null) {
+            listener.onClick(v == confirmBt || v.getId() == confirmBt.getId());
+        }
+        super.onClick(v);
+    }
 
     /**
      * 常用对话框方法封装  二次确认对话框

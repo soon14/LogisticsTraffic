@@ -480,7 +480,7 @@ public class HomeActivity extends BaseActivity {
         ConfirmDialog.showConfirmDialog(this, "是否退出?", "返回", "退出", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getApp().Exit(HomeActivity.this,User.getInstance().isSave());
+                getApp().Exit(HomeActivity.this, User.getInstance().isSave());
             }
         });
     }
@@ -490,7 +490,7 @@ public class HomeActivity extends BaseActivity {
         ConfirmDialog.showConfirmDialog(this, "是否注销并退出程序?", "返回", "退出", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getApp().Exit(HomeActivity.this,false);
+                getApp().Exit(HomeActivity.this, false);
             }
         });
     }
@@ -498,6 +498,11 @@ public class HomeActivity extends BaseActivity {
     public void onClick_Server(View view) {
         // 从用户信息中点击服务按钮
         startActivity(ServicesActivity.class);
+    }
+
+    public void onClick_Lines(View view) {
+        // 地址管理
+        startActivity(LinesListActivity.class);
     }
 
     public void onClick_SettingShare(View view) {

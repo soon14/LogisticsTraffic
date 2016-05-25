@@ -12,6 +12,7 @@ import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonFavorite;
+import com.bt.zhangzy.network.entity.JsonLine;
 import com.bt.zhangzy.network.entity.JsonMember;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonOrder;
@@ -58,10 +59,33 @@ public class User implements Serializable {
     private PayStatus payStatus;
     private JsonMember payJson;//支付结果缓存;
 
+    //常用发线路
+    private ArrayList<JsonLine> linesList = new ArrayList<JsonLine>();
+    private JsonLine lastUseLine;
+
     public static User getInstance() {
         return instance;
     }
 
+
+    public ArrayList<JsonLine> getLinesList() {
+        return linesList;
+    }
+
+    public boolean addLines(JsonLine jsonLine) {
+        if (jsonLine == null)
+            return false;
+        linesList.add(jsonLine);
+        return true;
+    }
+
+    public JsonLine getLastUseLine() {
+        return lastUseLine;
+    }
+
+    public void setLastUseLine(JsonLine lastUseLine) {
+        this.lastUseLine = lastUseLine;
+    }
 
     /**
      * 检查用户的审核状态

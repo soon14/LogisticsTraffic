@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bt.zhangzy.logisticstraffic.activity.LinesListActivity">
+
+    <include layout="@layout/page_top" />
+
+    <ListView
+        android:id="@+id/line_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:divider="@color/transparent"
+        android:dividerHeight="3dp"
+        android:listSelector="@color/transparent">
+
+
+    </ListView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4px"
+        android:background="@color/main_bg_color" />
+
+    <Button
+        android:id="@+id/line_list_submit"
+        style="@style/order_button_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:layout_weight="0"
+        android:onClick="onClick_AddLine"
+        android:text="添加线路" />
+</LinearLayout>

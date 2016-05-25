@@ -41,6 +41,23 @@ public final class Tools {
     }
 
 
+    public static String encryptString(String string) {
+        if (TextUtils.isEmpty(string))
+            return string;
+        StringBuffer stringBuffer = new StringBuffer();
+        if (IsPhoneNum(string)) {
+            stringBuffer.append(string.substring(0, 2));
+            for (int k = 2; k < string.length() - 3; k++)
+                stringBuffer.append('*');
+            stringBuffer.append(string.substring(string.length() - 3, string.length()));
+        } else {
+            stringBuffer.append(string.substring(0, 1));
+            for (int k = 1; k < string.length(); k++)
+                stringBuffer.append('*');
+        }
+        return stringBuffer.toString();
+    }
+
     /**
      * 验证手机号
      *

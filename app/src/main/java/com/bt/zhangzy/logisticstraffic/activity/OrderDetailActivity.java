@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
-import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.OrderReceiveStatus;
 import com.bt.zhangzy.logisticstraffic.data.OrderStatus;
@@ -32,13 +31,13 @@ import com.bt.zhangzy.logisticstraffic.view.CallPhoneDialog;
 import com.bt.zhangzy.logisticstraffic.view.ChooseItemsDialog;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.InputDialog;
-import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonCarTrack;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
+import com.bt.zhangzy.network.entity.JsonLine;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonOrder;
 import com.bt.zhangzy.network.entity.JsonOrderHistory;
@@ -97,11 +96,48 @@ public class OrderDetailActivity extends BaseActivity {
 
     }
 
+    private void parseJsonLine(JsonLine jsonLine) {
+        if (jsonLine == null)
+            return;
+        jsonOrder.setStartCity(jsonLine.getConsignorCity() + ',' + jsonLine.getConsignorAddress());
+        jsonOrder.setStopCity(jsonLine.getReceiverCity() + ',' + jsonLine.getReceiverAddress());
+        jsonOrder.setReceiverName(jsonLine.getReceiverName());
+        jsonOrder.setReceiverPhone(jsonLine.getReceiverPhone());
+        jsonOrder.setReceiverAddress(jsonLine.getReceiverAddress());
+        jsonOrder.setConsignorName(jsonLine.getConsignorName());
+        jsonOrder.setConsignorPhone(jsonLine.getConsignorPhone());
+//        jsonOrder.setcon
+        //init view
+        initLineView();
+
+    }
+
+    private void initLineView() {
+        View lineLy = findViewById(R.id.order_detail_line_ly);
+        if (lineLy != null) {
+            findViewById(R.id.order_detail_line_empty).setVisibility(View.GONE);
+            lineLy.setVisibility(View.VISIBLE);
+            lineLy.findViewById(R.id.line_item_edit_bt).setVisibility(View.GONE);
+            ViewUtils.setText(lineLy, R.id.line_item_consignor_name, jsonOrder.getConsignorName());
+            ViewUtils.setText(lineLy, R.id.line_item_consignor_phone, jsonOrder.getConsignorPhone());
+            ViewUtils.setText(lineLy, R.id.line_item_consignor_address, jsonOrder.getStartCity());
+            ViewUtils.setText(lineLy, R.id.line_item_receiver_name, jsonOrder.getReceiverName());
+            ViewUtils.setText(lineLy, R.id.line_item_receiver_phone, jsonOrder.getReceiverPhone());
+            ViewUtils.setText(lineLy, R.id.line_item_receiver_address, jsonOrder.getStopCity());
+        }
+    }
+
     private void initJsonOrder() {
         User user = User.getInstance();
         if (jsonOrder == null) {
             jsonOrder = createDefaultOrder();
+            if (User.getInstance().getLastUseLine() == null)
+                findViewById(R.id.order_detail_line_ly).setVisibility(View.GONE);
+            else {
+                parseJsonLine(User.getInstance().getLastUseLine());
+            }
         } else {
+            findViewById(R.id.order_detail_line_empty).setVisibility(View.GONE);
             //同步订单数据
             requestOrder(String.valueOf(jsonOrder.getId()), false);
         }
@@ -124,9 +160,9 @@ public class OrderDetailActivity extends BaseActivity {
         User user = User.getInstance();
         JsonOrder jsonOrder = new JsonOrder();//如果没有则创建一个订单
         //填写默认的订单数据
-        Location loc = user.getLocation();
-        if (loc != null && !TextUtils.isEmpty(loc.getCityName()))
-            jsonOrder.setStartCity(loc.toText());
+//        Location loc = user.getLocation();
+//        if (loc != null && !TextUtils.isEmpty(loc.getCityName()))
+//            jsonOrder.setStartCity(loc.toText());
         jsonOrder.setDriverCount(1);
         jsonOrder.setStatus(OrderStatus.TempOrder);
         jsonOrder.setDeliverDate(new Date());
@@ -204,29 +240,10 @@ public class OrderDetailActivity extends BaseActivity {
 //        setTextView(R.id.order_detail_company_tx, "物流ID=" + jsonOrder.getCompanyId());
         setTextView(R.id.order_detail_enterprise_tx, jsonOrder.getEnterpriseName());
         setTextView(R.id.order_detail_company_tx, jsonOrder.getCompanyName());
-        if (!TextUtils.isEmpty(jsonOrder.getStartCity())) {
-            Log.d(TAG, "订单 默认城市" + jsonOrder.getStartCity());
-            String[] split = jsonOrder.getStartCity().split(",");
-            if (split.length > 0)
-                setTextView(R.id.order_detail_start_city_tx, split[0]);
-            if (split.length > 1)
-                setTextView(R.id.order_detail_start_loc_tx, split[1]);
-        }
-        if (!TextUtils.isEmpty(jsonOrder.getStopCity())) {
-            String[] split = jsonOrder.getStopCity().split(",");
-            if (split.length > 0)
-                setTextView(R.id.order_detail_stop_city_tx, split[0]);
-            if (split.length > 1)
-                setTextView(R.id.order_detail_stop_loc_tx, split[1]);
-        }
         setTextView(R.id.order_detail_type_tx, jsonOrder.getGoodsType());
 //        setTextView(R.id.order_detail_goods_name_tx, jsonOrder.getGoodsName());
         setTextView(R.id.order_detail_goods_weight_tx, jsonOrder.getGoodsWeight());
         setTextView(R.id.order_detail_volume_tx, jsonOrder.getGoodsVolume());
-        setTextView(R.id.order_detail_receiver_name, jsonOrder.getReceiverName());
-        setTextView(R.id.order_detail_receiver_phone_tx, jsonOrder.getReceiverPhone());
-        setTextView(R.id.order_detail_consignor_name, jsonOrder.getConsignorName());
-        setTextView(R.id.order_detail_consignor_phone_tx, jsonOrder.getConsignorPhone());
         setTextView(R.id.order_detail_remark_ed, jsonOrder.getRemark());
         if (jsonOrder.getDeliverDate() != null)
             setTextView(R.id.order_detail_start_date, Tools.toStringDate(jsonOrder.getDeliverDate()));
@@ -234,6 +251,10 @@ public class OrderDetailActivity extends BaseActivity {
             setTextView(R.id.order_detail_driver_size_ed, String.valueOf(jsonOrder.getDriverCount()));
 //        setTextView(R.id.order_detail_volume_tx,jsonOrder.getGoodsVolume());
 
+        //线路初始化
+        if (!Tools.isEmptyStrings(jsonOrder.getStartCity(), jsonOrder.getStopCity())) {
+            initLineView();
+        }
 
         //订单状态
         if (User.getInstance().getUserType() != Type.DriverType) {
@@ -276,6 +297,20 @@ public class OrderDetailActivity extends BaseActivity {
             if (statusStr != null)
                 setTextView(R.id.order_detail_status_tx, statusStr);
 
+        } else {
+            //当前用户 为 司机
+            if (currentMode == OrderDetailMode.UntreatedMode) {
+                //抢单前 加密收发货人信息
+                View lineLy = findViewById(R.id.order_detail_line_ly);
+                if (lineLy != null) {
+                    ViewUtils.setText(lineLy, R.id.line_item_consignor_name, Tools.encryptString(jsonOrder.getConsignorName()));
+                    ViewUtils.setText(lineLy, R.id.line_item_consignor_phone, Tools.encryptString(jsonOrder.getConsignorPhone()));
+//                    ViewUtils.setText(lineLy, R.id.line_item_consignor_address, jsonOrder.getStartCity());
+                    ViewUtils.setText(lineLy, R.id.line_item_receiver_name, Tools.encryptString(jsonOrder.getReceiverName()));
+                    ViewUtils.setText(lineLy, R.id.line_item_receiver_phone, Tools.encryptString(jsonOrder.getReceiverPhone()));
+//                    ViewUtils.setText(lineLy, R.id.line_item_receiver_address, jsonOrder.getStopCity());
+                }
+            }
         }
 
         if (jsonOrder.getOrderStatus().ordinal() >= OrderStatus.FinishedOrder.ordinal()) {
@@ -288,12 +323,12 @@ public class OrderDetailActivity extends BaseActivity {
 
 
     private void initView() {
-        EditText start_ed = (EditText) findViewById(R.id.order_detail_start_loc_tx);
-        EditText stop_ed = (EditText) findViewById(R.id.order_detail_stop_loc_tx);
+//        EditText start_ed = (EditText) findViewById(R.id.order_detail_start_loc_tx);
+//        EditText stop_ed = (EditText) findViewById(R.id.order_detail_stop_loc_tx);
         EditText remark_ed = (EditText) findViewById(R.id.order_detail_remark_ed);
         if (cannotEditStatus()) {
-            start_ed.setEnabled(false);
-            stop_ed.setEnabled(false);
+//            start_ed.setEnabled(false);
+//            stop_ed.setEnabled(false);
             remark_ed.setEnabled(false);
         } else {
             TextWatcher watcher = new TextWatcher() {
@@ -312,8 +347,8 @@ public class OrderDetailActivity extends BaseActivity {
                     updateJsonOrder = true;
                 }
             };
-            start_ed.addTextChangedListener(watcher);
-            stop_ed.addTextChangedListener(watcher);
+//            start_ed.addTextChangedListener(watcher);
+//            stop_ed.addTextChangedListener(watcher);
             remark_ed.addTextChangedListener(watcher);
         }
 
@@ -344,11 +379,6 @@ public class OrderDetailActivity extends BaseActivity {
 
                 break;
             case UntreatedMode://未提交订单
-                //没抢到的订单 不显示 发货人信息
-                findViewById(R.id.order_detail_consignor_name_ly).setVisibility(View.GONE);
-                findViewById(R.id.order_detail_consignor_name_line).setVisibility(View.GONE);
-                findViewById(R.id.order_detail_consignor_phone_ly).setVisibility(View.GONE);
-                findViewById(R.id.order_detail_consignor_phone_line).setVisibility(View.GONE);
 
                 findViewById(R.id.order_detail_call_phone_bt).setVisibility(View.GONE);
                 if (canAccept) {
@@ -483,7 +513,21 @@ public class OrderDetailActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == AppParams.RESULT_CODE_ACCEPT_DRIVERS) {
+        if (requestCode == AppParams.LINES_REQUEST_CODE) {
+            JsonLine jsonLine = null;
+            if (data != null) {
+                String json = (String) data.getCharSequenceExtra(AppParams.LINES_BUNDLE_JSON_LINE);
+                Log.d(TAG, "JsonLine:" + json);
+                jsonLine = JsonLine.ParseEntity(json, JsonLine.class);
+            }
+            if (jsonLine != null) {
+                //保存使用的线路信息
+                User.getInstance().setLastUseLine(jsonLine);
+                parseJsonLine(jsonLine);
+            }
+
+
+        } else if (requestCode == AppParams.RESULT_CODE_ACCEPT_DRIVERS) {
             //物流点击了 确认装货 需要刷新orderHistory列表
             requestListOrderHistroy();
 
@@ -611,73 +655,15 @@ public class OrderDetailActivity extends BaseActivity {
                 .show();
     }
 
-    /**
-     * 地址选择
-     *
-     * @param view
-     */
-    public void onClick_ChangeLocation(View view) {
+    public void onClick_Lines(View v) {
         if (cannotEditStatus())
             return;
 
-        if (view == null || !(view instanceof TextView)) {
-            return;
-        }
-        final TextView textView = (TextView) view;
-        String string = ViewUtils.getStringFromTextView(textView);
-        Location location;
-        if (TextUtils.isEmpty(string)) {
-            location = new Location(User.getInstance().getLocation());
-        } else {
-            location = Location.Parse(string);
-        }
-        LocationView.createDialogForOrder(this)
-                .setCurrentLocation(location)
-                .setListener(new LocationView.ChangingListener() {
-                    @Override
-                    public void onChanged(Location loc) {
-                    }
-
-                    public void onCancel(Location loc) {
-                        if (loc == null)
-                            return;
-
-                        String params = loc.toText();
-                        textView.setText(params);
-                        if (jsonOrder != null) {
-                            updateJsonOrder = true;
-                            if (textView.getId() == R.id.order_detail_start_city_tx)
-//                                startCity = params;
-                                jsonOrder.setStartCity(params);
-                            else if (textView.getId() == R.id.order_detail_stop_city_tx) {
-                                jsonOrder.setStopCity(params);
-//                                stopCity = params;
-                            }
-                        }
-                    }
-                }).show();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(AppParams.LINES_BUNDLE_FORM_ORDER, true);
+        startActivityForResult(LinesListActivity.class, bundle, AppParams.LINES_REQUEST_CODE);
     }
 
-//    String startCity, stopCity;
-
-    //更新出发地和目的地的详细地址
-    private void updateLocationInfo() {
-        String startCity = "", stopCity = "";
-        if (!TextUtils.isEmpty(jsonOrder.getStartCity())) {
-            String[] split = jsonOrder.getStartCity().split(",");
-            startCity = split[0];
-        }
-        if (!TextUtils.isEmpty(jsonOrder.getStopCity())) {
-            String[] split = jsonOrder.getStopCity().split(",");
-            stopCity = split[0];
-        }
-        String start_str = getStringFromTextView(R.id.order_detail_start_loc_tx);
-        String stop_str = getStringFromTextView(R.id.order_detail_stop_loc_tx);
-        start_str = start_str == null ? startCity : startCity + "," + start_str;
-        stop_str = stop_str == null ? stopCity : stopCity + "," + stop_str;
-        jsonOrder.setStartCity(start_str);
-        jsonOrder.setStopCity(stop_str);
-    }
 
     /**
      * 货物类型 选择事件
@@ -724,73 +710,6 @@ public class OrderDetailActivity extends BaseActivity {
                         } else {
                             showToast("司机数量错误！");
                         }
-                    }
-                }).show();
-    }
-
-    public void onClick_InputReceiverName(View view) {
-        if (cannotEditStatus())
-            return;
-        //标记是否为收货人，否则为发货人
-        boolean is_receiver = view.getId() == R.id.order_detail_receiver_name;
-        InputDialog.Callback callback = is_receiver ? new InputDialog.Callback() {
-            @Override
-            public void inputCallback(String string) {
-                updateJsonOrder = true;
-                jsonOrder.setReceiverName(string);
-                setTextView(R.id.order_detail_receiver_name, string);
-            }
-        } : new InputDialog.Callback() {
-            @Override
-            public void inputCallback(String string) {
-                updateJsonOrder = true;
-                jsonOrder.setConsignorName(string);
-                setTextView(R.id.order_detail_consignor_name, string);
-            }
-        };
-        new InputDialog(this)
-                .setInputType(InputType.TYPE_CLASS_TEXT)
-                .setInputLength(10)
-                .setEditHintString(is_receiver ? "请输入收货人姓名" : "请输入发货人姓名")
-//                .setSuffixString("立方米")
-                .setCallback(callback).show();
-    }
-
-    public void onClick_InputPhone(View view) {
-        //标记是否为收货人，否则为发货人
-        boolean is_receiver = view.getId() == R.id.order_detail_receiver_phone_tx;
-        if (cannotEditStatus()) {
-//            if (AppParams.DRIVER_APP)
-            new CallPhoneDialog(this)
-                    .setInfoMessage("是否拨打" + (is_receiver ? "收货人" : "发货人") + "电话？")
-                    .setPhoneNum(is_receiver ? jsonOrder.getReceiverPhone() : jsonOrder.getConsignorPhone())
-                    .show();
-
-            return;
-        }
-        new InputDialog(this)
-                .setInputType(InputType.TYPE_CLASS_PHONE)
-                .setInputLength(11)
-                .setEditHintString("请输入" + (is_receiver ? "收货人" : "发货人") + "电话号码")
-                .setCallback(is_receiver ? new InputDialog.Callback() {
-                    @Override
-                    public void inputCallback(String string) {
-                        if (Tools.IsPhoneNum(string)) {
-                            updateJsonOrder = true;
-                            jsonOrder.setReceiverPhone(string);
-                            setTextView(R.id.order_detail_receiver_phone_tx, string);
-                        } else
-                            showToast("电话号码格式错误");
-                    }
-                } : new InputDialog.Callback() {
-                    @Override
-                    public void inputCallback(String string) {
-                        if (Tools.IsPhoneNum(string)) {
-                            updateJsonOrder = true;
-                            jsonOrder.setConsignorPhone(string);
-                            setTextView(R.id.order_detail_consignor_phone_tx, string);
-                        } else
-                            showToast("电话号码格式错误");
                     }
                 }).show();
     }
@@ -961,8 +880,6 @@ public class OrderDetailActivity extends BaseActivity {
 //                    return;
 //                }
 
-                //更新始发地信息
-                updateLocationInfo();
                 //更新备注信息
                 String remark = getStringFromTextView(R.id.order_detail_remark_ed);
                 jsonOrder.setRemark(remark);

@@ -10,7 +10,7 @@
 
     <!-- 横线样式-->
     <style name="line_style_horizontal">
-        <item name="android:layout_height">4px</item>
+        <item name="android:layout_height">2px</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@color/def_line</item>
     </style>
@@ -142,6 +142,11 @@
 
     <style name="tx_gray_12sp_style">
         <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#b3b3b3</item>
+    </style>
+
+    <style name="tx_gray_16sp_style">
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">#b3b3b3</item>
     </style>
 

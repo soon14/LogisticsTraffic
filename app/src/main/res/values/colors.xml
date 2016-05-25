@@ -28,6 +28,7 @@
     <color name="transparent">@android:color/transparent</color>
     <color name="orange">@android:color/holo_orange_dark</color>
     <color name="gray">@android:color/darker_gray</color>
+    <color name="blue" >@android:color/holo_blue_dark</color>
 
 
 </resources>

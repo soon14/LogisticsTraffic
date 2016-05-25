@@ -243,6 +243,28 @@
                     android:layout_marginRight="10dp"
                     android:background="@color/def_line" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/user_lines_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    style="@style/setting_item_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/user_lines"
+                    android:drawableRight="@drawable/right_gray_arrow"
+                    android:onClick="onClick_Lines"
+                    android:text="地址管理" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/def_line" />
+            </LinearLayout>
 
             <!-- todo 暂时先去掉设置功能 -->
             <!--<Button-->

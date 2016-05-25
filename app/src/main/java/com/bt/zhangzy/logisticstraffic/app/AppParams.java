@@ -164,4 +164,11 @@ public final class AppParams {
     public static final String BUNDLE_TENDER_EDIT_BOOLEAN = "BUNDLE_TENDER_EDIT_BOOLEAN";
     public static final String BUNDLE_TENDER_COMPANY_JSON = "BUNDLE_TENDER_COMPANY_JSON";
 
+    /* 常发线路 参数传递 */
+    public static final int LINES_REQUEST_CODE = 0x011;
+    public static final int LINES_RESULT_CODE_NEW = 0x012;
+    public static final int LINES_RESULT_CODE_EDIT = 0x013;
+    public static final int LINES_RESULT_CODE_REMOVE = 0x014;
+    public static final String LINES_BUNDLE_JSON_LINE = "LINES_BUNDLE_JSON_LINE";
+    public static final String LINES_BUNDLE_FORM_ORDER = "LINES_BUNDLE_FORM_ORDER";
 }
