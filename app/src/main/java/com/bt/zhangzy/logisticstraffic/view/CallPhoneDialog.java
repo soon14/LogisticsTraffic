@@ -3,6 +3,7 @@ package com.bt.zhangzy.logisticstraffic.view;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.widget.Button;
 
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.network.AppURL;
@@ -25,6 +26,30 @@ public class CallPhoneDialog extends BaseDialog {
 //        confirmBt = (Button) findViewById(R.id.dialog_btn_yes);
         findViewById(R.id.dialog_btn_no).setOnClickListener(this);
         setTextView(R.id.dialog_phone_info_tx, String.format(context.getString(R.string.call_phone_tx), context.getString(R.string.app_name)));
+    }
+
+    public CallPhoneDialog(Activity context, final String phoneNum1, final String phoneNum2) {
+        super(context);
+        this.context = context;
+        setView(R.layout.dialog_call_phone_list);
+        Button button1 = (Button) findViewById(R.id.dialog_phone_num_1);
+        Button button2 = (Button) findViewById(R.id.dialog_phone_num_2);
+//        button1.setOnClickListener(this);
+//        button2.setOnClickListener(this);
+        button1.setText(phoneNum1);
+        button2.setText(phoneNum2);
+        setOnClickListener(R.id.dialog_phone_num_1, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContextTools.CallPhone(CallPhoneDialog.this.context, phoneNum1);
+            }
+        });
+        setOnClickListener(R.id.dialog_phone_num_2, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContextTools.CallPhone(CallPhoneDialog.this.context, phoneNum2);
+            }
+        });
     }
 
     public CallPhoneDialog setCompanyId(int companyId) {

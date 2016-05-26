@@ -30,6 +30,8 @@
     <string name="user_expire_str">会员有效期至：%s</string>
     <string name="app_version_tx">版本：%s</string>
     <string name="call_phone_tx">联系我时，请说是在%s上看到的，谢谢！\n 是否拨打？</string>
+    <string name="call_phone_list_tx">请选择需要拨打的电话号码</string>
+
     <string name="service_tel_dialog">是否拨打客服电话%s</string>
 
 

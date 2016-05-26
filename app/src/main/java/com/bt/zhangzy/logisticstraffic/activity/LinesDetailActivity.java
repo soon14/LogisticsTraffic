@@ -45,6 +45,7 @@ public class LinesDetailActivity extends BaseActivity {
                 findViewById(R.id.line_detail_remove_bt).setVisibility(View.GONE);
             }
         }
+        setTextView(R.id.line_list_submit,isFromOrder?"保存并使用":"保存");
         setTextView(R.id.line_detail_consignor_city, jsonLine.getConsignorCity());
         if (isEditMode) {
             setTextView(R.id.line_detail_consignor_name, jsonLine.getConsignorName());

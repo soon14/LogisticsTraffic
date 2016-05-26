@@ -32,11 +32,12 @@ public class LinesListActivity extends BaseActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_line_list);
-        setPageName("选择地址");
+
 
         if (getIntent().getExtras() != null) {
             isFromOrder = getIntent().getBooleanExtra(AppParams.LINES_BUNDLE_FORM_ORDER, false);
         }
+        setPageName(isFromOrder ? "选择地址" : "地址管理");
         listView = (ListView) findViewById(R.id.line_list_view);
         listView.setOnItemClickListener(this);
         initListView();
@@ -58,7 +59,7 @@ public class LinesListActivity extends BaseActivity implements AdapterView.OnIte
                     if (jsonLine != null) {
                         selectEditIndex = position;
                         Bundle bundle = new Bundle();
-                        bundle.putBoolean(AppParams.LINES_BUNDLE_FORM_ORDER,isFromOrder);
+                        bundle.putBoolean(AppParams.LINES_BUNDLE_FORM_ORDER, isFromOrder);
                         bundle.putCharSequence(AppParams.LINES_BUNDLE_JSON_LINE, jsonLine.toString());
                         startActivityForResult(LinesDetailActivity.class, bundle, AppParams.LINES_REQUEST_CODE);
                     }
@@ -111,7 +112,7 @@ public class LinesListActivity extends BaseActivity implements AdapterView.OnIte
     public void onClick_AddLine(View view) {
         //添加线路
         Bundle bundle = new Bundle();
-        bundle.putBoolean(AppParams.LINES_BUNDLE_FORM_ORDER,isFromOrder);
+        bundle.putBoolean(AppParams.LINES_BUNDLE_FORM_ORDER, isFromOrder);
         startActivityForResult(LinesDetailActivity.class, bundle, AppParams.LINES_REQUEST_CODE);
     }
 

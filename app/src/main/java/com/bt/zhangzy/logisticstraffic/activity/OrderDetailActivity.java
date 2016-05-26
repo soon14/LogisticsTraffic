@@ -569,12 +569,33 @@ public class OrderDetailActivity extends BaseActivity {
 
     }
 
-    private void showChooseCallDialog() {
-//        new AlertDialog.Builder(this).setNegativeButton("呼叫车队",null)
-//                .setPositiveButton("Call车",null).show();
 
-//        View view = LayoutInflater.from(this).inflate(R.layout.dialog_call, null);
-//        final AlertDialog progress = new AlertDialog.Builder(this).setView(view).create();
+    private void showChooseTelDialog() {
+        //拨打电话 选择
+        CallPhoneDialog callPhoneDialog = new CallPhoneDialog(this, jsonOrder.getConsignorPhone(), jsonOrder.getReceiverPhone());
+        callPhoneDialog.setCanceledOnTouchOutside(true);
+        callPhoneDialog.show();
+//        View.OnClickListener listener = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                progress.cancel();
+//                if (v.getId() == R.id.dialog_call_me_btn) {
+//
+//                } else {
+//
+//                }
+//            }
+//        };
+//
+//        BaseDialog baseDialog = new BaseDialog(this);
+//        baseDialog.setView(R.layout.dialog_call);
+//        baseDialog.setCanceledOnTouchOutside(true);
+//        baseDialog.setOnClickListener(R.id.dialog_call_me_btn, listener);
+//        baseDialog.setOnClickListener(R.id.dialog_call_all_btn, listener);
+//        baseDialog.show();
+    }
+
+    private void showChooseCallDialog() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -590,9 +611,6 @@ public class OrderDetailActivity extends BaseActivity {
                 }
             }
         };
-//        view.findViewById(R.id.dialog_call_me_btn).setOnClickListener(listener);
-//        view.findViewById(R.id.dialog_call_all_btn).setOnClickListener(listener);
-//        progress.show();
 
         BaseDialog baseDialog = new BaseDialog(this);
         baseDialog.setView(R.layout.dialog_call);
@@ -656,9 +674,15 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     public void onClick_Lines(View v) {
-        if (cannotEditStatus())
+        if (cannotEditStatus()) {
+            if (User.getInstance().getUserType() == Type.DriverType) {
+                if (currentMode == OrderDetailMode.SubmittedMode) {
+                    //交易中 司机 可打电话
+                    showChooseTelDialog();
+                }
+            }
             return;
-
+        }
         Bundle bundle = new Bundle();
         bundle.putBoolean(AppParams.LINES_BUNDLE_FORM_ORDER, true);
         startActivityForResult(LinesListActivity.class, bundle, AppParams.LINES_REQUEST_CODE);

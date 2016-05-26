@@ -9,6 +9,7 @@
         android:layout_height="wrap_content">
 
         <include layout="@layout/page_top" />
+
         <Button
             android:id="@+id/line_detail_remove_bt"
             style="@style/default_btn_style"
@@ -18,7 +19,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:onClick="onClick_RemoveLine"
-            android:text="删除"/>
+            android:text="删除" />
     </RelativeLayout>
 
     <ScrollView
@@ -80,13 +81,12 @@
                         style="@style/tx_order_style"
                         android:layout_column="1"
                         android:background="@drawable/line_tx_shape"
-                        android:clickable="true"
                         android:hint="详细地址"
                         android:imeOptions="actionNext"
-                        android:inputType="textMultiLine"
+                        android:inputType="textPostalAddress|textMultiLine"
+                        android:maxLength="64"
                         android:maxLines="4"
                         android:minLines="1"
-                        android:maxLength="64"
                         android:singleLine="false"
                         android:text="" />
                 </TableRow>
@@ -106,7 +106,7 @@
                         android:background="@drawable/line_tx_shape"
                         android:hint="发货人姓名"
                         android:imeOptions="actionNext"
-                        android:inputType="text"
+                        android:inputType="textPersonName"
                         android:maxLength="8"
                         android:singleLine="true" />
                 </TableRow>
@@ -184,10 +184,10 @@
                         android:clickable="true"
                         android:hint="详细地址"
                         android:imeOptions="actionNext"
-                        android:inputType="textMultiLine"
+                        android:inputType="textPostalAddress|textMultiLine"
+                        android:maxLength="64"
                         android:maxLines="4"
                         android:minLines="1"
-                        android:maxLength="64"
                         android:singleLine="false"
                         android:text="" />
                 </TableRow>
@@ -207,7 +207,7 @@
                         android:background="@drawable/line_tx_shape"
                         android:hint="收货人姓名"
                         android:imeOptions="actionNext"
-                        android:inputType="text"
+                        android:inputType="textPersonName"
                         android:maxLength="8"
                         android:singleLine="true" />
                 </TableRow>
