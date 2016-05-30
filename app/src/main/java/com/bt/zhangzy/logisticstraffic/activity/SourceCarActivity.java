@@ -106,7 +106,7 @@ public class SourceCarActivity extends BaseActivity {
         SourceCarListFragment.OnItemClickListener listener = new SourceCarListFragment.OnItemClickListener() {
 
             @Override
-            public void OnItemClick(JsonCar car) {
+            public void OnItemClick(SourceCarListFragment fragment, JsonCar car) {
                 // 车源点击
                 if (User.getInstance().getUserStatus() == UserStatus.UN_CHECKED) {
                     showToast("用户资料不完善，无法使用此功能");
@@ -114,6 +114,7 @@ public class SourceCarActivity extends BaseActivity {
                 }
                 Bundle bundle = new Bundle();
                 bundle.putString(AppParams.SOURCE_PAGE_CAR_KEY, car.toString());
+                bundle.putBoolean(AppParams.SOURCE_PAGE_FROM_PUBLIC, fragment == publicFragment);
 //                bundle.putSerializable(AppParams.SOURCE_PAGE_CAR_KEY,car);
                 startActivity(SourceCarDetailActivity.class, bundle);
             }

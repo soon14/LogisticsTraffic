@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class SourceCarListFragment extends Fragment {
     public interface OnItemClickListener {
-        void OnItemClick(JsonCar car);
+        void OnItemClick(SourceCarListFragment fragment,JsonCar car);
     }
 
     final String TAG = SourceCarListFragment.class.getSimpleName();
@@ -72,7 +72,7 @@ public class SourceCarListFragment extends Fragment {
                 if (adapter != null && position < adapter.getCount()) {
 //                    gotoDetail((JsonOrder) adapter.getItem(position));
                     if (listener != null) {
-                        listener.OnItemClick(adapter.getItem(position));
+                        listener.OnItemClick(SourceCarListFragment.this,adapter.getItem(position));
                     }
                 }
             }

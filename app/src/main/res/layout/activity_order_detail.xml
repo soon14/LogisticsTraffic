@@ -12,6 +12,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
         android:layout_weight="1">
 
         <TableLayout
@@ -275,6 +276,7 @@
                 android:id="@+id/order_detail_select_driver_bt"
                 style="@style/order_button_style"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:onClick="onClick_SelectDriverBtn"
                 android:text="选择司机" />
             <!-- to do 交易中的 司机列表-->
@@ -282,6 +284,7 @@
                 android:id="@+id/order_detail_drivers_list_bt"
                 style="@style/order_button_style"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:onClick="onClick_DriverList"
                 android:text="司机列表" />
 
@@ -309,7 +312,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:orientation="horizontal">
 

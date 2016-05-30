@@ -29,6 +29,7 @@ public class SourceCarDetailActivity extends BaseActivity {
     boolean isSelectDriverModel;//选择司机页面
     boolean isSelectDriver;
     boolean fromFleetPage = false;//标记是否从车源列表中来
+    boolean fromPublicSourceCar = false;//标记是否从平台车源进入
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class SourceCarDetailActivity extends BaseActivity {
             fromFleetPage = bundle.containsKey(AppParams.SOURCE_PAGE_SELECT_DRIVER_KEY);
             isSelectDriverModel = bundle.getBoolean(AppParams.SOURCE_PAGE_SELECT_DRIVER_KEY);
             isSelectDriver = bundle.getBoolean(AppParams.SOURCE_PAGE_RESULT_SELECT_KEY);
+            fromPublicSourceCar = bundle.getBoolean(AppParams.SOURCE_PAGE_FROM_PUBLIC);
 
         }
 
@@ -73,7 +75,7 @@ public class SourceCarDetailActivity extends BaseActivity {
 
             confirmBt.setText(isSelectDriver ? "取消选择" : "确认选择");
         }
-        if (fromFleetPage)
+        if (fromFleetPage || !fromPublicSourceCar)
             findViewById(R.id.car_join_bt).setVisibility(View.GONE);
     }
 

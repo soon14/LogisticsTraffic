@@ -86,6 +86,7 @@ public final class AppParams {
     public static final String SOURCE_PAGE_CAR_KEY = "SOURCE_PAGE_CAR_KEY";
     public static final String SOURCE_PAGE_SELECT_DRIVER_KEY = "SOURCE_PAGE_SELECT_DRIVER_KEY";//选择抢单司机标记
     public static final String SOURCE_PAGE_RESULT_SELECT_KEY = "SOURCE_PAGE_RESULT_SELECT_KEY";//选择结果标记
+    public static final String SOURCE_PAGE_FROM_PUBLIC = "SOURCE_PAGE_FROM_PUBLIC";
 
     /*  web页面 的页面名称 */
     public static final String WEB_PAGE_NAME = "WEB_PAGE_NAME";

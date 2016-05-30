@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.OrderReceiveStatus;
 import com.bt.zhangzy.network.entity.JsonCar;
+import com.bt.zhangzy.tools.LimitQueue;
 import com.bt.zhangzy.tools.ViewUtils;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import java.util.List;
  */
 public class SourceCarListAdapter extends BaseAdapter {
     private List<JsonCar> list;
-    private ArrayList<Integer> selectedList = new ArrayList<>();
+    private LimitQueue<Integer> selectedList ;
     int needSize;
     boolean isShowLoadingStatus;
     BtnClickListener callback;
@@ -34,7 +35,7 @@ public class SourceCarListAdapter extends BaseAdapter {
     }
 
     public void initSelsect(int size) {
-        selectedList = new ArrayList<>(size);
+        selectedList = new LimitQueue<>(size);
         needSize = size;
     }
 
@@ -70,11 +71,13 @@ public class SourceCarListAdapter extends BaseAdapter {
             if (isSelect(position))
                 return;
 
-            if (selectedList.size() == needSize) {
-                //如果已经数量已经足够 则不能继续添加
-                return;
-            }
-            selectedList.add(position);
+//            if (selectedList.size() == needSize) {
+//                //如果已经数量已经足够 则去掉旧的元素
+//                selectedList.remove(0);
+//                selectedList.add(position);
+//                return;
+//            }
+            selectedList.offer(position);
         } else {
             selectedList.remove(Integer.valueOf(position));
         }
@@ -85,7 +88,7 @@ public class SourceCarListAdapter extends BaseAdapter {
 
     public ArrayList<Integer> getSelectedList() {
 
-        return selectedList;
+        return new ArrayList<Integer>(selectedList);
     }
 
 
