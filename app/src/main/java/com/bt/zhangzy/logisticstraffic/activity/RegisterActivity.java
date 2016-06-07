@@ -153,7 +153,7 @@ public class RegisterActivity extends BaseActivity {
         Log.e(TAG, "============================================");
         showProgress("注册中...");
         JsonUser jsonUser = new JsonUser();
-//        jsonUser.setNickname(nickname);
+        jsonUser.setNickname(nickname);
         jsonUser.setName(nickname);
         jsonUser.setPhoneNumber(phoneNum);
         jsonUser.setPassword(password);
