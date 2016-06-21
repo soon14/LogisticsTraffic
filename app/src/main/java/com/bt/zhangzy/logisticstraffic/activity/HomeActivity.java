@@ -556,6 +556,13 @@ public class HomeActivity extends BaseActivity {
         startActivity(CollectActivity.class);
     }
 
+    /**
+     * 修改密码
+     * @param view
+     */
+    public void onClick_ChangePassword(View view){
+        startActivity(SetPasswordActivity.class);
+    }
 
     /**
      * 推荐给好友

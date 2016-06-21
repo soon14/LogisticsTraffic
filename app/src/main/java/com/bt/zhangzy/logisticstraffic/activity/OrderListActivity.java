@@ -12,7 +12,9 @@ import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.logisticstraffic.data.OrderReceiveStatus;
 import com.bt.zhangzy.logisticstraffic.data.OrderStatus;
+import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.fragment.OrderListFragment;
 import com.bt.zhangzy.network.AppURL;
@@ -195,6 +197,12 @@ public class OrderListActivity extends BaseActivity {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("role", String.valueOf(user.getUserType().toRole()));
         params.put("roleId", String.valueOf(user.getRoleId()));
+        if (user.getUserType() == Type.DriverType) {
+//            params.put("orderStatus",String.valueOf(OrderStatus.TradeOrder.ordinal()));
+            params.put("orderStatus", String.valueOf(OrderReceiveStatus.Accept.ordinal() - 1));
+
+            params.put("isGreaterThan", "true");
+        }
 //        params.put("orderStatus","0");
 //        class JsonParams extends BaseEntity {
 //            int role, roleId;

@@ -116,8 +116,9 @@
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TenderListActivity" />
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TenderActivity" />
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.ForgetActivity" />
-        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.LinesListActivity"/>
-        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.LinesDetailActivity"/>
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.LinesListActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.LinesDetailActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.SetPasswordActivity" />
         <!-- test-->
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TestActivity" />
 

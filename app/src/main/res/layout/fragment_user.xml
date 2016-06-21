@@ -243,6 +243,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@color/def_line" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/user_lines_item"
                 android:layout_width="match_parent"
@@ -275,13 +276,22 @@
             <!--android:drawableRight="@drawable/right_gray_arrow"-->
             <!--android:onClick="onClick_SettingShare"-->
             <!--android:text="设置" />-->
+            <Button
+                style="@style/setting_item_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/user_password"
+                android:drawableRight="@drawable/right_gray_arrow"
+                android:onClick="onClick_ChangePassword"
+                android:text="修改密码" />
 
-            <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="2px"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:background="@color/gray_line" />-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/def_line" />
+
 
             <Button
                 style="@style/setting_item_style"
