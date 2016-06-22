@@ -17,6 +17,8 @@ import com.bt.zhangzy.network.entity.JsonLine;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 
+import java.util.Date;
+
 /**
  * Created by ZhangZy on 2016-5-23.
  */
@@ -40,12 +42,14 @@ public class LinesDetailActivity extends BaseActivity {
             } else {
                 isEditMode = false;
                 jsonLine = new JsonLine();
+                jsonLine.setCreateDate(new Date());
+                jsonLine.setUserId((int) User.getInstance().getId());
                 String consignorCity = User.getInstance().getLocation().toText();
                 jsonLine.setConsignorCity(consignorCity);
                 findViewById(R.id.line_detail_remove_bt).setVisibility(View.GONE);
             }
         }
-        setTextView(R.id.line_list_submit,isFromOrder?"保存并使用":"保存");
+        setTextView(R.id.line_list_submit, isFromOrder ? "保存并使用" : "保存");
         setTextView(R.id.line_detail_consignor_city, jsonLine.getConsignorCity());
         if (isEditMode) {
             setTextView(R.id.line_detail_consignor_name, jsonLine.getConsignorName());
@@ -161,7 +165,8 @@ public class LinesDetailActivity extends BaseActivity {
                             @Override
                             public void onClick(boolean isConfirm) {
                                 if (isConfirm) {
-                                    User.getInstance().addLines(jsonLine);
+//                                    User.getInstance().addLines(jsonLine);
+                                    User.getInstance().requestFreightLineAdd(jsonLine);
                                 }
                                 Intent data = new Intent();
                                 data.putExtra(AppParams.LINES_BUNDLE_JSON_LINE, jsonLine.toString());
@@ -171,7 +176,8 @@ public class LinesDetailActivity extends BaseActivity {
                         })
                         .show();
             } else {
-                User.getInstance().addLines(jsonLine);
+//                User.getInstance().addLines(jsonLine);
+                User.getInstance().requestFreightLineAdd(jsonLine);
                 Intent data = new Intent();
                 data.putExtra(AppParams.LINES_BUNDLE_JSON_LINE, jsonLine.toString());
                 setResult(AppParams.LINES_RESULT_CODE_NEW, data);

@@ -184,6 +184,13 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
     GetTendersOne("/tenders/"),//获取标书详细信息 {id}
     GetTenderEnterprise("/tenders/list_enterprise"),//获取企业列表 只返回有标书的企业信息
 
+    /*=========== 线路接口 ======================*/
+    //https://github.com/eryk/freight/wiki/freight_line
+    GetFreightLineList("/freightlines/list"),//获取用户所有货运线路
+    PostFreightLineAdd("/freightlines/add"),
+    PostFreightLineModify("/freightlines/modify"),
+    GetFreightLineRemove("/freightlines/delete"),//按Id删除货运线路
+    getFreightLineDefault("/freightlines/default"),//设置常用货运线路
 
     Empty("NULL");
     //  枚举类 URL 的自定义

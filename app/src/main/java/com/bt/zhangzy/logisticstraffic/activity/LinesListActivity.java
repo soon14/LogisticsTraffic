@@ -2,6 +2,8 @@ package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +27,7 @@ public class LinesListActivity extends BaseActivity implements AdapterView.OnIte
     LinesListAdapter adapter;
     //    boolean isEditMode;//编辑模式
     int selectEditIndex = -1;
+    JsonLine selectJsonLine;
     boolean isFromOrder;
 
     @Override
@@ -43,13 +46,30 @@ public class LinesListActivity extends BaseActivity implements AdapterView.OnIte
         initListView();
     }
 
+    private void refreshList() {
+        User.getInstance().requestFreightLineList(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initListView();
+                    }
+                });
+                return true;
+            }
+        });
+    }
+
     private void initListView() {
         ArrayList<JsonLine> linesList = User.getInstance().getLinesList();
-        /*if (linesList == null || linesList.isEmpty()) {
-            showToast("常发线路为空");
-            listView.setAdapter(new LinesListAdapter(new ArrayList<JsonLine>()));
-        } else*/
-        {
+        if (linesList == null || linesList.isEmpty()) {
+
+//            showToast("常发线路为空");
+//            listView.setAdapter(new LinesListAdapter(new ArrayList<JsonLine>()));
+            return;
+        }
+        if (linesList != null) {
             adapter = new LinesListAdapter(linesList);
             listView.setAdapter(adapter);
             adapter.setListener(new LinesListAdapter.OnClickItemEdit() {
@@ -58,6 +78,7 @@ public class LinesListActivity extends BaseActivity implements AdapterView.OnIte
                     //编辑按钮
                     if (jsonLine != null) {
                         selectEditIndex = position;
+                        selectJsonLine = jsonLine;
                         Bundle bundle = new Bundle();
                         bundle.putBoolean(AppParams.LINES_BUNDLE_FORM_ORDER, isFromOrder);
                         bundle.putCharSequence(AppParams.LINES_BUNDLE_JSON_LINE, jsonLine.toString());
@@ -90,7 +111,8 @@ public class LinesListActivity extends BaseActivity implements AdapterView.OnIte
             } else if (resultCode == AppParams.LINES_RESULT_CODE_EDIT) {
                 // 编辑线路返回
                 if (jsonLine != null && selectEditIndex > -1) {
-                    User.getInstance().getLinesList().set(selectEditIndex, jsonLine);
+//                    User.getInstance().getLinesList().set(selectEditIndex, jsonLine);
+                    User.getInstance().requestFreightLineModify(jsonLine);
                     if (isFromOrder) {
                         setResult(AppParams.LINES_REQUEST_CODE, data);
                         finish();
@@ -101,11 +123,21 @@ public class LinesListActivity extends BaseActivity implements AdapterView.OnIte
             } else if (resultCode == AppParams.LINES_RESULT_CODE_REMOVE) {
                 //删除线路返回
                 if (jsonLine != null && selectEditIndex > -1) {
-                    User.getInstance().getLinesList().remove(selectEditIndex);
+//                    User.getInstance().getLinesList().remove(selectEditIndex);
+                    User.getInstance().requestFreightLineRemove(jsonLine.getId());
                 }
             }
-            if (adapter != null)
-                adapter.notifyDataSetChanged();
+
+            new Handler(new Handler.Callback() {
+                @Override
+                public boolean handleMessage(Message msg) {
+
+                    refreshList();
+                    return true;
+                }
+            }).sendEmptyMessageDelayed(0, 1000);
+//            if (adapter != null)
+//                adapter.notifyDataSetChanged();
         }
     }
 

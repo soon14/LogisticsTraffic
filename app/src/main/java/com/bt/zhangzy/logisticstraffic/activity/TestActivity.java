@@ -15,6 +15,7 @@ import com.zhangzy.base.http.BaseEntity;
 import com.zhangzy.base.http.NetCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -79,6 +80,59 @@ public class TestActivity extends BaseActivity {
     String url = "http://192.168.1.112:8080/freight/html/company.html";
 
     String response;
+
+    public void onClick_AddEntity(View v) {
+        String url = "http://api.map.baidu.com/trace/v2/entity/add";
+        HashMap<String, String> params = new HashMap<>();
+        params.put("ak", "Usl0hVgcUs82XUojFiQPaFtI");
+        params.put("service_id", "119300");
+        params.put("entity_name", getStringFromTextView(R.id.test_entity_name));
+
+        HttpHelper.getInstance().post(url, params, new NetCallback() {
+            @Override
+            public void onFailed(String str) {
+                setResponse(str);
+            }
+
+            @Override
+            public void onSuccess(String str) {
+                setResponse(str);
+            }
+        });
+    }
+
+    private void setResponse(final String response) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                responseTx.setText(response);
+            }
+        });
+    }
+
+    public void onClick_AddPoint(View v) {
+        String url = "http://api.map.baidu.com/trace/v2/track/addpoint";
+        HashMap<String, String> params = new HashMap<>();
+        params.put("ak", "Usl0hVgcUs82XUojFiQPaFtI");
+        params.put("service_id", "119300");
+        params.put("latitude", latitudeEd.getText().toString());
+        params.put("longitude", longitudeEd.getText().toString());
+        params.put("coord_type", "1");
+        params.put("loc_time", String.valueOf(System.currentTimeMillis()/1000));
+        params.put("entity_name", getStringFromTextView(R.id.test_entity_name));
+        HttpHelper.getInstance().post(url, params, new NetCallback() {
+            @Override
+            public void onFailed(String str) {
+                setResponse(str);
+            }
+
+            @Override
+            public void onSuccess(String str) {
+                setResponse(str);
+            }
+        });
+
+    }
 
     public void onClick_Request(View view) {
         if (TextUtils.isEmpty(urlTx.getText())) {

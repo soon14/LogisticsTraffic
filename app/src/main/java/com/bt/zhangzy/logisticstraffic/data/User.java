@@ -72,11 +72,43 @@ public class User implements Serializable {
         return linesList;
     }
 
-    public boolean addLines(JsonLine jsonLine) {
+    private boolean addLines(JsonLine jsonLine) {
         if (jsonLine == null)
             return false;
         linesList.add(jsonLine);
         return true;
+    }
+
+    private boolean changeLines(JsonLine jsonLine) {
+        if (linesList != null && !linesList.isEmpty()) {
+            if (jsonLine != null) {
+                JsonLine line;
+                for (int k = 0; k < linesList.size(); k++) {
+                    line = linesList.get(k);
+                    if (line.getId() == jsonLine.getId()) {
+                        linesList.set(k, jsonLine);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean removeLines(int lineId) {
+        if (linesList != null && !linesList.isEmpty()) {
+            if (lineId > -1) {
+                JsonLine line;
+                for (int k = 0; k < linesList.size(); k++) {
+                    line = linesList.get(k);
+                    if (line.getId() == lineId) {
+                        linesList.remove(k);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public JsonLine getLastUseLine() {
@@ -85,6 +117,90 @@ public class User implements Serializable {
 
     public void setLastUseLine(JsonLine lastUseLine) {
         this.lastUseLine = lastUseLine;
+    }
+
+    /**
+     * 获取线路列表
+     */
+    public void requestFreightLineList(final Handler.Callback callback) {
+
+        HttpHelper.getInstance().get(AppURL.GetFreightLineList, "?userId=" + id, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                Log.i(TAG, "线路列表获取：" + result);
+                List<JsonLine> list = ParseJson_Array(result, JsonLine.class);
+                if (!list.isEmpty()) {
+                    linesList.clear();
+                    linesList.addAll(list);
+                    if (callback != null) {
+                        callback.handleMessage(null);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(String str) {
+                Log.w(TAG, "线路列表获取失败：" + str);
+            }
+        });
+    }
+
+    /**
+     * 添加线路
+     *
+     * @param jsonLine
+     */
+    public void requestFreightLineAdd(final JsonLine jsonLine) {
+
+        HttpHelper.getInstance().post(AppURL.PostFreightLineAdd, jsonLine, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                Log.i(TAG, "线路添加成功");
+                addLines(jsonLine);
+            }
+
+            @Override
+            public void onFailed(String str) {
+                Log.i(TAG, "线路添加失败");
+            }
+        });
+    }
+
+    /**
+     * 修改线路
+     *
+     * @param jsonLine
+     */
+    public void requestFreightLineModify(final JsonLine jsonLine) {
+
+        HttpHelper.getInstance().post(AppURL.PostFreightLineModify, jsonLine, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                Log.i(TAG, "线路修改成功");
+                changeLines(jsonLine);
+            }
+
+            @Override
+            public void onFailed(String str) {
+                Log.i(TAG, "线路修改失败");
+            }
+        });
+    }
+
+    public void requestFreightLineRemove(final int lineId) {
+
+        HttpHelper.getInstance().get(AppURL.GetFreightLineRemove, "?id=" + lineId, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                Log.i(TAG, "线路删除成功");
+                removeLines(lineId);
+            }
+
+            @Override
+            public void onFailed(String str) {
+                Log.i(TAG, "线路删除失败");
+            }
+        });
     }
 
     /**
@@ -525,6 +641,9 @@ public class User implements Serializable {
             }
             setOrderIdList(order_id_list);
         }
+
+        // 获取线路列表
+        requestFreightLineList(null);
     }
 
     /**

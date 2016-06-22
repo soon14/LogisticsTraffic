@@ -47,6 +47,26 @@
         android:layout_height="wrap_content"
         android:onClick="onClick_OpenWeb"
         android:text="直接访问" />
+
+    <EditText
+        android:id="@+id/test_entity_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="entity name" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick_AddEntity"
+        android:text="添加entity" />
+
+    <Button
+        android:id="@+id/test_addPoint_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick_AddPoint"
+        android:text="添加坐标" />
+
     <TextView
         android:id="@+id/test_response"
         android:layout_width="wrap_content"
