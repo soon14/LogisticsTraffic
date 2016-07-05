@@ -34,6 +34,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
+            <EditText
+                android:id="@+id/line_detail_name"
+                style="@style/tx_order_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:background="@drawable/line_tx_shape"
+                android:hint="线路名称"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:maxLength="16"
+                android:singleLine="true" />
+
             <TextView
                 style="@style/tx_black_df_style"
                 android:layout_width="wrap_content"

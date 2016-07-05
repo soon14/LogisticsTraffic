@@ -52,6 +52,7 @@ public class LinesDetailActivity extends BaseActivity {
         setTextView(R.id.line_list_submit, isFromOrder ? "保存并使用" : "保存");
         setTextView(R.id.line_detail_consignor_city, jsonLine.getConsignorCity());
         if (isEditMode) {
+            setTextView(R.id.line_detail_name, jsonLine.getLineName());
             setTextView(R.id.line_detail_consignor_name, jsonLine.getConsignorName());
             setTextView(R.id.line_detail_consignor_phone, jsonLine.getConsignorPhone());
             setTextView(R.id.line_detail_consignor_address, jsonLine.getConsignorAddress());
@@ -128,6 +129,7 @@ public class LinesDetailActivity extends BaseActivity {
             showToast("请选择省市");
             return;
         }
+        String lineName = getStringFromTextView(R.id.line_detail_name);
         String consignorName = getStringFromTextView(R.id.line_detail_consignor_name);
         String consignorPhone = getStringFromTextView(R.id.line_detail_consignor_phone);
         String receiverName = getStringFromTextView(R.id.line_detail_receiver_name);
@@ -135,7 +137,7 @@ public class LinesDetailActivity extends BaseActivity {
         String consignorAddress = getStringFromTextView(R.id.line_detail_consignor_address);
         String receiverAddress = getStringFromTextView(R.id.line_detail_receiver_address);
 
-        if (Tools.isEmptyStrings(consignorName, consignorPhone, receiverName, receiverPhone, consignorAddress, receiverAddress)) {
+        if (Tools.isEmptyStrings(lineName,consignorName, consignorPhone, receiverName, receiverPhone, consignorAddress, receiverAddress)) {
             showToast("信息不全");
             return;
         }
@@ -144,6 +146,7 @@ public class LinesDetailActivity extends BaseActivity {
             return;
         }
 //        updateLocationInfo();
+        jsonLine.setLineName(lineName);
         jsonLine.setConsignorName(consignorName);
         jsonLine.setConsignorPhone(consignorPhone);
         jsonLine.setReceiverName(receiverName);

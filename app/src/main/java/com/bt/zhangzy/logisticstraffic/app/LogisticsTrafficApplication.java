@@ -254,6 +254,8 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
 
             //亿利
 //            String recommend = "18686118394";//appInfo.metaData.getString("APP_RECOMMEND", "");
+            //李勇
+//            String recommend = "13848255200";
             //默认
             String recommend = "";
             Log.i(TAG, "=====>预留推荐码：" + recommend);
