@@ -42,8 +42,8 @@ public class WeiXinPay {
     String Host = null;//"http://182.92.77.31";
     final String PayURL = "/pay/weixin_submit";//    PayWeiXin("/pay/weixin_submit"),
     final String PayOtherURL = "/pay/weixin_qr_submit";
-    //AppID：wx0dc900196700025d
-    public final String APPID = "wxd8934ee255eb1e0f";//wxd8934ee255eb1e0f wxd8934ee255eb1e0f
+    //AppID：wx0dc900196700025d   wx0dc900196700025d
+    public final String APPID = "wx0dc900196700025d";//wxd8934ee255eb1e0f wxd8934ee255eb1e0f
 //    static final String KEY = "";//key设置路径：微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置
 
     Activity activity;
