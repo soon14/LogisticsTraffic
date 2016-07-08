@@ -1,37 +1,23 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ViewFlipper;
 
-import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.User;
-
-import java.util.ArrayList;
 
 /**
  * Created by ZhangZy on 2015/6/5.
  */
 public class WelcomeActivity extends BaseActivity {
 
-    private ViewPager viewPager;
-    private ViewFlipper viewFlipper;
-    private Animation fromDownIn;
-    private Animation fromUpOut;
-    private float startY;
-    private GestureDetector detector;
+//    private ViewPager viewPager;
+//    private ViewFlipper viewFlipper;
+//    private Animation fromDownIn;
+//    private Animation fromUpOut;
+//    private float startY;
+//    private GestureDetector detector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +26,9 @@ public class WelcomeActivity extends BaseActivity {
         setContentView(R.layout.activity_welcome);
 
 //        initViewPager();
-        initViewFlipper();
+//        initViewFlipper();
 
-        setNextButtonVisible(View.INVISIBLE);
+//        setNextButtonVisible(View.INVISIBLE);
 
 
     }
@@ -50,21 +36,21 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (viewPager != null && viewPager.getAdapter() != null) {
-            if (viewPager.getCurrentItem() == viewPager.getAdapter().getCount() - 1) {
-                setNextButtonVisible(View.VISIBLE);
-            } else {
-                setNextButtonVisible(View.INVISIBLE);
-            }
-        }
+//        if (viewPager != null && viewPager.getAdapter() != null) {
+//            if (viewPager.getCurrentItem() == viewPager.getAdapter().getCount() - 1) {
+//                setNextButtonVisible(View.VISIBLE);
+//            } else {
+//                setNextButtonVisible(View.INVISIBLE);
+//            }
+//        }
     }
 
-    private void setNextButtonVisible(int invisible) {
-       /* View tmp_v = findViewById(R.id.welcome_next_bt);
-        if (tmp_v != null) {
-            tmp_v.setVisibility(invisible);
-        }*/
-    }
+//    private void setNextButtonVisible(int invisible) {
+//       /* View tmp_v = findViewById(R.id.welcome_next_bt);
+//        if (tmp_v != null) {
+//            tmp_v.setVisibility(invisible);
+//        }*/
+//    }
 
     public void nextActivityBtn(View view) {
 //        startActivity(new Intent(this, LocationActivity.class));
@@ -73,7 +59,7 @@ public class WelcomeActivity extends BaseActivity {
         finish();
     }
 
-    private void initViewFlipper() {
+   /* private void initViewFlipper() {
         viewFlipper = (ViewFlipper) findViewById(R.id.welcome_flipper);
         // 从下面进入，从上面退出 动画XML
         fromDownIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_bottom);
@@ -123,9 +109,9 @@ public class WelcomeActivity extends BaseActivity {
                 return true;
             }
         });
-    }
+    }*/
 
-    @Override
+   /* @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (detector != null)
             return detector.onTouchEvent(event);
@@ -164,9 +150,9 @@ public class WelcomeActivity extends BaseActivity {
         }
 
         return super.onTouchEvent(event);
-    }
+    }*/
 
-    private void initViewPager() {
+   /* private void initViewPager() {
 //        viewPager = (ViewPager) findViewById(R.id.welcome_viewpager);
 
         int[] ids = {R.drawable.welcome_1, R.drawable.welcome_2, R.drawable.welcome_3};
@@ -261,7 +247,7 @@ public class WelcomeActivity extends BaseActivity {
                 views.remove(object);
             }
         }
-    }
+    }*/
 
 
 }
