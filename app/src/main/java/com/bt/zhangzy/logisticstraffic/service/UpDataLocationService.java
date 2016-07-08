@@ -25,7 +25,7 @@ import java.util.List;
 public class UpDataLocationService extends Service implements Handler.Callback, BaiduSDK.LocationListener {
 
     static final String TAG = UpDataLocationService.class.getSimpleName();
-    static final long UPDATA_DELAYED_TIME = 1 * 60 * 60 * 1000; //2个小时上传一次坐标
+    static final long UPDATA_DELAYED_TIME = 5 * 60 * 1000;//1 * 60 * 60 * 1000; //2个小时上传一次坐标
     Handler handler;
     JsonCarTrack params;
     JsonCallback callback;
