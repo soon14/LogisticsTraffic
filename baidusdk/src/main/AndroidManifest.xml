@@ -1,6 +1,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bt.zhangzy.baidusdk">
 
+    <!--百度 鹰眼 sdk -->
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />-->
+    <!--<uses-permission android:name="android.permission.READ_LOGS" />-->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!--<uses-permission android:name="android.permission.WAKE_LOCK" />-->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 注释掉的为和百度地图重复的权限 -->
+
     <!-- 这个权限用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
     <!-- 这个权限用于访问GPS定位-->
@@ -34,7 +49,7 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <!-- 百度语音sdk-->
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
     <!--<uses-permission android:name="android.permission.INTERNET"/>-->
     <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
@@ -43,11 +58,18 @@
         android:allowBackup="true"
         android:label="@string/app_name">
 
-        <!--//key:开发者申请的key-->
+        <!--//key:开发者申请的key  2016年7月8日 替换为公司账号的ak-->
+        <!--<meta-data-->
+            <!--android:name="com.baidu.lbsapi.API_KEY"-->
+            <!--android:value="GmKDnhAYEHtZT0yYmELMGFIP" />-->
+        <!--百度鹰眼-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="GmKDnhAYEHtZT0yYmELMGFIP" />
-
+            android:value="uneRH8EuQ1b4yeoMfk2Lz2D0Xrdqo1Gm" />
+        <service
+            android:name="com.baidu.trace.LBSTraceService"
+            android:enabled="true"
+            android:exported="true"></service>
 
         <!-- 百度定位服务-->
         <service
@@ -55,7 +77,8 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name="com.zhangzy.baidusdk.BaiduMapActivity"/>
+
+        <activity android:name="com.zhangzy.baidusdk.BaiduMapActivity" />
     </application>
 
 </manifest>
