@@ -5,58 +5,54 @@
     android:layout_height="match_parent"
     android:background="@color/main_bg_color"
     android:orientation="vertical"
-    tools:context=".WelcomeActivity">
+    tools:context="com.bt.zhangzy.logisticstraffic.activity.WelcomeActivity">
 
 
-    <ViewFlipper
-        android:id="@+id/welcome_flipper"
+    <!--<ViewFlipper-->
+    <!--android:id="@+id/welcome_flipper"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:autoStart="false"-->
+    <!--android:flipInterval="3000"-->
+    <!--android:inAnimation="@anim/slide_in_bottom"-->
+    <!--android:outAnimation="@anim/slide_out_top">-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/welcome_1" />-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/welcome_2" />-->
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autoStart="false"
-        android:flipInterval="3000"
-        android:inAnimation="@anim/slide_in_bottom"
-        android:outAnimation="@anim/slide_out_top">
+        android:layout_height="match_parent">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/welcome_1" />
+            android:src="@drawable/welcome" />
 
-        <ImageView
-            android:layout_width="match_parent"
+
+        <Button
+            style="@style/default_btn_style"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/welcome_2" />
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="60dp"
+            android:background="@drawable/def_btn_white_line_selector"
+            android:onClick="nextActivityBtn"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="点击开启"
+            android:textSize="22sp" />
+    </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/welcome_3" />
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="40dp"
-                android:background="@color/white">
-
-                <Button
-                    style="@style/home_button_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2px"
-                    android:onClick="nextActivityBtn"
-                    android:text="立即体验" />
-            </FrameLayout>
-
-
-        </RelativeLayout>
-
-    </ViewFlipper>
+    <!--</ViewFlipper>-->
 
     <!-- <android.support.v4.view.ViewPager
          android:id="@+id/welcome_viewpager"
