@@ -18,10 +18,12 @@ android {
     }
 
 
-
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/VoiceRecognition.jar')
+    compile files('libs/BaiduTraceSDK_v2_1_11.jar')
+    compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/locSDK_6.23.jar')
 }

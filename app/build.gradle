@@ -26,27 +26,26 @@ android {
         }
     }
     compileSdkVersion 22
-    buildToolsVersion '23.0.0 rc3'
+    buildToolsVersion '22.0.1'
     defaultConfig {
         buildConfigField "boolean", "APP_DEBUG", "true"
-
-        applicationId "com.bt.zhangzy.logisticstraffic"
+        applicationId "com.bt.zhangzy.logisticstraffic.d"
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 15
         versionName "1.14"
-
         // dex突破65535的限制
 //        multiDexEnabled true
         //默认 的客户单类型
 //        manifestPlaceholders = [APP_TYPE_VALUE: "company"]
-
         proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        signingConfig signingConfigs.yyt
     }
     buildTypes {
         debug {
             buildConfigField "boolean", "APP_DEBUG", "true"
             manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:8080"]
+
             // 是否进行混淆
             minifyEnabled false
             signingConfig signingConfigs.yyt
@@ -81,7 +80,7 @@ android {
     }
     sourceSets {
         main {
-            resources.srcDirs = ['anim']
+//            resources.srcDirs = ['anim']
         }
     }
     //多渠道打包
@@ -92,19 +91,19 @@ android {
             signingConfig signingConfigs.yyt
         }
         company {
-            applicationId "com.bt.zhangzy.logisticstraffic"
+            applicationId 'com.bt.zhangzy.logisticstraffic.d'
             manifestPlaceholders = [APP_TYPE_VALUE: "company", JPUSH_APPKEY: "cba04bab06fa527b1113d749"]
             signingConfig signingConfigs.yyt
         }
-
     }
 
 
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:22.1.1'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    //    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.android.support:support-v4:24.0.0'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':zrcListView')
     compile project(':baidusdk')
     compile project(':alipay')

@@ -9,6 +9,8 @@ public enum AppURL {
     /*
 http://www.yyt56.net:8080/conf/AndroidDriverConfig.properties
 http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
+new address
+http://yyt56.net/config/AndroidDriverConfig.properties
 * */
     APP_UPDATA_DRIVER("/conf/AndroidDriverConfig.properties"),
     APP_UPDATA_COMPANY("/conf/AndroidCompanyConfig.properties"),
