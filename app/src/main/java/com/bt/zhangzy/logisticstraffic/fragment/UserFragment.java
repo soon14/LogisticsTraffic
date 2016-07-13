@@ -19,13 +19,16 @@ import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonMember;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseLogin;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
+import com.zhangzy.baidusdk.LBSTraceSDK;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by ZhangZy on 2015/6/18.
@@ -75,11 +78,16 @@ public class UserFragment extends BaseHomeFragment {
 
             //启动服务 上传坐标 仅限司机用户
             if (user.getUserType() == Type.DriverType) {
+                //启动百度鹰眼sdk
+                startLBS();
+
+
                 Log.i(TAG, "启动位置上传服务");
                 Intent intent = new Intent(getActivity(), UpDataLocationService.class);
                 getActivity().startService(intent);
             } else {
                 getHomeActivity().getApp().stopLocationServer();
+                LBSTraceSDK.getInstance().stopTrace();
             }
         }
 
@@ -88,6 +96,21 @@ public class UserFragment extends BaseHomeFragment {
 //                getHomeActivity().showToast("登录用户与客户端类型不统一");
                 ConfirmDialog.showConfirmDialog(getActivity(), "登录用户与客户端类型不统一,请重新启动APP", null);
             }
+
+    }
+
+    private void startLBS() {
+        //启动百度鹰眼sdk
+        LBSTraceSDK.getInstance().init(getActivity().getApplicationContext());
+        //更新用户信息
+        User user = User.getInstance();
+        JsonCar jsonCar = user.getJsonCar();
+        Log.d(TAG,String.valueOf(jsonCar.getId())+ "number=" + jsonCar.getNumber());
+        LBSTraceSDK.getInstance().addEntity(String.valueOf(jsonCar.getId()), "number=" + jsonCar.getNumber());
+        //获取订单列表
+        List<Integer> orderId_list = user.getOrderIdList();
+        LBSTraceSDK.getInstance().setOrderIds(orderId_list);
+        LBSTraceSDK.getInstance().startTrace();
 
     }
 

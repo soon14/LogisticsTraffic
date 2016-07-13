@@ -20,6 +20,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.service.UpDataLocationService;
@@ -69,6 +70,7 @@ public class LogisticsTrafficApplication extends Application {
 
 //        loadAppParams();
 
+        SDKInitializer.initialize(getApplicationContext());
         //JPush 推送
         JPushInterface.setDebugMode(true);
         JPushInterface.init(getApplicationContext());
@@ -84,7 +86,6 @@ public class LogisticsTrafficApplication extends Application {
 
         //先放在这里，后期如果数据加载时间过长 可以考虑放到别的位置！或者增加异步线程
 //        LoadAppData();
-
 
     }
 
@@ -334,14 +335,12 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
     }
 
 
-
-
     public void stopLocationServer() {
         BaiduSDK.getInstance().stopLocationServer();
     }
 
 
-    public void Exit(Activity activity,boolean isSave) {
+    public void Exit(Activity activity, boolean isSave) {
 
         //语音服务退出
         BaiduSDK.getInstance().dismissVoiceDialog();
@@ -423,7 +422,6 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
         Log.i(TAG, "读取文件：内容=" + string);
         return string;
     }
-
 
 
     /**
