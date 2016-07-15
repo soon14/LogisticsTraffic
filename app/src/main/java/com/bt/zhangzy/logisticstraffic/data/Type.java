@@ -20,6 +20,10 @@ public enum Type {
      */
     CompanyInformationType;
 
+    public Type parseRole(int role) {
+        return role < 0 || role >= Type.values().length ? EmptyType : Type.values()[role];
+    }
+
     /**
      * 转化为服务器所需要的 int值
      *
@@ -27,9 +31,5 @@ public enum Type {
      */
     public int toRole() {
         return this.ordinal();
-    }
-
-    public Type parseRole(int role) {
-        return role < 0 || role >= Type.values().length ? EmptyType : Type.values()[role];
     }
 }

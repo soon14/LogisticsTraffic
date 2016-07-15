@@ -60,9 +60,9 @@
         android:theme="@style/AppTheme">
 
         <!-- 位置上传服务 -->
-        <service
-            android:name="com.bt.zhangzy.logisticstraffic.service.UpDataLocationService"
-            android:enabled="true"></service>
+        <!--<service-->
+            <!--android:name="com.bt.zhangzy.logisticstraffic.service.UpDataLocationService"-->
+            <!--android:enabled="true"></service>-->
         <!-- 下载完成 接受者-->
         <receiver android:name="com.bt.zhangzy.logisticstraffic.receiver.DownloadReceiver">
             <intent-filter>

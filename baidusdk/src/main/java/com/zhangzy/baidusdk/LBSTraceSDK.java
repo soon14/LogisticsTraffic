@@ -1,12 +1,16 @@
 package com.zhangzy.baidusdk;
 
+import android.app.Application;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.baidu.trace.LBSTraceClient;
 import com.baidu.trace.LocationMode;
 import com.baidu.trace.OnEntityListener;
@@ -15,6 +19,8 @@ import com.baidu.trace.OnStopTraceListener;
 import com.baidu.trace.OnTrackListener;
 import com.baidu.trace.Trace;
 import com.baidu.trace.TraceLocation;
+import com.zhangzy.base.http.HttpHelper;
+import com.zhangzy.base.http.NetCallback;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +42,8 @@ public class LBSTraceSDK {
     /**
      * 鹰眼服务ID，开发者创建的鹰眼服务对应的服务ID
      */
-    protected static long serviceId = 119300; // serviceId为开发者创建的鹰眼服务ID
+    public static final long serviceId = 119300; // serviceId为开发者创建的鹰眼服务ID
+    public static String LBS_AK;
 
     /**
      * 轨迹服务类型（0 : 不建立socket长连接， 1 : 建立socket长连接但不上传位置数据，2 : 建立socket长连接并上传位置数据）
@@ -49,15 +56,16 @@ public class LBSTraceSDK {
    采集周期：可理解为定位周期，多久定位一次
   回传周期：鹰眼为节省电量和流量，并不是定位一次就回传一次数据，而是隔段时间将一批定位数据打包压缩回传。*/
     //位置采集周期
-    final int gatherInterval = 30;//30秒
+    final int gatherInterval = 10;//30秒
     //打包周期
-    final int packInterval = 2 * 60;//秒
+    final int packInterval = 60;//秒
     /**
      * 轨迹服务客户端
      */
     protected LBSTraceClient client = null;
     Trace trace;
     String entityName;
+    String entityColumn;
 
     /**
      * 开启轨迹服务监听器
@@ -107,16 +115,17 @@ public class LBSTraceSDK {
                 map = new HashMap<String, String>();
             else
                 map.clear();
-            map.put("orderId", stringBuffer.toString());
+
+            map.put("orderIds", stringBuffer.toString());
+            map.put("number", entityColumn);
         }
     }
 
-    public void init(Context context) {
-        this.context = context;
-        initApplication();
-
-//        SDKInitializer.initialize(context);
-
+    /**
+     * 初始化 lbs client
+     */
+    public void init() {
+        Log.i(TAG, "init");
         client = new LBSTraceClient(context);
         // 设置定位模式
         client.setLocationMode(LocationMode.High_Accuracy);
@@ -162,25 +171,49 @@ public class LBSTraceSDK {
         initOnTrackListener();
     }
 
-    public void initApplication() {
+    /**
+     * 初始化 LBS SDK
+     *
+     * @param application
+     */
+    public void initApplication(Application application) {
+        Log.i(TAG, "========= 初始化 LBS SDK =========");
+        SDKInitializer.initialize(application.getApplicationContext());
+        this.context = application.getApplicationContext();
+        try {
+            ApplicationInfo appInfo = null;
+            appInfo = application.getPackageManager().getApplicationInfo(application.getPackageName(), PackageManager.GET_META_DATA);
+            String ak = appInfo.metaData.getString("com.baidu.lbsapi.API_KEY");
+            Log.i(TAG, "ak = " + ak);
+            this.LBS_AK = ak;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.w(TAG, "initApplication ", e);
+            e.printStackTrace();
+        }
+
         //        唤醒任务初始化
         handlerThread = new HandlerThread("LogisticsTraffic_LBSTrace");
         handlerThread.start();
         handler = new Handler(handlerThread.getLooper(), new Handler.Callback() {
             @Override
             public boolean handleMessage(Message message) {
-                Log.i(TAG, "Handler Thread Awaken :" + isAwakenOn);
-                if (isAwakenOn) {
-
+                if (message.what == 0) {
+                    init();
                 } else {
+                    Log.i(TAG, "Handler Thread Awaken :" + isAwakenOn);
+                    if (isAwakenOn) {
 
+                    } else {
+
+                    }
+                    startTrace();
+//                    handler.sendEmptyMessageDelayed(1, awakenTime);
                 }
-                startTrace();
-                handler.sendEmptyMessageDelayed(1, awakenTime);
                 return true;
             }
         });
-        handler.sendEmptyMessageDelayed(1, awakenTime);
+
+        handler.sendEmptyMessage(0);//执行初始化的任务
     }
 
     /**
@@ -191,19 +224,19 @@ public class LBSTraceSDK {
 
             // 请求失败回调接口
             @Override
-            public void onRequestFailedCallback(String arg0) {
+            public void onRequestFailedCallback(String message) {
                 // TODO Auto-generated method stub
                 Looper.prepare();
-                Log.w(TAG, "entity请求失败回调接口消息 : " + arg0);
+                Log.w(TAG, "entity请求失败回调接口消息 : " + message);
                 Looper.loop();
             }
 
             // 添加entity回调接口
             @Override
-            public void onAddEntityCallback(String arg0) {
+            public void onAddEntityCallback(String message) {
                 // TODO Auto-generated method stub
                 Looper.prepare();
-                Log.i(TAG, "添加entity回调接口消息 : " + arg0);
+                Log.i(TAG, "添加entity回调接口消息 : " + message);
                 Looper.loop();
             }
 
@@ -211,7 +244,7 @@ public class LBSTraceSDK {
             @Override
             public void onQueryEntityListCallback(String message) {
                 // TODO Auto-generated method stub
-
+                Log.i(TAG, "查询entity列表回调接口 : " + message);
             }
 
             @Override
@@ -259,16 +292,24 @@ public class LBSTraceSDK {
      * 添加entity
      *
      * @param entityName
-     * @param columnKey
+     * @param column
      */
-    public void addEntity(String entityName, String columnKey) {
+    public void addEntity(String entityName, String column) {
+        if (client == null) {
+            Log.w(TAG, "addEntity  client == null");
+            return;
+        }
         this.entityName = entityName;
-
+        entityColumn = column;
         // entity标识
 //        String entityName = MainActivity.entityName;
         // 属性名称（格式 : "key1=value1,columnKey2=columnValue2......."）
-//        String columnKey = "";
-        client.addEntity(serviceId, entityName, columnKey, entityListener);
+//        String column = "";
+        client.addEntity(serviceId, entityName, column, entityListener);
+        requestLBS_AddEntityColumn(column);
+        requestLBS_AddTraceColumn("number", "车牌号");
+        requestLBS_AddTraceColumn("orderIds", "订单号");
+        requestLBS_TrackListColumn();
     }
 
     /**
@@ -284,6 +325,8 @@ public class LBSTraceSDK {
         // 通过轨迹服务客户端client开启轨迹服务
         if (client != null)
             client.startTrace(trace, startTraceListener);
+
+        handler.sendEmptyMessageDelayed(1, awakenTime);
         return true;
     }
 
@@ -302,5 +345,93 @@ public class LBSTraceSDK {
      */
     private void queryRealtimeTrack() {
         client.queryRealtimeLoc(serviceId, entityListener);
+    }
+
+
+    //添加 entity 的 自定义属性
+    private void requestLBS_AddEntityColumn(String column) {
+        String url = "http://api.map.baidu.com/trace/v2/entity/addcolumn";
+        HashMap<String, String> parmas = new HashMap<String, String>();
+        parmas.put("mcode", "2C:CB:E9:40:FA:1C:DA:D5:B1:CA:EB:BD:4C:FE:53:81:06:54:E4:1B;com.bt.zhangzy.logisticstraffic.d");
+        parmas.put("ak", LBS_AK);
+        parmas.put("service_id", String.valueOf(serviceId));
+        parmas.put("column_key", column);
+        parmas.put("column_desc", "车牌号");
+        parmas.put("is_search", "1");
+
+        HttpHelper.getInstance().post(url, parmas, new NetCallback() {
+            @Override
+            public void onFailed(String str) {
+
+            }
+
+            @Override
+            public void onSuccess(String str) {
+                requestLBS_ListColumn();
+            }
+        });
+    }
+
+    private void requestLBS_AddTraceColumn(String column_key, String column_desc) {
+        String url = "http://api.map.baidu.com/trace/v2/track/addcolumn";
+        HashMap<String, String> parmas = new HashMap<String, String>();
+        parmas.put("mcode", "2C:CB:E9:40:FA:1C:DA:D5:B1:CA:EB:BD:4C:FE:53:81:06:54:E4:1B;com.bt.zhangzy.logisticstraffic.d");
+        parmas.put("ak", LBS_AK);
+        parmas.put("service_id", String.valueOf(serviceId));
+        parmas.put("column_key", column_key);
+        parmas.put("column_desc", column_desc);
+        parmas.put("column_type", "3");
+
+        HttpHelper.getInstance().post(url, parmas, new NetCallback() {
+            @Override
+            public void onFailed(String str) {
+
+            }
+
+            @Override
+            public void onSuccess(String str) {
+
+            }
+        });
+    }
+
+    private void requestLBS_ListColumn() {
+        String url = "http://api.map.baidu.com/trace/v2/entity/listcolumn";
+        HashMap<String, String> parmas = new HashMap<String, String>();
+        parmas.put("mcode", "2C:CB:E9:40:FA:1C:DA:D5:B1:CA:EB:BD:4C:FE:53:81:06:54:E4:1B;com.bt.zhangzy.logisticstraffic.d");
+        parmas.put("ak", LBS_AK);
+        parmas.put("service_id", String.valueOf(serviceId));
+
+        HttpHelper.getInstance().get(url, parmas, new NetCallback() {
+            @Override
+            public void onFailed(String str) {
+
+            }
+
+            @Override
+            public void onSuccess(String str) {
+
+            }
+        });
+    }
+
+    private void requestLBS_TrackListColumn() {
+        String url = "http://api.map.baidu.com/trace/v2/track/listcolumn";
+        HashMap<String, String> parmas = new HashMap<String, String>();
+        parmas.put("mcode", "2C:CB:E9:40:FA:1C:DA:D5:B1:CA:EB:BD:4C:FE:53:81:06:54:E4:1B;com.bt.zhangzy.logisticstraffic.d");
+        parmas.put("ak", LBS_AK);
+        parmas.put("service_id", String.valueOf(serviceId));
+
+        HttpHelper.getInstance().get(url, parmas, new NetCallback() {
+            @Override
+            public void onFailed(String str) {
+
+            }
+
+            @Override
+            public void onSuccess(String str) {
+
+            }
+        });
     }
 }

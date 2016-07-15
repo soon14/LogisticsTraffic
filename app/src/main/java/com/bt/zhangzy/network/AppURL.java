@@ -12,8 +12,12 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
 new address
 http://yyt56.net/config/AndroidDriverConfig.properties
 * */
-    APP_UPDATA_DRIVER("/conf/AndroidDriverConfig.properties"),
-    APP_UPDATA_COMPANY("/conf/AndroidCompanyConfig.properties"),
+    APP_UPDATA_DRIVER("/config/AndroidDriverConfig.properties"),
+    APP_UPDATA_COMPANY("/config/AndroidCompanyConfig.properties"),
+    /**
+     * 活动页配置
+     */
+    APP_ACTIVITY_CONFIG("/config/activity_config"),
     /*http://182.92.77.31:8080/img/phone/biaoshuan.png
 http://182.92.77.31:8080/img/phone/commpanyan.png
 http://182.92.77.31:8080/img/phone/downan.png
@@ -25,17 +29,16 @@ http://182.92.77.31:8080/img/phone/softan.png
 /phoneimg/phone/softan.png
 /phoneimg/phone/biaoshuan.png
     * */
-    TOP_IMG_BS("/phoneimg/phone/biaoshuan.png"),
-    TOP_IMG_ABOUT("/phoneimg/phone/commpanyan.png"),
-    TOP_IMG_DOWNLOAD("/phoneimg/phone/downan.png"),
-    TOP_IMG_SOFTWARE("/phoneimg/phone/softan.png"),
+//    TOP_IMG_ABOUT("/phoneimg/phone/commpanyan.png"),
+//    TOP_IMG_DOWNLOAD("/phoneimg/phone/downan.png"),
+//    TOP_IMG_SOFTWARE("/phoneimg/phone/softan.png"),
     TOP_IMG_TENDER("/phoneimg/phone/biaoshuan.png"),
 
 
-    ABOUT_APP("/html/software.html"),//软件
     REGISTER_LAW("/html/law.html"),//法律
-    DOWNLOAD_APP("/html/download.html"),//下载
+    ABOUT_APP("/html/software.html"),//软件
     ABOUT_COMPANY("/html/company.html"),//公司介绍
+    DOWNLOAD_APP("/html/download.html"),//下载
     LOCATION_MAP("/mall/qiantai/ditu.html?longitude=%d1&latitude=%d2"),
     //周边服务
     LOCATION_MAP_SERVERS("/ambitus.html?longitude=%f1&latitude=%f2&zf=%s"),

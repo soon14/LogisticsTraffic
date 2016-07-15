@@ -1,14 +1,20 @@
 package com.bt.zhangzy.logisticstraffic.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
 import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.tools.ContextTools;
+import com.bt.zhangzy.tools.ViewUtils;
 
 /**
  * 广告轮播组件
@@ -16,6 +22,7 @@ import com.bt.zhangzy.logisticstraffic.d.R;
  */
 public class AdViewFlipper extends ViewFlipper implements GestureDetector.OnGestureListener, View.OnTouchListener {
     private GestureDetector detector;
+    CallbackAd callback;
 
     public AdViewFlipper(Context context) {
         super(context);
@@ -97,4 +104,59 @@ ViewFlow作为ViewPager的一个子控件，何时让父控件处理何时不让
     public boolean onTouch(View v, MotionEvent event) {
         return detector.onTouchEvent(event);
     }
+
+
+    public void addView(String img_url, String click_url, String label) {
+
+        ImageView imageView = new ImageView(getContext());
+        imageView.setId(imageView.hashCode());
+        imageView.setTag(R.id.ad_view_tag_label, label);
+        imageView.setTag(R.id.ad_view_tag_url, click_url);
+        imageView.setTag(label);
+//        Log.d("addView --", "tag object=" + imageView.getId());
+//        Log.d("addView --", "tag=" + imageView.getTag(R.id.ad_view_tag_label) + "," + imageView.getTag(R.id.ad_view_tag_url));
+//        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ContextTools.dip2px(getContext(),160));
+
+        imageView.setLayoutParams(params);
+        imageView.setClickable(true);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        imageView.setBackgroundColor(Color.TRANSPARENT);
+        imageView.setImageResource(R.drawable.def_cp_ad);
+
+        addView(imageView);
+        ViewUtils.setImageUrl(imageView, img_url);
+//        imageView.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (v != null && v.getTag() != null) {
+//                    if (v.getTag() instanceof CallbackAd) {
+//                        CallbackAd call = (CallbackAd) v.getTag();
+//                        call.onClick((String) v.getTag(R.id.ad_view_tag_label), (String) v.getTag(R.id.ad_view_tag_url));
+//                    }
+//                }
+//            }
+//        });
+    }
+
+    public void setCallback(CallbackAd callback) {
+        this.callback = callback;
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v != null) {
+                    ViewFlipper flipper = (ViewFlipper) v;
+                    View view = flipper.getCurrentView();
+                    Log.d("on click ", "tag object=" + view.getId());
+                    Log.d("on click ", "tag=" + view.getTag(R.id.ad_view_tag_label) + "," + view.getTag(R.id.ad_view_tag_url));
+                    AdViewFlipper.this.callback.onClick((String) view.getTag(R.id.ad_view_tag_label), (String) view.getTag(R.id.ad_view_tag_url));
+                }
+            }
+        });
+    }
+
+    public interface CallbackAd {
+        void onClick(String label, String url);
+    }
+
 }

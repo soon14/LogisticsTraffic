@@ -9,7 +9,7 @@
     android:longClickable="true"
     android:outAnimation="@anim/slide_out_left">
 
-    <ImageView
+   <!-- <ImageView
         android:id="@+id/home_flipper_about"
         android:layout_width="match_parent"
         android:layout_height="160dp"
@@ -39,5 +39,5 @@
         android:layout_height="160dp"
         android:clickable="true"
         android:scaleType="fitXY"
-        android:src="@drawable/def_cp_ad" />
+        android:src="@drawable/def_cp_ad" />-->
 </com.bt.zhangzy.logisticstraffic.view.AdViewFlipper>

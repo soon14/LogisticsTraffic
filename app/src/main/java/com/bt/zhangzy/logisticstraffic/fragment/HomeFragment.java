@@ -6,14 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ViewFlipper;
 
 import com.bt.zhangzy.logisticstraffic.activity.TenderListActivity;
 import com.bt.zhangzy.logisticstraffic.activity.WebViewActivity;
@@ -22,11 +19,14 @@ import com.bt.zhangzy.logisticstraffic.adapter.HomeSpreadAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Product;
+import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.view.AdViewFlipper;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
+import com.bt.zhangzy.network.entity.JsonActivityConfig;
 import com.bt.zhangzy.network.entity.ResponseCompany;
-import com.bt.zhangzy.tools.ViewUtils;
+import com.zhangzy.base.http.NetCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -126,14 +126,15 @@ public class HomeFragment extends BaseHomeFragment {
 //        return detector.onTouchEvent(event);
     }
 
-    private void initViewFlipper(View view) {
+   /* private void initViewFlipper(View view) {
         if (view == null)
             return;
         ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_about), AppURL.TOP_IMG_DOWNLOAD.toString());
         ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_about_app), AppURL.TOP_IMG_SOFTWARE.toString());
         ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_about_company), AppURL.TOP_IMG_ABOUT.toString());
-        if (!AppParams.DRIVER_APP)
-            ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_tender), AppURL.TOP_IMG_TENDER.toString());
+        if (!AppParams.DRIVER_APP) {
+//            ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_tender), AppURL.TOP_IMG_TENDER.toString());
+        }
 
         //        ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.home_flipper);
         ViewFlipper flipper = (ViewFlipper) view;
@@ -156,9 +157,9 @@ public class HomeFragment extends BaseHomeFragment {
                                                    url = AppURL.ABOUT_COMPANY;
                                                    page_name = "公司介绍";
                                                    break;
-                                               case R.id.home_flipper_tender:
-                                                   getHomeActivity().startActivity(TenderListActivity.class);
-                                                   return;
+//                                               case R.id.home_flipper_tender:
+//                                                   getHomeActivity().startActivity(TenderListActivity.class);
+//                                                   return;
                                            }
                                            if (!TextUtils.isEmpty(page_name)) {
                                                Bundle bundle = new Bundle();
@@ -170,6 +171,78 @@ public class HomeFragment extends BaseHomeFragment {
                                    }
 
         );
+
+
+    }*/
+
+    public void requestActivityConfig() {
+        HttpHelper.getInstance().get(AppURL.APP_ACTIVITY_CONFIG, new NetCallback() {
+            @Override
+            public void onFailed(String str) {
+                Log.d(TAG, "failed:" + str);
+            }
+
+            @Override
+            public void onSuccess(String str) {
+                Log.d(TAG, "success" + str);
+                final JsonActivityConfig config = JsonActivityConfig.ParseEntity(str, JsonActivityConfig.class);
+//                Log.d(TAG, "name" + config.getName());
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        initViewFlipper(config);
+                    }
+                });
+            }
+        });
+    }
+
+    private void initViewFlipper(JsonActivityConfig config) {
+        if (config == null)
+            return;
+        Log.i(TAG, "初始化 活动页 >>" + config.getName());
+        if (config.getList() == null || config.getList().isEmpty()) {
+            Log.w(TAG, "初始化 活动页 list = null");
+            return;
+        }
+
+        AdViewFlipper adViewFlipper = (AdViewFlipper) listHeadView;
+
+        for (JsonActivityConfig.JsonActivityEntity entity : config.getList()) {
+            Log.i(TAG, " entity type :" + entity.getUserType());
+            if (entity.getUserType() != 0) {
+                if (User.getInstance().isLogin()) {
+                    if (User.getInstance().getUserType().toRole() == entity.getUserType()) {
+                        Log.i(TAG, "user type=" + entity.getUserType() + " add view :" + entity.toString());
+                        adViewFlipper.addView(entity.getImage(), entity.getUrl(), entity.getLabel());
+                    }
+                }
+            } else {
+                Log.i(TAG, " add view :" + entity.toString());
+                adViewFlipper.addView(entity.getImage(), entity.getUrl(), entity.getLabel());
+            }
+        }
+        if (!AppParams.DRIVER_APP) {
+//            ViewUtils.setImageUrl((ImageView) view.findViewById(R.id.home_flipper_tender), AppURL.TOP_IMG_TENDER.toString());
+            adViewFlipper.addView(AppURL.TOP_IMG_TENDER.toString(), "tender", "标书");
+        }
+        AdViewFlipper.CallbackAd callback = new AdViewFlipper.CallbackAd() {
+            @Override
+            public void onClick(String label, String url) {
+                if ("tender".equals(url)) {
+                    getHomeActivity().startActivity(TenderListActivity.class);
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(AppParams.WEB_PAGE_NAME, label);
+                    bundle.putString(AppParams.WEB_PAGE_URL, url);
+                    getHomeActivity().startActivity(WebViewActivity.class, bundle);
+                }
+            }
+        };
+        adViewFlipper.setCallback(callback);
+
+//        adViewFlipper.notifyAll();
 
     }
 
@@ -367,7 +440,7 @@ public class HomeFragment extends BaseHomeFragment {
         if (listHeadView == null) {
 //            listHeadView = LayoutInflater.from(getActivity()).inflate(R.layout.home_list_header, null);
             //删除推荐位
-            int resource = AppParams.DRIVER_APP ? R.layout.home_adveriting_no_tender : R.layout.home_adveriting_item;
+            int resource =/* AppParams.DRIVER_APP ? R.layout.home_adveriting_no_tender : */R.layout.home_adveriting_item;
             listHeadView = LayoutInflater.from(getActivity()).inflate(resource, null);
 
         }
@@ -375,7 +448,8 @@ public class HomeFragment extends BaseHomeFragment {
             listView.addHeaderView(listHeadView);
         }
         //顶部 广告标题初始化
-        initViewFlipper(listHeadView);
+//        initViewFlipper(listHeadView);
+        requestActivityConfig();
         //推荐位 初始化
 //        initSpreadViewPager(listHeadView);
 

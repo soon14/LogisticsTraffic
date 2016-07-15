@@ -1,6 +1,5 @@
 package com.bt.zhangzy.logisticstraffic.fragment;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -14,7 +13,6 @@ import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.logisticstraffic.service.UpDataLocationService;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
@@ -79,12 +77,13 @@ public class UserFragment extends BaseHomeFragment {
             //启动服务 上传坐标 仅限司机用户
             if (user.getUserType() == Type.DriverType) {
                 //启动百度鹰眼sdk
+                Log.i(TAG, "启动百度鹰眼sdk");
                 startLBS();
 
 
-                Log.i(TAG, "启动位置上传服务");
-                Intent intent = new Intent(getActivity(), UpDataLocationService.class);
-                getActivity().startService(intent);
+//                Log.i(TAG, "启动位置上传服务");
+//                Intent intent = new Intent(getActivity(), UpDataLocationService.class);
+//                getActivity().startService(intent);
             } else {
                 getHomeActivity().getApp().stopLocationServer();
                 LBSTraceSDK.getInstance().stopTrace();
@@ -101,17 +100,19 @@ public class UserFragment extends BaseHomeFragment {
 
     private void startLBS() {
         //启动百度鹰眼sdk
-        LBSTraceSDK.getInstance().init(getActivity().getApplicationContext());
+//        LBSTraceSDK.getInstance().init(getActivity().getApplicationContext());
         //更新用户信息
         User user = User.getInstance();
         JsonCar jsonCar = user.getJsonCar();
-        Log.d(TAG,String.valueOf(jsonCar.getId())+ "number=" + jsonCar.getNumber());
-        LBSTraceSDK.getInstance().addEntity(String.valueOf(jsonCar.getId()), "number=" + jsonCar.getNumber());
-        //获取订单列表
-        List<Integer> orderId_list = user.getOrderIdList();
-        LBSTraceSDK.getInstance().setOrderIds(orderId_list);
-        LBSTraceSDK.getInstance().startTrace();
+        if (jsonCar != null) {
+            Log.d(TAG, String.valueOf(jsonCar.getId()) + "number=" + jsonCar.getNumber());
+            LBSTraceSDK.getInstance().addEntity(String.valueOf(jsonCar.getId()), jsonCar.getNumber());
+            //获取订单列表
+            List<Integer> orderId_list = user.getOrderIdList();
+            LBSTraceSDK.getInstance().setOrderIds(orderId_list);
+            LBSTraceSDK.getInstance().startTrace();
 
+        }
     }
 
     @Override

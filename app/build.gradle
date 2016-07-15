@@ -37,7 +37,7 @@ android {
         // dex突破65535的限制
 //        multiDexEnabled true
         //默认 的客户单类型
-//        manifestPlaceholders = [APP_TYPE_VALUE: "company"]
+        manifestPlaceholders = [APP_TYPE_VALUE: "driver"]
         proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         signingConfig signingConfigs.yyt
     }
@@ -91,7 +91,7 @@ android {
             signingConfig signingConfigs.yyt
         }
         company {
-            applicationId 'com.bt.zhangzy.logisticstraffic.d'
+            applicationId 'com.bt.zhangzy.logisticstraffic'
             manifestPlaceholders = [APP_TYPE_VALUE: "company", JPUSH_APPKEY: "cba04bab06fa527b1113d749"]
             signingConfig signingConfigs.yyt
         }

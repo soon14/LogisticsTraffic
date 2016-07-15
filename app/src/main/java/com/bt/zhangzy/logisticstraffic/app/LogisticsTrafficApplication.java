@@ -20,10 +20,8 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.logisticstraffic.service.UpDataLocationService;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
@@ -32,6 +30,7 @@ import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.zhangzy.baidusdk.BaiduSDK;
+import com.zhangzy.baidusdk.LBSTraceSDK;
 import com.zhangzy.base.http.ImageHelper;
 
 import java.io.File;
@@ -70,7 +69,6 @@ public class LogisticsTrafficApplication extends Application {
 
 //        loadAppParams();
 
-        SDKInitializer.initialize(getApplicationContext());
         //JPush 推送
         JPushInterface.setDebugMode(true);
         JPushInterface.init(getApplicationContext());
@@ -87,6 +85,17 @@ public class LogisticsTrafficApplication extends Application {
         //先放在这里，后期如果数据加载时间过长 可以考虑放到别的位置！或者增加异步线程
 //        LoadAppData();
 
+    }
+
+    /**
+     * 如果需要根据客户端类型 初始化服务的操作,写在这个方法里
+     */
+    private void initAPP() {
+        Log.i(TAG, "============根据客户端类型 初始化服务================");
+        //启动鹰眼服务 在司机端
+        if (AppParams.DRIVER_APP) {
+            LBSTraceSDK.getInstance().initApplication(this);
+        }
     }
 
     /**
@@ -270,10 +279,13 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
             editor.commit();
             Log.i(TAG, "==============保存配置===================");
 
+            initAPP();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     public void reloadAppParams() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -281,7 +293,7 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
         AppParams.DRIVER_APP = type.equals("driver");
         AppParams.APP_HOST = preferences.getString(APP_HOST, AppParams.APP_HOST);
         Log.i(TAG, "==============重新读取配置（type=" + type + "  APP_HOST=" + AppParams.APP_HOST + "）===================");
-
+        initAPP();
     }
 
 
@@ -355,7 +367,7 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
             BaiduSDK.getInstance().stopLocationServer();
 
             //停止定位服务
-            stopService(new Intent(this, UpDataLocationService.class));
+//            stopService(new Intent(this, UpDataLocationService.class));
         }
         saveUser();
         if (activity != null)
