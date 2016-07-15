@@ -1,5 +1,6 @@
 package com.zhangzy.base.tools;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -31,7 +32,8 @@ public final class Tools {
      * @return
      */
     public static boolean IsPhoneNum(String mobiles) {
-        Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+        //        Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+        Pattern p = Pattern.compile("^1[3|4|5|7|8]\\d{9}$");
         Matcher m = p.matcher(mobiles);
         return m.matches();
     }
@@ -266,5 +268,66 @@ public final class Tools {
 
         return distanceStr;
     }
+
+    /**
+     * 去除字符串中的 \r \t \n
+     *
+     * @param str
+     * @return
+     */
+    public static String replaceBlank(String str) {
+        String dest = "";
+        if (str != null) {
+            Pattern p = Pattern.compile("\t|\r|\n");
+            Matcher m = p.matcher(str);
+            dest = m.replaceAll("");
+        }
+        return dest;
+    }
+
+    /**
+     * 将px值转换为dip或dp值，保证尺寸大小不变
+     *
+     * @param pxValue
+     * @return
+     */
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
+
+    /**
+     * 将dip或dp值转换为px值，保证尺寸大小不变
+     *
+     * @param dipValue （DisplayMetrics类中属性density）
+     * @return
+     */
+    public static int dip2px(Context context, float dipValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
+    }
+
+    /**
+     * 将px值转换为sp值，保证文字大小不变
+     *
+     * @param pxValue （DisplayMetrics类中属性scaledDensity）
+     * @return
+     */
+    public static int px2sp(Context context, float pxValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (pxValue / fontScale + 0.5f);
+    }
+
+    /**
+     * 将sp值转换为px值，保证文字大小不变
+     *
+     * @param spValue （DisplayMetrics类中属性scaledDensity）
+     * @return
+     */
+    public static int sp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
+
 
 }
