@@ -11,6 +11,7 @@ import android.util.Log;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.zhangzy.base.tools.Tools;
 
 import java.io.IOException;
 
@@ -36,6 +37,7 @@ public abstract class NetCallback implements Callback {
     public void onResponse(Response response) throws IOException {
         try {
             String responseBody = response.body().string();
+            responseBody = Tools.replaceBlank(responseBody);
             Log.d(TAG, response.toString() + "==>>" + responseBody);
             if (!TextUtils.isEmpty(responseBody)) {
                 onSuccess(responseBody);
