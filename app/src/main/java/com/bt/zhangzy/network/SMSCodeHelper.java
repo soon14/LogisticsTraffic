@@ -83,7 +83,7 @@ public class SMSCodeHelper implements Handler.Callback {
                         //测试用
                         return AppParams.DEBUG && inputCode.equals("0000");
 
-        return false;
+        return AppParams.DEBUG ? inputCode.equals("0000") : false;
 
     }
 
