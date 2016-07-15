@@ -14,9 +14,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -98,6 +95,7 @@ public class LogisticsTrafficApplication extends Application {
         }
     }
 
+    Properties properties;
     /**
      * 升级检测
      */
@@ -116,26 +114,28 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
             @Override
             public void onResponse(Response response) throws IOException {
                 Log.d(TAG, "升级文件加载成功:" + response.toString());
-                final Properties properties = new Properties();
+                properties = new Properties();
 //                properties.load(response.body().byteStream());
                 properties.load(new InputStreamReader(response.body().byteStream(), "UTF-8"));
                 Log.d(TAG, "properties = " + properties.toString());
-                new Handler(Looper.getMainLooper(), new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(Message msg) {
-                        checkAppVersionProperties(properties);
-                        return true;
-                    }
-                }).sendEmptyMessage(0);
+//                new Handler(Looper.getMainLooper(), new Handler.Callback() {
+//                    @Override
+//                    public boolean handleMessage(Message msg) {
+////                        checkAppVersionProperties(properties);
+//                        return true;
+//                    }
+//                }).sendEmptyMessage(0);
 
             }
         });
     }
 
-    private void checkAppVersionProperties(Properties properties) {
-        if (properties == null)
-            return;
+    public void checkAppVersionProperties(Activity context) {
         Log.i(TAG, "====check App Version Properties =========");
+        if (properties == null) {
+            Log.i(TAG, " Properties = null");
+            return;
+        }
         if (getPackageName().equals(properties.getProperty("package"))) {
             try {
                 PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -146,7 +146,7 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
                     String message = "升级内容:\n" + properties.getProperty("message");
                     Log.i(TAG, "有新的版本 versionName=" + versionName);
 
-                    new AlertDialog.Builder(getApplicationContext())
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context)
                             .setIcon(android.R.drawable.ic_dialog_info)
                             .setTitle("请升级APP至版本" + versionName)
                             .setMessage(message)
@@ -158,11 +158,13 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
                                     dialog.cancel();
                                 }
                             }).setNegativeButton("跳过", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    }).show();
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                    builder.show();
+
 
                 } else {
                     Log.i(TAG, "没有新版本!");

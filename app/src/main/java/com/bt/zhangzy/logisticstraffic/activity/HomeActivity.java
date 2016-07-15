@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -80,6 +81,15 @@ public class HomeActivity extends BaseActivity {
         });
 
         getApp().checkAppVersion();
+        //一个延时任务，检测app版本；
+        new Handler(Looper.getMainLooper(), new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                getApp().checkAppVersionProperties(HomeActivity.this);
+                return true;
+            }
+        }).sendEmptyMessageDelayed(1, 2 * 1000);
+
     }
 
     @Override
@@ -558,9 +568,10 @@ public class HomeActivity extends BaseActivity {
 
     /**
      * 修改密码
+     *
      * @param view
      */
-    public void onClick_ChangePassword(View view){
+    public void onClick_ChangePassword(View view) {
         startActivity(SetPasswordActivity.class);
     }
 
