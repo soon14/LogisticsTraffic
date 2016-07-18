@@ -31,7 +31,9 @@ public class AliPay {
     // 商户PID
     public static final String PARTNER = "2088121804817103";// APPID= "2016012101110584";
     // 商户收款账号
-    public static final String SELLER = "dev_wuliuhui@sina.com";
+//    public static final String SELLER = "dev_wuliuhui@sina.com";
+    public static final String SELLER = "dev@yyt56.net";
+
 
     static AliPay instance = new AliPay();
     private Activity activity;

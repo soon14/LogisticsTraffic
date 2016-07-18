@@ -116,28 +116,29 @@ public class DetailPhotoActivity extends BaseActivity {
         setTextView(R.id.driver_phone_ed, user.getPhoneNum());
         JsonUser jsonUser = user.getJsonUser();
         if (!TextUtils.isEmpty(jsonUser.getIdCardPhotoUrl())) {
-            setImageUrl(R.id.driver_sfz_img, jsonUser.getIdCardPhotoUrl());
+            setImageUrl(R.id.driver_certificate_img, jsonUser.getIdCardPhotoUrl());
         }
         //手持身份证
-        if (!Tools.isEmptyStrings(jsonUser.getPersonPhotoUrl())) {
-            setImageUrl(R.id.driver_sfz_sc_img, jsonUser.getPersonPhotoUrl());
-        }
+//        if (!Tools.isEmptyStrings(jsonUser.getPersonPhotoUrl())) {
+//            setImageUrl(R.id.driver_sfz_sc_img, jsonUser.getPersonPhotoUrl());
+//        }
 //        setImageUrl(R.id.devices_jsz_img, jsonUser.getPersonPhotoUrl());
         if (user.getJsonTypeEntity() != null) {
             JsonDriver jsonDriver = user.getJsonTypeEntity();
-            setImageUrl(R.id.devices_jsz_img, jsonDriver.getLicensePhotoUrl());
+//            setImageUrl(R.id.devices_car_img, jsonDriver.getLicensePhotoUrl());
             setImageUrl(R.id.devices_tszz_img, jsonDriver.getSpecialQualificationsPhotoUrl());
 
-            setImageUrl(R.id.devices_jsz_sc_img, jsonDriver.getPersonLicensePhotoUrl());
+//            setImageUrl(R.id.devices_jsz_sc_img, jsonDriver.getPersonLicensePhotoUrl());
 
 
             requestJsonDriver = jsonDriver;
             //to do 车的信息更新
             if (user.getJsonCar() != null) {
                 JsonCar jsonCar = user.getJsonCar();
-                setImageUrl(R.id.devices_xxz_img, jsonCar.getDrivingLicensePhotoUrl());
-                setImageUrl(R.id.devices_clzp_img, jsonCar.getFrontalPhotoUrl1());
-                setImageUrl(R.id.devices_clzp_two_img, jsonCar.getFrontalPhotoUrl2());
+                setImageUrl(R.id.devices_car_img, jsonCar.getDrivingLicensePhotoUrl());
+//                setImageUrl(R.id.devices_xxz_img, jsonCar.getDrivingLicensePhotoUrl());
+//                setImageUrl(R.id.devices_clzp_img, jsonCar.getFrontalPhotoUrl1());
+//                setImageUrl(R.id.devices_clzp_two_img, jsonCar.getFrontalPhotoUrl2());
 
                 setTextView(R.id.detail_car_type, jsonCar.getType());
                 setTextView(R.id.detail_car_length, jsonCar.getLength());
@@ -367,14 +368,18 @@ public class DetailPhotoActivity extends BaseActivity {
                             yyzzUrl = uploadImgURL;
                             break;
 //                        case R.id.photo_frsfz_img:
-                        case R.id.driver_sfz_img:
+                        case R.id.driver_certificate_img:
 //                            frsfzUrl = uploadImgURL;
+                            //行驶证
+                            requestJsonCar.setDrivingLicensePhotoUrl(uploadImgURL);
+                            //驾驶证
+                            requestJsonDriver.setLicensePhotoUrl(uploadImgURL);
                             requestChangeUserInfo(true, uploadImgURL);
                             break;
-                        case R.id.driver_sfz_sc_img:
-                            //手持身份证
-                            requestChangeUserInfo(false, uploadImgURL);
-                            break;
+//                        case R.id.driver_sfz_sc_img:
+//                            //手持身份证
+//                            requestChangeUserInfo(false, uploadImgURL);
+//                            break;
                         case R.id.photo_mtzp_img:
                             mtzpUrl = uploadImgURL;
                             break;
@@ -382,25 +387,33 @@ public class DetailPhotoActivity extends BaseActivity {
 //                            swdjzUrl = uploadImgURL;
 //                            break;
                         //司机的相关图片
-                        case R.id.devices_jsz_img:
-                            requestJsonDriver.setLicensePhotoUrl(uploadImgURL);
-                            break;
-                        case R.id.devices_jsz_sc_img:
-                            //手持驾驶证照片
-                            requestJsonDriver.setPersonLicensePhotoUrl(uploadImgURL);
-                            break;
-                        case R.id.devices_tszz_img:
-                            requestJsonDriver.setSpecialQualificationsPhotoUrl(uploadImgURL);
-                            break;
-                        case R.id.devices_xxz_img:
-                            requestJsonCar.setDrivingLicensePhotoUrl(uploadImgURL);
-                            break;
-                        case R.id.devices_clzp_img:
+                        case R.id.devices_car_img:
+//                            //驾驶证
+//                            requestJsonDriver.setLicensePhotoUrl(uploadImgURL);
+                            //车辆照片
                             requestJsonCar.setFrontalPhotoUrl1(uploadImgURL);
-                            break;
-                        case R.id.devices_clzp_two_img:
                             requestJsonCar.setFrontalPhotoUrl2(uploadImgURL);
                             break;
+//                        case R.id.devices_jsz_sc_img:
+//                            //手持驾驶证照片
+//                            requestJsonDriver.setPersonLicensePhotoUrl(uploadImgURL);
+//                            break;
+                        case R.id.devices_tszz_img:
+                            //特殊资质
+                            requestJsonDriver.setSpecialQualificationsPhotoUrl(uploadImgURL);
+                            break;
+//                        case R.id.devices_xxz_img:
+//                            //行驶证
+//                            requestJsonCar.setDrivingLicensePhotoUrl(uploadImgURL);
+//                            break;
+//                        case R.id.devices_clzp_img:
+//                            //车辆照片
+//                            requestJsonCar.setFrontalPhotoUrl1(uploadImgURL);
+//                            break;
+//                        case R.id.devices_clzp_two_img:
+//                            //车辆照片
+//                            requestJsonCar.setFrontalPhotoUrl2(uploadImgURL);
+//                            break;
 
                     }
             }
@@ -456,14 +469,14 @@ public class DetailPhotoActivity extends BaseActivity {
                 return;
             }
 
-            if (Tools.isEmptyStrings(User.getInstance().getJsonUser().getIdCardPhotoUrl(), User.getInstance().getJsonUser().getPersonPhotoUrl())) {
+            if (Tools.isEmptyStrings(User.getInstance().getJsonUser().getIdCardPhotoUrl()/*, User.getInstance().getJsonUser().getPersonPhotoUrl()*/)) {
                 showToast("图片信息不完整");
                 return;
             }
 
             if (Tools.isEmptyStrings(requestJsonDriver.getLicensePhotoUrl(), /*requestJsonDriver.getSpecialQualificationsPhotoUrl(),*/
-                    requestJsonCar.getDrivingLicensePhotoUrl(), requestJsonCar.getFrontalPhotoUrl1(), requestJsonCar.getFrontalPhotoUrl2()
-                    , requestJsonDriver.getPersonLicensePhotoUrl())) {
+                    requestJsonCar.getDrivingLicensePhotoUrl(), requestJsonCar.getFrontalPhotoUrl1()/*, requestJsonCar.getFrontalPhotoUrl2()*/
+                   /* , requestJsonDriver.getPersonLicensePhotoUrl()*/)) {
                 showToast("图片信息不完整");
                 return;
             }
