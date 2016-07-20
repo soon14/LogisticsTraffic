@@ -7,26 +7,6 @@
     android:orientation="vertical"
     tools:context="com.bt.zhangzy.logisticstraffic.activity.WelcomeActivity">
 
-
-    <!--<ViewFlipper-->
-    <!--android:id="@+id/welcome_flipper"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:autoStart="false"-->
-    <!--android:flipInterval="3000"-->
-    <!--android:inAnimation="@anim/slide_in_bottom"-->
-    <!--android:outAnimation="@anim/slide_out_top">-->
-
-    <!--<ImageView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/welcome_1" />-->
-
-    <!--<ImageView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/welcome_2" />-->
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -51,25 +31,4 @@
             android:text="点击开启"
             android:textSize="22sp" />
     </RelativeLayout>
-
-    <!--</ViewFlipper>-->
-
-    <!-- <android.support.v4.view.ViewPager
-         android:id="@+id/welcome_viewpager"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_gravity="bottom"
-         android:background="#f85313">
-
-     </android.support.v4.view.ViewPager>-->
-
-    <!--<com.directionalviewpager.DirectionalViewPager-->
-    <!--android:id="@+id/welcome_viewpager"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="#f85313">-->
-
-    <!--</com.directionalviewpager.DirectionalViewPager>-->
-
-
 </FrameLayout>
