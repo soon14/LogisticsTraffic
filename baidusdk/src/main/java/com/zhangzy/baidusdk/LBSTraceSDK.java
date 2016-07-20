@@ -306,7 +306,7 @@ public class LBSTraceSDK {
         // 属性名称（格式 : "key1=value1,columnKey2=columnValue2......."）
 //        String column = "";
         client.addEntity(serviceId, entityName, column, entityListener);
-        requestLBS_AddEntityColumn(column);
+//        requestLBS_AddEntityColumn(column);
         requestLBS_AddTraceColumn("number", "车牌号");
         requestLBS_AddTraceColumn("orderIds", "订单号");
         requestLBS_TrackListColumn();
