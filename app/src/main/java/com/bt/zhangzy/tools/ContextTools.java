@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -119,7 +120,19 @@ public class ContextTools {
         Log.i(TAG, "Environment.getDownloadCacheDirectory 目录路径：" + Environment.getDownloadCacheDirectory());
         Log.i(TAG, "getPackageName 目录路径：" + context.getPackageName());
         */
-        String cacheDir = context.getExternalCacheDir().getPath();
+//        try {
+//            return context.getExternalCacheDir().getPath();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        String cacheDir;
+        File externalCacheDir = context.getExternalCacheDir();
+        if(externalCacheDir != null) {
+            cacheDir = externalCacheDir.getPath();
+        }else{
+            externalCacheDir = context.getCacheDir();
+            cacheDir = externalCacheDir.getPath();
+        }
 
         return cacheDir;
     }

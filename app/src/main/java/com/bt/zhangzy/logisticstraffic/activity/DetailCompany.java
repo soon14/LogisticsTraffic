@@ -260,7 +260,12 @@ public class DetailCompany extends BaseActivity {
         intent.setAction(android.content.Intent.ACTION_VIEW);
 //        intent.setAction("android.intent.action.GET_CONTENT");
         Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), image, null, null));
+        String uriString = MediaStore.Images.Media.insertImage(getContentResolver(), image, null, null);
+        if(TextUtils.isEmpty(uriString)){
+            showToast("图片无法打开");
+            return;
+        }
+        Uri uri = Uri.parse(uriString);
         intent.setDataAndType(uri, "image/*");
 
         startActivity(intent);
@@ -339,6 +344,10 @@ public class DetailCompany extends BaseActivity {
     private void requestFavorites() {
         //传4个参数 fromRole,fromRoleId,toRole,toRoleId
         JsonUser jsonUser = User.getInstance().getJsonUser();
+        if(jsonUser == null) {
+            showToast("用户未登陆");
+            return;
+        }
         int fromRole = jsonUser.getRole();
         int fromRoleId = User.getInstance().getRoleId();
         int toRole = Type.CompanyInformationType.toRole();//默认只能显示信息部
