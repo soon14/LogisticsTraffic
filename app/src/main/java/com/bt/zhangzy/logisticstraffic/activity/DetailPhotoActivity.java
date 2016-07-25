@@ -135,7 +135,7 @@ public class DetailPhotoActivity extends BaseActivity {
             //to do 车的信息更新
             if (user.getJsonCar() != null) {
                 JsonCar jsonCar = user.getJsonCar();
-                setImageUrl(R.id.devices_car_img, jsonCar.getDrivingLicensePhotoUrl());
+                setImageUrl(R.id.devices_car_img, jsonCar.getFrontalPhotoUrl1());
 //                setImageUrl(R.id.devices_xxz_img, jsonCar.getDrivingLicensePhotoUrl());
 //                setImageUrl(R.id.devices_clzp_img, jsonCar.getFrontalPhotoUrl1());
 //                setImageUrl(R.id.devices_clzp_two_img, jsonCar.getFrontalPhotoUrl2());
