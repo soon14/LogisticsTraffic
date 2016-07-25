@@ -325,6 +325,14 @@ public class DetailCompany extends BaseActivity {
                         break;
                     }
                 }
+
+                Iterator<Product> it = User.getInstance().getCollectionList().iterator();
+                while (it.hasNext()) {
+                    if (it.next().getID() == product.getID()) {
+                        it.remove();
+                        break;
+                    }
+                }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
