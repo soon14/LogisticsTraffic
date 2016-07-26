@@ -32,8 +32,8 @@ android {
         applicationId "com.bt.zhangzy.logisticstraffic.d"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 18
-        versionName "1.17"
+        versionCode 19
+        versionName "1.18"
         // dex突破65535的限制
 //        multiDexEnabled true
         //默认 的客户单类型

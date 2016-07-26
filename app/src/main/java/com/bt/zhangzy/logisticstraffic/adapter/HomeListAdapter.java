@@ -17,6 +17,7 @@ import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.tools.ViewUtils;
 
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by ZhangZy on 2015/6/9.
@@ -34,35 +35,67 @@ public class HomeListAdapter extends BaseAdapter {
     }
 
     public void addList(List<Product> list) {
+        if (list == null || list.isEmpty()) {
+            Log.i(TAG, "addList is empty");
+            return;
+        }
         Log.d(TAG, "before list size=" + list.size());
         //增加数据对比
-        Product last_p = this.list.get(this.list.size() - 1);
+        Product last_p;//= this.list.get(this.list.size() - 1);
         Product last_np;
-        int removeSize = 0;
-        for (int j = list.size() - 1; j >= 0; j--) {
-            last_np = list.get(j);
-//                Log.d(TAG, "addList check data k=" + k + ",j=" + j);
-            if (last_np.equals(last_p)) {
-                removeSize = j;
-                Log.d(TAG, "check one :" + last_np.getID());
+        ListIterator<Product> iterator;
+        for (int k = this.list.size() - 1; k >= 0; k--) {
+            last_p = this.list.get(k);
+            if (list.isEmpty()) {
+                Log.d(TAG, "新列表中的数据 为空 跳出");
                 break;
             }
+            Log.d(TAG, "对比数据" + last_p.getID());
+            iterator = list.listIterator();
+            while (iterator.hasNext()) {
+                last_np = iterator.next();
+                Log.d(TAG, "-->" + last_np.getID());
+                if (last_np.equals(last_p)) {
+                    Log.d(TAG, "删除新列表中的数据" + last_np.getID());
+                    iterator.remove();
+                    break;
+                }
+            }
         }
-        if (removeSize > 0) {
-            if (removeSize >= list.size() - 1) {
-                Log.d(TAG, "no new data!!!");
-                return;
-            }
-            for (int k = removeSize + 1; k < list.size(); k++) {
-                this.list.add(list.get(k));
-                Log.d(TAG, "add new data :" + k);
-            }
 
-
+        if (list.isEmpty()) {
+            Log.d(TAG, "新列表中的数据 没有新数据");
         } else {
             this.list.addAll(list);
-            Log.d(TAG,"all new data!");
+            Log.d(TAG, "新列表中的数据 添加数量" + list.size());
         }
+
+
+//        int removeSize = 0;
+//        for (int j = list.size() - 1; j >= 0; j--) {
+//            last_np = list.get(j);
+////                Log.d(TAG, "addList check data k=" + k + ",j=" + j);
+//            if (last_np.equals(last_p)) {
+//                removeSize = j;
+//                Log.d(TAG, "check one :" + last_np.getID());
+//                break;
+//            }
+//        }
+//        if (removeSize > 0) {
+//            if (removeSize >= list.size() - 1) {
+//                Log.d(TAG, "no new data!!!");
+//                return;
+//            }
+//            for (int k = removeSize + 1; k < list.size(); k++) {
+//                this.list.add(list.get(k));
+//                Log.d(TAG, "add new data :" + k);
+//            }
+//
+//
+//        } else {
+//            this.list.addAll(list);
+//            Log.d(TAG, "all new data!");
+//        }
 
 //        notifyDataSetChanged();
     }

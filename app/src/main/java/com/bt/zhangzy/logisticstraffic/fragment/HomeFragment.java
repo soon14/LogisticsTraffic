@@ -407,8 +407,9 @@ public class HomeFragment extends BaseHomeFragment {
                         loadingTime = System.currentTimeMillis();
                         onLoading = true;
                         //加载更多数据  页数加一
-                        if (haveNextPage)
+                        if (haveNextPage) {
                             currentPageNum += 1;
+                        }
                         requestGetCompanyList();
                     } else {
                         listView.setLoadMoreSuccess();
@@ -537,7 +538,7 @@ public class HomeFragment extends BaseHomeFragment {
 //        }
 //        String url = AppURL.GetCompanyList;
         HashMap<String, String> params = new HashMap<>();
-        params.put("pageSize", "10");//每次20条数据
+        params.put("pageSize", "5");//每次20条数据
         params.put("pageNum", String.valueOf(currentPageNum));
         params.put("ts", String.valueOf(System.currentTimeMillis()));
         if (locationBtn != null) {
@@ -580,7 +581,7 @@ public class HomeFragment extends BaseHomeFragment {
                     if (p != null)
                         arrayList.add(p);
                 }
-                if (!arrayList.isEmpty() && arrayList.size() >= 10)
+                if (!arrayList.isEmpty() && arrayList.size() >= 5)
                     haveNextPage = true;
                 else
                     haveNextPage = false;
