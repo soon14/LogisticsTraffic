@@ -77,8 +77,6 @@ public final class AppParams {
 
     public static String APP_HOST = "http://182.92.77.31";//默认值
 
-    /*预留的推荐码*/
-    public static String RECOMMEND = null;
 
     /*=============activity跳转请求常量 =================*/
 

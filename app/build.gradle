@@ -95,6 +95,24 @@ android {
             manifestPlaceholders = [APP_TYPE_VALUE: "company", JPUSH_APPKEY: "cba04bab06fa527b1113d749"]
             signingConfig signingConfigs.yyt
         }
+
+        driver_yaxin {
+            applicationId "com.bt.zhangzy.logisticstraffic.d"
+            manifestPlaceholders = [APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
+            signingConfig signingConfigs.yyt
+        }
+
+        driver_liyong {
+            applicationId "com.bt.zhangzy.logisticstraffic.d"
+            manifestPlaceholders = [APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
+            signingConfig signingConfigs.yyt
+        }
+
+        driver_yili {
+            applicationId "com.bt.zhangzy.logisticstraffic.d"
+            manifestPlaceholders = [APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
+            signingConfig signingConfigs.yyt
+        }
     }
 
 

@@ -38,10 +38,12 @@ public class RegisterActivity extends BaseActivity {
             setContentView(R.layout.register_beginning);
             setPageName("司机用户注册");
 
+            String recommend = getString(R.string.register_recommend);
+            Log.i(TAG, "=====>预留推荐码：" + recommend);
             //预留推荐码
-            if (!TextUtils.isEmpty(AppParams.RECOMMEND)) {
+            if (!TextUtils.isEmpty(recommend)) {
                 EditText recommendEd = (EditText) findViewById(R.id.reg_recommend_ed);
-                recommendEd.setText(AppParams.RECOMMEND);
+                recommendEd.setText(recommend);
                 recommendEd.setEnabled(false);
             }
         } else {

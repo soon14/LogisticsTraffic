@@ -259,6 +259,7 @@
         <meta-data
             android:name="APP_Host"
             android:value="${APP_HOST_VALUE}" />
+
     </application>
 
 </manifest>
