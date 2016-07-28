@@ -60,8 +60,9 @@ public class MainActivity extends BaseActivity {
         getApp().loadAppParams();
         getApp().LoadAppData();
         if (AppParams.DEBUG) {
-
+//            findViewById(R.id.test_ly).setVisibility(View.GONE);
         } else {
+            findViewById(R.id.test_tag).setVisibility(View.GONE);
             findViewById(R.id.test_ly).setVisibility(View.GONE);
             new Handler(getMainLooper(), new Handler.Callback() {
                 @Override
@@ -83,6 +84,9 @@ public class MainActivity extends BaseActivity {
         finish();
     }
 
+    public void onClick_TestGo(View view){
+        loginHome();
+    }
 
     public void onClick_Test(View view) {
         startActivity(TestActivity.class);
