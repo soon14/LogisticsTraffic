@@ -584,6 +584,18 @@ public class HomeActivity extends BaseActivity {
         ContextTools.showContacts(this, AppParams.REQUEST_CODE_CONTACT);
     }
 
+    /**
+     * 意见反馈页面跳转
+     *
+     * @param view
+     */
+    public void onClick_Feedback(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString(AppParams.WEB_PAGE_NAME, "意见反馈");
+        bundle.putString(AppParams.WEB_PAGE_URL, AppURL.APP_FEEDBACK.toString());
+        startActivity(WebViewActivity.class, bundle);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == AppParams.REQUEST_CODE_CONTACT) {

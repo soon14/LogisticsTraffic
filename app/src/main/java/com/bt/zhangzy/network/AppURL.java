@@ -47,6 +47,11 @@ http://182.92.77.31:8080/img/phone/softan.png
     //根据信息部id 标识位置
     LOCATION_MAP_COMPANY("/companyposition.html?id=%s"),
 
+    /**
+     * 意见反馈页面
+     */
+    APP_FEEDBACK("/iphoneaudit/Feedback.html"),
+
 
     /*=============支付 接口=======================*/
     PayAli("/pay/alipay_submit"),
