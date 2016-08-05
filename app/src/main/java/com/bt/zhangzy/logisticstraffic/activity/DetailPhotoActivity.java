@@ -117,6 +117,10 @@ public class DetailPhotoActivity extends BaseActivity {
         JsonUser jsonUser = user.getJsonUser();
         if (!TextUtils.isEmpty(jsonUser.getIdCardPhotoUrl())) {
             setImageUrl(R.id.driver_certificate_img, jsonUser.getIdCardPhotoUrl());
+            //行驶证
+            requestJsonCar.setDrivingLicensePhotoUrl(jsonUser.getIdCardPhotoUrl());
+            //驾驶证
+            requestJsonDriver.setLicensePhotoUrl(jsonUser.getIdCardPhotoUrl());
         }
         //手持身份证
 //        if (!Tools.isEmptyStrings(jsonUser.getPersonPhotoUrl())) {
