@@ -24,6 +24,7 @@ import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.view.AdViewFlipper;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -48,6 +49,7 @@ public class DetailCompany extends BaseActivity {
     int favoritesId;//收藏id  标识是否被收藏；
     ResponseCompany jsonCompany;//更新的物流公司信息
     String jsonCommentList;//用于传递数据；
+    private AdViewFlipper imgFlipper;//门头照片轮播图；
 //    List<JsonComment> commentList;//评价列表
 //    ListView listView;
 //    EvaluationListAdapter adapter;
@@ -169,9 +171,34 @@ public class DetailCompany extends BaseActivity {
                     setTextView(R.id.detail_size_tx, jsonCompany.getScaleOfOperation());
 
                     setImageUrl(R.id.detail_user_head_img, product.getCompany().getUser().getPortraitUrl());
-                    setImageUrl(R.id.detail_flipper_1, jsonCompany.getPhotoUrl());
-                    setImageUrl(R.id.detail_flipper_2, jsonCompany.getPhotoUrl2());
-                    setImageUrl(R.id.detail_flipper_3, jsonCompany.getPhotoUrl3());
+
+                    //照片初始化
+                    if (imgFlipper != null) {
+                        imgFlipper.addView(jsonCompany.getPhotoUrl());
+                        boolean is_stop_flipping = true;
+                        if (!TextUtils.isEmpty(jsonCompany.getPhotoUrl2())) {
+                            imgFlipper.addView(jsonCompany.getPhotoUrl2());
+                            is_stop_flipping = false;
+                        }
+                        if (!TextUtils.isEmpty(jsonCompany.getPhotoUrl3())) {
+                            imgFlipper.addView(jsonCompany.getPhotoUrl3());
+                            is_stop_flipping = false;
+                        }
+
+                        if (is_stop_flipping)
+                            imgFlipper.stopFlipping();
+                    }
+//                    setImageUrl(R.id.detail_flipper_1, jsonCompany.getPhotoUrl());
+//                    if (TextUtils.isEmpty(jsonCompany.getPhotoUrl2())) {
+//                        findViewById(R.id.detail_flipper_2).setVisibility(View.GONE);
+//                    } else
+//                        setImageUrl(R.id.detail_flipper_2, jsonCompany.getPhotoUrl2());
+//
+//                    if (TextUtils.isEmpty(jsonCompany.getPhotoUrl3())) {
+//                        findViewById(R.id.detail_flipper_3).setVisibility(View.GONE);
+//                    } else
+//                        setImageUrl(R.id.detail_flipper_3, jsonCompany.getPhotoUrl3());
+
 
                     if (TextUtils.isEmpty(distance)) {
                         setTextView(R.id.detail_cp_distance_tx, "距离未知");
@@ -206,6 +233,8 @@ public class DetailCompany extends BaseActivity {
 //            ImageView headImg = (ImageView) findViewById(R.id.detail_user_head_img);
 //        String url = "http://img1.3lian.com/img2011/w1/105/4/13.jpg";
 //        ImageHelper.getInstance().load(url, headImg);
+
+        imgFlipper = (AdViewFlipper) findViewById(R.id.detail_cp_flipper);
     }
 
     boolean openCall;
@@ -261,7 +290,7 @@ public class DetailCompany extends BaseActivity {
 //        intent.setAction("android.intent.action.GET_CONTENT");
         Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         String uriString = MediaStore.Images.Media.insertImage(getContentResolver(), image, null, null);
-        if(TextUtils.isEmpty(uriString)){
+        if (TextUtils.isEmpty(uriString)) {
             showToast("图片无法打开");
             return;
         }
@@ -352,7 +381,7 @@ public class DetailCompany extends BaseActivity {
     private void requestFavorites() {
         //传4个参数 fromRole,fromRoleId,toRole,toRoleId
         JsonUser jsonUser = User.getInstance().getJsonUser();
-        if(jsonUser == null) {
+        if (jsonUser == null) {
             showToast("用户未登陆");
             return;
         }

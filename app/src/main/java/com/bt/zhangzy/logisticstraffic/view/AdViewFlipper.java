@@ -105,8 +105,28 @@ ViewFlow作为ViewPager的一个子控件，何时让父控件处理何时不让
         return detector.onTouchEvent(event);
     }
 
+    /**
+     * 信息部 展示门头照片用
+     *
+     * @param img_url
+     */
+    public void addView(String img_url) {
+        addView(img_url, "", "",  ContextTools.dip2px(getContext(), 200));
+    }
 
+    /**
+     * 顶部广告位用
+     *
+     * @param img_url
+     * @param click_url
+     * @param label
+     */
     public void addView(String img_url, String click_url, String label) {
+        addView(img_url, click_url, label, ContextTools.dip2px(getContext(), 160));
+    }
+
+    public void addView(String img_url, String click_url, String label, int paramsHeight) {
+
 
         ImageView imageView = new ImageView(getContext());
         imageView.setId(imageView.hashCode());
@@ -116,7 +136,7 @@ ViewFlow作为ViewPager的一个子控件，何时让父控件处理何时不让
 //        Log.d("addView --", "tag object=" + imageView.getId());
 //        Log.d("addView --", "tag=" + imageView.getTag(R.id.ad_view_tag_label) + "," + imageView.getTag(R.id.ad_view_tag_url));
 //        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ContextTools.dip2px(getContext(),160));
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, paramsHeight);
 
         imageView.setLayoutParams(params);
         imageView.setClickable(true);
@@ -140,6 +160,9 @@ ViewFlow作为ViewPager的一个子控件，何时让父控件处理何时不让
     }
 
     public void setCallback(CallbackAd callback) {
+        if (callback == null)
+            return;
+
         this.callback = callback;
         setOnClickListener(new OnClickListener() {
             @Override
