@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/baidusdk/baidusdk.iml" filepath="$PROJECT_DIR$/baidusdk/baidusdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/baseapp/baseapp.iml" filepath="$PROJECT_DIR$/baseapp/baseapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bugly/bugly.iml" filepath="$PROJECT_DIR$/bugly/bugly.iml" />
       <module fileurl="file://$PROJECT_DIR$/weixinpay/weixinpay.iml" filepath="$PROJECT_DIR$/weixinpay/weixinpay.iml" />
       <module fileurl="file://$PROJECT_DIR$/zrcListView/zrcListView.iml" filepath="$PROJECT_DIR$/zrcListView/zrcListView.iml" />
     </modules>
