@@ -85,14 +85,16 @@ android {
     }
     //多渠道打包
     productFlavors {
-        driver {
-            applicationId "com.bt.zhangzy.logisticstraffic.d"
-            manifestPlaceholders = [APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
-            signingConfig signingConfigs.yyt
-        }
+
         company {
             applicationId 'com.bt.zhangzy.logisticstraffic'
             manifestPlaceholders = [APP_TYPE_VALUE: "company", JPUSH_APPKEY: "cba04bab06fa527b1113d749"]
+            signingConfig signingConfigs.yyt
+        }
+
+        driver {
+            applicationId "com.bt.zhangzy.logisticstraffic.d"
+            manifestPlaceholders = [APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
             signingConfig signingConfigs.yyt
         }
 
@@ -109,6 +111,12 @@ android {
         }
 
         driver_yili {
+            applicationId "com.bt.zhangzy.logisticstraffic.d"
+            manifestPlaceholders = [APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
+            signingConfig signingConfigs.yyt
+        }
+
+        driver_daan {
             applicationId "com.bt.zhangzy.logisticstraffic.d"
             manifestPlaceholders = [APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
             signingConfig signingConfigs.yyt

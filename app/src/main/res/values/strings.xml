@@ -5,6 +5,7 @@
     <string name="app_phone">4001689256</string>
     <!--注册推荐码-->
     <string name="register_recommend"></string>
+    <string name="register_recommend_info">def</string>
     <!--朋友，你还在苦恼无人配送，找不到物流吗？“易运通”帮您解决所有难题，物流信息，海量发布，运货专车，即刻出发！点击即可下载 http://www.yyt56.net/download.html-->
     <string name="app_recommend_sms">朋友，你还在苦恼无人配送，找不到物流吗？“%1$s”帮您解决所有难题，物流信息，海量发布，运货专车，即刻出发！点击即可下载 %2$s</string>
     <string name="action_settings">Settings</string>

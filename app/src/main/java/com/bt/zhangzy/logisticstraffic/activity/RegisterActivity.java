@@ -43,8 +43,11 @@ public class RegisterActivity extends BaseActivity {
             //预留推荐码
             if (!TextUtils.isEmpty(recommend)) {
                 EditText recommendEd = (EditText) findViewById(R.id.reg_recommend_ed);
-                recommendEd.setText(recommend);
+//                recommendEd.setText(recommend);
+                recommendEd.setHint(R.string.register_recommend_info);
+                recommendEd.setBackgroundColor(getResources().getColor(R.color.def_line));
                 recommendEd.setEnabled(false);
+//                recommendEd.setVisibility(View.INVISIBLE);
             }
         } else {
             setContentView(R.layout.activity_register);
@@ -100,7 +103,6 @@ public class RegisterActivity extends BaseActivity {
         EditText phoneNumEd = (EditText) findViewById(R.id.reg_phoneNum_ed);
         EditText passwordEd = (EditText) findViewById(R.id.reg_password_ed);
         EditText passwordConfirmEd = (EditText) findViewById(R.id.reg_password_confirm_ed);
-        EditText recommendEd = (EditText) findViewById(R.id.reg_recommend_ed);
         EditText verficationEd = (EditText) findViewById(R.id.reg_verification_ed);
         String nickname, phoneNum, password, recommend, verfication;
         if (TextUtils.isEmpty(nicknameEd.getText()) || TextUtils.isEmpty(phoneNumEd.getText()) ||
@@ -136,12 +138,18 @@ public class RegisterActivity extends BaseActivity {
         nickname = nicknameEd.getText().toString();
 
         recommend = "";
-        if (!TextUtils.isEmpty(recommendEd.getText())) {
-            recommend = recommendEd.getText().toString();
-            if (!Tools.IsPhoneNum(recommend)) {
-                showToast("推荐人手机号错误");
-                return;
+        recommend = getString(R.string.register_recommend);
+        if (TextUtils.isEmpty(recommend)) {
+            EditText recommendEd = (EditText) findViewById(R.id.reg_recommend_ed);
+            if (!TextUtils.isEmpty(recommendEd.getText())) {
+                recommend = recommendEd.getText().toString();
+                if (!Tools.IsPhoneNum(recommend)) {
+                    showToast("推荐人手机号错误");
+                    return;
+                }
             }
+        } else {
+
         }
 
         requestRegister(nickname, phoneNum, Tools.MD5(password), recommend, verfication);
