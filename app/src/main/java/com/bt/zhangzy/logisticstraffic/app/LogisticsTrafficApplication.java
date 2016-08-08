@@ -45,6 +45,7 @@ import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
+import params.devices.zhangzy.bugly.BuglySDK;
 
 /**
  * Created by ZhangZy on 2015/6/10.
@@ -78,6 +79,9 @@ public class LogisticsTrafficApplication extends Application {
 
         //初始化Image loader
         ImageHelper.getInstance().init(this);
+
+        //Bugly 初始化；
+        BuglySDK.getInstance().init(this,AppParams.DEBUG);
 
         //先放在这里，后期如果数据加载时间过长 可以考虑放到别的位置！或者增加异步线程
 //        LoadAppData();

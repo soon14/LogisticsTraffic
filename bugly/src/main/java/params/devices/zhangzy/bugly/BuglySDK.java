@@ -27,11 +27,12 @@ eafa11cb-f9c6-405d-84be-5758fde8662e
     }
 
     /**
-     *  初始化
+     * 初始化
+     *
      * @param appContext
      */
-    public void init(Context appContext) {
-        CrashReport.initCrashReport(appContext, APP_ID, false);
+    public void init(Context appContext, boolean isDebug) {
+        CrashReport.initCrashReport(appContext, APP_ID, isDebug);
     }
 
     /**

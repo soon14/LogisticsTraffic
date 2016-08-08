@@ -135,4 +135,5 @@ dependencies {
     compile project(':alipay')
     compile project(':weixinpay')
     compile project(':baseapp')
+    compile project(':bugly')
 }

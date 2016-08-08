@@ -12,6 +12,8 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.User;
 
+import params.devices.zhangzy.bugly.BuglySDK;
+
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -84,13 +86,14 @@ public class MainActivity extends BaseActivity {
         finish();
     }
 
-    public void onClick_TestGo(View view){
+    public void onClick_TestGo(View view) {
         loginHome();
     }
 
     public void onClick_Test(View view) {
         startActivity(TestActivity.class);
 //        loadConfig();
+        BuglySDK.getInstance().test();
     }
 
     public void onClick_Enterprise(View view) {
