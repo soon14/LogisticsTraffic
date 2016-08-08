@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".activity.FleetActivity">
+    tools:context="com.bt.zhangzy.logisticstraffic.activity.FleetActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
         android:layout_weight="1"
         android:divider="@color/def_line"
         android:dividerHeight="2px"
-        android:listSelector="@color/transparent">
+        android:listSelector="@drawable/white_orange_selector">
 
     </ListView>
 

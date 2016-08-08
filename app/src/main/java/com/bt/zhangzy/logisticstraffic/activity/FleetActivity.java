@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.bt.zhangzy.logisticstraffic.adapter.AppTextListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.FleetListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.FleetListForDevicesAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.SourceCarListAdapter;
@@ -26,6 +27,7 @@ import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonCar;
+import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonMotocardesDriver;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
@@ -57,6 +59,9 @@ public class FleetActivity extends BaseActivity {
     private ArrayList<People> selectedDrivers;
 
 
+    String motorcade_name;
+    JsonCompany company;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +74,7 @@ public class FleetActivity extends BaseActivity {
 
         //TO DO 接口 更新车队信息；
         if (AppParams.DRIVER_APP) {
-            initDriverView();
+            initDriverView_MotorcadesList();
 
         } else {
             initCompanyView();
@@ -110,7 +115,11 @@ public class FleetActivity extends BaseActivity {
         }
     }
 
-    private void initDriverView() {
+    /**
+     * 司机端初始化车队列表，这里做判断，显示哪个页面
+     * 司机端的车队 有两个页面：我加入的车队列表；车队列表
+     */
+    private void initDriverView_MotorcadesList() {
         if (motorcadeId < 0) {
             if (User.getInstance().getJsonTypeEntity() == null) {
                 showToast("请先完善信息");
@@ -124,8 +133,9 @@ public class FleetActivity extends BaseActivity {
             requestGetMotorcadesList(jsonDriver);
         } else {
 //                setContentView(R.layout.activity_fleet_devices);
-            View headView = getLayoutInflater().inflate(R.layout.activity_fleet_devices, null);
-            listView.addHeaderView(headView);
+            //因为企业没有门头照片等信息，所以取消照片显示
+//            View headView = getLayoutInflater().inflate(R.layout.activity_fleet_devices, null);
+//            listView.addHeaderView(headView);
             setPageName("车队详情");
             findViewById(R.id.fleet_finish_bt).setVisibility(View.GONE);
             findViewById(R.id.fleet_create_order_bt).setVisibility(View.GONE);
@@ -250,6 +260,12 @@ public class FleetActivity extends BaseActivity {
     FleetListAdapter.DelBtnListener delBtnListener;
 
     private void initView() {
+
+        if (!TextUtils.isEmpty(motorcade_name)) {
+            setPageName(motorcade_name);
+        }
+
+
         if (adapterDrivers == null) {
             return;
         }
@@ -342,7 +358,12 @@ public class FleetActivity extends BaseActivity {
         finish();
     }
 
-    private void initDriverView(List<JsonMotorcades> list) {
+    /**
+     * 初始化 车队列表
+     *
+     * @param list
+     */
+    private void initDriverView_MotorcadesList(List<JsonMotorcades> list) {
         final FleetListForDevicesAdapter adapter = new FleetListForDevicesAdapter(list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -362,6 +383,7 @@ public class FleetActivity extends BaseActivity {
 
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -377,9 +399,9 @@ public class FleetActivity extends BaseActivity {
         HttpHelper.getInstance().get(AppURL.GetDriversListMotorcade, jsonDriver, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
-                //// TODO: 2016-1-26  司机所属的车队列表更新
+                //// TO DO: 2016-1-26  司机所属的车队列表更新
                 List<JsonMotorcades> list = ParseJson_Array(result, JsonMotorcades.class);
-                initDriverView(list);
+                initDriverView_MotorcadesList(list);
                 cancelProgress();
             }
 
@@ -417,8 +439,8 @@ public class FleetActivity extends BaseActivity {
             public void onSuccess(String msg, String result) {
 
                 ResponseMotorcades json = ParseJson_Object(result, ResponseMotorcades.class);
-//                json.getCompany();
-//                json.getMotorcade();
+
+
                 List<JsonMotocardesDriver> motorcadeDrivers = json.getMotorcadeDrivers();
                 List<JsonCar> carList = json.getCars();
                 if (motorcadeDrivers != null && !motorcadeDrivers.isEmpty()) {
@@ -426,31 +448,95 @@ public class FleetActivity extends BaseActivity {
                     if (carList.size() != motorcadeDrivers.size()) {
                         Log.w(TAG, "数据不统一! car size =" + carList.size() + " motorcade drivers size = " + motorcadeDrivers.size());
                     }
-                    JsonCar car;
-                    for (int k = 0; k < carList.size(); k++) {
-                        car = carList.get(k);
-                        for (JsonMotocardesDriver driver : motorcadeDrivers) {
+                    if (User.getInstance().getUserType() != Type.DriverType) {
+                        // company
+                        JsonCar car;
+                        for (int k = 0; k < carList.size(); k++) {
+                            car = carList.get(k);
+                            for (JsonMotocardesDriver driver : motorcadeDrivers) {
 //                            driver = motorcadeDrivers.get(k);
-                            if (driver.getDriverId() == car.getDriverId()) {
-                                car.setMotocardesDriverId(driver.getMotorcadeId());
-                                car.setName(driver.getName());
-                                car.setPhoneNumber(driver.getPhoneNumber());
-                                break;
+                                if (driver.getDriverId() == car.getDriverId()) {
+                                    car.setMotocardesDriverId(driver.getMotorcadeId());
+                                    car.setName(driver.getName());
+                                    car.setPhoneNumber(driver.getPhoneNumber());
+                                    break;
+                                }
                             }
                         }
+                        adapterDrivers = new SourceCarListAdapter(carList);
+                        adapterDrivers.initSelsect(needSelectDriverSize);
+                        showToast("车队信息获取成功");
+//                    notifyListAdapter();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                initView();
+
+                            }
+                        });
+                    } else {
+                        //driver
+                        motorcade_name = json.getMotorcade().getName();
+                        company = json.getCompany();
+
+                        ArrayList<String> list = new ArrayList<String>();
+                        for (JsonMotocardesDriver driver : motorcadeDrivers) {
+                            list.add(driver.getName());
+                        }
+
+                        final AppTextListAdapter adapter = new AppTextListAdapter(list);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!TextUtils.isEmpty(motorcade_name)) {
+                                    setPageName(motorcade_name);
+                                }
+                                listView.setAdapter(adapter);
+
+                                //数据返回中 只有company的信息，没有 enterprise的信息，所以取消门头照片等信息的显示；后期优化；
+                                /*if (company != null) {
+                                    setTextView(R.id.fleet_devices_cp_name_tx, company.getName());
+                                    setTextView(R.id.fleet_devices_cp_address_tx, company.getAddress());
+
+                                    //距离
+                                    Location location = User.getInstance().getLocation();
+                                    if (location != null) {
+                                        float latitude = Float.valueOf(location.getLatitude());
+                                        float longitude = Float.valueOf(location.getLongitude());
+                                        String distance = null;
+                                        if (company.getLatitude() != 0 && company.getLongitude() != 0)
+                                            distance = Tools.ComputeDistance(latitude, longitude, company.getLatitude(), company.getLongitude());
+                                        if (TextUtils.isEmpty(distance)) {
+                                            setTextView(R.id.fleet_devices_cp_location, "距离未知");
+                                        } else {
+                                            String str = getString(R.string.location_distance_km);
+                                            str = String.format(str, distance);
+                                            setTextView(R.id.fleet_devices_cp_location, str);
+                                        }
+                                    }
+                                    //照片初始化
+                                    AdViewFlipper imgFlipper = (AdViewFlipper) findViewById(R.id.fleet_devices_flipper);
+                                    if (imgFlipper != null) {
+                                        imgFlipper.addView(company.getPhotoUrl());
+                                        boolean is_stop_flipping = true;
+                                        if (!TextUtils.isEmpty(company.getPhotoUrl2())) {
+                                            imgFlipper.addView(company.getPhotoUrl2());
+                                            is_stop_flipping = false;
+                                        }
+                                        if (!TextUtils.isEmpty(company.getPhotoUrl3())) {
+                                            imgFlipper.addView(company.getPhotoUrl3());
+                                            is_stop_flipping = false;
+                                        }
+
+                                        if (is_stop_flipping)
+                                            imgFlipper.stopFlipping();
+                                    }
+                                }*/
+                            }
+                        });
                     }
 
-                    adapterDrivers = new SourceCarListAdapter(carList);
-                    adapterDrivers.initSelsect(needSelectDriverSize);
-                    showToast("车队信息获取成功");
-//                    notifyListAdapter();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            initView();
-
-                        }
-                    });
 
                 } else {
                     showToast("车队还没有添加过成员哦！");
@@ -537,6 +623,16 @@ public class FleetActivity extends BaseActivity {
         bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE, OrderDetailMode.CreateMode.ordinal());
         startActivity(OrderDetailActivity.class, bundle, 0, false);
     }
+
+    public void onClick_Map(View view) {
+        if (company == null)
+            return;
+        Bundle bundle = new Bundle();
+        bundle.putString(AppParams.WEB_PAGE_NAME, "物流公司位置");
+        bundle.putString(AppParams.WEB_PAGE_URL, String.format(AppURL.LOCATION_MAP_COMPANY.toString(), company.getId()));
+        startActivity(WebViewActivity.class, bundle);
+    }
+
 
     public void onclick_AddDriver(View view) {
         if (AppParams.DRIVER_APP) {

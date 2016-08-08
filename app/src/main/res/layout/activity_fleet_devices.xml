@@ -10,57 +10,66 @@
         android:layout_height="wrap_content">
 
         <!-- 图片展示-->
-        <ImageView
-            android:id="@+id/fleet_devices_img"
+        <!--<ImageView-->
+        <!--android:id="@+id/fleet_devices_img"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:clickable="true"-->
+        <!--android:scaleType="fitXY"-->
+        <!--android:src="@drawable/def_cp_ad" />-->
+
+        <include
+            android:id="@+id/fleet_devices_flipper"
+            layout="@layout/home_adveriting_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/def_cp_ad" />
+            android:layout_height="wrap_content" />
 
         <!-- 头像展示-->
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignBottom="@id/fleet_devices_img"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/user_def_mini" />
+        <!--<ImageView-->
+            <!--android:id="@+id/fleet_devices_head_img"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_alignBottom="@id/fleet_devices_flipper"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:src="@drawable/user_def_mini" />-->
 
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/fleet_devices_cp_name_tx"
         style="@style/tx_black_df_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="德邦物流" />
+        android:text="" />
 
     <RelativeLayout
         android:id="@+id/detail_cp_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:onClick="onClick_gotoMap"
+        android:onClick="onClick_Map"
         android:paddingBottom="2dp"
         android:paddingTop="2dp">
 
         <TextView
-            android:id="@+id/detail_cp_address_tx"
+            android:id="@+id/fleet_devices_cp_address_tx"
             style="@style/detail_df_tx_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:text="内蒙古包头市 稀土路 黄河大街 59号" />
+            android:text="" />
 
         <TextView
+            android:id="@+id/fleet_devices_cp_location"
             style="@style/detail_smail_tx_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/location_icon"
-            android:text="距离1.5km" />
+            android:text="" />
     </RelativeLayout>
 
     <TextView

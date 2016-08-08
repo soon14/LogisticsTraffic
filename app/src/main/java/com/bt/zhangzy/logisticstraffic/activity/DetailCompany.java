@@ -208,6 +208,7 @@ public class DetailCompany extends BaseActivity {
                         setTextView(R.id.detail_cp_distance_tx, str);
                     }
 
+
                     RatingBar bar = (RatingBar) findViewById(R.id.detail_lv_bar);
                     if (jsonCompany.getStar() > 0) {
                         bar.setRating((float) jsonCompany.getStar());
