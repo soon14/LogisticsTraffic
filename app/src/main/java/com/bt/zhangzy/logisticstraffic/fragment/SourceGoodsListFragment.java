@@ -121,6 +121,7 @@ public class SourceGoodsListFragment extends Fragment {
 
     }
 
+
     public void clearAdapter() {
         if (adapter == null)
             return;

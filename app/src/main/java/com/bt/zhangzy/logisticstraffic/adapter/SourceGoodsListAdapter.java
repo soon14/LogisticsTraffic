@@ -11,9 +11,11 @@ import com.bt.zhangzy.network.entity.JsonOrder;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
+ * 货源数据 adapter
  * Created by ZhangZy on 2015/7/23.
  */
 public class SourceGoodsListAdapter extends BaseAdapter {
@@ -22,10 +24,20 @@ public class SourceGoodsListAdapter extends BaseAdapter {
 
     public SourceGoodsListAdapter(List<JsonOrder> list) {
         this.list = list;
+        //排序
+        Collections.sort(this.list);
+
+    }
+
+    public List<JsonOrder> getList() {
+        return list;
     }
 
     public void addList(List<JsonOrder> list) {
         this.list.addAll(list);
+        //排序
+        Collections.sort(this.list);
+
         notifyDataSetChanged();
     }
 
@@ -72,7 +84,7 @@ public class SourceGoodsListAdapter extends BaseAdapter {
         ViewUtils.setText(holder.stopCity, order.getStopCitySimple());
         ViewUtils.setText(holder.goodsType, order.getGoodsType());
         ViewUtils.setText(holder.goodsWeight, order.getGoodsWeight());
-        ViewUtils.setText(holder.creatTime, Tools.toStringDate(order.getPublishDate()));
+        ViewUtils.setText(holder.creatTime, Tools.toStringDate(order.getPublishDate(), "yyyy-MM-dd HH:mm:ss"));
 
 
         return convertView;

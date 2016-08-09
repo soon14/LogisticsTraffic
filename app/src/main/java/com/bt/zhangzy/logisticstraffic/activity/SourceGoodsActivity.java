@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * 货源信息
  * Created by ZhangZy on 2015/8/26.
  */
 public class SourceGoodsActivity extends BaseActivity {
@@ -65,8 +66,7 @@ public class SourceGoodsActivity extends BaseActivity {
                 showToast("没有已抢货源");
                 return;
             }
-            //排序
-            Collections.sort(list);
+
             acceptFragment.addList(list);
         }
 
