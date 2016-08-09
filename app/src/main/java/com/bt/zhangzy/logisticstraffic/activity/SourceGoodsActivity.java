@@ -55,7 +55,8 @@ public class SourceGoodsActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         //刷新列表
-        requestOrderList(currentType);
+        if (currentType != OrderType.Empty)
+            requestOrderList(currentType);
     }
 
     class ResponseAcceptList extends JsonCallback {
@@ -72,6 +73,7 @@ public class SourceGoodsActivity extends BaseActivity {
 
         @Override
         public void onFailed(String str) {
+//            Log.w(TAG, "已抢订单列表获取失败 " + str);
             showToast("已抢订单列表获取失败 " + str);
         }
     }
