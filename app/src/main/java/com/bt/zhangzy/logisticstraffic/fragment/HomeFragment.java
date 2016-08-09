@@ -21,6 +21,7 @@ import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.AdViewFlipper;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -394,7 +395,7 @@ public class HomeFragment extends BaseHomeFragment {
                 //刷新数据，重新从第一页请求数据
                 currentPageNum = 1;
                 haveNextPage = true;
-                requestGetCompanyList();
+                requestGetCompanyList();//下拉刷新事件回调
             }
         });
 
@@ -410,7 +411,7 @@ public class HomeFragment extends BaseHomeFragment {
                         if (haveNextPage) {
                             currentPageNum += 1;
                         }
-                        requestGetCompanyList();
+                        requestGetCompanyList();//加载更多
                     } else {
                         listView.setLoadMoreSuccess();
                     }
@@ -455,8 +456,9 @@ public class HomeFragment extends BaseHomeFragment {
 //        initSpreadViewPager(listHeadView);
 
 //        listView.refresh();
+        getHomeActivity().showProgressOnUI("数据加载中...");
         currentPageNum = 1;
-        requestGetCompanyList();
+        requestGetCompanyList();//初始化
 //        setListAdapter();
     }
 
@@ -551,17 +553,37 @@ public class HomeFragment extends BaseHomeFragment {
         HttpHelper.getInstance().get(AppURL.GetCompanyList, params, new JsonCallback() {
             @Override
             public void onFailed(String str) {
+                getHomeActivity().cancelProgress();
                 onLoading = false;
                 haveNextPage = false;
                 if (currentPageNum > 1) {
 //                    listView.stopLoadMore();
                 } else {
                     listView.setRefreshFail("加载失败");
+                    //数据加载失败了，出刷新对话框
+                    if (adapter == null || adapter.getCount() == 0)
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new ConfirmDialog(getActivity())
+                                        .setMessage("数据加载失败了！")
+                                        .setConfirm("刷新")
+                                        .setHideCancelBt()
+                                        .setConfirmListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                requestGetCompanyList();// 数据获取失败后 重新加载；
+                                            }
+                                        })
+                                        .show();
+                            }
+                        });
                 }
             }
 
             @Override
             public void onSuccess(String msg, String json) {
+                getHomeActivity().cancelProgress();
                 onLoading = false;
                 List<ResponseCompany> list = ParseJson_Array(json, ResponseCompany.class);
                 if (list == null || list.isEmpty()) {

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.bt.zhangzy.logisticstraffic.d.R;
 
 /**
+ * 自定义的对话框类，统一app里的对话框风格
  * Created by ZhangZy on 2016-2-17.
  */
 public class ConfirmDialog extends BaseDialog {
@@ -16,6 +17,7 @@ public class ConfirmDialog extends BaseDialog {
     TextView message;
     Button confirmBt, cancelBt;
     ConfirmDialogListener listener;
+    View centreLine;
 
     public interface ConfirmDialogListener {
         public void onClick(boolean isConfirm);
@@ -29,10 +31,13 @@ public class ConfirmDialog extends BaseDialog {
         cancelBt = (Button) findViewById(R.id.dl_cancel_bt);
         cancelBt.setOnClickListener(this);
         confirmBt.setOnClickListener(this);
+
+        centreLine = findViewById(R.id.dl_centre_line);
     }
 
     public ConfirmDialog setHideCancelBt() {
         cancelBt.setVisibility(View.GONE);
+        centreLine.setVisibility(View.GONE);
         return this;
     }
 
