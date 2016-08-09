@@ -103,7 +103,8 @@ public class OrderDetailActivity extends BaseActivity {
         jsonOrder.setStopCity(jsonLine.getReceiverCity() + ',' + jsonLine.getReceiverAddress());
         jsonOrder.setReceiverName(jsonLine.getReceiverName());
         jsonOrder.setReceiverPhone(jsonLine.getReceiverPhone());
-        jsonOrder.setReceiverAddress(jsonLine.getReceiverAddress());
+        //数据长度不一致，不能保存此字段
+//        jsonOrder.setReceiverAddress(jsonLine.getReceiverAddress());
         jsonOrder.setConsignorName(jsonLine.getConsignorName());
         jsonOrder.setConsignorPhone(jsonLine.getConsignorPhone());
 //        jsonOrder.setcon
