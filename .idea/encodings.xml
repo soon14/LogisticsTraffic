@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/bt/zhangzy/logisticstraffic/activity/DetailCompany.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/bt/zhangzy/logisticstraffic/activity/HomeActivity.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/bt/zhangzy/logisticstraffic/activity/LoginActivity.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/bt/zhangzy/logisticstraffic/activity/LogoActivity.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/bt/zhangzy/logisticstraffic/activity/MainActivity.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/bt/zhangzy/logisticstraffic/activity/RegisterActivity.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/bt/zhangzy/logisticstraffic/activity/WelcomeActivity.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/bt/zhangzy/logisticstraffic/adapter/HomeListAdapter.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/bt/zhangzy/logisticstraffic/adapter/HomeSpreadAdapter.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/bt/zhangzy/logisticstraffic/view/FloatView.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
