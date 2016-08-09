@@ -55,7 +55,11 @@ public class WelcomeActivity extends BaseActivity {
     public void nextActivityBtn(View view) {
 //        startActivity(new Intent(this, LocationActivity.class));
         User.getInstance().setIsFirstOpen(false);
-        startActivity(LocationActivity.class);
+
+        //去掉定位页面
+//        startActivity(LocationActivity.class);
+        startActivity(HomeActivity.class);
+
         finish();
     }
 
