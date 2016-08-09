@@ -881,6 +881,8 @@ public class OrderDetailActivity extends BaseActivity {
             Product product = new Product(jsonOrder.getCompanyId());
             product.setName(jsonOrder.getCompanyName());
             gotoDetail(product);
+        }else{
+            showToast("没有接单企业");
         }
     }
 
