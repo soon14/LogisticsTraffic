@@ -473,6 +473,8 @@ public class OrderDetailActivity extends BaseActivity {
                 //如果是给物流公司下单 则不能选择车队司机
                 if (jsonOrder != null && jsonOrder.getCompanyId() != 0) {
                     findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
+                    //给物流公司下单时 不能选择用车数量
+                    findViewById(R.id.order_detail_driver_size_ed).setEnabled(false);
                 }
                 break;
             case UntreatedMode://未提交订单
@@ -902,6 +904,9 @@ public class OrderDetailActivity extends BaseActivity {
                     showToast("订单信息不完整");
                     return;
                 }
+                //如果是企业向物流公司下单 则不检测用车数量字段
+
+
 //                if (TextUtils.isEmpty(jsonOrder.getGoodsVolume()) && TextUtils.isEmpty(jsonOrder.getGoodsWeight())) {
 //                    showToast("重量和体积至少填一项");
 //                    return;
