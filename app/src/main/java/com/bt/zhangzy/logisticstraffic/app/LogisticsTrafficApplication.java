@@ -1,46 +1,33 @@
 package com.bt.zhangzy.logisticstraffic.app;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Application;
 import android.app.DatePickerDialog;
-import android.app.DownloadManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
-import com.bt.zhangzy.network.AppURL;
-import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import com.zhangzy.baidusdk.BaiduSDK;
 import com.zhangzy.baidusdk.LBSTraceSDK;
 import com.zhangzy.base.http.ImageHelper;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.LinkedHashSet;
-import java.util.Properties;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
@@ -99,146 +86,7 @@ public class LogisticsTrafficApplication extends Application {
         }
     }
 
-    Properties properties;
-    /**
-     * 升级检测
-     */
-    public void checkAppVersion() {
-        /*
-        http://www.yyt56.net:8080/conf/AndroidDriverConfig.properties
-http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
-        * */
-        String url = AppParams.DRIVER_APP ? AppURL.APP_UPDATA_DRIVER.toString() : AppURL.APP_UPDATA_COMPANY.toString();
-        HttpHelper.getInstance().get(url, new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                Log.w(TAG, "升级文件加载失败：" + request.toString(), e);
-            }
 
-            @Override
-            public void onResponse(Response response) throws IOException {
-                Log.d(TAG, "升级文件加载成功:" + response.toString());
-                properties = new Properties();
-//                properties.load(response.body().byteStream());
-                properties.load(new InputStreamReader(response.body().byteStream(), "UTF-8"));
-                Log.d(TAG, "properties = " + properties.toString());
-//                new Handler(Looper.getMainLooper(), new Handler.Callback() {
-//                    @Override
-//                    public boolean handleMessage(Message msg) {
-////                        checkAppVersionProperties(properties);
-//                        return true;
-//                    }
-//                }).sendEmptyMessage(0);
-
-            }
-        });
-    }
-
-    public void checkAppVersionProperties(Activity context) {
-        Log.i(TAG, "====check App Version Properties =========");
-        if (properties == null) {
-            Log.i(TAG, " Properties = null");
-            return;
-        }
-        if (getPackageName().equals(properties.getProperty("package"))) {
-            try {
-                PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-                int versionCode = Integer.parseInt(properties.getProperty("versionCode", "0"));
-                if (packageInfo.versionCode < versionCode) {
-                    String versionName = properties.getProperty("versionName");
-                    final String downloadUrl = properties.getProperty("url");
-                    String message = "升级内容:\n" + properties.getProperty("message");
-                    Log.i(TAG, "有新的版本 versionName=" + versionName);
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                            .setIcon(android.R.drawable.ic_dialog_info)
-                            .setTitle("请升级APP至版本" + versionName)
-                            .setMessage(message)
-                            .setCancelable(false)
-                            .setPositiveButton("升级", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    downLoadApk(downloadUrl);
-                                    dialog.cancel();
-                                }
-                            }).setNegativeButton("跳过", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-                    builder.show();
-
-
-                } else {
-                    Log.i(TAG, "没有新版本!");
-                }
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-                Log.w(TAG, e);
-            }
-        } else {
-            Log.i(TAG, getPackageName() + " != " + properties.getProperty("package") + " !!! ");
-        }
-    }
-
-    /*
-     * 从服务器中下载APK
-	 */
-    protected void downLoadApk(String url) {
-        //使用系统下载类
-        DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(url);
-        DownloadManager.Request request = new DownloadManager.Request(uri);
-        // 设置自定义下载路径和文件名
-//                                    String apkName =  "yourName" + DateUtils.getCurrentMillis() + ".apk";
-//                                    request.setDestinationInExternalPublicDir(yourPath, apkName);
-//                                    MyApplication.getInstance().setApkName(apkName);
-        //设置允许使用的网络类型，这里是移动网络和wifi都可以
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
-
-        //禁止发出通知，既后台下载，如果要使用这一句必须声明一个权限：android.permission.DOWNLOAD_WITHOUT_NOTIFICATION
-        //request.setShowRunningNotification(false);
-
-        //不显示下载界面
-        request.setVisibleInDownloadsUi(false);
-        // 设置为可被媒体扫描器找到
-        request.allowScanningByMediaScanner();
-        // 设置为可见和可管理
-        request.setVisibleInDownloadsUi(true);
-        request.setMimeType("application/cn.trinea.download.file");
-        /*设置下载后文件存放的位置,如果sdcard不可用，那么设置这个将报错，因此最好不设置如果sdcard可用，下载后的文件
-        在/mnt/sdcard/Android/data/packageName/files目录下面，如果sdcard不可用,设置了下面这个将报错，不设置，下载后的文件在/cache这个  目录下面*/
-        //request.setDestinationInExternalFilesDir(this, null, "tar.apk");
-        long id = downloadManager.enqueue(request);//TO DO 把id保存好，在接收者里面要用，最好保存在Preferences里面
-        setApkId(Long.toString(id));//TO DO 把id存储在Preferences里面
-    }
-
-    /**
-     * 设置下载APK ID
-     *
-     * @param id
-     * @return
-     */
-    public void setApkId(String id) {
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
-        if (editor.putString("APK_ID", id).commit()) {
-            Log.i(TAG, "save apk id = " + id);
-        }
-    }
-
-
-    //安装apk
-    protected void installApk(File file) {
-        Intent intent = new Intent();
-        //执行动作
-        intent.setAction(Intent.ACTION_VIEW);
-        //执行的数据类型
-        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
-        startActivity(intent);
-    }
 
     public String getVersionName() {
         if (versionName == null) {

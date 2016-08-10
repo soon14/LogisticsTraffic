@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -21,6 +20,7 @@ import android.widget.ImageView;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.app.UpgradeApp;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
@@ -80,15 +80,9 @@ public class HomeActivity extends BaseActivity {
             }
         });
 
-        getApp().checkAppVersion();
-        //一个延时任务，检测app版本；
-        new Handler(Looper.getMainLooper(), new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                getApp().checkAppVersionProperties(HomeActivity.this);
-                return true;
-            }
-        }).sendEmptyMessageDelayed(1, 2 * 1000);
+
+        new UpgradeApp(this).checkApp();
+
 
     }
 
