@@ -1015,15 +1015,14 @@ body .markdown-body
   }
 }
 </style><title>软件需求整理</title></head><body><article class="markdown-body"><h1 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>需求优先级</h1>
+<p>-1. bug修改<br />
+0. 装货逻辑优化<br />
+1. 车主&amp;司机</p>
+<pre><code>+ 订单的车辆绑定 司机绑定
++ 司机版的添加车辆
++ 专职司机（驾驶员）角色添加
+</code></pre>
 <ol>
-<li>
-<p>车主&amp;司机</p>
-<ul>
-<li>订单的车辆绑定 司机绑定</li>
-<li>司机版的添加车辆</li>
-<li>专职司机（驾驶员）角色添加</li>
-</ul>
-</li>
 <li>
 <p>登录保持系统 （ 针对司机）</p>
 <ul>
@@ -1059,7 +1058,7 @@ body .markdown-body
 <li><a href="#_4">用户系统</a><ul>
 <li><a href="#_5">用户 （已完成）</a></li>
 <li><a href="#201686">企业 （2016年8月6日）</a></li>
-<li><a href="#201686_1">司机（2016年8月6日 ）</a></li>
+<li><a href="#2016810">司机（2016年8月10日）</a></li>
 </ul>
 </li>
 <li><a href="#_6">辅助系统</a><ul>
@@ -1103,6 +1102,8 @@ body .markdown-body
 </li>
 <li><a href="#_24">后台管理系统（后台）</a><ul>
 <li><a href="#30_1">用户管理 （30%）</a></li>
+<li><a href="#201689">推荐用户统计（2016年8月9日）</a></li>
+<li><a href="#201689_1">管理员账号(2016年8月9日)</a></li>
 <li><a href="#_25">审核系统(前期人工审核,后期加入电脑审核)</a></li>
 <li><a href="#_26">订单管理系统</a></li>
 <li><a href="#_27">评价管理</a></li>
@@ -1158,48 +1159,114 @@ body .markdown-body
 </li>
 </ul>
 <h5 id="201686"><a name="user-content-201686" href="#201686" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>企业 （2016年8月6日）</h5>
-<p>等级标记<br />
-    &gt;此标记适用于有特殊需求的大型企业。<br />
-    亚新：<br />
-        1.pc版 下单时复选物流公司，选几个物流公司 创建几单。<br />
-        2.发货电话填写固话<br />
-        3.发货和收货地址 可不填<br />
-        4.发货方 直接填写物流公司电话。</p>
-<h5 id="201686_1"><a name="user-content-201686_1" href="#201686_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>司机（2016年8月6日 ）</h5>
+<p>等级标记</p>
+<blockquote>
+<p>此标记适用于有特殊需求的大型企业。</p>
+</blockquote>
+<p>亚新：<br />
+    1.pc版 下单时复选物流公司，选几个物流公司 创建几单。<br />
+    2.发货电话填写固话<br />
+    3.发货和收货地址 可不填<br />
+    4.发货方 直接填写物流公司电话。</p>
+<h5 id="2016810"><a name="user-content-2016810" href="#2016810" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>司机（2016年8月10日）</h5>
+<pre><code>说明：所有的司机注册后，默认都是专职司机。
+只要绑定了一辆车就相当于一个车主，有车主的相应功能。
+只有绑定了车辆并且付费的司机 才有接单 抢货和发布车源的权限。
+没有绑定车辆的司机只有被车主绑定到订单的功能。
+</code></pre>
 <ul>
 <li>
-<p>车主功能（收费）</p>
+<p>注册流程</p>
 <blockquote>
-<p>针对现有的司机开通添加车辆的入口，添加一个车辆收一次费用。<br />
-主要思路：<br />
-1.现有的司机角色 可以添加车辆，添加一次收一次的费用。<br />
-2.当司机接到订单后需要给订单绑定车辆和司机。<br />
-3.有一个类似车队的管理列表，管理车辆和驾驶司机的关系。</p>
+<p>说明：现有的接口不用动，主要是UI上变化。</p>
 </blockquote>
-<p>功能点：</p>
 <ul>
-<li>专职司机列表 有管理功能（增删改查）</li>
-<li>专职司机和车辆关系列表，接到订单后直接从此列表中选择司机和车辆</li>
-<li>添加车辆，并提交资料进行车辆审核。</li>
+<li>注册用户</li>
+<li>注册司机角色</li>
+<li>提交角色 审核</li>
+<li>添加车辆信息</li>
+<li>提交车辆 审核</li>
 </ul>
 </li>
 <li>
-<p>专职司机</p>
+<p>驾驶状态</p>
 <blockquote>
-<p>说明：<br />
-- 专职司机，不用提交车辆资料就可开通此功能（是否收费？）<br />
-- 需要新建一个角色，这个角色 只需要提交身份证 和 驾驶证。后期此角色可以转换为现有的司机角色。<br />
-- 专职司机 只负责位置上传 和 开车。需要有车辆信息绑定的功能。车辆信息 由车主指派<br />
-专职司机不能接单 抢单。</p>
+<p>此状态标记司机是否正在运输中。<br />
+需要在driver表中增加一个正在驾驶的车辆id字段。<br />
+当这个司机被一个车辆绑定的时候就属于驾驶中的状态。<br />
+一个司机只能开一辆车。</p>
 </blockquote>
-<p>功能点：</p>
+</li>
+<li>
+<p>车辆管理功能（车主）</p>
 <ul>
-<li>不能接单</li>
-<li>可以被添加到司机列表</li>
-<li>不可以被添加到车队</li>
-<li>角色升级功能，升级为现有的司机角色，开通车辆审核和 订单功能。</li>
-<li>开通位置上传功能</li>
+<li>添加车辆<ul>
+<li>车牌（必填 索引值）</li>
+<li>车型</li>
+<li>车长</li>
+<li>载重</li>
+<li>备注</li>
+<li>车辆照片</li>
+<li>行驶证照片</li>
 </ul>
+</li>
+<li>修改车辆信息（后台，通过申诉修改）</li>
+<li>车辆的审核状态</li>
+<li>
+<p>车辆缴费、续费</p>
+<blockquote>
+<p>说明：一个车一年120元</p>
+</blockquote>
+</li>
+<li>
+<p>车辆的缴费状态（计算到期时间）</p>
+</li>
+<li>
+<p>添加车辆驾驶员</p>
+<blockquote>
+<p>从驾驶员的列表中选择一个添加。<br />
+如果这个驾驶员已经和另一个车辆绑定，则不能添加。<br />
+如果此车辆没有付费，则不能添加驾驶员。<br />
+如果司机只有一辆车，默认绑定自己为驾驶员。</p>
+</blockquote>
+</li>
+<li>
+<p>修改车辆驾驶员</p>
+</li>
+<li>车辆是否运输中（只要绑定了订单，就算运输中）</li>
+<li>获取车辆列表</li>
+</ul>
+</li>
+<li>
+<p>驾驶员管理（平台司机账号）</p>
+<ul>
+<li>添加（只有平台注册的司机账号能被添加）</li>
+<li>删除</li>
+<li>驾驶员列表</li>
+</ul>
+</li>
+<li>
+<p>订单管理</p>
+<ul>
+<li>交易中订单 绑定车辆（只能绑定付费的车辆）</li>
+<li>订单是否绑定车辆状态标记</li>
+</ul>
+</li>
+<li>
+<p>运输中订单</p>
+<blockquote>
+<p>说明：如果司机在驾驶状态（被绑定车辆，并且此车辆也在运输中）<br />
+则此订单属于运输中订单。<br />
+这里需要驾驶员登录时获取，以便进行位置上传。</p>
+</blockquote>
+</li>
+<li>
+<p>抢单</p>
+<blockquote>
+<p>如果司机没有添加过车辆或者车辆没有付过费，都不能抢单。<br />
+如果当前司机没有空余的付费车辆，不能抢单。<br />
+如果有空余车辆，但是司机正在运输中，不能抢单。</p>
+</blockquote>
 </li>
 </ul>
 <h3 id="_6"><a name="user-content-_6" href="#_6" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>辅助系统</h3>
@@ -1552,11 +1619,40 @@ body .markdown-body
 <li>司机车辆管理<br />
     司机的多个车辆审核 管理</li>
 </ul>
+<h5 id="201689"><a name="user-content-201689" href="#201689" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>推荐用户统计（2016年8月9日）</h5>
+<ul>
+<li>推荐用户列表</li>
+<li>总的推荐人数</li>
+<li>总的付费人数</li>
+<li>时间筛选，比如这个月推荐了多少人，有多少人付费</li>
+<li>积分显示</li>
+</ul>
+<h5 id="201689_1"><a name="user-content-201689_1" href="#201689_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>管理员账号(2016年8月9日)</h5>
+<ul>
+<li>创建管理员账号</li>
+<li>账号权限设置<ul>
+<li>审核用户</li>
+<li>审核车辆</li>
+<li>管理订单</li>
+</ul>
+</li>
+<li>数据操作记录<ul>
+<li>数据库操作记录</li>
+<li>用户审核记录</li>
+<li>车辆审核记录</li>
+<li>订单管理记录</li>
+</ul>
+</li>
+</ul>
 <h5 id="_25"><a name="user-content-_25" href="#_25" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>审核系统(<em>前期人工审核,后期加入电脑审核</em>)</h5>
 <ul>
 <li>用户审核</li>
 <li>审核信息的反馈</li>
 <li>审核状态的更改</li>
+<li>司机车辆审核<ul>
+<li>司机的车辆信息审核</li>
+</ul>
+</li>
 </ul>
 <h5 id="_26"><a name="user-content-_26" href="#_26" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>订单管理系统</h5>
 <ul>
