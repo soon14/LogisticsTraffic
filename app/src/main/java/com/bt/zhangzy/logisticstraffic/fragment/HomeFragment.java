@@ -48,7 +48,7 @@ public class HomeFragment extends BaseHomeFragment {
     private HomeSpreadAdapter spreadAdapter;
     private ZrcListView listView;
     private HomeListAdapter adapter;
-    private View listHeadView;
+    private AdViewFlipper listHeadView;
     private Button locationBtn;
     //    private ViewFlipper flipper;
     //    private GestureDetector detector;
@@ -107,6 +107,23 @@ public class HomeFragment extends BaseHomeFragment {
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkActivityView();
+    }
+
+    /**
+     * 检查活动页有没有正确加载
+     */
+    private void checkActivityView() {
+        if (listHeadView != null) {
+            if (listHeadView.getChildCount() == 0) {
+                requestActivityConfig();//reload
+            }
+        }
     }
 
     @Override
@@ -208,7 +225,7 @@ public class HomeFragment extends BaseHomeFragment {
             return;
         }
 
-        AdViewFlipper adViewFlipper = (AdViewFlipper) listHeadView;
+        AdViewFlipper adViewFlipper = listHeadView;
 
         for (JsonActivityConfig.JsonActivityEntity entity : config.getList()) {
             Log.i(TAG, " entity type :" + entity.getUserType());
@@ -443,7 +460,7 @@ public class HomeFragment extends BaseHomeFragment {
 //            listHeadView = LayoutInflater.from(getActivity()).inflate(R.layout.home_list_header, null);
             //删除推荐位
             int resource =/* AppParams.DRIVER_APP ? R.layout.home_adveriting_no_tender : */R.layout.home_adveriting_item;
-            listHeadView = LayoutInflater.from(getActivity()).inflate(resource, null);
+            listHeadView = (AdViewFlipper) LayoutInflater.from(getActivity()).inflate(resource, null);
 
         }
         if (listView.getHeaderViewsCount() == 0) {
@@ -451,7 +468,7 @@ public class HomeFragment extends BaseHomeFragment {
         }
         //顶部 广告标题初始化
 //        initViewFlipper(listHeadView);
-        requestActivityConfig();
+        requestActivityConfig();//初始化
         //推荐位 初始化
 //        initSpreadViewPager(listHeadView);
 
@@ -562,22 +579,7 @@ public class HomeFragment extends BaseHomeFragment {
                     listView.setRefreshFail("加载失败");
                     //数据加载失败了，出刷新对话框
                     if (adapter == null || adapter.getCount() == 0)
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                new ConfirmDialog(getActivity())
-                                        .setMessage("数据加载失败了！")
-                                        .setConfirm("刷新")
-                                        .setHideCancelBt()
-                                        .setConfirmListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                requestGetCompanyList();// 数据获取失败后 重新加载；
-                                            }
-                                        })
-                                        .show();
-                            }
-                        });
+                        showReloadDialog();
                 }
             }
 
@@ -618,6 +620,26 @@ public class HomeFragment extends BaseHomeFragment {
             }
 
 
+        });
+    }
+
+    private void showReloadDialog() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new ConfirmDialog(getActivity())
+                        .setMessage("数据加载失败了！")
+                        .setConfirm("刷新")
+                        .setHideCancelBt()
+                        .setConfirmListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                requestGetCompanyList();// 数据获取失败后 重新加载；
+                                checkActivityView();
+                            }
+                        })
+                        .show();
+            }
         });
     }
 
