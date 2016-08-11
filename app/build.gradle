@@ -70,7 +70,7 @@ android {
                         if (outputFile != null && outputFile.name.endsWith('.apk')) {
                             // 输出apk名称为boohee_v1.0_2015-01-15_wandoujia.apk
 //                        def fileName = "YYTwllm_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
-                            def fileName = "v${defaultConfig.versionName}_${releaseTime()}/AppYiYunTong_${variant.productFlavors[0].name}_v${defaultConfig.versionName}.apk"
+                            def fileName = "v${defaultConfig.versionName}_${releaseTime()}/AppYiYunTong_${variant.productFlavors[0].name}.apk"
                             output.outputFile = new File(outputFile.parent, fileName)
                         }
                     }
