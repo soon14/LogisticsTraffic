@@ -34,6 +34,7 @@ import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 
 /**
+ * 角色资料提交
  * Created by ZhangZy on 2015/6/25.
  */
 public class DetailPhotoActivity extends BaseActivity {
