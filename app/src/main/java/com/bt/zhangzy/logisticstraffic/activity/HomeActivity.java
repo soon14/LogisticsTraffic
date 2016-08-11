@@ -395,6 +395,10 @@ public class HomeActivity extends BaseActivity {
     }
 
 
+    /**
+     * 城市列表 按钮
+     * @param view
+     */
     public void onClick_CityList(View view) {
 //        getApp().showLoacaitonList(view);
         View topView = findViewById(R.id.home_top_ly);

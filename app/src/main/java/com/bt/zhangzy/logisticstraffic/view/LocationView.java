@@ -261,6 +261,8 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
                         }
                     }
                     cityListOpen = locationList;
+
+
                 }
             }
 
@@ -454,6 +456,16 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
 
         listView = (ListView) tmp_view.findViewById(R.id.location_city_list);
 
+        setListViewAdapter();
+
+        return popupWindow;
+
+    }
+
+    /**
+     * 设置开通城市列表的数据
+     */
+    private void setListViewAdapter() {
         LocationListAdapter adapter = new LocationListAdapter(cityListOpen);
         listView.setAdapter(adapter);
         adapter.setItemOnClickCallback(new LocationListAdapter.ItemOnClickCallback() {
@@ -474,16 +486,23 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
                 }
             }
         });
-
-        return popupWindow;
-
     }
 
     public void showLoacaitonList(Activity act, View view) {
         context = act;
+
         if (rightPopupWindow == null) {
             PopupWindow popupWindow = creatPopupWindow(act);
             rightPopupWindow = popupWindow;
+        } else {
+            //检测数据
+            if (cityListOpen == null || cityListOpen.isEmpty()) {
+                requestOpenCityList();
+            }
+            //刷新数据
+            if (listView != null) {
+                setListViewAdapter();
+            }
         }
         if (rightPopupWindow.isShowing()) {
             rightPopupWindow.dismiss();
@@ -494,6 +513,7 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
             lp.alpha = 0.3f;
             shadowWindow.setAttributes(lp);
         }
+
     }
 
     /**
