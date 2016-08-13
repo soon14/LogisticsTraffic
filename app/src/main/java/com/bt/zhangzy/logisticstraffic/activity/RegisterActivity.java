@@ -37,7 +37,11 @@ public class RegisterActivity extends BaseActivity {
             type = Type.DriverType;
             setContentView(R.layout.register_beginning);
             setPageName("司机用户注册");
-
+            //默认选中
+            CheckBox confirmCk = (CheckBox) findViewById(R.id.reg_confirm_ck);
+            if(confirmCk!=null){
+                confirmCk.setChecked(true);
+            }
             String recommend = getString(R.string.register_recommend);
             Log.i(TAG, "=====>预留推荐码：" + recommend);
             //预留推荐码
