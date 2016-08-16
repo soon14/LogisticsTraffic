@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +26,7 @@ import java.util.List;
  */
 public class SourceCarListAdapter extends BaseAdapter {
     private List<JsonCar> list;
-    private LimitQueue<Integer> selectedList ;
+    private LimitQueue<Integer> selectedList;
     int needSize;
     boolean isShowLoadingStatus;
     BtnClickListener callback;
@@ -39,6 +41,11 @@ public class SourceCarListAdapter extends BaseAdapter {
         needSize = size;
     }
 
+    /**
+     * 初始化 司机状态按钮
+     *
+     * @param listener
+     */
     public void initLoadinStatus(BtnClickListener listener) {
         isShowLoadingStatus = true;
         callback = listener;
@@ -53,6 +60,34 @@ public class SourceCarListAdapter extends BaseAdapter {
         };
     }
 
+
+    CompoundButton.OnCheckedChangeListener checkListener;
+
+    /**
+     * 初始化 选择司机页面
+     */
+    public void initSelectDriver() {
+
+        checkListener = new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView != null) {
+                    if (buttonView.getTag() != null) {
+                        int pos = (int) buttonView.getTag();
+                        selectPosition(pos, isChecked);
+
+                    }
+                }
+            }
+        };
+    }
+
+    /**
+     * 判断是否选择
+     * @param position
+     * @return
+     */
     public boolean isSelect(int position) {
         Iterator<Integer> it = selectedList.iterator();
         while (it.hasNext()) {
@@ -63,7 +98,11 @@ public class SourceCarListAdapter extends BaseAdapter {
         return false;
     }
 
-    //
+    /**
+     * 选中某个位置  用于存储已选中的坐标
+     * @param position
+     * @param selected
+     */
     public void selectPosition(int position, boolean selected) {
 
         if (selected) {
@@ -130,7 +169,7 @@ public class SourceCarListAdapter extends BaseAdapter {
             holder.lengthTx = (TextView) convertView.findViewById(R.id.item_length_tx);
             holder.weightTx = (TextView) convertView.findViewById(R.id.item_weight_tx);
             holder.locationTx = (TextView) convertView.findViewById(R.id.item_location_tx);
-            holder.checkBox = (ImageView) convertView.findViewById(R.id.item_it_select_btn);
+            holder.checkBox = (CheckBox) convertView.findViewById(R.id.item_it_select_btn);
             holder.loadingStatusBt = (Button) convertView.findViewById(R.id.item_loading_status_tx);
 
         } else {
@@ -150,13 +189,21 @@ public class SourceCarListAdapter extends BaseAdapter {
         if (needSize > 0) {
             holder.loadingStatusBt.setVisibility(View.GONE);
             holder.checkBox.setVisibility(View.VISIBLE);
-            holder.checkBox.setSelected(false);
+//            holder.checkBox.setSelected(false);
+//            holder.checkBox.setChecked(false);
+            holder.checkBox.setTag(position);
+            boolean is_check = false;
             for (int s : selectedList) {
                 if (position == s) {
-                    holder.checkBox.setSelected(true);
+                    is_check = true;
+//                    holder.checkBox.setSelected(true);
+//                    holder.checkBox.setChecked(true);
                     break;
                 }
             }
+            holder.checkBox.setSelected(is_check);
+            holder.checkBox.setChecked(is_check);
+            holder.checkBox.setOnCheckedChangeListener(checkListener);
         } else if (isShowLoadingStatus) {
             holder.loadingStatusBt.setVisibility(View.VISIBLE);
 
@@ -188,7 +235,7 @@ public class SourceCarListAdapter extends BaseAdapter {
     class Holder {
         TextView nameTx, typeTx, lengthTx, weightTx, locationTx;
         ImageView headImg, recommendImg;
-        ImageView checkBox;
+        CheckBox checkBox;
         Button loadingStatusBt;
     }
 

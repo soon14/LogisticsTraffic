@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:background="@color/white">
 
     <!--<ImageView-->
@@ -74,7 +75,7 @@
             android:hint="车辆所在地" />
     </TableLayout>
 
-    <ImageView
+    <CheckBox
         android:id="@+id/item_it_select_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -204,6 +204,7 @@ public class FleetActivity extends BaseActivity {
 
         listView.setAdapter(adapterDrivers);
         if (isSelectDriver) {
+            adapterDrivers.initSelectDriver();
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
