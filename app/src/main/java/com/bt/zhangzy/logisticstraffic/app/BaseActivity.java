@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -17,7 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bt.zhangzy.logisticstraffic.activity.DetailCompany;
 import com.bt.zhangzy.logisticstraffic.activity.LoginActivity;
@@ -28,9 +26,10 @@ import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.receiver.MessageReceiver;
 import com.bt.zhangzy.logisticstraffic.view.CallPhoneDialog;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
-import com.bt.zhangzy.logisticstraffic.view.CustomProgress;
 import com.bt.zhangzy.tools.ViewUtils;
 import com.zhangzy.baidusdk.BaiduMapActivity;
+import com.zhangzy.base.app.AppProgress;
+import com.zhangzy.base.app.AppToast;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -41,10 +40,6 @@ public class BaseActivity extends FragmentActivity {
 
     public final String TAG;
     protected Context context;
-
-    CustomProgress progress;
-    Toast toast;//统一管理toast  防止一个页面上多个toast的显示；
-    String toastMsg;
 
 
     protected BaseActivity() {
@@ -149,12 +144,7 @@ public class BaseActivity extends FragmentActivity {
      * @param msg
      */
     public void showProgress(CharSequence msg) {
-        if (progress == null)
-            progress = CustomProgress.show(context, msg);
-        else {
-            progress.setMessage(msg);
-            progress.show();
-        }
+        AppProgress.getInstance().showProgress(this, msg);
     }
 
     /**
@@ -176,14 +166,7 @@ public class BaseActivity extends FragmentActivity {
      * 取消精度条
      */
     public void cancelProgress() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (progress == null)
-                    return;
-                progress.cancel();
-            }
-        });
+        AppProgress.getInstance().cancelProgress();
 
     }
 
@@ -260,12 +243,6 @@ public class BaseActivity extends FragmentActivity {
             ViewUtils.setImageUrl((ImageView) viewById, url);
     }
 
-    Runnable showToast = new Runnable() {
-        @Override
-        public void run() {
-            showToastOnUI();
-        }
-    };
 
     /**
      * 显示提示信息
@@ -273,26 +250,8 @@ public class BaseActivity extends FragmentActivity {
      * @param msg
      */
     public void showToast(String msg) {
-        if (TextUtils.isEmpty(msg))
-            return;
-        toastMsg = msg;
-        Log.d(TAG, "Toast:" + msg);
-        if (Looper.myLooper() == getMainLooper()) {
-            showToastOnUI();
-        } else {
-            runOnUiThread(showToast);
-        }
-    }
+        AppToast.getInstance().showToast(this, msg);
 
-    private void showToastOnUI() {
-        if (toast == null) {
-            toast = Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT);
-        } else {
-//            toast.cancel();
-        }
-//        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setText(toastMsg);
-        toast.show();
     }
 
 

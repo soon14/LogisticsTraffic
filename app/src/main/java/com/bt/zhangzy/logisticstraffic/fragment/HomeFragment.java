@@ -39,6 +39,7 @@ import zrc.widget.ZrcAbsListView;
 import zrc.widget.ZrcListView;
 
 /**
+ * 首页数据处理
  * Created by ZhangZy on 2015/7/2.
  */
 public class HomeFragment extends BaseHomeFragment {
@@ -590,7 +591,7 @@ public class HomeFragment extends BaseHomeFragment {
                 List<ResponseCompany> list = ParseJson_Array(json, ResponseCompany.class);
                 if (list == null || list.isEmpty()) {
                     haveNextPage = false;
-                    getHomeActivity().showToast("没有新的数据");
+//                    getHomeActivity().showToast("没有新的数据");
 //                    listView.stopLoadMore();
                     listView.setLoadMoreSuccess();
                     return;

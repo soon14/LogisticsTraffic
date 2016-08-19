@@ -4,16 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
+import android.os.IBinder;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.zhangzy.base.R;
-import com.zhangzy.base.view.CustomProgress;
 
 
 /**
@@ -24,9 +24,6 @@ public class BaseActivity extends Activity {
     public final String TAG;
     protected Context context;
 
-    CustomProgress progress;
-    Toast toast;//统一管理toast  防止一个页面上多个toast的显示；
-    String toastMsg;
 
 
     protected BaseActivity() {
@@ -62,43 +59,57 @@ public class BaseActivity extends Activity {
     }
 
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (isShouldHideKeyboard(v, ev)) {
+                hideKeyboard(v.getWindowToken());
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
     /**
-     * 显示进度条 用户不可取消
+     * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时则不能隐藏
      *
-     * @param msg
+     * @param v
+     * @param event
+     * @return
      */
-    public void showProgress(CharSequence msg) {
-        if (progress == null) {
-            progress = CustomProgress.show(context, msg);
-        } else {
-            progress.setMessage(msg);
-            progress.show();
+    private boolean isShouldHideKeyboard(View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0],
+                    top = l[1],
+                    bottom = top + v.getHeight(),
+                    right = left + v.getWidth();
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                // 点击EditText的事件，忽略它。
+                return false;
+            } else {
+                return true;
+            }
+        }
+        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
+        return false;
+    }
+
+    /**
+     * 获取InputMethodManager，隐藏软键盘
+     *
+     * @param token
+     */
+    private void hideKeyboard(IBinder token) {
+        if (token != null) {
+            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 
-    /**
-     * 显示进度条 用户不可取消
-     * 并且放到UI线程中执行
-     *
-     * @param msg
-     */
-    public void showProgressOnUI(final CharSequence msg) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                showProgress(msg);
-            }
-        });
-    }
 
-    /**
-     * 取消精度条
-     */
-    public void cancelProgress() {
-        if (progress == null)
-            return;
-        progress.cancel();
-    }
 
     public BaseActivity getActivity() {
         return this;
@@ -140,40 +151,7 @@ public class BaseActivity extends Activity {
     }
 
 
-    Runnable showToast = new Runnable() {
-        @Override
-        public void run() {
-            showToastOnUI();
-        }
-    };
 
-    /**
-     * 显示提示信息
-     *
-     * @param msg
-     */
-    public void showToast(String msg) {
-        if (TextUtils.isEmpty(msg))
-            return;
-        toastMsg = msg;
-        Log.d(TAG, "Toast:" + msg);
-        if (Looper.myLooper() == getMainLooper()) {
-            showToastOnUI();
-        } else {
-            runOnUiThread(showToast);
-        }
-    }
-
-    private void showToastOnUI() {
-        if (toast == null) {
-            toast = Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT);
-        } else {
-//            toast.cancel();
-        }
-//        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setText(toastMsg);
-        toast.show();
-    }
 
 
     public void onClick_Back(View view) {
