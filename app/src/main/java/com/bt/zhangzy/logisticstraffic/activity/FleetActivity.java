@@ -457,7 +457,7 @@ public class FleetActivity extends BaseActivity {
                             for (JsonMotocardesDriver driver : motorcadeDrivers) {
 //                            driver = motorcadeDrivers.get(k);
                                 if (driver.getDriverId() == car.getDriverId()) {
-                                    car.setMotocardesDriverId(driver.getMotorcadeId());
+                                    car.setMotocardesDriverId(driver.getId());
                                     car.setName(driver.getName());
                                     car.setPhoneNumber(driver.getPhoneNumber());
                                     break;
@@ -596,7 +596,7 @@ public class FleetActivity extends BaseActivity {
     //删除车队司机
     private void requestDelDriver(int driverId) {
 
-        HttpHelper.getInstance().del(HttpHelper.toString(AppURL.DeleteMotorcadeDriver.toString(), new String[]{"id=" + driverId}), new JsonCallback() {
+        JsonCallback jsonCallback = new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("删除成功");
@@ -608,7 +608,12 @@ public class FleetActivity extends BaseActivity {
             public void onFailed(String str) {
                 showToast("删除失败" + str);
             }
-        });
+        };
+
+//        HashMap<String ,String> params = new HashMap<>();
+//        params.put("id",String.valueOf(driverId));
+//        HttpHelper.getInstance().post(AppURL.DeleteMotorcadeDriver,params,jsonCallback);
+        HttpHelper.getInstance().del(HttpHelper.toString(AppURL.DeleteMotorcadeDriver.toString(), new String[]{"id=" + driverId}), jsonCallback);
     }
 
     public void onClick_CreateOrder(View view) {
