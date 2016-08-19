@@ -1,0 +1,86 @@
+
+接口文档规范
+===============================
+
+# Rest接口规范
+
+### 一、请求URL
+
+> http://127.0.0.1/freight/api/{实体名称}/{操作}
+
+#### 实体名称
+1. 只使用名字，避免使用动词+名词作为实体名称。
+2. 使用复数名词。
+3. 尽可能使用特定领域的名称，避免使用Object，Time之类的名称。
+
+#### 操作
+
+* 过滤
+
+使用唯一的查询参数进行过滤：
+
+>GET /cars?color=red 返回红色的cars
+
+>GET /cars?seats<=2 返回小于两座位的cars集合
+
+* 排序
+
+允许针对多个字段排序
+
+>GET /cars?sort=-manufactorer,+model
+
+* 分页
+
+使用 limit 和offset.实现分页，缺省limit=20 和offset=0；
+
+>GET /cars?offset=10&limit=5
+
+* 字段选择
+
+>GET /cars?fields=manufacturer,model,id,color
+
+HTTP请求方式
+
+|Resource|GET|POST|PUT|DELETE|
+|---|---|---|---|---|
+|/cars|返回 cars集合|创建新的资源|批量更新cars|删除所有cars
+|/cars/711|返回特定的car|该方法不允许(405)|更新一个指定的资源|删除指定资源|
+
+### 二、json返回格式定义
+```
+{
+    "code":1000,
+    "error":"",
+    "details":""
+    "data":{}
+}
+```
+### 三、代码对照表
+
+|错误代码|错误信息|详细描述|
+|---|---|---|
+|0|ok|正确返回|
+|1|System error|系统错误|
+|2|Illegal request|非法请求|
+|3|Miss required parameter (%s)|缺失必选参数 (%s)|
+|4|Param error|参数错误|
+|5|Insufficient app permissions|应用的接口访问权限受限|
+|6|IP requests out of rate limit|IP请求频次超过上限|
+|7|User requests out of rate limit|用户请求频次超过上限|
+
+### 四、接口文档模板
+
+* URL：
+* HTTP请求方式：
+* 请求参数：
+
+|  |必选|类型及范围|说明|
+|---|---|---|---|
+|参数名|是/否|数据类型|使用说明|
+
+* 注意事项
+* 返回字段说明
+
+|返回值字段|字段类型|字段说明|
+|---|---|---|---|
+| | | | |

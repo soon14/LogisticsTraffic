@@ -1,0 +1,106 @@
+系统配置
+=========================
+[TOC]
+
+## 阿里云
+
+* username：wllm168@163.com
+* password：ALIYUNyyt2016
+
+## 域名（阿里云）
+
+* username：pengchao521@msn.com
+* password：kissbaby775
+
+## 系统配置
+
+* ip：182.92.77.31
+* username：root
+* password：qwer1234~
+
+## mysql
+
+* version：mysql-server.x86_64 0:5.1.73-5.el6_6
+* username：root
+* password：1qaz2wsx3
+
+## jdk
+
+* version：jdk-8u66-linux-x64
+* path：/usr/local/jdk
+
+## tomcat
+
+* version：7.0.67
+* path：/usr/local/tomcat
+
+## 短信平台
+
+http://sms.ihuyi.cn/login.html
+
+* username：cf_yiyuntong
+* password：yyt2016
+
+## jpush
+
+https://www.jpush.cn/
+
+* username：freight
+* password：qwer1234
+
+## 微信&支付宝
+
+* ID:dev_wuliuhui@sina.com
+* 密码:dev_wuliuhui!
+
+## 支付宝验证 公钥和私钥
+
+* 公钥
+
+```
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDEnrLpEpPXlFjYe4AvAoE8nEzU
+2WVEjIlLwkoSA25vO+gf6SS920MvYkl0xW8Msn7A/4alcjZq3jHpzdrmHaoW76ke
+9p54N+8ukWNUni0AP40E4u4+BWb0ayGPuTJXK6od6FdxWfaDcIaFb46K9PlyR0KJ
+uqMmvz9BeMOcmEIdFwIDAQAB
+-----END PUBLIC KEY-----
+```
+
+* 私钥
+
+```
+-----BEGIN PRIVATE KEY-----
+MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMSesukSk9eUWNh7
+gC8CgTycTNTZZUSMiUvCShIDbm876B/pJL3bQy9iSXTFbwyyfsD/hqVyNmreMenN
+2uYdqhbvqR72nng37y6RY1SeLQA/jQTi7j4FZvRrIY+5Mlcrqh3oV3FZ9oNwhoVv
+jor0+XJHQom6oya/P0F4w5yYQh0XAgMBAAECgYBlKiJzuZNIAJQWDrVNesR0IxeF
+DLYGJykdScJCsnFH2lL82ECHTyGqZ6/T3SHeLpj5RIBK8BD/u4ODAN/4NpskeUMc
+gfijCBUqWd0OjxK7MLMlPP/H+d8T3MA5/tnft8+qYGd4BUMS9OOIZ4yHiOEuJ4Tk
+M9gA35XS9s3W9IN5wQJBAP6WzbvO7zO4dcmI6g42CemUX6v2HG1sCMdPKNJk8MJ/
+rACD90d0yTXq/EWccY4HbEy79CE6DFHNc1wZ49VcVpUCQQDFtabjjjTkcpanm24s
+1al6upbhS00RVjkb/IBLxqtVMEJJ1tBm917ShLhFa+F8A+MM58spkIukPOKa/JT4
+YxX7AkEAsP4yhZD152UkLjpLThnvhj4qzShK1x+2cqnr3WljoDSWZb1ZGopsoFl/
+jP2YTH+IoUhCDx+GFRDaVHuDU3/giQJBALIRQ3hcEkNW+V2H3hk/bt98wnuzqHve
+3pzYNG0LSDD3wBxk/1pdneeZZaYQ3gsmLQ7ojdCnwT1xIN9acomsJJUCQF3dj7/0
+ijb50JuIPah5Re4ytGcChw4UFx4N+H/iE8Nc/p7aK5ZPgV5Qhs2os8pd1GbnTVB7
+Z21A658p+Tw9nJQ=
+-----END PRIVATE KEY-----
+```
+
+```
+-----BEGIN RSA PRIVATE KEY-----
+MIICXQIBAAKBgQDEnrLpEpPXlFjYe4AvAoE8nEzU2WVEjIlLwkoSA25vO+gf6SS9
+20MvYkl0xW8Msn7A/4alcjZq3jHpzdrmHaoW76ke9p54N+8ukWNUni0AP40E4u4+
+BWb0ayGPuTJXK6od6FdxWfaDcIaFb46K9PlyR0KJuqMmvz9BeMOcmEIdFwIDAQAB
+AoGAZSoic7mTSACUFg61TXrEdCMXhQy2BicpHUnCQrJxR9pS/NhAh08hqmev090h
+3i6Y+USASvAQ/7uDgwDf+DabJHlDHIH4owgVKlndDo8SuzCzJTz/x/nfE9zAOf7Z
+37fPqmBneAVDEvTjiGeMh4jhLieE5DPYAN+V0vbN1vSDecECQQD+ls27zu8zuHXJ
+iOoONgnplF+r9hxtbAjHTyjSZPDCf6wAg/dHdMk16vxFnHGOB2xMu/QhOgxRzXNc
+GePVXFaVAkEAxbWm44405HKWp5tuLNWperqW4UtNEVY5G/yAS8arVTBCSdbQZvde
+0oS4RWvhfAPjDOfLKZCLpDzimvyU+GMV+wJBALD+MoWQ9edlJC46S04Z74Y+Ks0o
+StcftnKp691pY6A0lmW9WRqKbKBZf4z9mEx/iKFIQg8fhhUQ2lR7g1N/4IkCQQCy
+EUN4XBJDVvldh94ZP27ffMJ7s6h73t6c2DRtC0gw98AcZP9aXZ3nmWWmEN4LJi0O
+6I3Qp8E9cSDfWnKJrCSVAkBd3Y+/9Io2+dCbiD2oeUXuMrRnAocOFBceDfh/4hPD
+XP6e2iuWT4FeUIbNqLPKXdRm501Qe2dtQOufKfk8PZyU
+-----END RSA PRIVATE KEY-----
+```

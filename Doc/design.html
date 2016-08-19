@@ -1,0 +1,1768 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>body {
+  width: 45em;
+  border: 1px solid #ddd;
+  outline: 1300px solid #fff;
+  margin: 16px auto;
+}
+
+body .markdown-body
+{
+  padding: 30px;
+}
+
+@font-face {
+  font-family: fontawesome-mini;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+@font-face {
+  font-family: octicons-anchor;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+.markdown-body {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #333333;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.markdown-body a {
+  background: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline: 0;
+}
+
+.markdown-body b,
+.markdown-body strong {
+  font-weight: bold;
+}
+
+.markdown-body mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body sub,
+.markdown-body sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.markdown-body sup {
+  top: -0.5em;
+}
+.markdown-body sub {
+  bottom: -0.25em;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.markdown-body img {
+  border: 0;
+}
+
+.markdown-body hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+.markdown-body pre {
+  overflow: auto;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+.markdown-body input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body html input[disabled] {
+  cursor: default;
+}
+
+.markdown-body input {
+  line-height: normal;
+}
+
+.markdown-body input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body .codehilitetable {
+  border: 0;
+  border-spacing: 0;
+}
+
+.markdown-body .codehilitetable tr {
+  border: 0;
+}
+
+.markdown-body .codehilitetable pre,
+.markdown-body .codehilitetable div.codehilite {
+  margin: 0;
+}
+
+.markdown-body .linenos,
+.markdown-body .code,
+.markdown-body .codehilitetable td {
+  border: 0;
+  padding: 0;
+}
+
+.markdown-body td:not(.linenos) .linenodiv {
+  padding: 0 !important;
+}
+
+.markdown-body .code {
+  width: 100%;
+}
+
+.markdown-body .linenos div pre,
+.markdown-body .linenodiv pre,
+.markdown-body .linenodiv {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.markdown-body .code div pre,
+.markdown-body .code div {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.markdown-body * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font: 13px Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.4;
+}
+
+.markdown-body a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+.markdown-body a:hover,
+.markdown-body a:focus,
+.markdown-body a:active {
+  text-decoration: underline;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.markdown-body hr:before,
+.markdown-body hr:after {
+  display: table;
+  content: " ";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 1.1;
+}
+
+.markdown-body h1 {
+  font-size: 30px;
+}
+
+.markdown-body h2 {
+  font-size: 21px;
+}
+
+.markdown-body h3 {
+  font-size: 16px;
+}
+
+.markdown-body h4 {
+  font-size: 14px;
+}
+
+.markdown-body h5 {
+  font-size: 12px;
+}
+
+.markdown-body h6 {
+  font-size: 11px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body kbd {
+  background-color: #e7e7e7;
+  background-image: -moz-linear-gradient(#fefefe, #e7e7e7);
+  background-image: -webkit-linear-gradient(#fefefe, #e7e7e7);
+  background-image: linear-gradient(#fefefe, #e7e7e7);
+  background-repeat: repeat-x;
+  border-radius: 2px;
+  border: 1px solid #cfcfcf;
+  color: #000;
+  padding: 3px 5px;
+  line-height: 10px;
+  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  display: inline-block;
+}
+
+.markdown-body>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body .headeranchor-link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+}
+
+.markdown-body .headeranchor-link:focus {
+  outline: none;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.markdown-body h1 .headeranchor,
+.markdown-body h2 .headeranchor,
+.markdown-body h3 .headeranchor,
+.markdown-body h4 .headeranchor,
+.markdown-body h5 .headeranchor,
+.markdown-body h6 .headeranchor {
+  display: none;
+  color: #000;
+  vertical-align: middle;
+}
+
+.markdown-body h1:hover .headeranchor-link,
+.markdown-body h2:hover .headeranchor-link,
+.markdown-body h3:hover .headeranchor-link,
+.markdown-body h4:hover .headeranchor-link,
+.markdown-body h5:hover .headeranchor-link,
+.markdown-body h6:hover .headeranchor-link {
+  height: 1em;
+  padding-left: 8px;
+  margin-left: -30px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .headeranchor-link .headeranchor,
+.markdown-body h2:hover .headeranchor-link .headeranchor,
+.markdown-body h3:hover .headeranchor-link .headeranchor,
+.markdown-body h4:hover .headeranchor-link .headeranchor,
+.markdown-body h5:hover .headeranchor-link .headeranchor,
+.markdown-body h6:hover .headeranchor-link .headeranchor {
+  display: inline-block;
+}
+
+.markdown-body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+
+.markdown-body h4 {
+  font-size: 1.25em;
+}
+
+.markdown-body h5 {
+  font-size: 1em;
+}
+
+.markdown-body h6 {
+  font-size: 1em;
+  color: #777;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body .admonition {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+  padding: 0 15px;
+  color: #777;
+  border-left: 4px solid #ddd;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+
+.markdown-body table th {
+  font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body code,
+.markdown-body samp {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+}
+
+.markdown-body code:before,
+.markdown-body code:after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .codehilite {
+  margin-bottom: 16px;
+}
+
+.markdown-body .codehilite pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}
+
+.markdown-body .codehilite pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body pre code:before,
+.markdown-body pre code:after {
+  content: normal;
+}
+
+/* Admonition */
+.markdown-body .admonition {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid #e0e0e0;
+  border-left: 6px solid #333;
+  padding: 10px 10px 10px 30px;
+}
+
+.markdown-body .admonition table {
+  color: #333;
+}
+
+.markdown-body .admonition p {
+  padding: 0;
+}
+
+.markdown-body .admonition-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.markdown-body .admonition>.admonition-title {
+  color: #333;
+}
+
+.markdown-body .attention>.admonition-title {
+  color: #a6d796;
+}
+
+.markdown-body .caution>.admonition-title {
+  color: #d7a796;
+}
+
+.markdown-body .hint>.admonition-title {
+  color: #96c6d7;
+}
+
+.markdown-body .danger>.admonition-title {
+  color: #c25f77;
+}
+
+.markdown-body .question>.admonition-title {
+  color: #96a6d7;
+}
+
+.markdown-body .note>.admonition-title {
+  color: #d7c896;
+}
+
+.markdown-body .admonition:before,
+.markdown-body .attention:before,
+.markdown-body .caution:before,
+.markdown-body .hint:before,
+.markdown-body .danger:before,
+.markdown-body .question:before,
+.markdown-body .note:before {
+  font: normal normal 16px fontawesome-mini;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 1.5;
+  color: #333;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.markdown-body .admonition:before {
+  content: "\f056\00a0";
+  color: 333;
+}
+
+.markdown-body .attention:before {
+  content: "\f058\00a0";
+  color: #a6d796;
+}
+
+.markdown-body .caution:before {
+  content: "\f06a\00a0";
+  color: #d7a796;
+}
+
+.markdown-body .hint:before {
+  content: "\f05a\00a0";
+  color: #96c6d7;
+}
+
+.markdown-body .danger:before {
+  content: "\f057\00a0";
+  color: #c25f77;
+}
+
+.markdown-body .question:before {
+  content: "\f059\00a0";
+  color: #96a6d7;
+}
+
+.markdown-body .note:before {
+  content: "\f040\00a0";
+  color: #d7c896;
+}
+
+.markdown-body .admonition::after {
+  content: normal;
+}
+
+.markdown-body .attention {
+  border-left: 6px solid #a6d796;
+}
+
+.markdown-body .caution {
+  border-left: 6px solid #d7a796;
+}
+
+.markdown-body .hint {
+  border-left: 6px solid #96c6d7;
+}
+
+.markdown-body .danger {
+  border-left: 6px solid #c25f77;
+}
+
+.markdown-body .question {
+  border-left: 6px solid #96a6d7;
+}
+
+.markdown-body .note {
+  border-left: 6px solid #d7c896;
+}
+
+.markdown-body .admonition>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body .admonition>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* progress bar*/
+.markdown-body .progress {
+  display: block;
+  width: 300px;
+  margin: 10px 0;
+  height: 24px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #ededed;
+  position: relative;
+  box-shadow: inset -1px 1px 3px rgba(0, 0, 0, .1);
+}
+
+.markdown-body .progress-label {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  width: 100%; margin: 0;
+  line-height: 24px;
+  color: #333;
+  text-shadow: 1px 1px 0 #fefefe, -1px -1px 0 #fefefe, -1px 1px 0 #fefefe, 1px -1px 0 #fefefe, 0 1px 0 #fefefe, 0 -1px 0 #fefefe, 1px 0 0 #fefefe, -1px 0 0 #fefefe, 1px 1px 2px #000;
+  -webkit-font-smoothing: antialiased !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.markdown-body .progress-bar {
+  height: 24px;
+  float: left;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #96c6d7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -1px 0 rgba(0, 0, 0, .1);
+  background-size: 30px 30px;
+  background-image: -webkit-linear-gradient(
+    135deg, rgba(255, 255, 255, .4) 27%,
+    transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%,
+    transparent 77%, transparent
+  );
+  background-image: -moz-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -ms-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -o-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+}
+
+.markdown-body .progress-100plus .progress-bar {
+  background-color: #a6d796;
+}
+
+.markdown-body .progress-80plus .progress-bar {
+  background-color: #c6d796;
+}
+
+.markdown-body .progress-60plus .progress-bar {
+  background-color: #d7c896;
+}
+
+.markdown-body .progress-40plus .progress-bar {
+  background-color: #d7a796;
+}
+
+.markdown-body .progress-20plus .progress-bar {
+  background-color: #d796a6;
+}
+
+.markdown-body .progress-0plus .progress-bar {
+  background-color: #c25f77;
+}
+
+.markdown-body .candystripe-animate .progress-bar{
+  -webkit-animation: animate-stripes 3s linear infinite;
+  -moz-animation: animate-stripes 3s linear infinite;
+  animation: animate-stripes 3s linear infinite;
+}
+
+@-webkit-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@-moz-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+.markdown-body .gloss .progress-bar {
+  box-shadow:
+    inset 0 4px 12px rgba(255, 255, 255, .7),
+    inset 0 -12px 0 rgba(0, 0, 0, .05);
+}
+
+/* Multimarkdown Critic Blocks */
+.markdown-body .critic_mark {
+  background: #ff0;
+}
+
+.markdown-body .critic_delete {
+  color: #c82829;
+  text-decoration: line-through;
+}
+
+.markdown-body .critic_insert {
+  color: #718c00 ;
+  text-decoration: underline;
+}
+
+.markdown-body .critic_comment {
+  color: #8e908c;
+  font-style: italic;
+}
+
+.markdown-body .headeranchor {
+  font: normal normal 16px octicons-anchor;
+  line-height: 1;
+  display: inline-block;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.headeranchor:before {
+  content: '\f05c';
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 4px 0.25em -20px;
+  vertical-align: middle;
+}
+
+/* Media */
+@media only screen and (min-width: 480px) {
+  .markdown-body {
+    font-size:14px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .markdown-body {
+    font-size:16px;
+  }
+}
+
+@media print {
+  .markdown-body * {
+    background: transparent !important;
+    color: black !important;
+    filter:none !important;
+    -ms-filter: none !important;
+  }
+
+  .markdown-body {
+    font-size:12pt;
+    max-width:100%;
+    outline:none;
+    border: 0;
+  }
+
+  .markdown-body a,
+  .markdown-body a:visited {
+    text-decoration: underline;
+  }
+
+  .markdown-body .headeranchor-link {
+    display: none;
+  }
+
+  .markdown-body a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  .markdown-body abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .markdown-body .ir a:after,
+  .markdown-body a[href^="javascript:"]:after,
+  .markdown-body a[href^="#"]:after {
+    content: "";
+  }
+
+  .markdown-body pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .markdown-body pre,
+  .markdown-body blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  .markdown-body .progress,
+  .markdown-body .progress-bar {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .markdown-body .progress {
+    border: 1px solid #ddd;
+  }
+
+  .markdown-body .progress-bar {
+    height: 22px;
+    border-right: 1px solid #ddd;
+  }
+
+  .markdown-body tr,
+  .markdown-body img {
+    page-break-inside: avoid;
+  }
+
+  .markdown-body img {
+    max-width: 100% !important;
+  }
+
+  .markdown-body p,
+  .markdown-body h2,
+  .markdown-body h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .markdown-body h2,
+  .markdown-body h3 {
+    page-break-after: avoid;
+  }
+}
+</style><title>design</title></head><body><article class="markdown-body"><h1 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>需求优先级</h1>
+<p>-1. bug修改<br />
+0. 装货逻辑优化<br />
+1. 车主&amp;司机</p>
+<pre><code>+ 订单的车辆绑定 司机绑定
++ 司机版的添加车辆
++ 专职司机（驾驶员）角色添加
+</code></pre>
+<ol>
+<li>
+<p>登录保持系统 （ 针对司机）</p>
+<ul>
+<li>心跳包 （5分钟？）</li>
+<li>掉线短信提醒</li>
+</ul>
+</li>
+<li>
+<p>消息中心</p>
+</li>
+<li>
+<p>钱包功能</p>
+</li>
+<li>报价系统</li>
+<li>运费系统</li>
+<li>信息费系统</li>
+</ol>
+<h1 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>软件需求整理</h1>
+<blockquote>
+<p>更新日期：2016年8月6日 @张智勇<br />
+  增加 车辆绑定需求；新角色 驾驶员需求；订单绑定车辆需求；<br />
+更新日期：2016年8月4日 @张智勇<br />
+  增加 司机的登录保持系统、提醒系统<br />
+更新日期：2016年7月30日 @张智勇 <br />
+  框架梳理，区分客户端和后台，整理现有需求的优先级等</p>
+<p><em>更新日期：2016年5月17日 @张智勇</em></p>
+</blockquote>
+<div class="toc">
+<ul>
+<li><a href="#_1">需求优先级</a></li>
+<li><a href="#_2">软件需求整理</a><ul>
+<li><a href="#_3">系统</a><ul>
+<li><a href="#_4">用户系统</a><ul>
+<li><a href="#_5">用户 （已完成）</a></li>
+<li><a href="#201686">企业 （2016年8月6日）</a></li>
+<li><a href="#2016810">司机（2016年8月10日）</a></li>
+</ul>
+</li>
+<li><a href="#_6">辅助系统</a><ul>
+<li><a href="#_7">评价系统</a></li>
+<li><a href="#30">照片上传和管理（完成30%）</a></li>
+<li><a href="#_8">店铺搜索</a></li>
+<li><a href="#201684">登录保持系统（2016年8月4日）</a></li>
+</ul>
+</li>
+<li><a href="#_9">车辆管理</a></li>
+<li><a href="#_10">车队</a></li>
+<li><a href="#_11">订单系统</a><ul>
+<li><a href="#60">订单（完成60%）</a></li>
+<li><a href="#-201686">订单-车辆的绑定 （2016年8月6日）</a></li>
+<li><a href="#50">货源（50%）</a></li>
+<li><a href="#3">报价系统（优先级3级）</a></li>
+</ul>
+</li>
+<li><a href="#4">钱包系统 （优先级 4级）</a><ul>
+<li><a href="#_12">充值功能</a></li>
+<li><a href="#_13">提现功能</a></li>
+<li><a href="#_14">消费功能</a></li>
+<li><a href="#_15">交易密码</a></li>
+<li><a href="#_16">账单</a></li>
+<li><a href="#_17">表结构参考</a></li>
+</ul>
+</li>
+<li><a href="#_18">消息中心</a><ul>
+<li><a href="#_19">系统消息</a></li>
+<li><a href="#_20">订单消息</a></li>
+<li><a href="#_21">钱包消息</a></li>
+<li><a href="#_22">私信</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_23">客户端</a><ul>
+<li><a href="#android-ios">Android &amp; iOS</a></li>
+<li><a href="#pc-web">PC &amp; web</a></li>
+</ul>
+</li>
+<li><a href="#_24">后台管理系统（后台）</a><ul>
+<li><a href="#30_1">用户管理 （30%）</a></li>
+<li><a href="#201689">推荐用户统计（2016年8月9日）</a></li>
+<li><a href="#201689_1">管理员账号(2016年8月9日)</a></li>
+<li><a href="#_25">审核系统(前期人工审核,后期加入电脑审核)</a></li>
+<li><a href="#_26">订单管理系统</a></li>
+<li><a href="#_27">评价管理</a></li>
+<li><a href="#_28">交易管理</a></li>
+<li><a href="#_29">地区管理</a></li>
+<li><a href="#_30">软件版本管理</a></li>
+<li><a href="#_31">车辆管理</a></li>
+<li><a href="#_32">活动页配置</a></li>
+<li><a href="#201684_1">提醒系统 （2016年8月4日）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p><em>更新日期：2016年5月18日</em><br />
+<a href="#20160518-1">车辆发布</a><br />
+<a href="#20160518-2">车队</a><br />
+<a href="#20160518-3">店铺搜索</a></p>
+<h2 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>系统</h2>
+<pre><code>整体的系统分类说明
+</code></pre>
+<h3 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>用户系统</h3>
+<pre><code>&gt;用户、角色等相关功能
+</code></pre>
+<h5 id="_5"><a name="user-content-_5" href="#_5" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>用户 （已完成）</h5>
+<ul>
+<li>登录</li>
+<li>注册</li>
+<li>忘记密码（短信验证码登录）</li>
+<li>修改密码</li>
+<li>客户端本地记住密码</li>
+<li>客户端本地注销登录</li>
+<li>个人信息修改</li>
+<li>角色信息修改<ul>
+<li>物流<ul>
+<li>资质信息 上传 审核 (审核后不可修改,特殊情况打客服 后台修改)</li>
+<li>店铺信息 编辑 (用户软件首页的显示)</li>
+</ul>
+</li>
+<li>企业<ul>
+<li>资质信息 上传 审核(特殊情况 打电话 客服修改)</li>
+<li>标书编辑 上传</li>
+</ul>
+</li>
+<li>司机<ul>
+<li>司机资质信息 上传 审核(特殊情况 打电话 客服修改)</li>
+<li>车辆信息 上传 审核 增加</li>
+<li>车辆 管理</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="201686"><a name="user-content-201686" href="#201686" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>企业 （2016年8月6日）</h5>
+<ul>
+<li>等级标记 </li>
+</ul>
+<blockquote>
+<p>此标记适用于有特殊需求的大型企业。</p>
+</blockquote>
+<pre><code> 亚新：
+    1.pc版 下单时复选物流公司，选几个物流公司 创建几单。
+    2.发货电话填写固话
+    3.发货和收货地址 可不填
+    4.发货方 直接填写物流公司电话。
+</code></pre>
+<ul>
+<li>子账号创建<pre><code>用于企业方多个账号登录,不同的账号分配不同的职能。
+主账号能看到所有子账号的订单。
+发单等操作 有子账号完成。
+</code></pre>
+</li>
+</ul>
+<h5 id="2016810"><a name="user-content-2016810" href="#2016810" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>司机（2016年8月10日）</h5>
+<pre><code>说明：所有的司机注册后，默认都是专职司机。
+只要绑定了一辆车就相当于一个车主，有车主的相应功能。
+只有绑定了车辆并且付费的司机 才有接单 抢货和发布车源的权限。
+没有绑定车辆的司机只有被车主绑定到订单的功能。
+</code></pre>
+<ul>
+<li>
+<p>注册流程</p>
+<blockquote>
+<p>说明：现有的接口不用动，主要是UI上变化。</p>
+</blockquote>
+<ul>
+<li>注册用户</li>
+<li>注册司机角色</li>
+<li>提交角色 审核</li>
+<li>添加车辆信息</li>
+<li>提交车辆 审核</li>
+</ul>
+</li>
+<li>
+<p>驾驶状态</p>
+<blockquote>
+<p>此状态标记司机是否正在运输中。<br />
+需要在driver表中增加一个正在驾驶的车辆id字段。<br />
+当这个司机被一个车辆绑定的时候就属于驾驶中的状态。<br />
+一个司机只能开一辆车。</p>
+</blockquote>
+</li>
+<li>
+<p>车辆管理功能（车主）</p>
+<ul>
+<li>添加车辆<ul>
+<li>车牌（必填 索引值）</li>
+<li>车型</li>
+<li>车长</li>
+<li>载重</li>
+<li>备注</li>
+<li>车辆照片</li>
+<li>行驶证照片</li>
+</ul>
+</li>
+<li>修改车辆信息（后台，通过申诉修改）</li>
+<li>车辆的审核状态</li>
+<li>
+<p>车辆缴费、续费</p>
+<blockquote>
+<p>说明：一个车一年120元</p>
+</blockquote>
+</li>
+<li>
+<p>车辆的缴费状态（计算到期时间）</p>
+</li>
+<li>
+<p>添加车辆驾驶员</p>
+<blockquote>
+<p>从驾驶员的列表中选择一个添加。<br />
+如果这个驾驶员已经和另一个车辆绑定，则不能添加。<br />
+如果此车辆没有付费，则不能添加驾驶员。<br />
+如果司机只有一辆车，默认绑定自己为驾驶员。</p>
+</blockquote>
+</li>
+<li>
+<p>修改车辆驾驶员</p>
+</li>
+<li>车辆是否运输中（只要绑定了订单，就算运输中）</li>
+<li>获取车辆列表</li>
+</ul>
+</li>
+<li>
+<p>驾驶员管理（平台司机账号）</p>
+<ul>
+<li>添加（只有平台注册的司机账号能被添加）</li>
+<li>删除</li>
+<li>驾驶员列表</li>
+</ul>
+</li>
+<li>
+<p>订单管理</p>
+<ul>
+<li>交易中订单 绑定车辆（只能绑定付费的车辆）</li>
+<li>订单是否绑定车辆状态标记</li>
+</ul>
+</li>
+<li>
+<p>运输中订单</p>
+<blockquote>
+<p>说明：如果司机在驾驶状态（被绑定车辆，并且此车辆也在运输中）<br />
+则此订单属于运输中订单。<br />
+这里需要驾驶员登录时获取，以便进行位置上传。</p>
+</blockquote>
+</li>
+<li>
+<p>抢单</p>
+<blockquote>
+<p>如果司机没有添加过车辆或者车辆没有付过费，都不能抢单。<br />
+如果当前司机没有空余的付费车辆，不能抢单。<br />
+如果有空余车辆，但是司机正在运输中，不能抢单。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="_6"><a name="user-content-_6" href="#_6" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>辅助系统</h3>
+<pre><code>&gt;系统功能，照片，配置文件等
+</code></pre>
+<h5 id="_7"><a name="user-content-_7" href="#_7" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>评价系统</h5>
+<ul>
+<li>评价内容列表<ul>
+<li>内容</li>
+<li>被评价者</li>
+<li>评价者</li>
+<li>等级 评分</li>
+<li>时间</li>
+</ul>
+</li>
+<li>评价对象<ul>
+<li>司机 =&gt; 物流</li>
+<li>物流 =&gt; 司机</li>
+<li>司机 =&gt; 企业</li>
+<li>企业 =&gt; 司机</li>
+</ul>
+</li>
+<li>评分计算<br />
+<code>评分的计算公式 现在是求平均值</code></li>
+</ul>
+<h5 id="30"><a name="user-content-30" href="#30" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>照片上传和管理（完成30%）</h5>
+<ul>
+<li>照片的上传</li>
+<li>照片的删除</li>
+<li>重复照片的判断（预留）</li>
+<li>无效照片的判断（没有在数据库中）</li>
+</ul>
+<h5 id="_8"><a name="user-content-_8" href="#_8" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>店铺搜索</h5>
+<pre><code>信息部搜索 优化用户搜索信息部的过程
+</code></pre>
+<ul>
+<li>店铺名称搜索 模糊匹配</li>
+<li>常发线路搜索</li>
+<li>位置搜索 (软件首页的显示列表可用此搜索结果)</li>
+<li>点击量排序</li>
+<li>好评排序</li>
+<li>平台推荐排序(收推广费)</li>
+</ul>
+<h5 id="201684"><a name="user-content-201684" href="#201684" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>登录保持系统（2016年8月4日）</h5>
+<pre><code>给司机版用。用于保证司机的线路完整性。维护司机上线的频率。
+</code></pre>
+<ul>
+<li>增加用户的状态<ul>
+<li>在线</li>
+<li>离线</li>
+<li>退出</li>
+<li></li>
+</ul>
+</li>
+<li>心跳包监测</li>
+<li>司机用户的状态显示</li>
+<li>退出登录的状态</li>
+</ul>
+<h3 id="_9"><a name="user-content-_9" href="#_9" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>车辆管理</h3>
+<pre><code>司机用户将车辆发布出来，让信息部能够查看到，并进行加入车队的操作。
+</code></pre>
+<ul>
+<li>流程<ol>
+<li>司机编辑车辆信息并上传</li>
+<li>服务器审核车辆信息</li>
+<li>司机将审核通过的车辆信息,发布到车源平台</li>
+<li>信息部查看车源平台,联系司机或 将司机加入信息部的车队</li>
+</ol>
+</li>
+<li>接口列表<ul>
+<li>车辆发布接口</li>
+<li>车源列表 加筛选字段</li>
+<li>车源详细信息(包括 司机 车辆 等信息)</li>
+</ul>
+</li>
+</ul>
+<h5 id="20160518-2" ></h5>
+
+<h3 id="_10"><a name="user-content-_10" href="#_10" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>车队</h3>
+<pre><code>车队是由企业 或 信息部 创建的，可通过此功能实现小范围的抢单、接单操作。
+</code></pre>
+<ul>
+<li>车队列表获取（二级列表）（2016年8月8日）<ul>
+<li>车队中司机列表<ul>
+<li>显示司机名字</li>
+<li>司机头像</li>
+<li>司机的电话</li>
+<li>车辆数</li>
+</ul>
+</li>
+<li>其中一个司机的车辆列表<ul>
+<li>显示车牌</li>
+<li>类型</li>
+<li>车长</li>
+<li>载重</li>
+<li>位置</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>成员添加</li>
+<li>成员删除</li>
+<li>我加入的车队列表（只显示司机的信息，不可打电话）</li>
+</ul>
+<h3 id="_11"><a name="user-content-_11" href="#_11" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>订单系统</h3>
+<pre><code>&gt;软件的核心业务逻辑
+</code></pre>
+<h5 id="60"><a name="user-content-60" href="#60" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>订单（完成60%）</h5>
+<ul>
+<li>订单创建</li>
+<li>订单分配<ul>
+<li>企业 =&gt; 物流</li>
+<li>企业 =&gt; 司机</li>
+<li>物流 =&gt; 司机</li>
+<li>企业 =&gt; 物流平台</li>
+<li>企业 =&gt; 货源平台 车队司机可见</li>
+<li>物流 =&gt; 货源平台 车队司机可见</li>
+<li>物流 =&gt; 货源平台 所有司机可见</li>
+</ul>
+</li>
+<li>
+<p>订单编辑</p>
+<blockquote>
+<p>北工提出的需求，用户创建出订单后，需要有个修改或者删除的入口，可修改的信息 待定。北工的意见是都可以修改。</p>
+</blockquote>
+</li>
+<li>
+<p>物流抢单(未实现)</p>
+<ol>
+<li>物流抢单 提交报价</li>
+<li>企业查看并选择物流报价</li>
+<li>物流/企业确认报价信息</li>
+</ol>
+</li>
+<li>call车(将订单发布到货源平台) (附加报价信息)<ul>
+<li>企业 call 车队司机</li>
+<li>物流 call 车队司机</li>
+<li>物流 call 平台司机</li>
+</ul>
+</li>
+<li>司机抢单(返回报价信息)<ul>
+<li>抢车队的货源平台</li>
+<li>抢公共的货源平台</li>
+</ul>
+</li>
+<li>
+<p>分配司机 选择抢单司机(开始交易 订单进入交易状态)</p>
+<ol>
+<li>查看抢单司机列表(附带司机的报价)</li>
+<li>选择司机</li>
+<li>计算报价信息，</li>
+</ol>
+<blockquote>
+<p>如果有信息费，这里应该暂扣司机的信息费。等订单结束后在结算到物流公司。<br />
+这里如果有多个报价，如何统一司机的报价？？建议弹出最终价格对话框。</p>
+</blockquote>
+</li>
+<li>
+<p>司机装货 </p>
+</li>
+<li>确认司机装货<ul>
+<li>企业确认司机装货</li>
+<li>物流确认司机装货</li>
+</ul>
+</li>
+<li>确认收货人收货<ul>
+<li>验证码发送</li>
+<li>验证码验证</li>
+<li>应用内提醒 验证（未实现）</li>
+</ul>
+</li>
+<li>
+<p>订单撤回</p>
+<blockquote>
+<p>订单在没有交易之前 可以取消（只有企业有权限）<br />
+订单如果call车了，司机也抢单了。前期先实现一个司机的订单取消功能。<br />
+后期实现多个司机的情况下，根据司机的同意情况，自动拆分订单。<br />
+- 订单作废</p>
+<p>订单在没有交易之前可以由用户自行作废，进入交易之后，需要通过客服操作，作废该订单。</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="-201686"><a name="user-content--201686" href="#-201686" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>订单-车辆的绑定 （2016年8月6日）</h5>
+<blockquote>
+<p>说明：此功能用于将车辆和订单绑定在一起，让企业或者物流公司 能看到 这单是那辆车在跑，这个车是哪个司机在开。</p>
+</blockquote>
+<p>功能点：</p>
+<ul>
+<li>当物流或企业确认司机后（订单进入交易中的状态），由司机用户绑定此订单开那辆车（如果司机没有多个车辆，默认绑定注册时审核的那个）</li>
+<li>订单和 司机的车辆绑定</li>
+<li>车辆和 驾驶司机绑定</li>
+<li>查询此订单下的车辆 以及驾驶车辆的司机</li>
+</ul>
+<h5 id="50"><a name="user-content-50" href="#50" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>货源（50%）</h5>
+<ul>
+<li>平台货源</li>
+<li>车队货源</li>
+<li>货源筛选（高级搜索模式）<ul>
+<li>线路</li>
+<li>货物类型</li>
+<li>时间筛选</li>
+<li>车型筛选</li>
+</ul>
+</li>
+</ul>
+<h5 id="3"><a name="user-content-3" href="#3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>报价系统（优先级3级）</h5>
+<ul>
+<li>司机报价<ul>
+<li>物流公司/企业 call车之前 定价 =&gt; 司机直接抢单</li>
+<li>物流公司/企业 没有给定价 =&gt; 司机抢单时要填写报价</li>
+<li>物流公司/企业 根据抢单列表 选择司机</li>
+</ul>
+</li>
+<li>物流报价<ol>
+<li>企业将订单发布到物流平台</li>
+<li>物流根据订单 填写报价 并抢单</li>
+<li>企业在抢单列表里选择 物流公司</li>
+<li>订单交给物流公司处理 </li>
+</ol>
+</li>
+</ul>
+<h3 id="4"><a name="user-content-4" href="#4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>钱包系统 （优先级 4级）</h3>
+<h5 id="_12"><a name="user-content-_12" href="#_12" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>充值功能</h5>
+<p>充值渠道:<br />
+    - 支付宝<br />
+    - 微信<br />
+    - 银联<br />
+    - 银行卡转账</p>
+<h5 id="_13"><a name="user-content-_13" href="#_13" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>提现功能</h5>
+<pre><code>`优先级低,先实现其他功能`
+</code></pre>
+<p>提现方式:<br />
+    - 支付宝<br />
+    - 微信<br />
+    - 银行卡</p>
+<h5 id="_14"><a name="user-content-_14" href="#_14" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>消费功能</h5>
+<p>消费方式:<br />
+    - 充值会员 <br />
+        用余额里的金额购买会员<br />
+    - 运费支付<br />
+        * 企业 =&gt; 信息部 =&gt; 司机 <br />
+<code>通过报价结算，信息部 赚取 差价</code><br />
+        * 企业 =&gt; 司机<br />
+<code>根据每个司机的报价 支付费用</code><br />
+    - 信息费支付<br />
+<code>信息部直接收取  按次收费</code><br />
+        流程:<br />
+        1. 司机抢单时 先支付信息费(由信息部自己设定信息费金额)(先交到平台,平台代收)<br />
+        2. 信息部 确认司机装货后 将司机缴纳的信息费 转给 信息部(如果司机没有去装货,这部分费用也不退回)<br />
+        3. 将未抢到订单司机的信息费 退回 (信息部确认司机后)<br />
+    - <em>违规费用支付</em><br />
+<code>功能待定</code><br />
+    - 用户之间转账<br />
+    - </p>
+<h5 id="_15"><a name="user-content-_15" href="#_15" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>交易密码</h5>
+<ul>
+<li>密码串</li>
+<li>密码类型 （数字、手势、指纹等）</li>
+<li>密码创建、修改接口</li>
+<li>密码验证接口</li>
+</ul>
+<h5 id="_16"><a name="user-content-_16" href="#_16" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>账单</h5>
+<blockquote>
+<p>账户变动的记录</p>
+</blockquote>
+<h5 id="_17"><a name="user-content-_17" href="#_17" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>表结构参考</h5>
+<ul>
+<li>用户id <ul>
+<li>消费金额 （+充值 -消费）</li>
+<li>消费描述 （文字描述此次消费）</li>
+<li>消费对象 （userId、公司等）</li>
+<li>消费方式 （来源描述 如支付宝、微信、银行卡、余额等）</li>
+<li>类型 （流向描述 如会员购买、运费支付、转账、信息费等）</li>
+<li>消费时间</li>
+<li>订单号</li>
+<li>对应商户的订单号</li>
+<li>状态描述（文字描述）</li>
+<li>消费状态 <ul>
+<li>创建</li>
+<li>处理中</li>
+<li>成功</li>
+<li>消费密码验证失败（多次）</li>
+<li>余额不足</li>
+<li>其他错误</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="_18"><a name="user-content-_18" href="#_18" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>消息中心</h3>
+<h5 id="_19"><a name="user-content-_19" href="#_19" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>系统消息</h5>
+<ul>
+<li>升级公告</li>
+<li>活动公告</li>
+<li>系统通知</li>
+</ul>
+<h5 id="_20"><a name="user-content-_20" href="#_20" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>订单消息</h5>
+<ul>
+<li>订单创建</li>
+<li>订单分配</li>
+<li>订单状态更改</li>
+<li>订单资料变更</li>
+</ul>
+<h5 id="_21"><a name="user-content-_21" href="#_21" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>钱包消息</h5>
+<ul>
+<li>余额变动</li>
+<li>充值</li>
+<li>消费</li>
+</ul>
+<h5 id="_22"><a name="user-content-_22" href="#_22" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>私信</h5>
+<ul>
+<li>用户之间发的私信</li>
+</ul>
+<h2 id="_23"><a name="user-content-_23" href="#_23" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>客户端</h2>
+<pre><code>客户端功能需求整理 包括 Android iOS PC
+</code></pre>
+<h5 id="android-ios"><a name="user-content-android-ios" href="#android-ios" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Android &amp; iOS</h5>
+<ul>
+<li>打电话功能</li>
+<li>定位功能</li>
+<li>位置上传功能（司机版）</li>
+</ul>
+<h5 id="pc-web"><a name="user-content-pc-web" href="#pc-web" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>PC &amp; web</h5>
+<ul>
+<li>订单详情打印功能</li>
+<li>企业的定制需求实现</li>
+</ul>
+<h2 id="_24"><a name="user-content-_24" href="#_24" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>后台管理系统（后台）</h2>
+<h5 id="30_1"><a name="user-content-30_1" href="#30_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>用户管理 （30%）</h5>
+<ul>
+<li>账号信息查看</li>
+<li>账号冻结</li>
+<li>账号删除</li>
+<li>
+<p>子账号创建<br />
+    &gt; 主要针对企业用户, 相当于部门领导人 给 员工分配工作账号。<br />
+    &gt; 领导人账号 可以查看所有的员工账号名下的订单<br />
+    &gt; 员工之间不能互相查看订单<br />
+    &gt; 员工账号不能修改 角色信息</p>
+</li>
+<li>
+<p>角色管理(<em>类似于审核 考虑是否和审核合并</em>)</p>
+<ul>
+<li>信息部的显示与否(主要是针对首页的列表显示)</li>
+<li>角色信息的真实性查询</li>
+<li>角色信息的管理</li>
+<li>角色信息统计</li>
+</ul>
+</li>
+<li>司机车辆管理<br />
+    司机的多个车辆审核 管理</li>
+</ul>
+<h5 id="201689"><a name="user-content-201689" href="#201689" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>推荐用户统计（2016年8月9日）</h5>
+<ul>
+<li>推荐用户列表</li>
+<li>总的推荐人数</li>
+<li>总的付费人数</li>
+<li>时间筛选，比如这个月推荐了多少人，有多少人付费</li>
+<li>积分显示</li>
+</ul>
+<h5 id="201689_1"><a name="user-content-201689_1" href="#201689_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>管理员账号(2016年8月9日)</h5>
+<ul>
+<li>创建管理员账号</li>
+<li>账号权限设置<ul>
+<li>审核用户</li>
+<li>审核车辆</li>
+<li>管理订单</li>
+</ul>
+</li>
+<li>数据操作记录<ul>
+<li>数据库操作记录</li>
+<li>用户审核记录</li>
+<li>车辆审核记录</li>
+<li>订单管理记录</li>
+</ul>
+</li>
+</ul>
+<h5 id="_25"><a name="user-content-_25" href="#_25" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>审核系统(<em>前期人工审核,后期加入电脑审核</em>)</h5>
+<ul>
+<li>用户审核</li>
+<li>审核信息的反馈</li>
+<li>审核状态的更改</li>
+<li>司机车辆审核<ul>
+<li>司机的车辆信息审核</li>
+</ul>
+</li>
+</ul>
+<h5 id="_26"><a name="user-content-_26" href="#_26" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>订单管理系统</h5>
+<ul>
+<li>订单查看 搜索</li>
+<li>订单的状态修改(用于客服解决纠纷)</li>
+<li>订单的删除 防止刷单 或恶意订单</li>
+<li>订单的信息统计</li>
+<li>货源列表 查看 搜索</li>
+<li>货源撤销 (客服解决纠纷)</li>
+</ul>
+<h5 id="_27"><a name="user-content-_27" href="#_27" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>评价管理</h5>
+<ul>
+<li>评价列表 查看 搜索</li>
+<li>评价内容关键字审核 或者是屏蔽</li>
+<li>评价中评分的计算方式</li>
+</ul>
+<h5 id="_28"><a name="user-content-_28" href="#_28" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>交易管理</h5>
+<ul>
+<li>用户的充值记录 查看 搜索</li>
+<li>会员的购买记录 查看 搜索</li>
+<li>用户的消费记录<ul>
+<li>信息部 信息费</li>
+<li>运输费用</li>
+<li>会员购买费用</li>
+</ul>
+</li>
+<li>退款</li>
+<li>用户提现记录</li>
+<li>资金流向统计(或者说消费统计)</li>
+</ul>
+<h5 id="_29"><a name="user-content-_29" href="#_29" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>地区管理</h5>
+<ul>
+<li>开通的地区管理 增加 删除</li>
+<li>地区信息的录入(软件欢迎页上显示)</li>
+</ul>
+<h5 id="_30"><a name="user-content-_30" href="#_30" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>软件版本管理</h5>
+<ul>
+<li>
+<p>Android<br />
+<code>有司机 和 企业版 两个版本</code></p>
+<ul>
+<li>版本号</li>
+<li>版本名</li>
+<li>版本说明</li>
+<li>更新内容说明</li>
+<li>安装包上传</li>
+</ul>
+</li>
+<li>
+<p>iOS<br />
+<code>跳转到苹果商店</code></p>
+</li>
+<li>
+<p>PC<br />
+<code>针对企业和物流用户</code></p>
+</li>
+</ul>
+<h5 id="_31"><a name="user-content-_31" href="#_31" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>车辆管理</h5>
+<ul>
+<li>车辆信息查询<ul>
+<li>车牌查询</li>
+<li>车主名字查询</li>
+<li>车型查询</li>
+<li>车辆状态查询</li>
+<li>车队查询</li>
+</ul>
+</li>
+<li>车辆状态修改<ul>
+<li>审核状态</li>
+<li>冻结</li>
+<li>封号</li>
+</ul>
+</li>
+<li>车辆信息统计<ul>
+<li>车型统计</li>
+<li>运输状态统计</li>
+<li>位置统计</li>
+</ul>
+</li>
+</ul>
+<h5 id="_32"><a name="user-content-_32" href="#_32" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>活动页配置</h5>
+<pre><code>&gt;
+</code></pre>
+<h5 id="201684_1"><a name="user-content-201684_1" href="#201684_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>提醒系统 （2016年8月4日）</h5>
+<pre><code>用户提醒用户操作app ，完善用户体验。
+</code></pre>
+<ul>
+<li>短信<ul>
+<li>当订单分配给司机，监测到司机不在线。则给用户发送短信，提醒用户上线查看。</li>
+<li>在运输中的司机，监测到司机不在线。则给用户发送短信提醒。</li>
+</ul>
+</li>
+<li>Jpush推送<ul>
+<li>订单分配给物流公司时</li>
+<li>订单call车时，给call车的群体发送推送。</li>
+<li>司机抢单时，给物流公司或企业发送推送。</li>
+<li>物流公司或企业确认司机时，给司机发送推送。</li>
+<li>司机装货后，给企业发送推送。</li>
+<li>企业确认司机装货后，给司机发推送</li>
+<li>司机发送验证收货时，给企业发推送。</li>
+</ul>
+</li>
+</ul></article></body></html>

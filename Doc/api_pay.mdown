@@ -1,0 +1,66 @@
+支付接口
+=========================
+[TOC]
+
+
+* [微信支付业务流程](https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=8_3)
+* [统一下单API文档](https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=9_1)
+
+# 微信支付
+
+* URL：/pay/weixin_submit
+* HTTP请求方式：get
+* 请求参数：
+
+|  |字段名称|必选|类型及范围|说明|
+|---|---|---|---|---|
+|订单标题|title|是|string||
+|订单详情|detail|是|string||
+|用户Id|userId|是|integer|返回的用户Id包含yyyyMMdd前缀|
+|价格|amount|是|int|单位：分|
+|ip地址|from|是|string|发送订单的手机的ip地址|
+
+* 注意事项
+* 返回字段说明
+
+|返回值字段|字段类型|字段说明|
+|---|---|---|---|
+|WeixinPay对象|||
+
+# 支付宝支付
+
+* URL：/pay/alipay_submit
+* HTTP请求方式：get
+* 请求参数：
+
+|  |字段名称|必选|类型及范围|说明|
+|---|---|---|---|---|
+|用户id|userId|是|string||
+|商品标题|subject|是|string||
+|商品详情|body|是|string||
+|商品金额|total_fee|是|string||
+
+* 注意事项
+* 返回字段说明
+
+|返回值字段|字段类型|字段说明|
+|---|---|---|---|
+|Alipay对象|alipay||
+|Member对象|member||
+
+# 状态查询
+
+* URL：/pay/status
+* HTTP请求方式：get
+* 请求参数：
+
+|  |字段名称|必选|类型及范围|说明|
+|---|---|---|---|---|
+|用户id|userId|是|string||
+
+* 注意事项
+* 返回字段说明
+
+|返回值字段|字段类型|字段说明|
+|---|---|---|---|
+|member对象|||
