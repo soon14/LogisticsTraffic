@@ -18,6 +18,7 @@ import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonTender;
+import com.zhangzy.base.app.AppProgress;
 import com.zhangzy.base.http.BaseEntity;
 
 import java.util.ArrayList;
@@ -138,14 +139,14 @@ public class TenderListActivity extends BaseActivity implements AdapterView.OnIt
 
     private void requestListEnterprise() {
         isTenderList = false;
-        showProgress("加载中···");
+        AppProgress.getInstance().showProgress(this,"加载中···");
         HttpHelper.getInstance().get(AppURL.GetTenderEnterprise, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 List<JsonCompany> list = ParseJson_Array(result, JsonCompany.class);
                 if (list == null || list.isEmpty()) {
                     showToast("列表为空");
-                    cancelProgress();
+                    AppProgress.getInstance().cancelProgress();
                     return;
                 }
                 ArrayList<Product> arrayList = new ArrayList<Product>();
@@ -159,7 +160,7 @@ public class TenderListActivity extends BaseActivity implements AdapterView.OnIt
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        cancelProgress();
+                        AppProgress.getInstance().cancelProgress();
                         listView.setAdapter(homeListAdapter);
                     }
                 });
@@ -168,7 +169,7 @@ public class TenderListActivity extends BaseActivity implements AdapterView.OnIt
 
             @Override
             public void onFailed(String str) {
-                cancelProgress();
+                AppProgress.getInstance().cancelProgress();
                 showToast("列表请求失败" + str);
             }
         });
@@ -177,7 +178,7 @@ public class TenderListActivity extends BaseActivity implements AdapterView.OnIt
 
     private void requestList(String value) {
         isTenderList = true;
-        showProgress("列表加载中···");
+        AppProgress.getInstance().showProgress(this,"列表加载中···");
         HashMap<String, String> params = new HashMap<>();
         params.put("enterpriseId", value);
         HttpHelper.getInstance().get(AppURL.GetTendersList, params, new JsonCallback() {
@@ -185,7 +186,7 @@ public class TenderListActivity extends BaseActivity implements AdapterView.OnIt
             public void onSuccess(String msg, String result) {
                 List<JsonTender> list = ParseJson_Array(result, JsonTender.class);
                 if (list == null || list.isEmpty()) {
-                    cancelProgress();
+                    AppProgress.getInstance().cancelProgress();
                     showToast("数据返回为空");
                     return;
                 }
@@ -193,7 +194,7 @@ public class TenderListActivity extends BaseActivity implements AdapterView.OnIt
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        cancelProgress();
+                        AppProgress.getInstance().cancelProgress();
                         listView.setAdapter(adapter);
                     }
                 });
@@ -202,7 +203,7 @@ public class TenderListActivity extends BaseActivity implements AdapterView.OnIt
 
             @Override
             public void onFailed(String str) {
-                cancelProgress();
+                AppProgress.getInstance().cancelProgress();
                 showToast("列表请求失败" + str);
             }
         });

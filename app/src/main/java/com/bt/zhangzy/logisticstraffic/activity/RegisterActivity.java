@@ -21,6 +21,7 @@ import com.bt.zhangzy.network.SMSCodeHelper;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseLogin;
 import com.bt.zhangzy.tools.Tools;
+import com.zhangzy.base.app.AppProgress;
 
 /**
  * Created by ZhangZy on 2015/6/4.
@@ -165,7 +166,7 @@ public class RegisterActivity extends BaseActivity {
      */
     private void requestRegister(String nickname, String phoneNum, String password, String recommend, String verficaiton) {
         Log.e(TAG, "============================================");
-        showProgress("注册中...");
+        AppProgress.getInstance().showProgress(this,"注册中...");
         JsonUser jsonUser = new JsonUser();
         jsonUser.setNickname(nickname);
         jsonUser.setName(nickname);
@@ -182,11 +183,11 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onFailed(String str) {
                 showToast("用户注册失败：" + str);
-                cancelProgress();
+                AppProgress.getInstance().cancelProgress();
             }
 
             public void onSuccess(String msg, String jsonstr) {
-                cancelProgress();
+                AppProgress.getInstance().cancelProgress();
                 if (TextUtils.isEmpty(jsonstr)) {
                     showToast("用户注册失败：" + msg);
                     return;

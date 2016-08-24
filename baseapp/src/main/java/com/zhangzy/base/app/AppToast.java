@@ -30,6 +30,7 @@ public class AppToast {
 
     Toast toast;//统一管理toast  防止一个页面上多个toast的显示；
     String toastMsg;
+    Context context;
     Runnable showToast = new Runnable() {
         @Override
         public void run() {
@@ -46,20 +47,23 @@ public class AppToast {
         if (TextUtils.isEmpty(msg))
             return;
         toastMsg = msg;
+        this.context = context;
         Log.d(TAG, "Toast:" + msg);
-        if (toast == null) {
-            toast = Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT);
-        }
         if (Looper.myLooper() == Looper.getMainLooper()) {
             showToastOnUI();
         } else {
+            if (toast != null) {
+                toast.cancel();
+                toast = null;
+            }
             handler.post(showToast);
         }
     }
 
     private void showToastOnUI() {
         if (toast == null) {
-            return;
+            toast = Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT);
+
         }
 //        toast.setDuration(Toast.LENGTH_SHORT);
         toast.setText(toastMsg);

@@ -57,11 +57,12 @@ public class UserFragment extends BaseHomeFragment {
 
         } else if (user.getUserType() == Type.EnterpriseType) {
             view.findViewById(R.id.user_services_item).setVisibility(View.GONE);
-//            view.findViewById(R.id.user_fleet_item).setVisibility(View.GONE);
+            view.findViewById(R.id.user_car_item).setVisibility(View.GONE);
             view.findViewById(R.id.user_shop_setting_bt).setVisibility(View.GONE);
             view.findViewById(R.id.user_tender_item).setVisibility(View.VISIBLE);
         } else {
             view.findViewById(R.id.user_tender_item).setVisibility(View.GONE);
+            view.findViewById(R.id.user_car_item).setVisibility(View.GONE);
         }
         //更新用户信息
         if (user.isLogin()) {
@@ -103,7 +104,7 @@ public class UserFragment extends BaseHomeFragment {
 //        LBSTraceSDK.getInstance().init(getActivity().getApplicationContext());
         //更新用户信息
         User user = User.getInstance();
-        JsonCar jsonCar = user.getJsonCar();
+        JsonCar jsonCar = user.getJsonCar().get(0);
         if (jsonCar != null) {
             Log.d(TAG, String.valueOf(jsonCar.getId()) + "number=" + jsonCar.getNumber());
             LBSTraceSDK.getInstance().addEntity(String.valueOf(jsonCar.getId()), jsonCar.getNumber());

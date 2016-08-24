@@ -17,6 +17,7 @@ import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.app.PictureHelper;
 import com.bt.zhangzy.tools.ViewUtils;
+import com.zhangzy.base.app.AppProgress;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -67,7 +68,7 @@ public class UploadImageHelper {
         public void onSuccess(String msg, String result) {
             if (activity != null) {
                 activity.showToast("图片上传成功" + msg);
-                activity.cancelProgress();
+                AppProgress.getInstance().cancelProgress();
             }
             final String uploadImgURL = /*AppURL.HostDebug + */result;
             Log.i(TAG, "上传图片地址：" + uploadImgURL);
@@ -88,7 +89,7 @@ public class UploadImageHelper {
         public void onFailed(String str) {
             if (activity != null) {
                 activity.showToast("图片上传失败：" + str);
-                activity.cancelProgress();
+                AppProgress.getInstance().cancelProgress();
             }
         }
     };
@@ -99,7 +100,7 @@ public class UploadImageHelper {
 
     private void uploadFile(File file) {
         if (activity != null)
-            activity.showProgress("图片上传中...");
+            AppProgress.getInstance().showProgress(activity, "图片上传中...");
         Log.i(TAG, "创建压缩图片任务");
 //        final CustomProgress customProgress = CustomProgress.show(activity, "图片压缩中···");
         new AsyncTask<File, String, File>() {
@@ -114,7 +115,7 @@ public class UploadImageHelper {
 //                imageFile = createImageFile();
 //                compressPix(file.getPath(), 1024, 1024);
 //                file = compressByte(file.getPath(), 500);
-                compressImage(file.getPath(),1024,500);
+                compressImage(file.getPath(), 1024, 500);
                 Log.d(TAG, "压缩后图片：" + file.getPath());
                 return file;
             }
@@ -153,8 +154,9 @@ public class UploadImageHelper {
 
     /**
      * 图片压缩
+     *
      * @param img_path
-     * @param max_pix 允许图片最大像素值，宽高都会判断
+     * @param max_pix     允许图片最大像素值，宽高都会判断
      * @param max_quality 允许图片的最大kb值
      * @return
      */
@@ -305,6 +307,7 @@ public class UploadImageHelper {
 
     /**
      * 文件保存
+     *
      * @param imgPath
      * @param bitmap
      * @param quality

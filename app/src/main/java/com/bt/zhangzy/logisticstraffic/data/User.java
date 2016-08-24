@@ -53,7 +53,7 @@ public class User implements Serializable {
     private BaseEntity jsonTypeEntity;
     private JsonUser jsonUser;
     private List<JsonMotorcades> motorcades;//车队列表
-    private JsonCar jsonCar;//司机 所属的 车辆；
+    private List<JsonCar> jsonCarList;//司机 所属的 车辆；
     private ArrayList<Integer> orderIdList;
     //支付状态
     private PayStatus payStatus;
@@ -284,12 +284,12 @@ public class User implements Serializable {
         this.orderIdList = orderIdList;
     }
 
-    public JsonCar getJsonCar() {
-        return jsonCar;
+    public List<JsonCar> getJsonCar() {
+        return jsonCarList;
     }
 
-    public void setJsonCar(JsonCar jsonCar) {
-        this.jsonCar = jsonCar;
+    public void setJsonCar(List<JsonCar> jsonCar) {
+        this.jsonCarList = jsonCar;
     }
 
     public List<JsonMotorcades> getMotorcades() {
@@ -599,7 +599,7 @@ public class User implements Serializable {
                     user.setDriverID(json.getDriver().getId());
                     List<JsonCar> cars = json.getCars();
                     if (cars != null && !cars.isEmpty()) {
-                        setJsonCar(cars.get(0));
+                        setJsonCar(cars);
                     }
                 }
 //                user.setMotorcades(BaseEntity.ParseArray(json.getMotorcades(), JsonMotorcades.class));
@@ -782,11 +782,10 @@ public class User implements Serializable {
                 if (TextUtils.isEmpty(result))
                     return;
                 List<JsonCar> list = ParseJson_Array(result, JsonCar.class);
-//                JsonCar jsonCar = ParseJson_Object(result, JsonCar.class);
+//                JsonCar jsonCarList = ParseJson_Object(result, JsonCar.class);
                 if (list.isEmpty())
                     return;
-                JsonCar jsonCar = list.get(0);
-                User.getInstance().setJsonCar(jsonCar);
+                User.getInstance().setJsonCar(list);
 
             }
 

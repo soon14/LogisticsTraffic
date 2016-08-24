@@ -523,6 +523,16 @@ public class HomeActivity extends BaseActivity {
 
 
     /**
+     * 我的车辆页面入口
+     * @param view
+     */
+    public void onClick_CarList(View view){
+        if(User.getInstance().getUserType() != Type.DriverType)
+            return;
+        startActivity(CarListActivity.class);
+    }
+
+    /**
      * 我的车队
      *
      * @param view

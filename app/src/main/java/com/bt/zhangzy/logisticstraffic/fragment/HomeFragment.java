@@ -27,6 +27,7 @@ import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonActivityConfig;
 import com.bt.zhangzy.network.entity.ResponseCompany;
+import com.zhangzy.base.app.AppProgress;
 import com.zhangzy.base.http.NetCallback;
 
 import java.util.ArrayList;
@@ -474,7 +475,7 @@ public class HomeFragment extends BaseHomeFragment {
 //        initSpreadViewPager(listHeadView);
 
 //        listView.refresh();
-        getHomeActivity().showProgressOnUI("数据加载中...");
+//        AppProgress.getInstance().showProgress(getActivity(),"数据加载中...");
         currentPageNum = 1;
         requestGetCompanyList();//初始化
 //        setListAdapter();
@@ -571,7 +572,7 @@ public class HomeFragment extends BaseHomeFragment {
         HttpHelper.getInstance().get(AppURL.GetCompanyList, params, new JsonCallback() {
             @Override
             public void onFailed(String str) {
-                getHomeActivity().cancelProgress();
+                AppProgress.getInstance().cancelProgress();
                 onLoading = false;
                 haveNextPage = false;
                 if (currentPageNum > 1) {
@@ -586,7 +587,7 @@ public class HomeFragment extends BaseHomeFragment {
 
             @Override
             public void onSuccess(String msg, String json) {
-                getHomeActivity().cancelProgress();
+                AppProgress.getInstance().cancelProgress();
                 onLoading = false;
                 List<ResponseCompany> list = ParseJson_Array(json, ResponseCompany.class);
                 if (list == null || list.isEmpty()) {

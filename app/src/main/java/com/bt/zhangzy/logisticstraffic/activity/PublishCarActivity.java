@@ -52,7 +52,7 @@ public class PublishCarActivity extends BaseActivity {
     private void initView() {
         User user = User.getInstance();
         JsonDriver driver = user.getJsonTypeEntity();
-        JsonCar car = user.getJsonCar();
+        JsonCar car = user.getJsonCar().get(0);
         setTextView(R.id.publish_name_tx, user.getUserName());
         setTextView(R.id.publish_tel_tx, user.getPhoneNum());
         if (car != null) {

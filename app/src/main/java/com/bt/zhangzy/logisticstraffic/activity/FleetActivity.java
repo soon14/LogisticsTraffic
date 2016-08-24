@@ -35,6 +35,7 @@ import com.bt.zhangzy.network.entity.RequestOrderAccept_Reject;
 import com.bt.zhangzy.network.entity.ResponseAllocationDriver;
 import com.bt.zhangzy.network.entity.ResponseMotorcades;
 import com.bt.zhangzy.tools.Tools;
+import com.zhangzy.base.app.AppProgress;
 import com.zhangzy.base.http.BaseEntity;
 
 import java.util.ArrayList;
@@ -396,20 +397,20 @@ public class FleetActivity extends BaseActivity {
     }
 
     private void requestGetMotorcadesList(JsonDriver jsonDriver) {
-        showProgress("正在获取车队列表...");
+        AppProgress.getInstance().showProgress(this,"正在获取车队列表...");
         HttpHelper.getInstance().get(AppURL.GetDriversListMotorcade, jsonDriver, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
                 //// TO DO: 2016-1-26  司机所属的车队列表更新
                 List<JsonMotorcades> list = ParseJson_Array(result, JsonMotorcades.class);
                 initDriverView_MotorcadesList(list);
-                cancelProgress();
+                AppProgress.getInstance().cancelProgress();
             }
 
             @Override
             public void onFailed(String str) {
                 showToast("司机所属车队列表获取失败");
-                cancelProgress();
+                AppProgress.getInstance().cancelProgress();
                 finish();
             }
         });
@@ -432,7 +433,7 @@ public class FleetActivity extends BaseActivity {
     }
 
     private void requestGetMotorcades(int motorcadeId) {
-        showProgressOnUI("正在获取车队列表...");
+        AppProgress.getInstance().showProgress(this,"正在获取车队列表...");
         //获取车队信息
 
         HttpHelper.getInstance().get(AppURL.GetMotorcades, String.valueOf(motorcadeId), new JsonCallback() {
@@ -550,13 +551,13 @@ public class FleetActivity extends BaseActivity {
                         });
                     }
                 }
-                cancelProgress();
+                AppProgress.getInstance().cancelProgress();
             }
 
             @Override
             public void onFailed(String str) {
 
-                cancelProgress();
+                AppProgress.getInstance().cancelProgress();
                 showToast("车队信息获取失败");
             }
         });

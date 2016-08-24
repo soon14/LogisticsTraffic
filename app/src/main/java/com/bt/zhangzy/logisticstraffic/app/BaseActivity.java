@@ -28,7 +28,6 @@ import com.bt.zhangzy.logisticstraffic.view.CallPhoneDialog;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.tools.ViewUtils;
 import com.zhangzy.baidusdk.BaiduMapActivity;
-import com.zhangzy.base.app.AppProgress;
 import com.zhangzy.base.app.AppToast;
 
 import cn.jpush.android.api.JPushInterface;
@@ -136,38 +135,6 @@ public class BaseActivity extends FragmentActivity {
             InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
-    }
-
-    /**
-     * 显示进度条 用户不可取消
-     *
-     * @param msg
-     */
-    public void showProgress(CharSequence msg) {
-        AppProgress.getInstance().showProgress(this, msg);
-    }
-
-    /**
-     * 显示进度条 用户不可取消
-     * 并且放到UI线程中执行
-     *
-     * @param msg
-     */
-    public void showProgressOnUI(final CharSequence msg) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                showProgress(msg);
-            }
-        });
-    }
-
-    /**
-     * 取消精度条
-     */
-    public void cancelProgress() {
-        AppProgress.getInstance().cancelProgress();
-
     }
 
 

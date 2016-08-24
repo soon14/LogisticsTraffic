@@ -1446,7 +1446,7 @@ public class OrderDetailActivity extends BaseActivity {
         User user = User.getInstance();
         params.setDriverId(user.getDriverID());
         if (user.getJsonCar() != null)
-            params.setCarId(user.getJsonCar().getId());
+            params.setCarId(user.getJsonCar().get(0).getId());
 //        params.setOrderId();
         if (user.getLocation() != null) {
             params.setLongitude(Double.valueOf(user.getLocation().getLongitude()));
