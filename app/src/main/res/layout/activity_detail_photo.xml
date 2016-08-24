@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".activity.DetailPhotoActivity">
+    tools:context="com.bt.zhangzy.logisticstraffic.activity.DetailPhotoActivity">
 
     <include layout="@layout/page_top" />
 
