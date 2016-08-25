@@ -78,6 +78,7 @@
 
     <style name="base_while_tx_style">
         <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/text_hint_gray_white</item>
     </style>
 
     <!-- 任何状态下都是黑色-->
@@ -234,11 +235,20 @@
         <item name="android:textColor">@color/black_while_color_selector</item>
     </style>
 
+    <!-- 订单列表用  默认：白色 变为 下划线+字体变为蓝色 -->
     <style name="while_orange_tab_style">
         <item name="android:background">@drawable/bottom_black_tab_selector</item>
         <item name="android:textSize">18sp</item>
         <item name="android:padding">5dp</item>
         <item name="android:textColor">@color/tab_color_selector</item>
+    </style>
+
+    <!-- 车辆管理页面用  -->
+    <style name="car_list_tab_style">
+        <item name="android:background">@drawable/car_list_tab_selector</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">@color/car_list_tab_color_selector</item>
     </style>
 
     <style name="register_button_style" parent="button_style">

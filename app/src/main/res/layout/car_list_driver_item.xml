@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_bg_color"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp">
+
+        <TextView
+            android:id="@+id/item_name_tx"
+            style="@style/base_while_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="姓名" />
+
+        <TextView
+            android:id="@+id/item_phone_tx"
+            style="@style/base_while_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:hint="手机号" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/base_black_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="身份证号：" />
+
+        <TextView
+            android:id="@+id/item_user_num_tx"
+            style="@style/base_black_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="15282419900122001X" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

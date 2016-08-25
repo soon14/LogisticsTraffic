@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/car_list_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:background="@color/transparent"
+        android:divider="@color/def_line"
+        android:dividerHeight="2px"
+        android:listSelector="@drawable/list_item_selector">
+
+    </ListView>
+
+
+    <Button
+        android:id="@+id/car_list_add_bt"
+        style="@style/home_button_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:text="添加新车辆" />
+
+
+</LinearLayout>

@@ -17,9 +17,27 @@ public class JsonDriver extends BaseEntity {
     int orderCount;//接单数
     int totalMileage;//总里程
     int status;
+    //需要后期自己添加的数据,
+    String name,phone;
 
 
     public JsonDriver() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public int getStatus() {

@@ -7,6 +7,7 @@
     <color name="base_btn_focus">#86e5f8</color>
     <!-- 文字颜色 -->
     <color name="text_focus">#FFFFFF</color><!--高亮文字  焦点文字-->
+    <color name="text_hint_gray_white">#DDDDDD</color><!--高亮文字  焦点文字-->
     <color name="text_importance">#000</color><!--重要文字-->
     <color name="text_minor">#585a59</color><!--次要文字-->
     <color name="text_indicative">#b5b5b5</color><!--提示性 文字-->

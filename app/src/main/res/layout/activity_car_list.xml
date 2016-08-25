@@ -5,9 +5,12 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.bt.zhangzy.logisticstraffic.activity.OrderListActivity">
+    tools:context="com.bt.zhangzy.logisticstraffic.activity.FleetActivity">
+
+    <!-- 车辆管理页面 -->
 
     <include layout="@layout/page_top" />
+
 
     <LinearLayout
         android:id="@android:id/tabs"
@@ -16,40 +19,33 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/orderlist_tab_untreated"
-            style="@style/while_orange_tab_style"
+            android:id="@+id/car_list_tab_car"
+            style="@style/car_list_tab_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClick_SelectBtn"
-            android:text="未确认" />
+            android:text="车辆管理" />
 
         <Button
-            android:id="@+id/orderlist_tab_submitted"
-            style="@style/while_orange_tab_style"
+            android:id="@+id/car_list_tab_driver"
+            style="@style/car_list_tab_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClick_SelectBtn"
-            android:text="交易中" />
+            android:text="司机管理" />
 
-        <Button
-            android:id="@+id/orderlist_tab_completed"
-            style="@style/while_orange_tab_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick_SelectBtn"
-            android:text="已完成" />
     </LinearLayout>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/orderlist_viewpager"
+        android:id="@+id/list_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="2">
 
     </android.support.v4.view.ViewPager>
+
 
 
 </LinearLayout>

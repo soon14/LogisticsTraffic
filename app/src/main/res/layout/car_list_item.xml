@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_bg_color"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <TextView
+            style="@style/base_while_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="车牌号：" />
+
+        <TextView
+            android:id="@+id/item_car_num_tx"
+            style="@style/base_while_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="蒙B·AA888" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/base_black_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="车型：" />
+
+        <TextView
+            style="@style/base_black_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="板车" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/base_black_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="车型：" />
+
+        <TextView
+            style="@style/base_black_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="板车" />
+
+    </TableRow>
+</LinearLayout>

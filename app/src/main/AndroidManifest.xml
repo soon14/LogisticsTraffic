@@ -119,6 +119,7 @@
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.LinesListActivity" />
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.LinesDetailActivity" />
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.SetPasswordActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.CarListActivity"/>
         <!-- test-->
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TestActivity" />
 
