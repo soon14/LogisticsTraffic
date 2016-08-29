@@ -485,20 +485,32 @@ public class HomeActivity extends BaseActivity {
 
     public void onClick_Quit(View view) {
 
-        ConfirmDialog.showConfirmDialog(this, "是否退出?", "返回", "退出", new View.OnClickListener() {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onClick(View v) {
-                getApp().Exit(HomeActivity.this, User.getInstance().isSave());
+            public void run() {
+                ConfirmDialog.showConfirmDialog(HomeActivity.this, "是否退出?", "返回", "退出", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getApp().Exit(HomeActivity.this, User.getInstance().isSave());
+                    }
+                });
             }
         });
+
     }
 
     public void onClick_SafeQuit(View view) {
 
-        ConfirmDialog.showConfirmDialog(this, "是否注销并退出程序?", "返回", "退出", new View.OnClickListener() {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onClick(View v) {
-                getApp().Exit(HomeActivity.this, false);
+            public void run() {
+
+                ConfirmDialog.showConfirmDialog(HomeActivity.this, "是否注销并退出程序?", "返回", "退出", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getApp().Exit(HomeActivity.this, false);
+                    }
+                });
             }
         });
     }

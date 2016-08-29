@@ -12,27 +12,24 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.bt.zhangzy.logisticstraffic.activity.CarDetailActivity;
-import com.bt.zhangzy.logisticstraffic.adapter.CarListAdapter;
-import com.bt.zhangzy.logisticstraffic.app.AppParams;
-import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.adapter.CarListDriverAdapter;
 import com.bt.zhangzy.logisticstraffic.d.R;
-import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.network.entity.JsonCar;
+import com.bt.zhangzy.network.entity.JsonDriver;
+
+import java.util.ArrayList;
 
 /**
- * 车辆管理
+ * 驾驶员列表管理
  * Created by ZhangZy on 2016-8-24.
  */
-public class CarListFragment extends Fragment {
+public class DriverListFragment extends Fragment {
 
-    final static String TAG = CarListFragment.class.getSimpleName();
+    final static String TAG = DriverListFragment.class.getSimpleName();
     private View layoutView;
     private ListView listView;
     private ListAdapter adapter;
 
-
-    public CarListFragment() {
+    public DriverListFragment() {
         super();
     }
 
@@ -59,6 +56,10 @@ public class CarListFragment extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    /**
+     * 页面初始化
+     * @param view
+     */
     private void initListView(View view) {
         listView = (ListView) view.findViewById(R.id.car_list_listView);
 //        listView.setAdapter(new OrderListAdapter(false));
@@ -66,45 +67,24 @@ public class CarListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                JsonCar jsonCar = (JsonCar) adapter.getItem(position);
-                if(jsonCar !=null) {
-                    BaseActivity activity = (BaseActivity) getActivity();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(AppParams.CAR_LIST_PAGE_CAR_KEY,jsonCar.toString());
-                    activity.startActivity(CarDetailActivity.class,bundle);
-                }
-
-
             }
         });
         if (adapter != null)
             listView.setAdapter(adapter);
-        else
-            requestCarList();
+        else{
+            requestDriverList();
+        }
 
 
-        Button  addBtn = (Button) view.findViewById(R.id.car_list_add_bt);
+        Button button = (Button) view.findViewById(R.id.car_list_add_bt);
+        button.setText("添加新司机");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        addBtn.setText("添加新车辆");
-
+            }
+        });
     }
-
-//    /**
-//     * 设置列表项的点击 事件
-//     * @param onItemClickListener
-//     */
-//    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
-//        if (onItemClickListener == null)
-//            return;
-//
-//        if (listView != null) {
-//            listView.setOnItemClickListener(onItemClickListener);
-//        }
-//
-//
-//    }
-
-
 
     /**
      * 设置页面数据
@@ -118,10 +98,17 @@ public class CarListFragment extends Fragment {
     }
 
 
-    public void requestCarList() {
-        //车辆管理数据设置
-        CarListAdapter carListAdapter = new CarListAdapter(User.getInstance().getJsonCar());
-        setAdapter(carListAdapter);
+    public void requestDriverList(){
+        //test data
+        ArrayList<JsonDriver> driverArrayList = new ArrayList<>();
+        for (int k = 0; k < 10; k++) {
+            JsonDriver jsonDriver = new JsonDriver();
+            jsonDriver.setName("张三");
+            jsonDriver.setPhone("15001230123");
+            driverArrayList.add(jsonDriver);
+        }
+        setAdapter(new CarListDriverAdapter(driverArrayList));
     }
+
 
 }

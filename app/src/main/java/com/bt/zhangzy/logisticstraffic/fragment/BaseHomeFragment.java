@@ -13,6 +13,7 @@ import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.activity.HomeActivity;
 
 /**
+ * 首页
  * Created by ZhangZy on 2015/7/2.
  */
 public abstract class BaseHomeFragment extends Fragment {

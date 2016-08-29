@@ -6,14 +6,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.bt.zhangzy.logisticstraffic.adapter.CarListAdapter;
-import com.bt.zhangzy.logisticstraffic.adapter.CarListDriverAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
-import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.fragment.CarListFragment;
-import com.bt.zhangzy.network.entity.JsonDriver;
+import com.bt.zhangzy.logisticstraffic.fragment.DriverListFragment;
 
 import java.util.ArrayList;
 
@@ -37,24 +34,15 @@ public class CarListActivity extends BaseActivity {
     private void initViewPager() {
         viewPager = (ViewPager) findViewById(R.id.list_viewpager);
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
+        // 车辆列表
         CarListFragment carListFragment = new CarListFragment();
-        //车辆管理数据设置
-        CarListAdapter carListAdapter = new CarListAdapter(User.getInstance().getJsonCar());
-        carListFragment.setAdapter(carListAdapter);
+
         fragments.add(carListFragment);
 
         //驾驶员列表数据设置
 
-        CarListFragment driverListFragment = new CarListFragment();
-        //test data
-        ArrayList<JsonDriver> driverArrayList = new ArrayList<>();
-        for (int k = 0; k < 10; k++) {
-            JsonDriver jsonDriver = new JsonDriver();
-            jsonDriver.setName("张三");
-            jsonDriver.setPhone("15001230123");
-            driverArrayList.add(jsonDriver);
-        }
-        driverListFragment.setAdapter(new CarListDriverAdapter(driverArrayList));
+        DriverListFragment driverListFragment = new DriverListFragment();
+
         fragments.add(driverListFragment);
 
         FragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), fragments);
@@ -123,4 +111,27 @@ public class CarListActivity extends BaseActivity {
 //            viewPager.getAdapter().notifyDataSetChanged();
         }
     }
+
+
+    /**
+     * 添加车辆 点击事件
+     *
+     * @param view
+     */
+    public void onClick_AddCar(View view) {
+
+        startActivity(CarDetailActivity.class);
+
+    }
+
+    /**
+     * 添加司机 点击事件
+     *
+     * @param view
+     */
+    public void onClick_AddDriver(View view) {
+
+
+    }
+
 }

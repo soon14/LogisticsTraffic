@@ -80,6 +80,9 @@ public final class AppParams {
 
     /*=============activity跳转请求常量 =================*/
 
+    /*车辆管理页面跳转 */
+    public static final String CAR_LIST_PAGE_CAR_KEY  = "CAR_LIST_PAGE_CAR_KEY";
+
     /* 车源跳转 */
     public static final String SOURCE_PAGE_CAR_KEY = "SOURCE_PAGE_CAR_KEY";
     public static final String SOURCE_PAGE_SELECT_DRIVER_KEY = "SOURCE_PAGE_SELECT_DRIVER_KEY";//选择抢单司机标记

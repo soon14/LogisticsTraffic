@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5"
+    android:orientation="vertical"
+    tools:context="com.bt.zhangzy.logisticstraffic.activity.CarDetailActivity">
+    <!--车辆详情页-->
+
+    <include layout="@layout/page_top" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <!-- body -->
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:stretchColumns="*">
+
+            <TableRow>
+
+                <TextView
+                    style="@style/base_black_tx_style"
+                    android:text="车辆牌照：" />
+
+                <TextView
+                    style="@style/base_black_tx_style"
+                    android:text="车型：" />
+            </TableRow>
+            <TableRow>
+                <EditText
+                    android:hint="车辆的牌照"/>
+                <EditText
+                    android:hint="车辆的类型"/>
+            </TableRow>
+
+
+            <TableRow>
+                <TextView
+                    style="@style/base_black_tx_style"
+                    android:text="车长：" />
+
+                <TextView
+                    style="@style/base_black_tx_style"
+                    android:text="载荷：" />
+
+            </TableRow>
+            <TableRow>
+                <EditText
+                    android:hint="车辆的长度"/>
+                <EditText
+                    android:hint="车辆的最大载荷"/>
+            </TableRow>
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="0">
+
+                <TableRow>
+
+                    <TextView
+                        style="@style/base_black_tx_style"
+                        android:text="常驻地：" />
+
+                </TableRow>
+                <TableRow>
+                    <EditText
+                        android:hint="车辆的牌照"/>
+                </TableRow>
+            </TableLayout>
+
+            <TableLayout android:layout_margin="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/picture_upload" />
+
+                <TextView
+                    style="@style/base_black_tx_style"
+                    android:gravity="center"
+                    android:hint="上传车辆照片" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/picture_upload" />
+
+                <TextView
+                    style="@style/base_black_tx_style"
+                    android:gravity="center"
+                    android:hint="上传行驶证照片" />
+
+            </TableLayout>
+        </TableLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            style="@style/default_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1"
+            android:text="删除" />
+
+        <Button
+            style="@style/default_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1"
+            android:text="确定" />
+    </LinearLayout>
+</LinearLayout>

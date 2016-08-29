@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="10dp"
+        android:onClick="onClick_AddCar"
         android:text="添加新车辆" />
 
 

@@ -32,6 +32,10 @@ eafa11cb-f9c6-405d-84be-5758fde8662e
      * @param appContext
      */
     public void init(Context appContext, boolean isDebug) {
+        //屏蔽测试是的bug反馈
+        if (isDebug)
+            return;
+
         CrashReport.initCrashReport(appContext, APP_ID, isDebug);
     }
 

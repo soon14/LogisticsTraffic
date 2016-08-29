@@ -13,6 +13,8 @@
     <color name="text_indicative">#b5b5b5</color><!--提示性 文字-->
     <color name="def_line">#dedfe1</color>
     <color name="page_bg_color">#FFF</color>
+    <color name="text_bg_gray_color">#CCCCCC</color>
+    <color name="text_bg_tab_focus_color">#246bbb</color>
 
 
 
