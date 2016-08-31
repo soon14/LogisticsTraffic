@@ -12,7 +12,10 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.bt.zhangzy.logisticstraffic.activity.DriverDetailActivity;
 import com.bt.zhangzy.logisticstraffic.adapter.CarListDriverAdapter;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
+import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.network.entity.JsonDriver;
 
@@ -58,6 +61,7 @@ public class DriverListFragment extends Fragment {
 
     /**
      * 页面初始化
+     *
      * @param view
      */
     private void initListView(View view) {
@@ -67,11 +71,22 @@ public class DriverListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                if (adapter != null && adapter instanceof CarListDriverAdapter) {
+                    CarListDriverAdapter driverAdapter = (CarListDriverAdapter) adapter;
+                    JsonDriver driver = driverAdapter.getItem(position);
+                    if (driver != null) {
+                        BaseActivity activity = (BaseActivity) getActivity();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(AppParams.CAR_LIST_PAGE_DRIVER_KEY, driver.toString());
+                        activity.startActivity(DriverDetailActivity.class, bundle);
+                    }
+
+                }
             }
         });
         if (adapter != null)
             listView.setAdapter(adapter);
-        else{
+        else {
             requestDriverList();
         }
 
@@ -98,7 +113,7 @@ public class DriverListFragment extends Fragment {
     }
 
 
-    public void requestDriverList(){
+    public void requestDriverList() {
         //test data
         ArrayList<JsonDriver> driverArrayList = new ArrayList<>();
         for (int k = 0; k < 10; k++) {

@@ -38,9 +38,16 @@
             </TableRow>
             <TableRow>
                 <EditText
-                    android:hint="车辆的牌照"/>
+                    android:id="@+id/car_edit_licence_ed"
+                    android:hint="车辆的牌照"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:onClick="onClick_ShowLicence"/>
                 <EditText
-                    android:hint="车辆的类型"/>
+                    android:hint="车辆的类型"
+                    android:focusable="false"
+                    android:onClick="onClick_ChangeType"/>
+
             </TableRow>
 
 
@@ -56,9 +63,13 @@
             </TableRow>
             <TableRow>
                 <EditText
-                    android:hint="车辆的长度"/>
+                    android:hint="车辆的长度"
+                    android:focusable="false"
+                    android:onClick="onClick_ChangeLength"/>
                 <EditText
-                    android:hint="车辆的最大载荷"/>
+                    android:hint="车辆的最大载荷"
+                    android:focusable="false"
+                    android:onClick="onClick_ChangeWeight"/>
             </TableRow>
             <TableLayout
                 android:layout_width="match_parent"
@@ -84,6 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:onClick="onClick_Photo"
                     android:src="@drawable/picture_upload" />
 
                 <TextView
@@ -95,6 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:onClick="onClick_Photo"
                     android:src="@drawable/picture_upload" />
 
                 <TextView
