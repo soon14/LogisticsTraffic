@@ -13,17 +13,6 @@
     <include layout="@layout/page_top" />
 
     <EditText
-        android:id="@+id/reg_nickname_ed"
-        style="@style/edit_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="用户名"
-        android:imeOptions="actionNext" />
-
-    <View style="@style/line_style_horizontal" />
-
-    <EditText
         android:id="@+id/reg_phoneNum_ed"
         style="@style/edit_style"
         android:layout_width="match_parent"
@@ -33,32 +22,6 @@
         android:imeOptions="actionNext"
         android:inputType="phone"
         android:maxLength="11" />
-
-    <View style="@style/line_style_horizontal" />
-
-    <EditText
-        android:id="@+id/reg_password_ed"
-        style="@style/edit_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="密    码"
-        android:imeOptions="actionNext"
-        android:inputType="textPassword"
-        android:password="true" />
-
-    <View style="@style/line_style_horizontal" />
-
-    <EditText
-        android:id="@+id/reg_password_confirm_ed"
-        style="@style/edit_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="确认密码"
-        android:imeOptions="actionNext"
-        android:inputType="textPassword"
-        android:password="true" />
 
     <View style="@style/line_style_horizontal" />
 
@@ -89,24 +52,88 @@
     <View style="@style/line_style_horizontal" />
 
     <EditText
+        android:id="@+id/reg_nickname_ed"
+        style="@style/edit_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:hint="姓名"
+        android:imeOptions="actionNext" />
+
+    <View style="@style/line_style_horizontal" />
+
+
+    <!--<EditText-->
+    <!--android:id="@+id/reg_password_ed"-->
+    <!--style="@style/edit_style"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_margin="5dp"-->
+    <!--android:hint="密    码"-->
+    <!--android:imeOptions="actionNext"-->
+    <!--android:inputType="textPassword"-->
+    <!--android:password="true" />-->
+
+    <!--<View style="@style/line_style_horizontal" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/reg_password_confirm_ed"-->
+    <!--style="@style/edit_style"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_margin="5dp"-->
+    <!--android:hint="确认密码"-->
+    <!--android:imeOptions="actionNext"-->
+    <!--android:inputType="textPassword"-->
+    <!--android:password="true" />-->
+
+    <!--<View style="@style/line_style_horizontal" />-->
+
+    <EditText
+        android:id="@+id/reg_id_card_ed"
+        style="@style/edit_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:hint="身份证号"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:maxLength="18" />
+
+    <View style="@style/line_style_horizontal" />
+
+    <EditText
         android:id="@+id/reg_recommend_ed"
         style="@style/edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:hint="推荐人手机号"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionNext"
         android:inputType="phone"
         android:maxLength="11" />
 
+    <!--<View style="@style/line_style_horizontal" />-->
+
+    <!--<Spinner-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:entries="@array/reg_driver_role_items" />-->
+
+
     <View style="@style/line_style_horizontal" />
-    <!-- <Button
-         style="@style/home_button_style"
-         android:layout_margin="5dp"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_gravity="center_horizontal"
-         android:text="推荐福利" />-->
+
+    <ImageView
+        android:id="@+id/reg_driver_certificate_img"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:onClick="onClick_Photo"
+        android:scaleType="fitCenter"
+        android:src="@drawable/detail_certificate" />
+
 
     <LinearLayout
         android:layout_width="wrap_content"

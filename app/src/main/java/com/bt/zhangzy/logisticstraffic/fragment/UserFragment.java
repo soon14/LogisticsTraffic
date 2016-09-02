@@ -104,6 +104,9 @@ public class UserFragment extends BaseHomeFragment {
 //        LBSTraceSDK.getInstance().init(getActivity().getApplicationContext());
         //更新用户信息
         User user = User.getInstance();
+        if (user.getJsonCar() == null)
+            return;
+
         JsonCar jsonCar = user.getJsonCar().get(0);
         if (jsonCar != null) {
             Log.d(TAG, String.valueOf(jsonCar.getId()) + "number=" + jsonCar.getNumber());

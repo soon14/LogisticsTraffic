@@ -1,5 +1,6 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -61,6 +62,13 @@ public class CarDetailActivity extends BaseActivity {
         setImageUrl(R.id.car_detail_license_img, jsonCar.getDrivingLicensePhotoUrl());
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (UploadImageHelper.getInstance().onActivityResult(this, requestCode, resultCode, data)) {
+        } else
+            super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**

@@ -72,30 +72,30 @@
 
                     <ImageView
                         android:id="@+id/driver_certificate_img"
-                        android:layout_width="80dp"
+                        android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:layout_margin="10dp"
                         android:onClick="onClick_Photo"
                         android:scaleType="fitCenter"
                         android:src="@drawable/detail_certificate" />
 
-                    <ImageView
-                        android:id="@+id/devices_car_img"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_margin="10dp"
-                        android:onClick="onClick_Photo"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/detail_car" />
+                    <!--<ImageView-->
+                        <!--android:id="@+id/devices_car_img"-->
+                        <!--android:layout_width="80dp"-->
+                        <!--android:layout_height="80dp"-->
+                        <!--android:layout_margin="10dp"-->
+                        <!--android:onClick="onClick_Photo"-->
+                        <!--android:scaleType="fitCenter"-->
+                        <!--android:src="@drawable/detail_car" />-->
 
-                    <ImageView
-                        android:id="@+id/devices_tszz_img"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_margin="10dp"
-                        android:onClick="onClick_Photo"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/detail_tszz_s" />
+                    <!--<ImageView-->
+                        <!--android:id="@+id/devices_tszz_img"-->
+                        <!--android:layout_width="80dp"-->
+                        <!--android:layout_height="80dp"-->
+                        <!--android:layout_margin="10dp"-->
+                        <!--android:onClick="onClick_Photo"-->
+                        <!--android:scaleType="fitCenter"-->
+                        <!--android:src="@drawable/detail_tszz_s" />-->
                 </LinearLayout>
 
                 <!--<LinearLayout-->
@@ -126,170 +126,120 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/white_gray_shape"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/detail_car_num"
-                    style="@style/edit_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:clickable="true"
-                    android:hint="车牌号"
-                    android:onClick="onClick_ShowLicence" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:background="@color/def_line" />
-
-                <TextView
-                    android:id="@+id/detail_car_type"
-                    style="@style/edit_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:clickable="true"
-                    android:hint="车型"
-                    android:onClick="onClick_ChangeType" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:background="@color/def_line" />
-
-                <TextView
-                    android:id="@+id/detail_car_length"
-                    style="@style/edit_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:clickable="true"
-                    android:hint="车长"
-                    android:onClick="onClick_ChangeLength" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:background="@color/def_line" />
-
-                <TextView
-                    android:id="@+id/detail_car_weight"
-                    style="@style/edit_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:clickable="true"
-                    android:hint="荷载"
-                    android:onClick="onClick_ChangeWeight" />
-
-                <!--<View-->
+            <!--<LinearLayout-->
                 <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="2px"-->
-                <!--android:background="@color/def_line" />-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:background="@drawable/white_gray_shape"-->
+                <!--android:orientation="vertical">-->
 
                 <!--<TextView-->
-                <!--android:id="@+id/detail_car_status"-->
-                <!--style="@style/edit_style"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:layout_marginRight="5dp"-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:clickable="true"-->
-                <!--android:hint="车况"-->
-                <!--android:onClick="onClick_ChangeStatus" />-->
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:background="@color/def_line" />
-
-                <TextView
-                    android:id="@+id/detail_car_location"
-                    style="@style/edit_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:clickable="true"
-                    android:hint="车辆常驻地址"
-                    android:onClick="onClick_ChangeLocation" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2px"
-                    android:background="@color/def_line" />
-
-
-                <!--<EditText-->
-                <!--android:id="@+id/devices_lastDate_ed"-->
-                <!--style="@style/edit_style"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="5dp"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:layout_marginRight="5dp"-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:hint="最后年检日期"-->
-                <!--android:visibility="gone" />-->
-
-                <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="2px"-->
-                <!--android:background="@color/gray_line" />-->
-
-                <!--<LinearLayout-->
+                    <!--android:id="@+id/detail_car_num"-->
+                    <!--style="@style/edit_style"-->
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center"-->
-                    <!--android:orientation="horizontal">-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_marginRight="5dp"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:clickable="true"-->
+                    <!--android:hint="车牌号"-->
+                    <!--android:onClick="onClick_ShowLicence" />-->
 
-                    <!--<ImageView-->
-                        <!--android:id="@+id/devices_xxz_img"-->
-                        <!--android:layout_width="80dp"-->
-                        <!--android:layout_height="80dp"-->
-                        <!--android:layout_margin="10dp"-->
-                        <!--android:onClick="onClick_Photo"-->
-                        <!--android:scaleType="fitCenter"-->
-                        <!--android:src="@drawable/detail_xsz_s" />-->
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="2px"-->
+                    <!--android:background="@color/def_line" />-->
 
-                    <!--<ImageView-->
-                        <!--android:id="@+id/devices_clzp_img"-->
-                        <!--android:layout_width="80dp"-->
-                        <!--android:layout_height="80dp"-->
-                        <!--android:layout_margin="10dp"-->
-                        <!--android:onClick="onClick_Photo"-->
-                        <!--android:scaleType="fitCenter"-->
-                        <!--android:src="@drawable/detail_clzp_s" />-->
+                <!--<TextView-->
+                    <!--android:id="@+id/detail_car_type"-->
+                    <!--style="@style/edit_style"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_marginRight="5dp"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:clickable="true"-->
+                    <!--android:hint="车型"-->
+                    <!--android:onClick="onClick_ChangeType" />-->
 
-                    <!--<ImageView-->
-                        <!--android:id="@+id/devices_clzp_two_img"-->
-                        <!--android:layout_width="80dp"-->
-                        <!--android:layout_height="80dp"-->
-                        <!--android:layout_margin="10dp"-->
-                        <!--android:onClick="onClick_Photo"-->
-                        <!--android:scaleType="fitCenter"-->
-                        <!--android:src="@drawable/detail_clzp_s" />-->
-                <!--</LinearLayout>-->
-            </LinearLayout>
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="2px"-->
+                    <!--android:background="@color/def_line" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/detail_car_length"-->
+                    <!--style="@style/edit_style"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_marginRight="5dp"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:clickable="true"-->
+                    <!--android:hint="车长"-->
+                    <!--android:onClick="onClick_ChangeLength" />-->
+
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="2px"-->
+                    <!--android:background="@color/def_line" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/detail_car_weight"-->
+                    <!--style="@style/edit_style"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_marginRight="5dp"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:clickable="true"-->
+                    <!--android:hint="荷载"-->
+                    <!--android:onClick="onClick_ChangeWeight" />-->
+
+                <!--&lt;!&ndash;<View&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="2px"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:background="@color/def_line" />&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/detail_car_status"&ndash;&gt;-->
+                <!--&lt;!&ndash;style="@style/edit_style"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginLeft="5dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginRight="5dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginTop="5dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:clickable="true"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:hint="车况"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:onClick="onClick_ChangeStatus" />&ndash;&gt;-->
+
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="2px"-->
+                    <!--android:background="@color/def_line" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/detail_car_location"-->
+                    <!--style="@style/edit_style"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_marginRight="5dp"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:clickable="true"-->
+                    <!--android:hint="车辆常驻地址"-->
+                    <!--android:onClick="onClick_ChangeLocation" />-->
+
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="2px"-->
+                    <!--android:background="@color/def_line" />-->
+
+
+            <!--</LinearLayout>-->
 
             <Button
                 android:id="@+id/detail_submit_bt"

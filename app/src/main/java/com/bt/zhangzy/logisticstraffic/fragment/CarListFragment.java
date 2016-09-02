@@ -20,6 +20,8 @@ import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.entity.JsonCar;
 
+import java.util.List;
+
 /**
  * 车辆管理
  * Created by ZhangZy on 2016-8-24.
@@ -67,11 +69,11 @@ public class CarListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 JsonCar jsonCar = (JsonCar) adapter.getItem(position);
-                if(jsonCar !=null) {
+                if (jsonCar != null) {
                     BaseActivity activity = (BaseActivity) getActivity();
                     Bundle bundle = new Bundle();
-                    bundle.putString(AppParams.CAR_LIST_PAGE_CAR_KEY,jsonCar.toString());
-                    activity.startActivity(CarDetailActivity.class,bundle);
+                    bundle.putString(AppParams.CAR_LIST_PAGE_CAR_KEY, jsonCar.toString());
+                    activity.startActivity(CarDetailActivity.class, bundle);
                 }
 
 
@@ -83,7 +85,7 @@ public class CarListFragment extends Fragment {
             requestCarList();
 
 
-        Button  addBtn = (Button) view.findViewById(R.id.car_list_add_bt);
+        Button addBtn = (Button) view.findViewById(R.id.car_list_add_bt);
 
         addBtn.setText("添加新车辆");
 
@@ -105,7 +107,6 @@ public class CarListFragment extends Fragment {
 //    }
 
 
-
     /**
      * 设置页面数据
      *
@@ -120,8 +121,11 @@ public class CarListFragment extends Fragment {
 
     public void requestCarList() {
         //车辆管理数据设置
-        CarListAdapter carListAdapter = new CarListAdapter(User.getInstance().getJsonCar());
-        setAdapter(carListAdapter);
+        List<JsonCar> jsonCar = User.getInstance().getJsonCar();
+        if (jsonCar != null) {
+            CarListAdapter carListAdapter = new CarListAdapter(jsonCar);
+            setAdapter(carListAdapter);
+        }
     }
 
 }

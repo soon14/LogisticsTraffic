@@ -2,6 +2,13 @@
 <resources>
 
 
+    <!-- 司机注册时角色选择 -->
+    <string-array name="reg_driver_role_items">
+        <item>我是车主</item>
+        <item>我有一辆车的司机</item>
+        <item>我是没有车的专职司机</item>
+
+    </string-array>
 
     <!-- 当前角色是 司机时，运输状态的显示 -->
     <string-array name="order_driver_loading_status_from_driver_items">

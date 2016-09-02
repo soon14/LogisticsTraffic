@@ -17,19 +17,15 @@ import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
-import com.bt.zhangzy.logisticstraffic.view.ChooseItemsDialog;
-import com.bt.zhangzy.logisticstraffic.view.LicenceKeyboardPopupWindow;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.UploadImageHelper;
-import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonUser;
-import com.bt.zhangzy.network.entity.RequestAddCar;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 
@@ -46,7 +42,7 @@ public class DetailPhotoActivity extends BaseActivity {
     private String currentStautsStr;
 
     JsonDriver requestJsonDriver = new JsonDriver();
-    JsonCar requestJsonCar = new JsonCar();
+//    JsonCar requestJsonCar = new JsonCar();
     JsonCompany requestJsonCompany = new JsonCompany();
     JsonEnterprise requestJsonEnterprise = new JsonEnterprise();
 
@@ -119,7 +115,7 @@ public class DetailPhotoActivity extends BaseActivity {
         if (!TextUtils.isEmpty(jsonUser.getIdCardPhotoUrl())) {
             setImageUrl(R.id.driver_certificate_img, jsonUser.getIdCardPhotoUrl());
             //行驶证
-            requestJsonCar.setDrivingLicensePhotoUrl(jsonUser.getIdCardPhotoUrl());
+//            requestJsonCar.setDrivingLicensePhotoUrl(jsonUser.getIdCardPhotoUrl());
             //驾驶证
             requestJsonDriver.setLicensePhotoUrl(jsonUser.getIdCardPhotoUrl());
         }
@@ -127,43 +123,43 @@ public class DetailPhotoActivity extends BaseActivity {
 //        if (!Tools.isEmptyStrings(jsonUser.getPersonPhotoUrl())) {
 //            setImageUrl(R.id.driver_sfz_sc_img, jsonUser.getPersonPhotoUrl());
 //        }
-//        setImageUrl(R.id.devices_jsz_img, jsonUser.getPersonPhotoUrl());
+//        setImageUrl(R.id.devices_jsz_img, jsonUser.getPersonPhotoUrl());10
         if (user.getJsonTypeEntity() != null) {
             JsonDriver jsonDriver = user.getJsonTypeEntity();
 //            setImageUrl(R.id.devices_car_img, jsonDriver.getLicensePhotoUrl());
-            setImageUrl(R.id.devices_tszz_img, jsonDriver.getSpecialQualificationsPhotoUrl());
+//            setImageUrl(R.id.devices_tszz_img, jsonDriver.getSpecialQualificationsPhotoUrl());
 
 //            setImageUrl(R.id.devices_jsz_sc_img, jsonDriver.getPersonLicensePhotoUrl());
 
 
             requestJsonDriver = jsonDriver;
             //to do 车的信息更新
-            if (user.getJsonCar() != null) {
-                JsonCar jsonCar = user.getJsonCar().get(0);
-                setImageUrl(R.id.devices_car_img, jsonCar.getFrontalPhotoUrl1());
-//                setImageUrl(R.id.devices_xxz_img, jsonCar.getDrivingLicensePhotoUrl());
-//                setImageUrl(R.id.devices_clzp_img, jsonCar.getFrontalPhotoUrl1());
-//                setImageUrl(R.id.devices_clzp_two_img, jsonCar.getFrontalPhotoUrl2());
-
-                setTextView(R.id.detail_car_type, jsonCar.getType());
-                setTextView(R.id.detail_car_length, jsonCar.getLength());
-                setTextView(R.id.detail_car_weight, jsonCar.getCapacity());
-//                setTextView(R.id.detail_car_status, jsonCar.getSituation());
-                setTextView(R.id.detail_car_location, jsonCar.getUsualResidence());
-                setTextView(R.id.detail_car_num, jsonCar.getNumber());
-
-                requestJsonCar = jsonCar;
-            }
+//            if (user.getJsonCar() != null) {
+//                JsonCar jsonCar = user.getJsonCar().get(0);
+//                setImageUrl(R.id.devices_car_img, jsonCar.getFrontalPhotoUrl1());
+////                setImageUrl(R.id.devices_xxz_img, jsonCar.getDrivingLicensePhotoUrl());
+////                setImageUrl(R.id.devices_clzp_img, jsonCar.getFrontalPhotoUrl1());
+////                setImageUrl(R.id.devices_clzp_two_img, jsonCar.getFrontalPhotoUrl2());
+//
+//                setTextView(R.id.detail_car_type, jsonCar.getType());
+//                setTextView(R.id.detail_car_length, jsonCar.getLength());
+//                setTextView(R.id.detail_car_weight, jsonCar.getCapacity());
+////                setTextView(R.id.detail_car_status, jsonCar.getSituation());
+//                setTextView(R.id.detail_car_location, jsonCar.getUsualResidence());
+//                setTextView(R.id.detail_car_num, jsonCar.getNumber());
+//
+//                requestJsonCar = jsonCar;
+//            }
         }
 
-        //默认位置
-        String locStr = getStringFromTextView(R.id.detail_car_location);
-        if (TextUtils.isEmpty(locStr)) {
-            Location location = User.getInstance().getLocation();
-            if (location != null) {
-                setTextView(R.id.detail_car_location, location.toText());
-            }
-        }
+//        //默认位置
+//        String locStr = getStringFromTextView(R.id.detail_car_location);
+//        if (TextUtils.isEmpty(locStr)) {
+//            Location location = User.getInstance().getLocation();
+//            if (location != null) {
+//                setTextView(R.id.detail_car_location, location.toText());
+//            }
+//        }
 
     }
 
@@ -227,24 +223,6 @@ public class DetailPhotoActivity extends BaseActivity {
             super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void onClick_ChangeLength(View view) {
-        if (checkStauts())
-            return;
-        ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆长度", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v != null && v instanceof TextView) {
-                    TextView tx = (TextView) v;
-                    CharSequence text = tx.getText();
-                    if (!TextUtils.isEmpty(text)) {
-//                        ((TextView)view).setText(text);
-                        setTextView(R.id.detail_car_length, text.toString());
-                        requestJsonCar.setLength(text.toString());
-                    }
-                }
-            }
-        }, getResources().getStringArray(R.array.order_change_truck_length_items));
-    }
 
     private boolean checkStauts() {
         if (!editable) {
@@ -254,62 +232,8 @@ public class DetailPhotoActivity extends BaseActivity {
         return false;
     }
 
-    public void onClick_ChangeWeight(View view) {
-        if (checkStauts())
-            return;
-        ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆载重", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v != null && v instanceof TextView) {
-                    TextView tx = (TextView) v;
-                    CharSequence text = tx.getText();
-                    if (!TextUtils.isEmpty(text)) {
-//                        ((TextView)view).setText(text);
-                        setTextView(R.id.detail_car_weight, text.toString());
-                        requestJsonCar.setCapacity(text.toString());
-                    }
-                }
-            }
-        }, getResources().getStringArray(R.array.order_change_truck_weight_items));
-    }
 
-    public void onClick_ChangeType(View view) {
-        if (checkStauts())
-            return;
-        ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆类型", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v != null && v instanceof TextView) {
-                    TextView tx = (TextView) v;
-                    CharSequence text = tx.getText();
-                    if (!TextUtils.isEmpty(text)) {
-//                        ((TextView)view).setText(text);
-                        setTextView(R.id.detail_car_type, text.toString());
-                        requestJsonCar.setType(text.toString());
-                    }
-                }
-            }
-        }, getResources().getStringArray(R.array.order_change_truck_type_items));
-    }
 
-    public void onClick_ChangeStatus(View view) {
-        if (checkStauts())
-            return;
-        ChooseItemsDialog.showChooseItemsDialog(this, "请选择车辆状况", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v != null && v instanceof TextView) {
-                    TextView tx = (TextView) v;
-                    CharSequence text = tx.getText();
-                    if (!TextUtils.isEmpty(text)) {
-//                        ((TextView)view).setText(text);
-//                        setTextView(R.id.detail_car_status, text.toString());
-                        requestJsonCar.setSituation(text.toString());
-                    }
-                }
-            }
-        }, getResources().getStringArray(R.array.car_status_items));
-    }
 
     public void onClick_ChangeLocation(View view) {
         if (checkStauts())
@@ -338,28 +262,14 @@ public class DetailPhotoActivity extends BaseActivity {
 
                         String params = loc.toText();
                         textView.setText(params);
-                        if (requestJsonCar != null) {
-                            requestJsonCar.setUsualResidence(params);
-                        }
+//                        if (requestJsonCar != null) {
+//                            requestJsonCar.setUsualResidence(params);
+//                        }
                         requestJsonCompany.setArea(params);
                     }
                 }).show();
     }
 
-    public void onClick_ShowLicence(View view) {
-        if (checkStauts())
-            return;
-        //虚拟键盘
-        LicenceKeyboardPopupWindow.create(this).setListener(new LicenceKeyboardPopupWindow.ConfirmListener() {
-            @Override
-            public void confirm(String string) {
-//                licenceEd.setText(string);
-                setTextView(R.id.detail_car_num, string);
-                requestJsonCar.setNumber(string);
-            }
-        }).showAsDropDown(findViewById(R.id.page_top_name), 0, 0);
-
-    }
 
     public void onClick_Photo(View view) {
         if (checkStauts())
@@ -376,7 +286,7 @@ public class DetailPhotoActivity extends BaseActivity {
                         case R.id.driver_certificate_img:
 //                            frsfzUrl = uploadImgURL;
                             //行驶证
-                            requestJsonCar.setDrivingLicensePhotoUrl(uploadImgURL);
+//                            requestJsonCar.setDrivingLicensePhotoUrl(uploadImgURL);
                             //驾驶证
                             requestJsonDriver.setLicensePhotoUrl(uploadImgURL);
                             requestChangeUserInfo(true, uploadImgURL);
@@ -390,34 +300,6 @@ public class DetailPhotoActivity extends BaseActivity {
                             break;
 //                        case R.id.photo_swdjz_img:
 //                            swdjzUrl = uploadImgURL;
-//                            break;
-                        //司机的相关图片
-                        case R.id.devices_car_img:
-//                            //驾驶证
-//                            requestJsonDriver.setLicensePhotoUrl(uploadImgURL);
-                            //车辆照片
-                            requestJsonCar.setFrontalPhotoUrl1(uploadImgURL);
-                            requestJsonCar.setFrontalPhotoUrl2(uploadImgURL);
-                            break;
-//                        case R.id.devices_jsz_sc_img:
-//                            //手持驾驶证照片
-//                            requestJsonDriver.setPersonLicensePhotoUrl(uploadImgURL);
-//                            break;
-                        case R.id.devices_tszz_img:
-                            //特殊资质
-                            requestJsonDriver.setSpecialQualificationsPhotoUrl(uploadImgURL);
-                            break;
-//                        case R.id.devices_xxz_img:
-//                            //行驶证
-//                            requestJsonCar.setDrivingLicensePhotoUrl(uploadImgURL);
-//                            break;
-//                        case R.id.devices_clzp_img:
-//                            //车辆照片
-//                            requestJsonCar.setFrontalPhotoUrl1(uploadImgURL);
-//                            break;
-//                        case R.id.devices_clzp_two_img:
-//                            //车辆照片
-//                            requestJsonCar.setFrontalPhotoUrl2(uploadImgURL);
 //                            break;
 
                     }
@@ -479,23 +361,23 @@ public class DetailPhotoActivity extends BaseActivity {
                 return;
             }
 
-            if (Tools.isEmptyStrings(requestJsonDriver.getLicensePhotoUrl(), /*requestJsonDriver.getSpecialQualificationsPhotoUrl(),*/
-                    requestJsonCar.getDrivingLicensePhotoUrl(), requestJsonCar.getFrontalPhotoUrl1()/*, requestJsonCar.getFrontalPhotoUrl2()*/
+            if (Tools.isEmptyStrings(requestJsonDriver.getLicensePhotoUrl()/*, requestJsonDriver.getSpecialQualificationsPhotoUrl(),*/
+//                    requestJsonCar.getDrivingLicensePhotoUrl(), requestJsonCar.getFrontalPhotoUrl1()/*, requestJsonCar.getFrontalPhotoUrl2()*/
                    /* , requestJsonDriver.getPersonLicensePhotoUrl()*/)) {
                 showToast("图片信息不完整");
                 return;
             }
-            requestJsonCar.setType(getStringFromTextView(R.id.detail_car_type));
-            requestJsonCar.setLength(getStringFromTextView(R.id.detail_car_length));
-            requestJsonCar.setCapacity(getStringFromTextView(R.id.detail_car_weight));
-//            requestJsonCar.setSituation(getStringFromTextView(R.id.detail_car_status));
-            requestJsonCar.setUsualResidence(getStringFromTextView(R.id.detail_car_location));
-
-            if (Tools.isEmptyStrings(requestJsonCar.getLength(), requestJsonCar.getCapacity(), requestJsonCar.getType(),
-                    requestJsonCar.getNumber(), requestJsonCar.getUsualResidence())) {
-                showToast("车辆信息不完整");
-                return;
-            }
+//            requestJsonCar.setType(getStringFromTextView(R.id.detail_car_type));
+//            requestJsonCar.setLength(getStringFromTextView(R.id.detail_car_length));
+//            requestJsonCar.setCapacity(getStringFromTextView(R.id.detail_car_weight));
+////            requestJsonCar.setSituation(getStringFromTextView(R.id.detail_car_status));
+//            requestJsonCar.setUsualResidence(getStringFromTextView(R.id.detail_car_location));
+//
+//            if (Tools.isEmptyStrings(requestJsonCar.getLength(), requestJsonCar.getCapacity(), requestJsonCar.getType(),
+//                    requestJsonCar.getNumber(), requestJsonCar.getUsualResidence())) {
+//                showToast("车辆信息不完整");
+//                return;
+//            }
 
             requestVerifyDriver();
         }
@@ -536,7 +418,7 @@ public class DetailPhotoActivity extends BaseActivity {
                 //跟新driver信息
                 requestJsonDriver = ParseJson_Object(result, JsonDriver.class);
                 //// T ODO: 2016-2-26  这里要对添加车辆做判断，如果已经添加过车辆则需要修改车辆信息的接口
-                requestAddCar();
+//                requestAddCar();
 
             }
 
@@ -552,33 +434,33 @@ public class DetailPhotoActivity extends BaseActivity {
     }
 
 
-    private void requestAddCar() {
-        RequestAddCar requestJson = new RequestAddCar();
-//        JsonDriver jsonDriver = User.getInstance().getJsonTypeEntity();
-        requestJson.setDriver(requestJsonDriver);
-        requestJson.setCar(requestJsonCar);
-        requestJsonCar.setDriverId(requestJsonDriver.getId());
-
-        JsonCallback jsonCallback = new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-//                requestPublishCar();
+//    private void requestAddCar() {
+//        RequestAddCar requestJson = new RequestAddCar();
+////        JsonDriver jsonDriver = User.getInstance().getJsonTypeEntity();
+//        requestJson.setDriver(requestJsonDriver);
+//        requestJson.setCar(requestJsonCar);
+//        requestJsonCar.setDriverId(requestJsonDriver.getId());
+//
+//        JsonCallback jsonCallback = new JsonCallback() {
+//            @Override
+//            public void onSuccess(String msg, String result) {
+////                requestPublishCar();
+////                showToast(getString(R.string.information_upload_fail) + str);
+//                //更新用户信息；
+//                User.getInstance().requestUserInfo();
+//            }
+//
+//            @Override
+//            public void onFailed(String str) {
 //                showToast(getString(R.string.information_upload_fail) + str);
-                //更新用户信息；
-                User.getInstance().requestUserInfo();
-            }
-
-            @Override
-            public void onFailed(String str) {
-                showToast(getString(R.string.information_upload_fail) + str);
-            }
-        };
-        if (isFirstVerify)
-            HttpHelper.getInstance().post(AppURL.PostDriversAddCar, requestJson, jsonCallback);
-        else {
-            HttpHelper.getInstance().post(AppURL.PostDrviersUpdateCar, requestJsonCar, jsonCallback);
-        }
-    }
+//            }
+//        };
+//        if (isFirstVerify)
+//            HttpHelper.getInstance().post(AppURL.PostDriversAddCar, requestJson, jsonCallback);
+//        else {
+//            HttpHelper.getInstance().post(AppURL.PostDrviersUpdateCar, requestJsonCar, jsonCallback);
+//        }
+//    }
 
     private void showSuccessDialog() {
         runOnUiThread(new Runnable() {
