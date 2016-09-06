@@ -132,7 +132,7 @@
         android:layout_marginTop="10dp"
         android:onClick="onClick_Photo"
         android:scaleType="fitCenter"
-        android:src="@drawable/detail_certificate" />
+        android:src="@drawable/reg_driver_example" />
 
 
     <LinearLayout

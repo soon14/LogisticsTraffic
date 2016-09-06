@@ -7,127 +7,183 @@
     android:orientation="vertical">
 
     <!--初始用户 注册-->
+    <include layout="@layout/page_top" />
 
-    <TextView
-        style="@style/title_style"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:background="@color/main_bg_color"
-        android:drawableLeft="@drawable/title_left_icon"
-        android:drawablePadding="5dp"
-        android:text="简单信息" />
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
-
-    <EditText
-        style="@style/edit_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="门企名称" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/def_line"/>
-    <EditText
-        style="@style/edit_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="用户名" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/def_line"/>
-    <EditText
-        style="@style/edit_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="密    码" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/def_line"/>
-    <EditText
-        style="@style/edit_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="确认密码" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/def_line"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
-
-        <EditText
-            style="@style/edit_style"
-            android:layout_width="200dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="验证码"
-            android:layout_marginRight="10dp"/>
+            android:orientation="vertical">
 
-        <Button
-            style="@style/home_button_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="获取验证码"/>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/def_line"/>
-    <EditText
-        style="@style/edit_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="推荐人" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/def_line"/>
-   <!-- <Button
-        style="@style/home_button_style"
-        android:layout_margin="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="推荐福利" />-->
+            <EditText
+                android:id="@+id/reg_phoneNum_ed"
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="手机号"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLength="11" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="已阅读并同意法律申明"
-        android:textColor="@color/black"
-        android:textSize="11sp"/>
+            <View style="@style/line_style_horizontal" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/reg_verification_ed"
+                    style="@style/edit_style"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:hint="验证码"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+
+                <Button
+                    style="@style/home_button_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClick_SendVerificationCode"
+                    android:text="获取验证码" />
+            </LinearLayout>
+
+            <View style="@style/line_style_horizontal" />
+
+            <EditText
+                android:id="@+id/reg_nickname_ed"
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="姓名"
+                android:imeOptions="actionNext" />
+
+            <View style="@style/line_style_horizontal" />
+
+            <EditText
+                android:id="@+id/reg_company_name_ed"
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="公司名" />
+
+            <View style="@style/line_style_horizontal" />
+
+            <EditText
+                android:id="@+id/reg_city_ed"
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="省份·城市"
+                android:onClick="onClick_ChangeLocation" />
+
+
+            <View style="@style/line_style_horizontal" />
+
+            <EditText
+                android:id="@+id/reg_address_ed"
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="详细地址" />
+
+            <View style="@style/line_style_horizontal" />
+
+            <EditText
+                android:id="@+id/reg_recommend_ed"
+                style="@style/edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="推荐人手机号"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLength="11" />
+
+            <View style="@style/line_style_horizontal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/reg_company_business_img"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_margin="10dp"
+                    android:background="@color/transparent"
+                    android:maxHeight="80dp"
+                    android:maxWidth="80dp"
+                    android:onClick="onClick_Photo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/detail_yyzz" />
+
+
+                <ImageView
+                    android:id="@+id/reg_company_photo_img"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="10dp"
+                    android:layout_rowWeight="1"
+                    android:maxHeight="80dp"
+                    android:maxWidth="80dp"
+                    android:onClick="onClick_Photo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/detail_mtzp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/reg_confirm_ck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClick_OpenLaw"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="已阅读并同意法律申明"
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         style="@style/home_button_style"
-        android:layout_margin="5dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
         android:onClick="onClick_RegisterBtn"
         android:text="注   册" />
 

@@ -16,17 +16,23 @@ import android.widget.TextView;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.SMSCodeHelper;
 import com.bt.zhangzy.network.UploadImageHelper;
+import com.bt.zhangzy.network.entity.JsonCompany;
 import com.bt.zhangzy.network.entity.JsonDriver;
+import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseLogin;
+import com.bt.zhangzy.tools.ContextTools;
 import com.bt.zhangzy.tools.Tools;
+import com.bt.zhangzy.tools.ViewUtils;
 import com.zhangzy.base.app.AppProgress;
 
 /**
@@ -37,6 +43,8 @@ public class RegisterActivity extends BaseActivity {
     private Type type;
     JsonDriver requestJsonDriver;
     JsonUser jsonUser = new JsonUser();
+    JsonCompany requestJsonCompany;
+    JsonEnterprise requestJsonEnterprise;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +89,10 @@ public class RegisterActivity extends BaseActivity {
      * 企业注册
      */
     public void onClick_RegisterCompany(View view) {
-        setContentView(R.layout.register_beginning);
+        setContentView(R.layout.register_company);
         type = Type.EnterpriseType;
         setPageName("企业用户注册");
+        initCompanyView();
     }
 
 
@@ -91,9 +100,40 @@ public class RegisterActivity extends BaseActivity {
      * 物流门企注册
      */
     public void onClick_RegisterDepartment(View view) {
-        setContentView(R.layout.register_beginning);
+        setContentView(R.layout.register_company);
         type = Type.CompanyInformationType;
         setPageName("物流用户注册");
+        initCompanyView();
+    }
+
+    /**
+     * 初始化 公司注册页面
+     */
+    private void initCompanyView() {
+        if (type == Type.CompanyInformationType)
+            requestJsonCompany = new JsonCompany();
+        else
+            requestJsonEnterprise = new JsonEnterprise();
+
+        //默认选中
+        CheckBox confirmCk = (CheckBox) findViewById(R.id.reg_confirm_ck);
+        if (confirmCk != null) {
+            confirmCk.setChecked(true);
+        }
+
+        //默认位置
+        String locStr = getStringFromTextView(R.id.reg_city_ed);
+        if (TextUtils.isEmpty(locStr)) {
+            Location location = User.getInstance().getLocation();
+            if (location != null) {
+                String params = location.toText();
+                setTextView(R.id.reg_city_ed, params);
+                if (requestJsonCompany != null)
+                    requestJsonCompany.setArea(params);
+                if (requestJsonEnterprise != null)
+                    requestJsonEnterprise.setArea(params);
+            }
+        }
     }
 
     /* 给手机发送验证码  */
@@ -113,6 +153,11 @@ public class RegisterActivity extends BaseActivity {
     }
 
 
+    /**
+     * 注册按钮
+     *
+     * @param view
+     */
     public void onClick_RegisterBtn(View view) {
 //        startActivity(new Intent(this,UserActivity.class));
 
@@ -122,46 +167,91 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
 
-        EditText nameEd = (EditText) findViewById(R.id.reg_nickname_ed);
-        EditText phoneNumEd = (EditText) findViewById(R.id.reg_phoneNum_ed);
-//        EditText passwordEd = (EditText) findViewById(R.id.reg_password_ed);
-//        EditText passwordConfirmEd = (EditText) findViewById(R.id.reg_password_confirm_ed);
-        EditText verficationEd = (EditText) findViewById(R.id.reg_verification_ed);
-        EditText idcard = (EditText) findViewById(R.id.reg_id_card_ed);
+//        EditText nameEd = (EditText) findViewById(R.id.reg_nickname_ed);
+//        EditText phoneNumEd = (EditText) findViewById(R.id.reg_phoneNum_ed);
+////        EditText passwordEd = (EditText) findViewById(R.id.reg_password_ed);
+////        EditText passwordConfirmEd = (EditText) findViewById(R.id.reg_password_confirm_ed);
+//        EditText verficationEd = (EditText) findViewById(R.id.reg_verification_ed);
+//        EditText idcard = (EditText) findViewById(R.id.reg_id_card_ed);
         String name, phoneNum, password, recommend, verfication, idCardStr;
-        if (TextUtils.isEmpty(nameEd.getText()) || TextUtils.isEmpty(phoneNumEd.getText())
-//                || TextUtils.isEmpty(passwordEd.getText()) || TextUtils.isEmpty(passwordConfirmEd.getText())
-                || TextUtils.isEmpty(idcard.getText())
-                || TextUtils.isEmpty(verficationEd.getText())) {
-            showToast("填写内容不能为空");
+
+        name = getStringFromTextView(R.id.reg_nickname_ed);
+        phoneNum = getStringFromTextView(R.id.reg_phoneNum_ed);
+        verfication = getStringFromTextView(R.id.reg_verification_ed);
+        idCardStr = getStringFromTextView(R.id.reg_id_card_ed);
+
+
+        if (Tools.isEmptyStrings(name, phoneNum)) {
+            showToast("信息不完整，请检查后在试");
             return;
         }
-//        password = passwordEd.getText().toString();
-        phoneNum = phoneNumEd.getText().toString();
-//        if (password.length() < 6) {
-//            showToast("密码长度太短");
-//            return;
-//        }
-//        if (!password.equals(passwordConfirmEd.getText().toString())) {
-//            showToast("密码输入不一致");
-//            return;
-//        }
+
+
+        // 司机用户信息判断
+        if (type == Type.DriverType) {
+            if (Tools.isEmptyStrings(idCardStr)) {
+                showToast("请输入身份证号码");
+                return;
+            }
+            if (Tools.isEmptyStrings(jsonUser.getIdCardPhotoUrl())) {
+                showToast("请上传证件照");
+                return;
+            }
+
+//            jsonUser.setIdCardPhotoUrl();
+        }
+        //企业 和 信息部用户注册 信息判断
+        else {
+            String company_name = getStringFromTextView(R.id.reg_company_name_ed);
+            String company_address = getStringFromTextView(R.id.reg_address_ed);
+            if (Tools.isEmptyStrings(company_name)) {
+                showToast("请输入公司名称");
+                return;
+            }
+            if (Tools.isEmptyStrings(company_address)) {
+                showToast("请输入公司地址");
+                return;
+            }
+
+            if (requestJsonCompany != null) {
+                if (Tools.isEmptyStrings(requestJsonCompany.getArea())) {
+                    showToast("请选择公司所属城市");
+                    return;
+                }
+                if (Tools.isEmptyStrings(requestJsonCompany.getBusinessLicenseUrl(), requestJsonCompany.getPhotoUrl())) {
+                    showToast("请上传门头照和营业执照");
+                    return;
+                }
+                requestJsonCompany.setName(company_name);
+                requestJsonCompany.setAddress(company_address);
+            }
+            if (requestJsonEnterprise != null) {
+                if (Tools.isEmptyStrings(requestJsonEnterprise.getArea())) {
+                    showToast("请选择公司所属城市");
+                    return;
+                }
+                if (Tools.isEmptyStrings(requestJsonEnterprise.getBusinessLicenseUrl(), requestJsonEnterprise.getPhotoUrl())) {
+                    showToast("请上传门头照和营业执照");
+                    return;
+                }
+                requestJsonEnterprise.setName(company_name);
+                requestJsonEnterprise.setAddress(company_address);
+            }
+        }
+
         if (!Tools.IsPhoneNum(phoneNum)) {
             showToast("手机号输入错误");
             return;
         }
-        if (TextUtils.isEmpty(verficationEd.getText())) {
+        if (TextUtils.isEmpty(verfication)) {
             showToast("请输入验证码");
             return;
         }
-        verfication = verficationEd.getText().toString().trim();
+//        verfication = verficationEd.getText().toString().trim();
         if (!SMSCodeHelper.getInstance().checkVerificationCode(this, phoneNum, verfication)) {
             showToast("验证码错误");
             return;
         }
-
-        name = nameEd.getText().toString();
-        idCardStr = idcard.getText().toString();
 
         recommend = getString(R.string.register_recommend);
         if (TextUtils.isEmpty(recommend)) {
@@ -197,8 +287,152 @@ public class RegisterActivity extends BaseActivity {
 
     }
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onClick_Back(null);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onClick_Back(View view) {
+//        super.onClick_Back(view);
+        startActivity(HomeActivity.class);
+        finish();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (UploadImageHelper.getInstance().onActivityResult(this, requestCode, resultCode, data)) {
+        } else
+            super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
     /**
-     * 发起注册请求
+     * 注册成功
+     */
+    private void registerSuccess() {
+        //登录成功后保存一下信息；
+        getApp().saveUser();
+        getApp().setAliasAndTag();
+        //注册后默认跳转到验证审核页面
+//        startActivity(DetailPhotoActivity.class, null);
+        AppProgress.getInstance().cancelProgress();
+//            startActivity(HomeActivity.class);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage(R.string.upload_verify_info).setNegativeButton("联系客服", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //to do 拨打客服电话
+                        ContextTools.CallPhone(context, getString(R.string.app_phone));
+                    }
+                }).setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(HomeActivity.class);
+                        finish();
+                    }
+                });
+                builder.create().show();
+            }
+        });
+
+    }
+
+
+    public void onClick_OpenLaw(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString(AppParams.WEB_PAGE_NAME, "法律申明");
+        bundle.putString(AppParams.WEB_PAGE_URL, AppURL.REGISTER_LAW.toString());
+        startActivity(WebViewActivity.class, bundle);
+    }
+
+    /**
+     * 位置选择
+     *
+     * @param view
+     */
+    public void onClick_ChangeLocation(View view) {
+        if (view == null || !(view instanceof TextView)) {
+            return;
+        }
+        final TextView textView = (TextView) view;
+        String string = ViewUtils.getStringFromTextView(textView);
+        Location location;
+        if (TextUtils.isEmpty(string)) {
+            location = User.getInstance().getLocation();
+        } else {
+            location = Location.Parse(string);
+        }
+        LocationView.createDialog(this)
+                .setCurrentLocation(location)
+                .setListener(new LocationView.ChangingListener() {
+                    @Override
+                    public void onChanged(Location loc) {
+                    }
+
+                    public void onCancel(Location loc) {
+                        if (loc == null)
+                            return;
+
+                        String params = loc.toText();
+                        textView.setText(params);
+
+                        if (requestJsonCompany != null)
+                            requestJsonCompany.setArea(params);
+                        if (requestJsonEnterprise != null)
+                            requestJsonEnterprise.setArea(params);
+                    }
+                }).show();
+    }
+
+    /**
+     * 照片选择
+     *
+     * @param view
+     */
+    public void onClick_Photo(View view) {
+        UploadImageHelper.getInstance().onClick_Photo(this, view, new UploadImageHelper.Listener() {
+            @Override
+            public void handler(ImageView imageView, String url) {
+                if (imageView != null) {
+                    switch (imageView.getId()) {
+                        case R.id.reg_driver_certificate_img:
+                            //驾驶证
+                            requestJsonDriver.setLicensePhotoUrl(url);
+                            //身份证
+                            jsonUser.setIdCardPhotoUrl(url);
+                            break;
+                        case R.id.reg_company_business_img:
+                            if (requestJsonCompany != null)
+                                requestJsonCompany.setBusinessLicenseUrl(url);
+                            if (requestJsonEnterprise != null)
+                                requestJsonEnterprise.setBusinessLicenseUrl(url);
+                            break;
+                        case R.id.reg_company_photo_img:
+                            if (requestJsonCompany != null)
+                                requestJsonCompany.setPhotoUrl(url);
+                            if (requestJsonEnterprise != null)
+                                requestJsonEnterprise.setPhotoUrl(url);
+                            break;
+                    }
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 发起注册请求 注册user 然后在注册 角色
      */
     private void requestRegister() {
         Log.i(TAG, "============================================");
@@ -219,9 +453,15 @@ public class RegisterActivity extends BaseActivity {
                 }
                 ResponseLogin response = ParseJson_Object(jsonstr, ResponseLogin.class);
                 User.getInstance().setLoginResponse(response);
+                //更新user信息
+                jsonUser = User.getInstance().getJsonUser();
                 if (type == Type.DriverType) {
                     requestVerifyDriver();
 
+                } else if (type == Type.CompanyInformationType) {
+                    requestVerifyInformation();
+                } else if (type == Type.EnterpriseType) {
+                    requestVerifyEnterprise();
                 } else {
 //                    AppProgress.getInstance().cancelProgress();
                     showToast("用户注册成功");
@@ -236,104 +476,6 @@ public class RegisterActivity extends BaseActivity {
 
         Log.i(TAG, "====>> end");
 
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            onClick_Back(null);
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public void onClick_Back(View view) {
-//        super.onClick_Back(view);
-        startActivity(HomeActivity.class);
-        finish();
-    }
-
-    /**
-     * 注册成功
-     */
-    private void registerSuccess() {
-        //登录成功后保存一下信息；
-        getApp().saveUser();
-        getApp().setAliasAndTag();
-        //注册后默认跳转到验证审核页面
-//        startActivity(DetailPhotoActivity.class, null);
-        AppProgress.getInstance().cancelProgress();
-        if (type == Type.DriverType) {
-//            startActivity(HomeActivity.class);
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage(R.string.upload_verify_info).setNegativeButton("联系客服", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //todo 拨打客服电话
-                        }
-                    }).setPositiveButton("确认", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(HomeActivity.class);
-                            finish();
-                        }
-                    });
-                    builder.create().show();
-                }
-            });
-
-        } else {
-//            Bundle bundle = getIntent().getExtras();
-//            if (bundle != null) {
-//                startActivity(HomeActivity.class, bundle);
-//            }
-            startActivity(DetailPhotoActivity.class);
-            finish();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (UploadImageHelper.getInstance().onActivityResult(this, requestCode, resultCode, data)) {
-        } else
-            super.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-    public void onClick_OpenLaw(View view) {
-        Bundle bundle = new Bundle();
-        bundle.putString(AppParams.WEB_PAGE_NAME, "法律申明");
-        bundle.putString(AppParams.WEB_PAGE_URL, AppURL.REGISTER_LAW.toString());
-        startActivity(WebViewActivity.class, bundle);
-    }
-
-
-    /**
-     * 照片选择
-     *
-     * @param view
-     */
-    public void onClick_Photo(View view) {
-        UploadImageHelper.getInstance().onClick_Photo(this, view, new UploadImageHelper.Listener() {
-            @Override
-            public void handler(ImageView imageView, String url) {
-                if (imageView != null) {
-                    switch (imageView.getId()) {
-                        case R.id.reg_driver_certificate_img:
-                            //驾驶证
-                            requestJsonDriver.setLicensePhotoUrl(url);
-                            //身份证
-                            jsonUser.setIdCardPhotoUrl(url);
-                            break;
-                    }
-                }
-            }
-        });
     }
 
 
@@ -363,5 +505,75 @@ public class RegisterActivity extends BaseActivity {
             }
         };
         HttpHelper.getInstance().post(AppURL.PostVerifyDrivers, requestJsonDriver, callback);
+    }
+
+
+    /**
+     * 信息部 注册接口
+     */
+    private void requestVerifyInformation() {
+//        company = new JsonCompany();
+        JsonCompany company = requestJsonCompany;
+        company.setId(User.getInstance().getCompanyID());
+        company.setUserId(jsonUser.getId());
+//        company.setName(name);
+//        company.setAddress(address);
+        //坐标
+        Location location = User.getInstance().getLocation();
+        if (location != null) {
+            company.setLatitude(Float.valueOf(location.getLatitude()));
+            company.setLongitude(Float.valueOf(location.getLongitude()));
+//            company.setArea(location.toText());
+        }
+        //门头照片
+//        company.setPhotoUrl(mtzpUrl);
+        //营业执照
+//        company.setBusinessLicenseUrl(yyzzUrl);
+        //税务登记证
+//        company.setTaxRegistrationCertificateUrl(swdjzUrl);
+        //法人照 frsfzUrl
+
+        JsonCallback callback = new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                registerSuccess();
+            }
+
+            @Override
+            public void onFailed(String str) {
+                showToast(getString(R.string.information_upload_fail));
+            }
+        };
+        HttpHelper.getInstance().post(AppURL.PostVerifyCompanies, company, callback);
+    }
+
+    /**
+     * 企业注册接口
+     */
+    private void requestVerifyEnterprise() {
+        JsonEnterprise enterprise = requestJsonEnterprise;
+        enterprise.setUserId(jsonUser.getId());
+//        enterprise.setName(name);
+//        enterprise.setAddress(address);
+//        //门头照片
+//        enterprise.setPhotoUrl(mtzpUrl);
+//        //营业执照
+//        enterprise.setBusinessLicenseUrl(yyzzUrl);
+        //税务登记证
+//        enterprise.setTaxRegistrationCertificateUrl(swdjzUrl);
+        //法人照 frsfzUrl
+
+        JsonCallback callback = new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                registerSuccess();
+            }
+
+            @Override
+            public void onFailed(String str) {
+                showToast(getString(R.string.information_upload_fail));
+            }
+        };
+        HttpHelper.getInstance().post(AppURL.PostVerifyEnterprises, enterprise, callback);
     }
 }

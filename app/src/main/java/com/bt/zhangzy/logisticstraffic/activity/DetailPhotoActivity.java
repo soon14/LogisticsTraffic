@@ -42,7 +42,7 @@ public class DetailPhotoActivity extends BaseActivity {
     private String currentStautsStr;
 
     JsonDriver requestJsonDriver = new JsonDriver();
-//    JsonCar requestJsonCar = new JsonCar();
+    //    JsonCar requestJsonCar = new JsonCar();
     JsonCompany requestJsonCompany = new JsonCompany();
     JsonEnterprise requestJsonEnterprise = new JsonEnterprise();
 
@@ -128,38 +128,13 @@ public class DetailPhotoActivity extends BaseActivity {
             JsonDriver jsonDriver = user.getJsonTypeEntity();
 //            setImageUrl(R.id.devices_car_img, jsonDriver.getLicensePhotoUrl());
 //            setImageUrl(R.id.devices_tszz_img, jsonDriver.getSpecialQualificationsPhotoUrl());
-
 //            setImageUrl(R.id.devices_jsz_sc_img, jsonDriver.getPersonLicensePhotoUrl());
 
 
             requestJsonDriver = jsonDriver;
-            //to do 车的信息更新
-//            if (user.getJsonCar() != null) {
-//                JsonCar jsonCar = user.getJsonCar().get(0);
-//                setImageUrl(R.id.devices_car_img, jsonCar.getFrontalPhotoUrl1());
-////                setImageUrl(R.id.devices_xxz_img, jsonCar.getDrivingLicensePhotoUrl());
-////                setImageUrl(R.id.devices_clzp_img, jsonCar.getFrontalPhotoUrl1());
-////                setImageUrl(R.id.devices_clzp_two_img, jsonCar.getFrontalPhotoUrl2());
-//
-//                setTextView(R.id.detail_car_type, jsonCar.getType());
-//                setTextView(R.id.detail_car_length, jsonCar.getLength());
-//                setTextView(R.id.detail_car_weight, jsonCar.getCapacity());
-////                setTextView(R.id.detail_car_status, jsonCar.getSituation());
-//                setTextView(R.id.detail_car_location, jsonCar.getUsualResidence());
-//                setTextView(R.id.detail_car_num, jsonCar.getNumber());
-//
-//                requestJsonCar = jsonCar;
-//            }
+
         }
 
-//        //默认位置
-//        String locStr = getStringFromTextView(R.id.detail_car_location);
-//        if (TextUtils.isEmpty(locStr)) {
-//            Location location = User.getInstance().getLocation();
-//            if (location != null) {
-//                setTextView(R.id.detail_car_location, location.toText());
-//            }
-//        }
 
     }
 
@@ -184,10 +159,10 @@ public class DetailPhotoActivity extends BaseActivity {
                 requestJsonEnterprise = enterprise;
                 setTextView(R.id.photo_name_ed, enterprise.getName());
 
-                String address = enterprise.getAddress();
-                String[] strings = Tools.splitAddress(address, ",");
-                setTextView(R.id.photo_city_tx, strings[0]);
-                setTextView(R.id.photo_address_ed, strings[1]);
+//                String address = enterprise.getAddress();
+//                String[] strings = Tools.splitAddress(address, ",");
+                setTextView(R.id.photo_city_tx, enterprise.getArea());
+                setTextView(R.id.photo_address_ed, enterprise.getAddress());
                 yyzzUrl = enterprise.getBusinessLicenseUrl();
 //                swdjzUrl = enterprise.getTaxRegistrationCertificateUrl();
                 mtzpUrl = enterprise.getPhotoUrl();
@@ -195,10 +170,10 @@ public class DetailPhotoActivity extends BaseActivity {
                 JsonCompany company = user.getJsonTypeEntity();
                 requestJsonCompany = company;
                 setTextView(R.id.photo_name_ed, company.getName());
-                String address = company.getAddress();
-                String[] strings = Tools.splitAddress(address, ",");
-                setTextView(R.id.photo_city_tx, strings[0]);
-                setTextView(R.id.photo_address_ed, strings[1]);
+//                String address = company.getAddress();
+//                String[] strings = Tools.splitAddress(address, ",");
+                setTextView(R.id.photo_city_tx, company.getArea());
+                setTextView(R.id.photo_address_ed, company.getAddress());
 //                setTextView(R.id.photo_address_ed, address);
 //                setTextView(R.id.photo_city_tx, company.getArea());
                 yyzzUrl = company.getBusinessLicenseUrl();
@@ -231,8 +206,6 @@ public class DetailPhotoActivity extends BaseActivity {
         }
         return false;
     }
-
-
 
 
     public void onClick_ChangeLocation(View view) {
@@ -345,9 +318,9 @@ public class DetailPhotoActivity extends BaseActivity {
             String loc_str = getStringFromTextView(R.id.photo_address_ed);
 
             if (type == Type.EnterpriseType)
-                requestVerifyEnterprise(nameEd.getText().toString(), p_str + "," + loc_str);
+                requestVerifyEnterprise(nameEd.getText().toString(), p_str, loc_str);
             else if (type == Type.CompanyInformationType)
-                requestVerifyInformation(nameEd.getText().toString(), p_str + "," + loc_str);
+                requestVerifyInformation(nameEd.getText().toString(), p_str, loc_str);
         } else if (type == Type.DriverType) {
             EditText nameEd = (EditText) findViewById(R.id.driver_name_ed);
             EditText phoneEd = (EditText) findViewById(R.id.driver_phone_ed);
@@ -486,12 +459,13 @@ public class DetailPhotoActivity extends BaseActivity {
 
     }
 
-    private void requestVerifyInformation(String name, String address) {
+    private void requestVerifyInformation(String name, String area, String address) {
 //        company = new JsonCompany();
         JsonCompany company = requestJsonCompany;
         company.setId(User.getInstance().getCompanyID());
         company.setUserId((int) User.getInstance().getId());
         company.setName(name);
+        company.setArea(area);
         company.setAddress(address);
         //坐标
         Location location = User.getInstance().getLocation();
@@ -527,11 +501,12 @@ public class DetailPhotoActivity extends BaseActivity {
             HttpHelper.getInstance().put(AppURL.PutCompaniesInfo, String.valueOf(User.getInstance().getCompanyID()), company, callback);
     }
 
-    private void requestVerifyEnterprise(String name, String address) {
+    private void requestVerifyEnterprise(String name, String area, String address) {
         JsonEnterprise enterprise = new JsonEnterprise();
         enterprise.setId(User.getInstance().getEnterpriseID());
         enterprise.setUserId((int) User.getInstance().getId());
         enterprise.setName(name);
+        enterprise.setArea(area);
         enterprise.setAddress(address);
         //门头照片
         enterprise.setPhotoUrl(mtzpUrl);
