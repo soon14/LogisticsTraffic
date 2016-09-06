@@ -37,16 +37,24 @@ public class AppProgress {
         } else {
             progress.setMessage(msg);
             if (Looper.myLooper() == Looper.getMainLooper()) {
-                progress.show();
+                show();
             } else {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        progress.show();
+                        show();
                     }
                 });
             }
         }
+    }
+
+    private void show() {
+        if (progress.getOwnerActivity() == null || progress.getOwnerActivity().isFinishing()) {
+            progress.cancel();
+            progress = null;
+        } else
+            progress.show();
     }
 
 
