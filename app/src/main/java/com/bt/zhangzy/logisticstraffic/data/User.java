@@ -763,7 +763,7 @@ public class User implements Serializable {
 //                user.setUserName(json.getName());
 //                user.setAddress(json.getAddress());
                 user.setJsonTypeEntity(json);
-                requestCarInfo();
+                requestCarInfo(null);
 //                refreshView();
             }
 
@@ -774,7 +774,10 @@ public class User implements Serializable {
         });
     }
 
-    private void requestCarInfo() {
+    /**
+     * 更新车辆列表
+     */
+    public void requestCarInfo(final JsonCallback callback) {
         HttpHelper.getInstance().get(AppURL.GetCarInfo, new String[]{"driverID=" + User.getInstance().getDriverID()}, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
@@ -786,12 +789,15 @@ public class User implements Serializable {
                 if (list.isEmpty())
                     return;
                 User.getInstance().setJsonCar(list);
-
+                if (callback != null)
+                    callback.onSuccess(msg, result);
             }
 
             @Override
             public void onFailed(String str) {
                 Log.i(TAG, "司机-车辆信息更新失败：" + str);
+                if (callback != null)
+                    callback.onFailed(str);
             }
         });
     }

@@ -29,6 +29,7 @@
             <TableRow>
 
                 <TextView
+                    android:id="@+id/car_detail_num_tx"
                     style="@style/base_black_tx_style"
                     android:text="车辆牌照：" />
 
@@ -44,6 +45,7 @@
                     android:focusable="false"
                     android:onClick="onClick_ShowLicence"/>
                 <EditText
+                    android:id="@+id/car_detail_type_tx"
                     android:hint="车辆的类型"
                     android:focusable="false"
                     android:onClick="onClick_ChangeType"/>
@@ -53,6 +55,7 @@
 
             <TableRow>
                 <TextView
+                    android:id="@+id/car_detail_length_tx"
                     style="@style/base_black_tx_style"
                     android:text="车长：" />
 
@@ -67,6 +70,7 @@
                     android:focusable="false"
                     android:onClick="onClick_ChangeLength"/>
                 <EditText
+                    android:id="@+id/car_detail_weight_tx"
                     android:hint="车辆的最大载荷"
                     android:focusable="false"
                     android:onClick="onClick_ChangeWeight"/>
@@ -85,15 +89,19 @@
                 </TableRow>
                 <TableRow>
                     <EditText
-                        android:hint="车辆的牌照"/>
+                        android:focusable="false"
+                        android:onClick="onClick_ChangeLocation"
+                        android:id="@+id/car_detail_address_tx"
+                        android:hint="车辆的常驻地址"/>
                 </TableRow>
             </TableLayout>
 
             <TableLayout android:layout_margin="10dp">
 
                 <ImageView
+                    android:id="@+id/car_detail_photo_img"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="120dp"
                     android:layout_gravity="center_horizontal"
                     android:onClick="onClick_Photo"
                     android:src="@drawable/picture_upload" />
@@ -104,8 +112,9 @@
                     android:hint="上传车辆照片" />
 
                 <ImageView
+                    android:id="@+id/car_detail_license_img"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="120dp"
                     android:layout_gravity="center_horizontal"
                     android:onClick="onClick_Photo"
                     android:src="@drawable/picture_upload" />
@@ -134,6 +143,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
+            android:onClick="onClick_Delete"
             android:text="删除" />
 
         <Button
@@ -143,6 +153,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
+            android:onClick="onClick_Submit"
             android:text="确定" />
     </LinearLayout>
 </LinearLayout>

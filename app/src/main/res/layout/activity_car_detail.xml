@@ -126,7 +126,7 @@
                     <ImageView
                         android:id="@+id/car_detail_photo_img"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="120dp"
                         android:layout_gravity="center_horizontal"
                         android:src="@drawable/picture_upload" />
 
@@ -138,7 +138,7 @@
                     <ImageView
                         android:id="@+id/car_detail_license_img"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="120dp"
                         android:layout_gravity="center_horizontal"
                         android:src="@drawable/picture_upload" />
 

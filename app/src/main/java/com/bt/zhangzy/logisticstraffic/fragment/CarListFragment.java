@@ -2,6 +2,7 @@ package com.bt.zhangzy.logisticstraffic.fragment;
 
 
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonCar;
 
 import java.util.List;
@@ -59,6 +61,12 @@ public class CarListFragment extends Fragment {
             return layoutView;
         }
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        requestCarList();
     }
 
     private void initListView(View view) {
@@ -114,18 +122,38 @@ public class CarListFragment extends Fragment {
      */
     public void setAdapter(BaseAdapter adapter) {
         this.adapter = adapter;
-        if (listView != null)
-            listView.setAdapter(adapter);
+        if (listView != null) {
+            if (Looper.myLooper() == Looper.getMainLooper())
+                listView.setAdapter(adapter);
+            else
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listView.setAdapter(CarListFragment.this.adapter);
+                    }
+                });
+        }
     }
 
 
     public void requestCarList() {
-        //车辆管理数据设置
-        List<JsonCar> jsonCar = User.getInstance().getJsonCar();
-        if (jsonCar != null) {
-            CarListAdapter carListAdapter = new CarListAdapter(jsonCar);
-            setAdapter(carListAdapter);
-        }
+        User.getInstance().requestCarInfo(new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                //车辆管理数据设置
+                List<JsonCar> jsonCar = User.getInstance().getJsonCar();
+                if (jsonCar != null) {
+                    CarListAdapter carListAdapter = new CarListAdapter(jsonCar);
+                    setAdapter(carListAdapter);
+                }
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
+
     }
 
 }
