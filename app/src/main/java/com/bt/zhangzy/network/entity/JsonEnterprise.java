@@ -10,6 +10,7 @@ public class JsonEnterprise extends BaseEntity {
     int id,userId;
     //必填
     String name, address;
+    String area;//所属区域
     //可选
     String photoUrl;//门头照片URL
     String taxRegistrationCertificateUrl;//税务登记证URL
@@ -19,6 +20,14 @@ public class JsonEnterprise extends BaseEntity {
     int status;
 
     public JsonEnterprise() {
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public int getStatus() {
