@@ -184,7 +184,7 @@
                     style="@style/setting_item_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/user_driver"
+                    android:drawableLeft="@drawable/user_my_drivers"
                     android:drawableRight="@drawable/right_gray_arrow"
                     android:onClick="onClick_CarList"
                     android:text="我的车辆" />
