@@ -22,6 +22,8 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="车辆付费通知,点击购买"
+            android:clickable="true"
+            android:onClick="onClick_Pay"
             android:padding="10dp" />
 
         <!-- body -->
@@ -33,6 +35,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/car_detail_bind_tx"
                 style="@style/tx_black_df_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
+                android:onClick="onClick_Bind"
                 android:text="绑定司机" />
 
 

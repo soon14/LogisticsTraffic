@@ -3,6 +3,7 @@ package com.bt.zhangzy.logisticstraffic.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -89,8 +90,28 @@ public class CarDetailActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (UploadImageHelper.getInstance().onActivityResult(this, requestCode, resultCode, data)) {
-        } else
-            super.onActivityResult(requestCode, resultCode, data);
+        } else {
+            if (requestCode == AppParams.CAR_DETAIL_REQUEST_CODE) {
+                // 选择司机列表返回
+                if (data != null && data.getExtras().containsKey(AppParams.CAR_DETAIL_PAGE_DRIVER_KEY)) {
+                    String json_str = data.getStringExtra(AppParams.CAR_DETAIL_PAGE_DRIVER_KEY);
+
+                    Log.d(TAG, "选择需要绑定的司机-返回 ： " + json_str);
+                    JsonDriver jsonDriver = JsonDriver.ParseEntity(json_str,JsonDriver.class);
+                    setBindView(jsonDriver);
+                }
+            } else
+                super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void setBindView(JsonDriver jsonDriver) {
+        if(jsonDriver == null)
+            return;
+
+        TextView textView = (TextView) findViewById(R.id.car_detail_bind_tx);
+        textView.setText(jsonDriver.getName() +"  -  "+ jsonDriver.getPhone());
+
     }
 
     /**
@@ -263,6 +284,22 @@ public class CarDetailActivity extends BaseActivity {
     }
 
 
+    /**
+     * 绑定司机按钮
+     *
+     * @param view
+     */
+    public void onClick_Bind(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString(AppParams.CAR_DETAIL_PAGE_DRIVER_KEY, jsonCar.toString());
+        startActivityForResult(DriverListActivity.class, bundle, AppParams.CAR_DETAIL_REQUEST_CODE);
+    }
+
+    /**
+     * 删除按钮
+     *
+     * @param view
+     */
     public void onClick_Delete(View view) {
 
 
@@ -287,6 +324,15 @@ public class CarDetailActivity extends BaseActivity {
         }
 
         requestAddCar();
+    }
+
+
+    /**
+     * 去付费事件
+     * @param view
+     */
+    public void onClick_Pay(View view) {
+        startActivity(PayActivity.class);
     }
 
     /**

@@ -9,8 +9,10 @@ import android.view.View;
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.fragment.CarListFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.DriverListFragment;
+import com.bt.zhangzy.network.entity.JsonDriver;
 
 import java.util.ArrayList;
 
@@ -29,6 +31,19 @@ public class CarListActivity extends BaseActivity {
         setContentView(R.layout.activity_car_list);
         setPageName("我的车辆");
         initViewPager();
+
+
+        //车辆管理
+        //测试数据
+        ArrayList<JsonDriver> driverArrayList = new ArrayList<>();
+        for (int k = 0; k < 10; k++) {
+            JsonDriver jsonDriver = new JsonDriver();
+            jsonDriver.setName("张三");
+            jsonDriver.setPhone("15001230123");
+            driverArrayList.add(jsonDriver);
+        }
+        User.getInstance().setJsonDriverList(driverArrayList);
+
     }
 
     private void initViewPager() {

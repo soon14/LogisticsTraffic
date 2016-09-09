@@ -1,6 +1,8 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -9,9 +11,10 @@ import com.bt.zhangzy.logisticstraffic.adapter.CarListDriverAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonDriver;
-
-import java.util.ArrayList;
+import com.bt.zhangzy.tools.Tools;
 
 /**
  * 司机列表
@@ -28,7 +31,19 @@ public class DriverListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_driver_list);
-        setPageName("司机列表");
+        if (getIntent().getExtras() != null) {
+            if(getIntent().getExtras().containsKey(AppParams.CAR_DETAIL_PAGE_DRIVER_KEY)) {
+                String json_str = getIntent().getStringExtra(AppParams.CAR_DETAIL_PAGE_DRIVER_KEY);
+                Log.d(TAG,"选择需要绑定的司机 : "+json_str);
+                if(!Tools.isEmptyStrings(json_str)) {
+                    JsonCar jsonCar = JsonCar.ParseEntity(json_str,JsonCar.class);
+                }
+            }
+            setPageName("选择需要绑定的司机");
+
+        } else
+            setPageName("司机列表");
+
         initListView();
     }
 
@@ -60,17 +75,33 @@ public class DriverListActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 完成按钮
+     *
+     * @param view
+     */
+    public void onClick_Finish(View view) {
+        if (adapter == null)
+            return;
+
+        JsonDriver driver = adapter.getSelectDriver();
+        if (driver == null) {
+            showToast("请选择需要绑定的司机");
+        } else {
+            Log.d(TAG,"选择需要绑定的司机 ： "+ driver.toString());
+            Intent data = new Intent();
+            data.putExtra(AppParams.CAR_DETAIL_PAGE_DRIVER_KEY, driver.toString());
+            setResult(AppParams.CAR_DETAIL_REQUEST_CODE, data);
+            finish();
+        }
+
+    }
+
 
     public void requestDriverList() {
-        //test data
-        ArrayList<JsonDriver> driverArrayList = new ArrayList<>();
-        for (int k = 0; k < 10; k++) {
-            JsonDriver jsonDriver = new JsonDriver();
-            jsonDriver.setName("张三");
-            jsonDriver.setPhone("15001230123");
-            driverArrayList.add(jsonDriver);
-        }
-        adapter = new CarListDriverAdapter(driverArrayList);
+
+
+        adapter = new CarListDriverAdapter(User.getInstance().getJsonDriverList(), true);
         listView.setAdapter(adapter);
     }
 

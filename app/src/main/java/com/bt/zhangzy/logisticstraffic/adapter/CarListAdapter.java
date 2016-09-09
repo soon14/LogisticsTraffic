@@ -47,7 +47,15 @@ public class CarListAdapter extends BaseAdapter {
             holder = new Holder();
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.car_list_item, null);
             convertView.setTag(holder);
+
             holder.carNumTx = (TextView) convertView.findViewById(R.id.item_car_num_tx);
+            holder.carTypeTx = (TextView) convertView.findViewById(R.id.item_car_type_tx);
+            holder.carLengthTx = (TextView) convertView.findViewById(R.id.item_car_length_tx);
+            holder.carWeightTx = (TextView) convertView.findViewById(R.id.item_car_weight_tx);
+            holder.carStatusTx = (TextView) convertView.findViewById(R.id.item_car_status_tx);
+            holder.driverNameTx = (TextView) convertView.findViewById(R.id.item_car_driver_name_tx);
+            holder.driverPhoneTx = (TextView) convertView.findViewById(R.id.item_car_driver_phone_tx);
+
 
         } else {
             holder = (Holder) convertView.getTag();
@@ -55,12 +63,21 @@ public class CarListAdapter extends BaseAdapter {
 
         JsonCar jsonCar = list.get(position);
         ViewUtils.setText(holder.carNumTx, jsonCar.getNumber());
+        ViewUtils.setText(holder.carTypeTx, jsonCar.getType());
+        ViewUtils.setText(holder.carLengthTx, jsonCar.getLength());
+        ViewUtils.setText(holder.carWeightTx, jsonCar.getCapacity());
+        ViewUtils.setText(holder.carStatusTx, jsonCar.getStatus() + "");
+        ViewUtils.setText(holder.driverNameTx, jsonCar.getName());
+        ViewUtils.setText(holder.driverPhoneTx, jsonCar.getPhoneNumber());
+
         return convertView;
     }
 
 
     class Holder {
-        TextView carNumTx;
+        TextView carNumTx, carTypeTx, carLengthTx, carWeightTx, carStatusTx;
+        TextView driverNameTx, driverPhoneTx;
+
     }
 
 }

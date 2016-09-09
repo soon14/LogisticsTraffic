@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * 用户基本信息
  * Created by ZhangZy on 2015/6/30.
  */
 public class User implements Serializable {
@@ -55,6 +56,7 @@ public class User implements Serializable {
     private List<JsonMotorcades> motorcades;//车队列表
     private List<JsonCar> jsonCarList;//司机 所属的 车辆；
     private ArrayList<Integer> orderIdList;
+    private List<JsonDriver> jsonDriverList;//司机列表 车主功能
     //支付状态
     private PayStatus payStatus;
     private JsonMember payJson;//支付结果缓存;
@@ -67,6 +69,24 @@ public class User implements Serializable {
         return instance;
     }
 
+
+    /**
+     * 获取司机列表
+     *
+     * @return
+     */
+    public List<JsonDriver> getJsonDriverList() {
+        return jsonDriverList;
+    }
+
+    /**
+     * 设置司机列表
+     *
+     * @param jsonDriverList
+     */
+    public void setJsonDriverList(List<JsonDriver> jsonDriverList) {
+        this.jsonDriverList = jsonDriverList;
+    }
 
     public ArrayList<JsonLine> getLinesList() {
         return linesList;

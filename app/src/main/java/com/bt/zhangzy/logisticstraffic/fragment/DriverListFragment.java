@@ -17,9 +17,8 @@ import com.bt.zhangzy.logisticstraffic.adapter.CarListDriverAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.entity.JsonDriver;
-
-import java.util.ArrayList;
 
 /**
  * 驾驶员列表管理
@@ -114,15 +113,8 @@ public class DriverListFragment extends Fragment {
 
 
     public void requestDriverList() {
-        //test data
-        ArrayList<JsonDriver> driverArrayList = new ArrayList<>();
-        for (int k = 0; k < 10; k++) {
-            JsonDriver jsonDriver = new JsonDriver();
-            jsonDriver.setName("张三");
-            jsonDriver.setPhone("15001230123");
-            driverArrayList.add(jsonDriver);
-        }
-        setAdapter(new CarListDriverAdapter(driverArrayList));
+
+        setAdapter(new CarListDriverAdapter(User.getInstance().getJsonDriverList(),false));
     }
 
 

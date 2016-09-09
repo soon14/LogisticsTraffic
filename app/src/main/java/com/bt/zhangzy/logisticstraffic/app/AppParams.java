@@ -83,6 +83,8 @@ public final class AppParams {
     /*车辆管理页面跳转 */
     public static final String CAR_LIST_PAGE_CAR_KEY  = "CAR_LIST_PAGE_CAR_KEY";
     public static final String CAR_LIST_PAGE_DRIVER_KEY = "CAR_LIST_PAGE_DRIVER_KEY";
+    public static final String CAR_DETAIL_PAGE_DRIVER_KEY = "CAR_DETAIL_PAGE_DRIVER_KEY";
+    public static final int CAR_DETAIL_REQUEST_CODE = 0x40;
 
     /* 车源跳转 */
     public static final String SOURCE_PAGE_CAR_KEY = "SOURCE_PAGE_CAR_KEY";

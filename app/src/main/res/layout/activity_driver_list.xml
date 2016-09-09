@@ -17,4 +17,13 @@
         android:dividerHeight="2px"
         android:listSelector="@drawable/list_item_selector">
         </ListView>
+    <Button
+        android:id="@+id/car_list_add_bt"
+        style="@style/home_button_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:onClick="onClick_Finish"
+        android:text="完成" />
 </LinearLayout>

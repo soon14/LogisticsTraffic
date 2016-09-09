@@ -61,8 +61,8 @@
 
         <!-- 位置上传服务 -->
         <!--<service-->
-            <!--android:name="com.bt.zhangzy.logisticstraffic.service.UpDataLocationService"-->
-            <!--android:enabled="true"></service>-->
+        <!--android:name="com.bt.zhangzy.logisticstraffic.service.UpDataLocationService"-->
+        <!--android:enabled="true"></service>-->
         <!-- 下载完成 接受者-->
         <receiver android:name="com.bt.zhangzy.logisticstraffic.receiver.DownloadReceiver">
             <intent-filter>
@@ -119,9 +119,10 @@
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.LinesListActivity" />
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.LinesDetailActivity" />
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.SetPasswordActivity" />
-        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.CarListActivity"/>
-        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.CarDetailActivity"/>
-        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.DriverDetailActivity"/>
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.CarListActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.CarDetailActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.DriverDetailActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.DriverListActivity" />
 
         <!-- test-->
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TestActivity" />
