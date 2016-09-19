@@ -1,6 +1,6 @@
 package com.zhangzy.base.app;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -31,30 +31,32 @@ public class AppProgress {
      *
      * @param msg
      */
-    public void showProgress(Context context, CharSequence msg) {
+    public void showProgress(Activity context, CharSequence msg) {
         if (progress == null) {
             progress = CustomProgress.show(context, msg);
         } else {
             progress.setMessage(msg);
-            progress.show();
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+                show();
+            } else {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        show();
+                    }
+                });
+            }
         }
     }
 
-
-    /**
-     * 显示进度条 用户不可取消
-     * 并且放到UI线程中执行
-     *
-     * @param msg
-     */
-    public void showProgressOnUI(final CharSequence msg) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                showProgress(msg);
-//            }
-//        });
+    private void show() {
+        if (progress.getOwnerActivity() == null || progress.getOwnerActivity().isFinishing()) {
+            progress.cancel();
+            progress = null;
+        } else
+            progress.show();
     }
+
 
     /**
      * 取消精度条
