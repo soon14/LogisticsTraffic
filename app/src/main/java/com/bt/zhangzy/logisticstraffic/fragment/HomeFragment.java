@@ -127,6 +127,13 @@ public class HomeFragment extends BaseHomeFragment {
         }
     }
 
+    /**
+     * 用于外部调用数据刷新操作
+     */
+    public void refreshData(){
+        requestGetCompanyList();
+    }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -594,6 +601,7 @@ public class HomeFragment extends BaseHomeFragment {
 //                    getHomeActivity().showToast("没有新的数据");
 //                    listView.stopLoadMore();
                     listView.setLoadMoreSuccess();
+                    listView.setAdapter(null);//为了显示出headView
                     return;
                 }
 

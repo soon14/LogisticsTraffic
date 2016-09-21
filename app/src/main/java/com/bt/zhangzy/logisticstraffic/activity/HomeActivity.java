@@ -252,7 +252,14 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void chooseLocation(Location location) {
+                //修改定位城市
                 setCityName(location.getCityName());
+                //重新请求首页数据
+                if (contentViewPager != null && contentViewPager.getCurrentItem() == INDEX_HOME) {
+                    HomeFragmentPagerAdapter adapter = (HomeFragmentPagerAdapter) contentViewPager.getAdapter();
+                    HomeFragment fragment = (HomeFragment) adapter.getItem(INDEX_HOME);
+                    fragment.refreshData();
+                }
             }
         });
         Location location = User.getInstance().getLocation();
@@ -397,6 +404,7 @@ public class HomeActivity extends BaseActivity {
 
     /**
      * 城市列表 按钮
+     *
      * @param view
      */
     public void onClick_CityList(View view) {
