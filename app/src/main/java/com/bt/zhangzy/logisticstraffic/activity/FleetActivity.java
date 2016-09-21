@@ -480,9 +480,15 @@ public class FleetActivity extends BaseActivity {
                         motorcade_name = json.getMotorcade().getName();
                         company = json.getCompany();
 
-                        ArrayList<String> list = new ArrayList<String>();
+                        ArrayList<People> list = new ArrayList<People>();
+                        People p;
                         for (JsonMotocardesDriver driver : motorcadeDrivers) {
-                            list.add(driver.getName());
+                            p = new People();
+                            p.setName(driver.getName());
+                            p.setPhoneNumber(driver.getPhoneNumber());
+                            p.setId(driver.getId());
+                            list.add(p);
+
                         }
 
                         final AppTextListAdapter adapter = new AppTextListAdapter(list);
@@ -676,9 +682,11 @@ public class FleetActivity extends BaseActivity {
 
     private void showQuitDialog() {
         ConfirmDialog.showConfirmDialog(this, "确认退出车队？", new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-//                    ArrayList<People> list = adapter.getList();
+
+                AppTextListAdapter adapter = (AppTextListAdapter) listView.getAdapter();
                 Iterator<People> iterator = adapter.getList().iterator();
                 String phoneNum = User.getInstance().getPhoneNum();
                 People people;
