@@ -1,8 +1,8 @@
 package com.bt.zhangzy.logisticstraffic.app;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,15 +39,15 @@ public class UpgradeApp implements Handler.Callback {
     public static final int HANDLER_UPGRADE = 4;//开始升级程序
 
     Properties properties;
-    Context context;
+    Activity activity;
     Handler handler;
     private String versionName;
     private String versionMsg;
     private String versionUrl;
     private int versionType = 1;//默认1 是可选升级，2为强制升级
 
-    public UpgradeApp(Context context) {
-        this.context = context;
+    public UpgradeApp(Activity context) {
+        this.activity = context;
         handler = new Handler(this);
     }
 
@@ -119,14 +119,14 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
             Log.w(TAG, " Properties = null");
             return;
         }
-        if (context == null) {
-            Log.w(TAG, " context = null");
+        if (activity == null) {
+            Log.w(TAG, " activity = null");
             return;
         }
-        String packageName = context.getPackageName();
+        String packageName = activity.getPackageName();
         if (packageName.equals(properties.getProperty("package"))) {
             try {
-                PackageInfo packageInfo = context.getPackageManager().getPackageInfo(packageName, 0);
+                PackageInfo packageInfo = activity.getPackageManager().getPackageInfo(packageName, 0);
                 int versionCode = Integer.parseInt(properties.getProperty("versionCode", "0"));
                 if (packageInfo.versionCode < versionCode) {
                     versionName = properties.getProperty("versionName");
@@ -152,40 +152,51 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
         }
     }
 
+    /**
+     * 显示升级对话框  优先级低
+     *
+     */
     public void showUpgradeDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setIcon(android.R.drawable.ic_dialog_info)
-                .setTitle("请升级APP至版本:" + versionName)
-                .setMessage(versionMsg)
-                .setCancelable(false)
-                .setPositiveButton("升级", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        if(activity.isFinishing())
+            return;
 
-                        handler.sendEmptyMessage(HANDLER_UPGRADE);
-                        dialog.cancel();
-                    }
-                }).setNegativeButton(versionType == 2 ? "退出" : "跳过", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        if (versionType == 2) {
-                            System.exit(0);
+        try {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setTitle("请升级APP至版本:" + versionName)
+                    .setMessage(versionMsg)
+                    .setCancelable(false)
+                    .setPositiveButton("升级", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            handler.sendEmptyMessage(HANDLER_UPGRADE);
+                            dialog.cancel();
                         }
-                    }
-                });
-        builder.show();
+                    }).setNegativeButton(versionType == 2 ? "退出" : "跳过", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            if (versionType == 2) {
+                                System.exit(0);
+                            }
+                        }
+                    });
+            builder.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /*
      * 从服务器中下载APK
 	 */
     protected void downLoadApk(String url) {
-        if (context == null) {
+        if (activity == null) {
 
         }
         //使用系统下载类
-        DownloadManager downloadManager = (DownloadManager) context.getSystemService(context.DOWNLOAD_SERVICE);
+        DownloadManager downloadManager = (DownloadManager) activity.getSystemService(activity.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(url);
         DownloadManager.Request request = new DownloadManager.Request(uri);
         // 设置自定义下载路径和文件名
@@ -220,7 +231,7 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
      */
     public void setApkId(String id) {
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         SharedPreferences.Editor editor = preferences.edit();
         if (editor.putString("APK_ID", id).commit()) {
             Log.i(TAG, "save apk id = " + id);
@@ -235,7 +246,7 @@ http://www.yyt56.net:8080/conf/AndroidCompanyConfig.properties
         intent.setAction(Intent.ACTION_VIEW);
         //执行的数据类型
         intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
-        context.startActivity(intent);
+        activity.startActivity(intent);
     }
 
 
