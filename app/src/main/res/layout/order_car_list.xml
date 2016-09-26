@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/page_top" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/text_bg_tab_focus_color"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp">
+
+        <TextView
+            android:id="@+id/order_car_list_name_tx"
+            style="@style/base_while_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="车主：%s "
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/order_car_list_phone_tx"
+            style="@style/base_while_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/order_car_list_name_tx"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/order_car_list_name_tx"
+            android:text="手机号：%s"
+            android:textSize="18sp" />
+
+        <CheckBox
+            android:id="@+id/item_check_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@color/transparent"
+            android:button="@color/transparent"
+            android:checked="false"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/check_btn_selector"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:text="全选"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/car_list_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:background="@color/transparent"
+        android:divider="@color/def_line"
+        android:dividerHeight="2px"
+        android:listSelector="@drawable/list_item_selector">
+
+    </ListView>
+</LinearLayout>

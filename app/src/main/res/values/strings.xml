@@ -55,6 +55,10 @@
     <!-- 发送短信按钮提示-->
     <string name="sms_send_bt">发送验证码</string>
     <string name="sms_send_bt_waiting">%s秒后重发</string>
+    <string name="driver_own_car_num">车辆总数 %d 辆</string>
+    <string name="driver_select_car_num">已选车辆数 %d 辆</string>
+    <string name="motorcade_driver_name">车主：%s</string>
+    <string name="motorcade_driver_phone">手机号：%s</string>
 
 
 </resources>

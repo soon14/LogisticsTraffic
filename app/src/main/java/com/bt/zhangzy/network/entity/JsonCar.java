@@ -3,6 +3,8 @@ package com.bt.zhangzy.network.entity;
 import com.bt.zhangzy.logisticstraffic.data.OrderReceiveStatus;
 import com.zhangzy.base.http.BaseEntity;
 
+import java.util.Date;
+
 /**
  * Created by ZhangZy on 2016-1-23.
  */
@@ -24,7 +26,65 @@ public class JsonCar extends BaseEntity {
     int status;
     OrderReceiveStatus receiveStatus;
 
+    //车主需求需要添加的字段
+    int payStatus;//车辆付费状态
+    Date payDate;
+    Date expireDate;
+    int runStatus;//运行状态
+    int orderId;//订单主键
+    int pilotId;//驾驶员主键
+
+
     public JsonCar() {
+    }
+
+
+    public int getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(int payStatus) {
+        this.payStatus = payStatus;
+    }
+
+    public Date getPayDate() {
+        return payDate;
+    }
+
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
+    }
+
+    public Date getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(Date expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public int getRunStatus() {
+        return runStatus;
+    }
+
+    public void setRunStatus(int runStatus) {
+        this.runStatus = runStatus;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public int getPilotId() {
+        return pilotId;
+    }
+
+    public void setPilotId(int pilotId) {
+        this.pilotId = pilotId;
     }
 
     public OrderReceiveStatus getReceiveStatus() {

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/page_top" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/text_bg_tab_focus_color"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp">
+
+        <TextView
+            android:id="@+id/motorcade_car_driver_name_tx"
+            style="@style/base_while_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/motorcade_driver_name" />
+
+        <TextView
+            android:id="@+id/motorcade_car_driver_phone_tx"
+            style="@style/base_while_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/motorcade_car_driver_name_tx"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/motorcade_car_driver_name_tx"
+            android:text="@string/motorcade_driver_phone" />
+
+        <CheckBox
+            android:id="@+id/motorcade_car_check_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@color/transparent"
+            android:button="@color/transparent"
+            android:checked="false"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/check_btn_selector"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:text="全选"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/motorcade_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:divider="@color/def_line"
+        android:dividerHeight="2px"
+        android:listSelector="@drawable/white_orange_selector">
+
+    </ListView>
+</LinearLayout>

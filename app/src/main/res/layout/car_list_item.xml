@@ -11,7 +11,7 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main_bg_color"
+        android:background="@color/text_bg_tab_focus_color"
         android:paddingBottom="3dp"
         android:paddingTop="3dp">
 
@@ -26,7 +26,7 @@
             style="@style/base_while_tx_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="蒙B·AA888" />
+            android:hint="车牌号码" />
 
     </TableRow>
 

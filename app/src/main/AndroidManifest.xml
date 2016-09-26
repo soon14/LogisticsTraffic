@@ -123,6 +123,8 @@
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.CarDetailActivity" />
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.DriverDetailActivity" />
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.DriverListActivity" />
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.MotorcadeActivity"/>
+        <activity android:name="com.bt.zhangzy.logisticstraffic.activity.MotorcadeCarAct"/>
 
         <!-- test-->
         <activity android:name="com.bt.zhangzy.logisticstraffic.activity.TestActivity" />

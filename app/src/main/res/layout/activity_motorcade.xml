@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/page_top" />
+
+        <Button
+            android:id="@+id/motorcade_create_order_bt"
+            style="@style/default_btn_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick_CreateOrder"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="下单" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/motorcade_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:divider="@color/def_line"
+        android:dividerHeight="2px"
+        android:listSelector="@drawable/white_orange_selector">
+
+    </ListView>
+</LinearLayout>

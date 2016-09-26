@@ -7,7 +7,7 @@ import com.zhangzy.base.http.BaseEntity;
  */
 public class JsonDriver extends BaseEntity {
 
-    int id , userId;
+    int id, userId;
     String licensePhotoUrl;//驾驶证照片URL
     String specialQualificationsPhotoUrl;//特殊资质图片URL
     String personLicensePhotoUrl;//本人手持驾驶证照片URL
@@ -17,11 +17,60 @@ public class JsonDriver extends BaseEntity {
     int orderCount;//接单数
     int totalMileage;//总里程
     int status;
+
+    //车主需求中添加的字段
+    int carId;//正在驾驶车辆id
+    int drivingState;//驾驶状态
+    String idCard;//身份证号码
+
+
     //需要后期自己添加的数据,
-    String name,phone;
+    String name, phone;
+    int ownCarCount;
+    int selectCarNum;
 
 
     public JsonDriver() {
+    }
+
+    public int getOwnCarCount() {
+        return ownCarCount;
+    }
+
+    public void setOwnCarCount(int ownCarCount) {
+        this.ownCarCount = ownCarCount;
+    }
+
+    public int getSelectCarNum() {
+        return selectCarNum;
+    }
+
+    public void setSelectCarNum(int selectCarNum) {
+        this.selectCarNum = selectCarNum;
+    }
+
+    public int getCarId() {
+        return carId;
+    }
+
+    public void setCarId(int carId) {
+        this.carId = carId;
+    }
+
+    public int getDrivingState() {
+        return drivingState;
+    }
+
+    public void setDrivingState(int drivingState) {
+        this.drivingState = drivingState;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
     }
 
     public String getName() {

@@ -553,7 +553,8 @@ public class HomeActivity extends BaseActivity {
         if (User.getInstance().checkUserStatus(this)) {
             return;
         }
-        startActivity(FleetActivity.class);
+//        startActivity(FleetActivity.class);
+        startActivity(MotorcadeActivity.class);
     }
 
     /**

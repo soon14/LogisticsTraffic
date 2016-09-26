@@ -143,7 +143,7 @@ public class CarListFragment extends Fragment {
                 //车辆管理数据设置
                 List<JsonCar> jsonCar = User.getInstance().getJsonCar();
                 if (jsonCar != null) {
-                    CarListAdapter carListAdapter = new CarListAdapter(jsonCar);
+                    CarListAdapter carListAdapter = CarListAdapter.Init(jsonCar);
                     setAdapter(carListAdapter);
                 }
             }

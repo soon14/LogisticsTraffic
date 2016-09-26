@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.bt.zhangzy.logisticstraffic.adapter.AppTextListAdapter;
+import com.bt.zhangzy.logisticstraffic.adapter.DriverListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.FleetListAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.FleetListForDevicesAdapter;
 import com.bt.zhangzy.logisticstraffic.adapter.SourceCarListAdapter;
@@ -50,13 +51,14 @@ public class FleetActivity extends BaseActivity {
     ListView listView;
     FleetListAdapter adapter;
     SourceCarListAdapter adapterDrivers;
+    DriverListAdapter driverListAdapter;
     int currentDriverIndex = -1;
     boolean isSelectDriver = false;// 选择司机
     boolean isShowLoadingDriver = false;//显示司机的运输状态
     boolean isShowLoadingDriverEdit = false;//标记是否可以确认装货
     int motorcadeId = -1;
     private int needSelectDriverSize;//需要选择的司机数量
-    private ArrayList<ResponseAllocationDriver> selectDriverListFromOrder;
+    private ArrayList<ResponseAllocationDriver> selectDriverListFromOrder;// 待选司机列表
     private ArrayList<People> selectedDrivers;
 
 

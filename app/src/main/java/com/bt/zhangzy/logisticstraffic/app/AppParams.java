@@ -141,6 +141,8 @@ public final class AppParams {
      * 车队列表 跳转到 车队详情页 所需要传递的 车队ID
      */
     public static final String BUNDLE_MOTOCARDE_ID = "BUNDLE_MOTOCARDE_ID";
+    public static final int REQUEST_CODE = 10;
+    public static final String REQUEST_PAGE_KEY = "REQUEST_PAGE_KEY";
 
     /**
      * 验证收货 页面 手机号

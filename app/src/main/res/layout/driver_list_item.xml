@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_bg_color"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp">
+
+        <TextView
+            android:id="@+id/item_name_tx"
+            style="@style/base_while_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="姓名" />
+
+        <TextView
+            android:id="@+id/item_phone_tx"
+            style="@style/base_while_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:hint="手机号" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/item_driver_car_total_tx"
+            style="@style/base_black_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/driver_own_car_num" />
+
+
+        <TextView
+            android:id="@+id/item_driver_car_select_total_tx"
+            style="@style/base_black_tx_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/item_driver_car_total_tx"
+            android:text="@string/driver_select_car_num" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/order_driver_list_item_arrow" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

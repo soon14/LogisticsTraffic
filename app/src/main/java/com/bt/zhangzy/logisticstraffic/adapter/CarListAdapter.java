@@ -7,9 +7,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.logisticstraffic.data.Car;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.tools.ViewUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,11 +20,24 @@ import java.util.List;
  */
 public class CarListAdapter extends BaseAdapter {
 
-    List<JsonCar> list;
+    List<Car> list;
 
-    public CarListAdapter(List<JsonCar> list) {
+    public CarListAdapter(List<Car> list) {
         this.list = list;
     }
+
+    public static CarListAdapter Init(List<JsonCar> list) {
+//        this.list = list;
+        if (list != null) {
+            ArrayList<Car> ls = new ArrayList<>();
+            for (JsonCar jsonCar : list) {
+                ls.add(new Car(jsonCar));
+            }
+            return new CarListAdapter(ls);
+        }
+        return null;
+    }
+
 
     @Override
     public int getCount() {
@@ -30,7 +45,7 @@ public class CarListAdapter extends BaseAdapter {
     }
 
     @Override
-    public JsonCar getItem(int position) {
+    public Car getItem(int position) {
         return list.get(position);
     }
 
@@ -61,7 +76,7 @@ public class CarListAdapter extends BaseAdapter {
             holder = (Holder) convertView.getTag();
         }
 
-        JsonCar jsonCar = list.get(position);
+        Car jsonCar = list.get(position);
         ViewUtils.setText(holder.carNumTx, jsonCar.getNumber());
         ViewUtils.setText(holder.carTypeTx, jsonCar.getType());
         ViewUtils.setText(holder.carLengthTx, jsonCar.getLength());
