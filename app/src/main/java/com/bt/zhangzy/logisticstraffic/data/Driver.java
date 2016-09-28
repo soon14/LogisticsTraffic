@@ -35,7 +35,7 @@ public class Driver implements Parcelable {
 
 
     //需要后期自己添加的数据,
-    String name, phone;
+    String name, phoneNumber;
     int ownCarCount;
     int selectCarNum;
 
@@ -54,7 +54,7 @@ public class Driver implements Parcelable {
         this.drivingState = jsonDriver.getDrivingState();
         this.idCard = jsonDriver.getIdCard();
         this.name = jsonDriver.getName();
-        this.phone = jsonDriver.getPhone();
+        this.phoneNumber = jsonDriver.getPhoneNumber();
         this.ownCarCount = jsonDriver.getOwnCarCount();
         this.selectCarNum = jsonDriver.getSelectCarNum();
 
@@ -65,8 +65,24 @@ public class Driver implements Parcelable {
         this.userId = jsonMotocardesDriverdriver.getUserId();
         this.mototcadeDriverId = jsonMotocardesDriverdriver.getId();
         this.name = jsonMotocardesDriverdriver.getName();
-        this.phone = jsonMotocardesDriverdriver.getPhoneNumber();
+        this.phoneNumber = jsonMotocardesDriverdriver.getPhoneNumber();
 
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Car> getListCar() {
@@ -131,8 +147,8 @@ public class Driver implements Parcelable {
         return name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     @Override
@@ -158,7 +174,7 @@ public class Driver implements Parcelable {
         dest.writeInt(this.drivingState);
         dest.writeString(this.idCard);
         dest.writeString(this.name);
-        dest.writeString(this.phone);
+        dest.writeString(this.phoneNumber);
         dest.writeInt(this.ownCarCount);
         dest.writeInt(this.selectCarNum);
         dest.writeTypedList(listCar);
@@ -181,7 +197,7 @@ public class Driver implements Parcelable {
         this.drivingState = in.readInt();
         this.idCard = in.readString();
         this.name = in.readString();
-        this.phone = in.readString();
+        this.phoneNumber = in.readString();
         this.ownCarCount = in.readInt();
         this.selectCarNum = in.readInt();
         this.listCar = in.createTypedArrayList(Car.CREATOR);

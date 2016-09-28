@@ -83,7 +83,9 @@ public final class AppParams {
     /*车辆管理页面跳转 */
     public static final String CAR_LIST_PAGE_CAR_KEY  = "CAR_LIST_PAGE_CAR_KEY";
     public static final String CAR_LIST_PAGE_DRIVER_KEY = "CAR_LIST_PAGE_DRIVER_KEY";
+    public static final String CAR_LIST_PAGE_SELECT_MODE = "CAR_LIST_PAGE_SELECT_MODE";
     public static final String CAR_DETAIL_PAGE_DRIVER_KEY = "CAR_DETAIL_PAGE_DRIVER_KEY";
+    public static final String CAR_DETAIL_PAGE_CAR_KEY = "CAR_DETAIL_PAGE_CAR_KEY";
     public static final int CAR_DETAIL_REQUEST_CODE = 0x40;
 
     /* 车源跳转 */
@@ -117,6 +119,10 @@ public final class AppParams {
     public static final String SELECT_DRIVES_LIST_KEY = "SELECT_DRIVES_LIST_KEY";//订单页面 跳转到 选择已接单司机的列表key值；
     public static final String SELECTED_DRIVERS_LIST = "SELECTED_DRIVERS_LIST";//已选的 司机列表
     public static final String SELECTED_DRIVERS_EDIT = "SELECTED_DRIVERS_EDIT";//标记是否有编辑的权限 （是否可以确认装货)
+
+    public static final int REQUEST_CODE_DRIVER_SELECT_CARS = 0x040;//车主选择抢单的的车辆
+    public static final String DRIVER_SELECT_CARS_MODE = "DRIVER_SELECT_CARS_MODE";
+    public static final String DRIVER_SELECT_CARS_LIST = "DRIVER_SELECT_CARS_LIST";
 
 
     /**

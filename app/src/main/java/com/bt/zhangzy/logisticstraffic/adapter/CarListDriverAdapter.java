@@ -32,9 +32,6 @@ public class CarListDriverAdapter extends BaseAdapter implements CompoundButton.
     public CarListDriverAdapter(List<JsonDriver> list, boolean isSelectModel) {
         this.list = list;
         this.isSelectModel = isSelectModel;
-        if (isSelectModel) {
-
-        }
     }
 
     @Override
@@ -62,7 +59,7 @@ public class CarListDriverAdapter extends BaseAdapter implements CompoundButton.
             convertView.setTag(holder);
             holder.name = (TextView) convertView.findViewById(R.id.item_name_tx);
             holder.phone = (TextView) convertView.findViewById(R.id.item_phone_tx);
-            holder.number = (TextView) convertView.findViewById(R.id.item_user_num_tx);
+//            holder.number = (TextView) convertView.findViewById(R.id.item_user_num_tx);
             holder.check = (CheckBox) convertView.findViewById(R.id.item_check_bt);
             holder.check.setVisibility(isSelectModel ? View.VISIBLE : View.GONE);
 
@@ -72,12 +69,16 @@ public class CarListDriverAdapter extends BaseAdapter implements CompoundButton.
 
         if (isSelectModel) {
             holder.check.setTag(position);
+
             holder.check.setOnCheckedChangeListener(this);
+            if (position == selectPosition) {
+                holder.check.setChecked(true);
+            }
 //            holder.check.setOnClickListener(this);
         }
         JsonDriver jsonDriver = list.get(position);
         ViewUtils.setText(holder.name, jsonDriver.getName());
-        ViewUtils.setText(holder.phone, jsonDriver.getPhone());
+        ViewUtils.setText(holder.phone, jsonDriver.getPhoneNumber());
 
         return convertView;
     }
@@ -89,16 +90,34 @@ public class CarListDriverAdapter extends BaseAdapter implements CompoundButton.
 
         int position = (int) buttonView.getTag();
         if (isChecked) {
-            // 单选模式 重置以前的选项
-            if (selectView != null) {
-                selectView.setChecked(false); // 会再次调用onCheckedChanged 接口
-            }
-            selectView = buttonView;
-            selectPosition = position;
+            setSelect(buttonView, position);
+
         } else {
             selectPosition = -1;
         }
 
+    }
+
+    private void setSelect(CompoundButton buttonView, int position) {
+        // 单选模式 重置以前的选项
+        if (selectView != null && selectView != buttonView) {
+            selectView.setChecked(false); // 会再次调用onCheckedChanged 接口
+        }
+        selectView = buttonView;
+        selectPosition = position;
+    }
+
+    /**
+     * 设置选中项
+     *
+     * @param position
+     */
+    public void setSelectDriver(int position) {
+        if (position > -1 && position < getCount()) {
+            Log.d(TAG, "setSelectDriver" + position);
+            selectPosition = position;
+            notifyDataSetChanged();
+        }
     }
 
     /**
@@ -111,6 +130,25 @@ public class CarListDriverAdapter extends BaseAdapter implements CompoundButton.
             return list.get(selectPosition);
         }
         return null;
+    }
+
+    /**
+     * 设置默认选择项
+     *
+     * @param pilotId
+     */
+    public void setDefaultSelect(int pilotId) {
+
+        JsonDriver driver;
+        for (int k = 0; k < list.size(); k++) {
+            driver = list.get(k);
+            if (pilotId == driver.getId()) {
+//                setSelectDriver(k);
+                selectPosition = k;
+                break;
+            }
+        }
+
     }
 
 

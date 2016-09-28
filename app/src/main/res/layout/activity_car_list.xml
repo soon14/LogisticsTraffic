@@ -9,7 +9,26 @@
 
     <!-- 车辆管理页面 -->
 
-    <include layout="@layout/page_top" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/page_top" />
+
+        <Button
+            android:id="@+id/car_list_all_check_bt"
+            style="@style/default_btn_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick_AllCheck"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="全选" />
+    </RelativeLayout>
+
 
 
     <LinearLayout

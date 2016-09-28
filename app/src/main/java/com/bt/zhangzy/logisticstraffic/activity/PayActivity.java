@@ -11,6 +11,7 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.d.pay.WXPayResultCallback;
 import com.bt.zhangzy.logisticstraffic.d.pay.WeiXinPay;
+import com.bt.zhangzy.logisticstraffic.data.Car;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.tools.ContextTools;
@@ -19,6 +20,7 @@ import ali.pay.AliPay;
 import ali.pay.AliPayResultCallback;
 
 /**
+ * 支付方式选择 页面
  * Created by ZhangZy on 2016-1-7.
  */
 public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
@@ -26,12 +28,20 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
     RadioGroup payGroup;
     RadioGroup payMethodGroup;
     double payMoney;
+    Car car;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_before);
         setPageName("支付订单");
+
+        //检测是否有车辆数据传入
+        if(getIntent().getExtras() != null ){
+            if(getIntent().hasExtra(AppParams.CAR_DETAIL_PAGE_CAR_KEY)){
+                car = getIntent().getParcelableExtra(AppParams.CAR_DETAIL_PAGE_CAR_KEY);
+            }
+        }
 
         payGroup = (RadioGroup) findViewById(R.id.pay_select_group);
         payMethodGroup = (RadioGroup) findViewById(R.id.pay_method_group);

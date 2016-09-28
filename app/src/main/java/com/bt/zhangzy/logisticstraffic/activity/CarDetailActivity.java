@@ -12,9 +12,12 @@ import android.widget.TextView;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.logisticstraffic.data.Car;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.view.CallPhoneDialog;
 import com.bt.zhangzy.logisticstraffic.view.ChooseItemsDialog;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.LicenceKeyboardPopupWindow;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
@@ -24,6 +27,7 @@ import com.bt.zhangzy.network.UploadImageHelper;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.RequestAddCar;
+import com.bt.zhangzy.network.entity.RequestBindCarDriver;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 
@@ -33,7 +37,7 @@ import com.bt.zhangzy.tools.ViewUtils;
  */
 public class CarDetailActivity extends BaseActivity {
     EditText licenceEd;
-    JsonCar jsonCar;//车辆信息;
+    Car car;//车辆信息;
     private boolean isFirstVerify;//标记是修改 还是新建车辆
 
     @Override
@@ -43,48 +47,69 @@ public class CarDetailActivity extends BaseActivity {
         if (getIntent().getExtras() == null) {
 
             setContentView(R.layout.activity_car_edit);
-            licenceEd = (EditText) findViewById(R.id.car_edit_licence_ed);
-            jsonCar = new JsonCar();
+            setPageName("添加车辆");
+            licenceEd = (EditText) findViewById(R.id.car_detail_num_tx);
+            car = new Car();
             isFirstVerify = true;
             Location location = User.getInstance().getLocation();
             if (location != null) {
                 String params = location.toText();
-                jsonCar.setUsualResidence(params);
-                setTextView(R.id.car_detail_address_tx, jsonCar.getUsualResidence());
+                car.setUsualResidence(params);
+                setTextView(R.id.car_detail_address_tx, car.getUsualResidence());
             }
         } else {
             isFirstVerify = false;
             setContentView(R.layout.activity_car_detail);
-            String car_str = getIntent().getExtras().getString(AppParams.CAR_LIST_PAGE_CAR_KEY);
-            if (!TextUtils.isEmpty(car_str)) {
-                JsonCar jsonCar = JsonCar.ParseEntity(car_str, JsonCar.class);
+            setPageName("车辆详情");
+            Car car = getIntent().getExtras().getParcelable(AppParams.CAR_LIST_PAGE_CAR_KEY);
+            if (car != null) {
 
-                initView(jsonCar);
-                this.jsonCar = jsonCar;
+                initView(car);
+                this.car = car;
             }
         }
 
 
-        setPageName("车辆详情");
     }
 
     /**
      * 车辆信息初始化
      *
-     * @param jsonCar
+     * @param car
      */
-    private void initView(JsonCar jsonCar) {
+    private void initView(Car car) {
 
-        setTextView(R.id.car_detail_num_tx, jsonCar.getNumber());
-        setTextView(R.id.car_detail_type_tx, jsonCar.getType());
-        setTextView(R.id.car_detail_length_tx, jsonCar.getLength());
-        setTextView(R.id.car_detail_weight_tx, jsonCar.getCapacity());
-        setTextView(R.id.car_detail_address_tx, jsonCar.getUsualResidence());
+        setTextView(R.id.car_detail_num_tx, car.getNumber());
+        setTextView(R.id.car_detail_type_tx, car.getType());
+        setTextView(R.id.car_detail_length_tx, car.getLength());
+        setTextView(R.id.car_detail_weight_tx, car.getCapacity());
+        setTextView(R.id.car_detail_address_tx, car.getUsualResidence());
 
-        setImageUrl(R.id.car_detail_photo_img, jsonCar.getFrontalPhotoUrl1());
-        setImageUrl(R.id.car_detail_license_img, jsonCar.getDrivingLicensePhotoUrl());
+        if (!isFirstVerify)
+            switch (car.getPayStatus()) {
+                case PaymentReceived:
+                    setTextView(R.id.car_detail_pay_msg, getString(R.string.car_detail_pay_msg, Tools.toStringDate(car.getExpireDate())));
+
+                    View viewById = findViewById(R.id.car_detail_pay_msg);
+                    if (viewById != null)
+                        viewById.setClickable(false);
+                    break;
+                case NonPayment:
+                    setTextView(R.id.car_detail_pay_msg, getString(R.string.car_detail_un_pay_msg));
+                    break;
+            }
+        else{
+
+        }
+
+        setImageUrl(R.id.car_detail_photo_img, car.getFrontalPhotoUrl1());
+        setImageUrl(R.id.car_detail_license_img, car.getDrivingLicensePhotoUrl());
 
 
+        //绑定的驾驶员
+        if (car.getPilotId() > 0)
+            setTextView(R.id.car_detail_bind_tx, car.getName() + " - " + car.getPhoneNumber());
+//        setBindView();
     }
 
     @Override
@@ -94,25 +119,26 @@ public class CarDetailActivity extends BaseActivity {
             if (requestCode == AppParams.CAR_DETAIL_REQUEST_CODE) {
                 // 选择司机列表返回
                 if (data != null && data.getExtras().containsKey(AppParams.CAR_DETAIL_PAGE_DRIVER_KEY)) {
+                    //编辑页面 转换到 显示页面
+                    Car car = data.getParcelableExtra(AppParams.CAR_DETAIL_PAGE_CAR_KEY);
+                    if (isFirstVerify) {
+                        isFirstVerify = false;
+                        setContentView(R.layout.activity_car_detail);
+                        setPageName("车辆详情");
+                        this.car = car;
+                        initView(car);
+                    }
                     String json_str = data.getStringExtra(AppParams.CAR_DETAIL_PAGE_DRIVER_KEY);
-
                     Log.d(TAG, "选择需要绑定的司机-返回 ： " + json_str);
-                    JsonDriver jsonDriver = JsonDriver.ParseEntity(json_str,JsonDriver.class);
-                    setBindView(jsonDriver);
+                    JsonDriver jsonDriver = JsonDriver.ParseEntity(json_str, JsonDriver.class);
+//                    setBindView(jsonDriver);
+                    requestBindCarDriver(jsonDriver);
                 }
             } else
                 super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private void setBindView(JsonDriver jsonDriver) {
-        if(jsonDriver == null)
-            return;
-
-        TextView textView = (TextView) findViewById(R.id.car_detail_bind_tx);
-        textView.setText(jsonDriver.getName() +"  -  "+ jsonDriver.getPhone());
-
-    }
 
     /**
      * @return
@@ -140,7 +166,7 @@ public class CarDetailActivity extends BaseActivity {
                 if (licenceEd != null)
                     licenceEd.setText(string);
 
-                jsonCar.setNumber(string);
+                car.setNumber(string);
 
             }
         }).showAsDropDown(view, 0, -view.getHeight());
@@ -164,7 +190,7 @@ public class CarDetailActivity extends BaseActivity {
                     if (!TextUtils.isEmpty(text)) {
                         ((TextView) view).setText(text);
 //                        setTextView(R.id.detail_car_length, text.toString());
-                        jsonCar.setLength(text.toString());
+                        car.setLength(text.toString());
                     }
                 }
             }
@@ -189,7 +215,7 @@ public class CarDetailActivity extends BaseActivity {
                     if (!TextUtils.isEmpty(text)) {
                         ((TextView) view).setText(text);
 //                        setTextView(R.id.detail_car_weight, text.toString());
-                        jsonCar.setCapacity(text.toString());
+                        car.setCapacity(text.toString());
                     }
                 }
             }
@@ -213,7 +239,7 @@ public class CarDetailActivity extends BaseActivity {
                     if (!TextUtils.isEmpty(text)) {
                         ((TextView) view).setText(text);
 //                        setTextView(R.id.detail_car_type, text.toString());
-                        jsonCar.setType(text.toString());
+                        car.setType(text.toString());
                     }
                 }
             }
@@ -253,7 +279,7 @@ public class CarDetailActivity extends BaseActivity {
 
                         String params = loc.toText();
                         textView.setText(params);
-                        jsonCar.setUsualResidence(params);
+                        car.setUsualResidence(params);
                     }
                 }).show();
     }
@@ -272,10 +298,10 @@ public class CarDetailActivity extends BaseActivity {
                 if (userImage != null)
                     switch (userImage.getId()) {
                         case R.id.car_detail_photo_img:
-                            jsonCar.setFrontalPhotoUrl1(uploadImgURL);
+                            car.setFrontalPhotoUrl1(uploadImgURL);
                             break;
                         case R.id.car_detail_license_img:
-                            jsonCar.setDrivingLicensePhotoUrl(uploadImgURL);
+                            car.setDrivingLicensePhotoUrl(uploadImgURL);
 
                             break;
                     }
@@ -291,8 +317,21 @@ public class CarDetailActivity extends BaseActivity {
      */
     public void onClick_Bind(View view) {
         Bundle bundle = new Bundle();
-        bundle.putString(AppParams.CAR_DETAIL_PAGE_DRIVER_KEY, jsonCar.toString());
+        bundle.putParcelable(AppParams.CAR_DETAIL_PAGE_CAR_KEY, car);
         startActivityForResult(DriverListActivity.class, bundle, AppParams.CAR_DETAIL_REQUEST_CODE);
+    }
+
+    /**
+     * 解绑司机
+     *
+     * @param view
+     */
+    public void onClick_UnBind(View view) {
+        if (car.getPilotId() > 0) {
+            showUnBindDialog();
+        } else {
+            showToast("还没有驾驶员呢");
+        }
     }
 
     /**
@@ -301,8 +340,24 @@ public class CarDetailActivity extends BaseActivity {
      * @param view
      */
     public void onClick_Delete(View view) {
+        //删除车辆 跳转到客服电话；
+        new CallPhoneDialog(this)
+                .setInfoMessage(String.format(getString(R.string.service_tel_dialog), getString(R.string.app_phone)))
+                .setPhoneNum(getString(R.string.app_phone))
+                .show();
 
+    }
 
+    /**
+     * 转换车辆修改页面
+     *
+     * @param view
+     */
+    public void onClick_Change(View view) {
+        setContentView(R.layout.activity_car_edit);
+        setPageName("修改车辆");
+        initView(car);
+        setTextView(R.id.car_detail_submit_bt, "保存");
     }
 
     /**
@@ -312,13 +367,13 @@ public class CarDetailActivity extends BaseActivity {
      */
     public void onClick_Submit(View view) {
         //字段检测
-        if (jsonCar == null)
+        if (car == null)
             return;
-        if (Tools.isEmptyStrings(jsonCar.getNumber(), jsonCar.getType(), jsonCar.getLength(), jsonCar.getCapacity(), jsonCar.getUsualResidence())) {
+        if (Tools.isEmptyStrings(car.getNumber(), car.getType(), car.getLength(), car.getCapacity(), car.getUsualResidence())) {
             showToast("请检查车辆信息是否填充完整");
             return;
         }
-        if (Tools.isEmptyStrings(jsonCar.getFrontalPhotoUrl1(), jsonCar.getDrivingLicensePhotoUrl())) {
+        if (Tools.isEmptyStrings(car.getFrontalPhotoUrl1(), car.getDrivingLicensePhotoUrl())) {
             showToast("请检查照片是否全部上传");
             return;
         }
@@ -329,10 +384,28 @@ public class CarDetailActivity extends BaseActivity {
 
     /**
      * 去付费事件
+     *
      * @param view
      */
     public void onClick_Pay(View view) {
-        startActivity(PayActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(AppParams.CAR_DETAIL_PAGE_CAR_KEY, car);
+        startActivity(PayActivity.class, bundle);
+    }
+
+    private void showUnBindDialog() {
+        new ConfirmDialog(this)
+                .setMessage("是否解绑？")
+                .setCancel("否")
+                .setConfirm("是")
+                .setListener(new ConfirmDialog.ConfirmDialogListener() {
+                    @Override
+                    public void onClick(boolean isConfirm) {
+                        if (isConfirm) {
+                            requestUnBindCarDriver(car.getPilotId());
+                        }
+                    }
+                }).show();
     }
 
     /**
@@ -342,17 +415,27 @@ public class CarDetailActivity extends BaseActivity {
         RequestAddCar requestJson = new RequestAddCar();
         JsonDriver jsonDriver = User.getInstance().getJsonTypeEntity();
         requestJson.setDriver(jsonDriver);
-        requestJson.setCar(jsonCar);
-        jsonCar.setDriverId(jsonDriver.getId());
+        car.setDriverId(jsonDriver.getId());
+        JsonCar car = this.car.toJson();
+//        car.setDriverId(jsonDriver.getId());
+        requestJson.setCar(car);
 
         JsonCallback jsonCallback = new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
 //                requestPublishCar();
-                showToast("添加车辆成功");
+                JsonCar car = JsonCar.ParseEntity(result, JsonCar.class);
+                CarDetailActivity.this.car = new Car(car);
+                if (isFirstVerify) {
+                    showToast("添加车辆成功");
+                    //自动跳转到绑定司机
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(AppParams.CAR_DETAIL_PAGE_CAR_KEY, CarDetailActivity.this.car);
+                    startActivityForResult(DriverListActivity.class, bundle, AppParams.CAR_DETAIL_REQUEST_CODE);//添加车辆成功后 自动跳转到绑定司机页面
+                } else {
+                    showToast("修改车辆信息成功");
+                }
                 finish();
-                //更新用户信息；
-//                User.getInstance().requestUserInfo();
             }
 
             @Override
@@ -363,8 +446,64 @@ public class CarDetailActivity extends BaseActivity {
         if (isFirstVerify) {
             HttpHelper.getInstance().post(AppURL.PostDriversAddCar, requestJson, jsonCallback);
         } else {
-            HttpHelper.getInstance().post(AppURL.PostDrviersUpdateCar, jsonCar, jsonCallback);
+            HttpHelper.getInstance().post(AppURL.PostDrviersUpdateCar, car, jsonCallback);
         }
+    }
+
+
+    /**
+     * 绑定司机
+     *
+     * @param jsonDriver
+     */
+    private void requestBindCarDriver(final JsonDriver jsonDriver) {
+
+        RequestBindCarDriver params = new RequestBindCarDriver();
+        params.setDriverId(jsonDriver.getId());
+        params.setCarId(car.getId());
+
+        HttpHelper.getInstance().post(AppURL.PostBindCarDriver, params, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setTextView(R.id.car_detail_bind_tx, jsonDriver.getName() + "  -  " + jsonDriver.getPhoneNumber());
+                    }
+                });
+            }
+
+            @Override
+            public void onFailed(String str) {
+                showToast(str);
+            }
+        });
+    }
+
+    private void requestUnBindCarDriver(int driverId) {
+
+        RequestBindCarDriver params = new RequestBindCarDriver();
+        params.setDriverId(driverId);
+        params.setCarId(car.getId());
+
+        HttpHelper.getInstance().post(AppURL.PostUnBindCarDriver, params, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                showToast(msg);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        setTextView(R.id.car_detail_bind_tx, "");
+                    }
+                });
+            }
+
+            @Override
+            public void onFailed(String str) {
+                showToast(str);
+            }
+        });
     }
 
 

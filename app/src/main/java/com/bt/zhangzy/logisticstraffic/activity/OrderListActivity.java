@@ -21,6 +21,7 @@ import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonOrder;
+import com.bt.zhangzy.network.entity.RequestFindByDriver;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,9 +48,13 @@ public class OrderListActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+
+            requestMyOrder();
+
             if (isAutoRefreshList)
                 requestOrderList();
-            handler.sendEmptyMessageDelayed(1, 2 * 60 * 1000);
+
+            handler.sendEmptyMessageDelayed(1, 5 * 60 * 1000);
         }
     };
 
@@ -192,55 +197,6 @@ public class OrderListActivity extends BaseActivity {
 //        viewPager.getAdapter().notifyDataSetChanged();
     }
 
-    private void requestOrderList() {
-        User user = User.getInstance();
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("role", String.valueOf(user.getUserType().toRole()));
-        params.put("roleId", String.valueOf(user.getRoleId()));
-        if (user.getUserType() == Type.DriverType) {
-//            params.put("orderStatus",String.valueOf(OrderStatus.TradeOrder.ordinal()));
-            params.put("orderStatus", String.valueOf(OrderReceiveStatus.Accept.ordinal() - 1));
-
-            params.put("isGreaterThan", "true");
-        }
-//        params.put("orderStatus","0");
-//        class JsonParams extends BaseEntity {
-//            int role, roleId;
-//
-//            public int getRole() {
-//                return role;
-//            }
-//
-//            public int getRoleId() {
-//                return roleId;
-//            }
-//        }
-//        JsonParams params = new JsonParams();
-//        params.role = user.getUserType().toRole();
-//        params.roleId = (int) roleId;
-        HttpHelper.getInstance().get(AppURL.GetMyOrderList, params, new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-                showToast("列表获取成功" + msg);
-                List<JsonOrder> list = ParseJson_Array(result, JsonOrder.class);
-                setAdapter(list);
-                // // TODO: 2016-1-29  添加订单数据
-//                adapter = new OrderListAdapter(list);
-//                getActivity().runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        listView.setAdapter(adapter);
-//                    }
-//                });
-            }
-
-            @Override
-            public void onFailed(String str) {
-                showToast("列表获取失败" + str);
-            }
-        });
-    }
-
 
     private View lastSelectBtn;//记录上一次选中的按钮
 
@@ -280,5 +236,55 @@ public class OrderListActivity extends BaseActivity {
                 viewPager.setCurrentItem(currentPage);
 //            viewPager.getAdapter().notifyDataSetChanged();
         }
+    }
+
+
+    /**
+     * 请求订单列表
+     */
+    private void requestOrderList() {
+        User user = User.getInstance();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("role", String.valueOf(user.getUserType().toRole()));
+        params.put("roleId", String.valueOf(user.getRoleId()));
+        if (user.getUserType() == Type.DriverType) {
+//            params.put("orderStatus",String.valueOf(OrderStatus.TradeOrder.ordinal()));
+            params.put("orderStatus", String.valueOf(OrderReceiveStatus.Accept.ordinal() - 1));
+
+            params.put("isGreaterThan", "true");
+        }
+        HttpHelper.getInstance().get(AppURL.GetMyOrderList, params, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                showToast("列表获取成功" + msg);
+                List<JsonOrder> list = ParseJson_Array(result, JsonOrder.class);
+                setAdapter(list);
+            }
+
+            @Override
+            public void onFailed(String str) {
+                showToast("列表获取失败" + str);
+            }
+        });
+    }
+
+    /**
+     * 请求正在运输中的订单
+     */
+    private void requestMyOrder() {
+
+        RequestFindByDriver params = new RequestFindByDriver();
+        params.setDriverId(User.getInstance().getDriverID());
+        HttpHelper.getInstance().post(AppURL.PostFindByDriver, params, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+
+            }
+
+            @Override
+            public void onFailed(String str) {
+                showToast(str);
+            }
+        });
     }
 }

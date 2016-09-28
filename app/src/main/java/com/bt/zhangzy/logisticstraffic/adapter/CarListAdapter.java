@@ -1,9 +1,12 @@
 package com.bt.zhangzy.logisticstraffic.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.d.R;
@@ -18,9 +21,12 @@ import java.util.List;
  * 车辆列表的 数据适配器
  * Created by ZhangZy on 2016-8-24.
  */
-public class CarListAdapter extends BaseAdapter {
+public class CarListAdapter extends BaseAdapter implements CompoundButton.OnCheckedChangeListener {
 
+    private static final String TAG = CarListAdapter.class.getSimpleName();
     List<Car> list;
+    boolean isCheckMode;
+    ArrayList<Integer> checkList = new ArrayList<>();
 
     public CarListAdapter(List<Car> list) {
         this.list = list;
@@ -38,6 +44,9 @@ public class CarListAdapter extends BaseAdapter {
         return null;
     }
 
+    public void setCheckMode(boolean checkMode) {
+        isCheckMode = checkMode;
+    }
 
     @Override
     public int getCount() {
@@ -68,30 +77,96 @@ public class CarListAdapter extends BaseAdapter {
             holder.carLengthTx = (TextView) convertView.findViewById(R.id.item_car_length_tx);
             holder.carWeightTx = (TextView) convertView.findViewById(R.id.item_car_weight_tx);
             holder.carStatusTx = (TextView) convertView.findViewById(R.id.item_car_status_tx);
+            holder.payStatusTx = (TextView) convertView.findViewById(R.id.item_car_pay_status_tx);
             holder.driverNameTx = (TextView) convertView.findViewById(R.id.item_car_driver_name_tx);
             holder.driverPhoneTx = (TextView) convertView.findViewById(R.id.item_car_driver_phone_tx);
+            holder.checkBox = (CheckBox) convertView.findViewById(R.id.item_check_bt);
 
 
         } else {
             holder = (Holder) convertView.getTag();
         }
 
-        Car jsonCar = list.get(position);
-        ViewUtils.setText(holder.carNumTx, jsonCar.getNumber());
-        ViewUtils.setText(holder.carTypeTx, jsonCar.getType());
-        ViewUtils.setText(holder.carLengthTx, jsonCar.getLength());
-        ViewUtils.setText(holder.carWeightTx, jsonCar.getCapacity());
-        ViewUtils.setText(holder.carStatusTx, jsonCar.getStatus() + "");
-        ViewUtils.setText(holder.driverNameTx, jsonCar.getName());
-        ViewUtils.setText(holder.driverPhoneTx, jsonCar.getPhoneNumber());
+
+        Car car = list.get(position);
+        ViewUtils.setText(holder.carNumTx, car.getNumber());
+        ViewUtils.setText(holder.carTypeTx, car.getType());
+        ViewUtils.setText(holder.carLengthTx, car.getLength());
+        ViewUtils.setText(holder.carWeightTx, car.getCapacity());
+        ViewUtils.setText(holder.carStatusTx, car.getRunStatusName());
+        ViewUtils.setText(holder.payStatusTx, car.getPayStatusName());
+
+        ViewUtils.setText(holder.driverNameTx, car.getName());
+        ViewUtils.setText(holder.driverPhoneTx, car.getPhoneNumber());
+
+
+        if (isCheckMode) {
+            holder.checkBox.setTag(position);
+            holder.checkBox.setVisibility(View.VISIBLE);
+            holder.checkBox.setOnCheckedChangeListener(this);
+            if (checkList.contains(position)) {
+                holder.checkBox.setChecked(true);
+            }
+        } else {
+            holder.checkBox.setVisibility(View.GONE);
+        }
 
         return convertView;
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (buttonView == null)
+            return;
+
+        int position = (int) buttonView.getTag();
+        setCheck(isChecked, position);
+        Log.d(TAG, buttonView.getTag() + "  =========>>check: " + isChecked + " list==>" + checkList);
+
+    }
+
+    private void setCheck(boolean isChecked, int position) {
+        if (isChecked) {
+            if (!checkList.contains(position)) {
+                checkList.add(position);
+            }
+        } else {
+            if (checkList.contains(position)) {
+                checkList.remove(checkList.indexOf(position));
+            }
+        }
+    }
+
+    /**
+     * 返回选中的 车辆列表
+     *
+     * @return
+     */
+    public ArrayList<Car> getCheckList() {
+        ArrayList<Car> checkCarList = new ArrayList<>();
+        if (checkList.isEmpty()) {
+            return null;
+        } else {
+            for (int k : checkList) {
+                checkCarList.add(getItem(k));
+            }
+        }
+
+        return checkCarList;
+    }
+
+    public void allCheck() {
+        for (int k = 0; k < getCount(); k++) {
+            setCheck(true, k);
+        }
+        notifyDataSetChanged();
+    }
+
 
     class Holder {
-        TextView carNumTx, carTypeTx, carLengthTx, carWeightTx, carStatusTx;
+        TextView carNumTx, carTypeTx, carLengthTx, carWeightTx, carStatusTx, payStatusTx;
         TextView driverNameTx, driverPhoneTx;
+        CheckBox checkBox;
 
     }
 

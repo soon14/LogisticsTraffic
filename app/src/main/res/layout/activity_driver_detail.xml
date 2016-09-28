@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.bt.zhangzy.logisticstraffic.activity.DriverDetailActivity">
     <!-- 司机详情 -->
 
     <include layout="@layout/page_top" />
@@ -40,12 +42,12 @@
 
                 <TextView
                     style="@style/base_black_tx_style"
-                    android:text="身份证：" />
+                    android:text="手机号：" />
 
                 <TextView
                     android:id="@+id/driver_detail_num_tx"
                     style="@style/base_black_tx_style"
-                    android:hint="司机身份证号码" />
+                    android:hint="司机手机号码" />
 
 
             </TableRow>
@@ -76,6 +78,7 @@
             android:src="@drawable/picture_upload" />
 
         <ImageView
+            android:id="@+id/driver_detail_id_card_photo_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -90,11 +93,13 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/driver_detail_del_bt"
             style="@style/default_btn_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
+            android:onClick="onClick_Delete"
             android:layout_weight="1"
             android:text="删除" />
 
@@ -104,6 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
+            android:onClick="onClick_Submit"
             android:layout_weight="1"
             android:text="确定" />
     </LinearLayout>

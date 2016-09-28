@@ -7,6 +7,15 @@ import com.zhangzy.base.http.BaseEntity;
  */
 public class RequestOrderAccept_Reject extends BaseEntity {
     int orderId, role, roleId;
+    String carIds;
+
+    public String getCarIds() {
+        return carIds;
+    }
+
+    public void setCarIds(String carIds) {
+        this.carIds = carIds;
+    }
 
     public int getOrderId() {
         return orderId;

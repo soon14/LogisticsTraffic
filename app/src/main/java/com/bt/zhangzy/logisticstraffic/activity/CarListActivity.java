@@ -1,5 +1,6 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -7,12 +8,12 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.bt.zhangzy.logisticstraffic.adapter.HomeFragmentPagerAdapter;
+import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
-import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.data.Car;
 import com.bt.zhangzy.logisticstraffic.fragment.CarListFragment;
 import com.bt.zhangzy.logisticstraffic.fragment.DriverListFragment;
-import com.bt.zhangzy.network.entity.JsonDriver;
 
 import java.util.ArrayList;
 
@@ -23,26 +24,30 @@ import java.util.ArrayList;
 public class CarListActivity extends BaseActivity {
 
     private ViewPager viewPager;//页面适配器
+    boolean isDriverSelectCarsMode;
+    CarListFragment carListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_car_list);
-        setPageName("我的车辆");
+
+        if (getIntent().hasExtra(AppParams.DRIVER_SELECT_CARS_MODE)) {
+            isDriverSelectCarsMode = getIntent().getBooleanExtra(AppParams.DRIVER_SELECT_CARS_MODE, false);
+        }
+
+        setPageName(isDriverSelectCarsMode ? "选择抢单车辆" : "我的车辆");
+        if (!isDriverSelectCarsMode) {
+            findViewById(R.id.car_list_all_check_bt).setVisibility(View.GONE);
+        }
+
         initViewPager();
 
 
         //车辆管理
         //测试数据
-        ArrayList<JsonDriver> driverArrayList = new ArrayList<>();
-        for (int k = 0; k < 10; k++) {
-            JsonDriver jsonDriver = new JsonDriver();
-            jsonDriver.setName("张三");
-            jsonDriver.setPhone("15001230123");
-            driverArrayList.add(jsonDriver);
-        }
-        User.getInstance().setJsonDriverList(driverArrayList);
+
 
     }
 
@@ -50,15 +55,21 @@ public class CarListActivity extends BaseActivity {
         viewPager = (ViewPager) findViewById(R.id.list_viewpager);
         ArrayList<Fragment> fragments = new ArrayList<Fragment>();
         // 车辆列表
-        CarListFragment carListFragment = new CarListFragment();
-
+        carListFragment = new CarListFragment();
+        carListFragment.setCheckMode(isDriverSelectCarsMode);
         fragments.add(carListFragment);
 
-        //驾驶员列表数据设置
-
-        DriverListFragment driverListFragment = new DriverListFragment();
-
-        fragments.add(driverListFragment);
+        if (!isDriverSelectCarsMode) {
+            //驾驶员列表数据设置
+            DriverListFragment driverListFragment = new DriverListFragment();
+            fragments.add(driverListFragment);
+        }
+        if (fragments.size() == 1) {
+            View tables = findViewById(android.R.id.tabs);
+            if (tables != null) {
+                tables.setVisibility(View.GONE);
+            }
+        }
 
         FragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -134,9 +145,32 @@ public class CarListActivity extends BaseActivity {
      * @param view
      */
     public void onClick_AddCar(View view) {
+        if (isDriverSelectCarsMode) {
+            //选择抢单车辆模式
+            ArrayList<Car> checkList = carListFragment.getCheckList();
+            if (checkList == null || checkList.isEmpty()) {
+                showToast("您还没有选择车辆");
+                return;
+            }
+            Intent intent = new Intent();
+            intent.putParcelableArrayListExtra(AppParams.DRIVER_SELECT_CARS_LIST, checkList);
+            setResult(AppParams.REQUEST_CODE_DRIVER_SELECT_CARS, intent);
+            finish();
 
-        startActivity(CarDetailActivity.class);
 
+        } else {
+            startActivity(CarDetailActivity.class);
+        }
+
+    }
+
+    /**
+     * 选择模式下的 全选按钮
+     *
+     * @param view
+     */
+    public void onClick_AllCheck(View view) {
+        carListFragment.setAllCheck();
     }
 
     /**

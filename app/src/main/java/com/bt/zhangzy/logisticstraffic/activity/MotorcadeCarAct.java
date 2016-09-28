@@ -48,7 +48,7 @@ public class MotorcadeCarAct extends BaseActivity {
 
     private void initView(Driver driver) {
         setTextView(R.id.motorcade_car_driver_name_tx, getString(R.string.motorcade_driver_name, driver.getName()));
-        setTextView(R.id.motorcade_car_driver_phone_tx, getString(R.string.motorcade_driver_phone, driver.getPhone()));
+        setTextView(R.id.motorcade_car_driver_phone_tx, getString(R.string.motorcade_driver_phone, driver.getPhoneNumber()));
         CheckBox allCheck = (CheckBox) findViewById(R.id.motorcade_car_check_bt);
         allCheck.setVisibility(View.GONE);
 

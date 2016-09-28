@@ -60,5 +60,7 @@
     <string name="motorcade_driver_name">车主：%s</string>
     <string name="motorcade_driver_phone">手机号：%s</string>
 
+    <string name="car_detail_pay_msg">会员有效期到：%s</string>
+    <string name="car_detail_un_pay_msg">点击购买会员</string>
 
 </resources>

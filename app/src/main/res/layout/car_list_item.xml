@@ -2,108 +2,147 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp">
 
-
-    <TableRow
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/text_bg_tab_focus_color"
-        android:paddingBottom="3dp"
-        android:paddingTop="3dp">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <TextView
-            style="@style/base_while_tx_style"
-            android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="车牌号：" />
+            android:background="@color/text_bg_tab_focus_color"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp">
 
-        <TextView
-            android:id="@+id/item_car_num_tx"
-            style="@style/base_while_tx_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="车牌号码" />
+            <TextView
+                style="@style/base_while_tx_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="车牌号：" />
 
-    </TableRow>
+            <TextView
+                android:id="@+id/item_car_num_tx"
+                style="@style/base_while_tx_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="车牌号码" />
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        </TableRow>
 
-        <TextView
-            style="@style/base_black_tx_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="适配司机：" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-
-        <TextView
-            android:id="@+id/item_car_driver_name_tx"
-            style="@style/base_black_tx_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="司机姓名" />
-
-        <TextView
-            style="@style/base_black_tx_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="司机电话：" />
+            <TextView
+                style="@style/base_black_tx_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="驾驶员：" />
 
 
-        <TextView
-            android:id="@+id/item_car_driver_phone_tx"
-            style="@style/base_black_tx_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="司机电话号码" />
-    </TableRow>
+            <TextView
+                android:id="@+id/item_car_driver_name_tx"
+                style="@style/base_black_tx_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="司机姓名" />
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <TextView
 
-
-        <TextView
-            android:id="@+id/item_car_type_tx"
-            style="@style/base_black_tx_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="type" />
+                style="@style/base_black_tx_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="电话：" />
 
 
-        <TextView
-            android:id="@+id/item_car_length_tx"
-            style="@style/base_black_tx_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="length" />
+            <TextView
+                android:id="@+id/item_car_driver_phone_tx"
+                style="@style/base_black_tx_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="司机电话号码"
+                android:maxLines="1" />
+        </TableRow>
 
-        <TextView
-            android:id="@+id/item_car_weight_tx"
-            style="@style/base_black_tx_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="weight" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/item_car_status_tx"
-            style="@style/base_black_tx_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="status" />
 
-    </TableRow>
+            <TextView
+                android:id="@+id/item_car_type_tx"
+                style="@style/base_black_tx_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/car_type_bg_shape"
+                android:hint="类型"
+                android:textColor="@color/car_type_text_color" />
+
+
+            <TextView
+                android:id="@+id/item_car_length_tx"
+                style="@style/base_black_tx_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/car_type_bg_shape"
+                android:hint="车长"
+                android:textColor="@color/car_type_text_color" />
+
+            <TextView
+                android:id="@+id/item_car_weight_tx"
+                style="@style/base_black_tx_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/car_type_bg_shape"
+                android:hint="载重"
+                android:textColor="@color/car_type_text_color" />
+
+            <TextView
+                android:id="@+id/item_car_status_tx"
+                style="@style/base_black_tx_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/car_type_bg_shape"
+                android:hint="状态"
+                android:textColor="@color/car_type_text_color" />
+            <TextView
+                android:id="@+id/item_car_pay_status_tx"
+                style="@style/base_black_tx_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/car_type_bg_shape"
+                android:hint="pay"
+                android:textColor="@color/car_type_text_color" />
+        </TableRow>
+    </LinearLayout>
+
+
+    <CheckBox
+        android:id="@+id/item_check_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/transparent"
+        android:button="@color/transparent"
+        android:checked="false"
+        android:drawableTop="@drawable/check_btn_selector"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp" />
 </LinearLayout>

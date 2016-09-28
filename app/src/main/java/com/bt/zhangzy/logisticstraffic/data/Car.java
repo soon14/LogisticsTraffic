@@ -56,6 +56,66 @@ public class Car implements Parcelable {
         this.orderId = json.getOrderId();
         this.pilotId = json.getPilotId();
         this.situation = json.getSituation();
+        this.usualResidence = json.getUsualResidence();
+        this.currentLocation = json.getCurrentLocation();
+        this.drivingLicensePhotoUrl = json.getDrivingLicensePhotoUrl();
+        this.frontalPhotoUrl1 = json.getFrontalPhotoUrl1();
+        this.frontalPhotoUrl2 = json.getFrontalPhotoUrl2();
+        this.payDate = json.getPayDate();
+        this.expireDate = json.getExpireDate();
+    }
+
+    /**
+     * json数据转换
+     *
+     * @return
+     */
+    public JsonCar toJson() {
+        JsonCar json = new JsonCar();
+        json.setName(name);
+        json.setPhoneNumber(phoneNumber);
+        json.setId(id);
+        json.setDriverId(driverId);
+        json.setNumber(number);
+        json.setType(type);
+        json.setStatus(status);
+        json.setLength(length);
+        json.setCapacity(capacity);
+        json.setPayStatus(payStatus);
+        json.setRunStatus(runStatus);
+        json.setOrderId(orderId);
+        json.setPilotId(pilotId);
+        json.setSituation(situation);
+        json.setUsualResidence(usualResidence);
+        json.setCurrentLocation(currentLocation);
+        json.setDrivingLicensePhotoUrl(drivingLicensePhotoUrl);
+        json.setFrontalPhotoUrl1(frontalPhotoUrl1);
+        json.setFrontalPhotoUrl2(frontalPhotoUrl2);
+        json.setPayDate(payDate);
+        json.setExpireDate(expireDate);
+
+
+        return json;
+    }
+
+    public String getFrontalPhotoUrl1() {
+        return frontalPhotoUrl1;
+    }
+
+    public void setFrontalPhotoUrl1(String frontalPhotoUrl1) {
+        this.frontalPhotoUrl1 = frontalPhotoUrl1;
+    }
+
+    public String getDrivingLicensePhotoUrl() {
+        return drivingLicensePhotoUrl;
+    }
+
+    public void setDrivingLicensePhotoUrl(String drivingLicensePhotoUrl) {
+        this.drivingLicensePhotoUrl = drivingLicensePhotoUrl;
+    }
+
+    public void setUsualResidence(String usualResidence) {
+        this.usualResidence = usualResidence;
     }
 
     public String getName() {
@@ -94,16 +154,55 @@ public class Car implements Parcelable {
         return situation;
     }
 
-    public int getStatus() {
-        return status;
+    public CarStatus getStatus() {
+        return CarStatus.Parse(status);
     }
 
-    public int getPayStatus() {
-        return payStatus;
+    public String getStatusName() {
+        switch (getStatus()) {
+            case UN_CHECKED:
+                return "未提交";
+            case COMMITED:
+                return "已提交资料";
+            case CHECKED:
+                return "已审核";
+            case LOCK:
+                return "冻结";
+        }
+        return "";
     }
 
-    public int getRunStatus() {
-        return runStatus;
+    public CarPayStatus getPayStatus() {
+        return CarPayStatus.Parse(payStatus);
+    }
+
+    public String getPayStatusName() {
+        switch (getPayStatus()) {
+            case NonPayment:
+                return "未支付";
+            case PaymentReceived:
+                return "已支付";
+            case Overdue:
+                return "已过期";
+        }
+        return "";
+    }
+
+    public CarRunStatus getRunStatus() {
+        return CarRunStatus.Parse(runStatus);
+    }
+
+    public String getRunStatusName() {
+        switch (getRunStatus()) {
+            case Leisure:
+                return "空闲";
+            case Busy:
+                return "运输中";
+            case OffStream:
+                return "停运";
+
+        }
+        return "";
     }
 
     public int getOrderId() {
@@ -112,6 +211,10 @@ public class Car implements Parcelable {
 
     public int getPilotId() {
         return pilotId;
+    }
+
+    public String getUsualResidence() {
+        return usualResidence;
     }
 
     @Override
@@ -192,4 +295,33 @@ public class Car implements Parcelable {
             return new Car[size];
         }
     };
+
+
+    public void setDriverId(int driverId) {
+        this.driverId = driverId;
+    }
+
+    public void setCapacity(String capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public Date getPayDate() {
+        return payDate;
+    }
+
+    public Date getExpireDate() {
+        return expireDate;
+    }
 }

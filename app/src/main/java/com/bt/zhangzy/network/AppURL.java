@@ -202,6 +202,18 @@ http://182.92.77.31:8080/cityInfo/ktlist   */
     GetFreightLineRemove("/freightlines/delete"),//按Id删除货运线路
     getFreightLineDefault("/freightlines/default"),//设置常用货运线路
 
+
+    /**
+     * =============================
+     **/
+    GetDriverList("/drivers/findByOwnerId"),//驾驶员列表（新增）
+    PostSaveDriver("/drivers/add_driver"),//添加驾驶员（新增）
+    PostDeleteDriver("/drivers/del_driver"),//删除驾驶员（新增）
+    PostBindCarDriver("/drivers/bindriver"),//绑定车辆驾驶员（新增）
+    PostUnBindCarDriver("/drivers/unbindriver"),//解绑车辆（新增）
+    PostFindByDriver("/orders/find_dirver"),//查询运输中订单（新增）
+
+
     Empty("NULL");
     //  枚举类 URL 的自定义
     private String url;

@@ -63,7 +63,7 @@ public class DriverListAdapter extends BaseAdapter {
         Driver driver = list.get(position);
         if (driver != null) {
             ViewUtils.setText(holder.nameTx, driver.getName());
-            ViewUtils.setText(holder.phoneTx, driver.getPhone());
+            ViewUtils.setText(holder.phoneTx, driver.getPhoneNumber());
             ViewUtils.setText(holder.countTx, parent.getResources().getString(R.string.driver_own_car_num, driver.getOwnCarCount()));
             if (isChooseMode) {
                 ViewUtils.setText(holder.numTx, parent.getResources().getString(R.string.driver_select_car_num, driver.getSelectCarNum()));

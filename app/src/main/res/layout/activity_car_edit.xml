@@ -29,7 +29,6 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/car_detail_num_tx"
                     style="@style/base_black_tx_style"
                     android:text="车辆牌照：" />
 
@@ -39,7 +38,7 @@
             </TableRow>
             <TableRow>
                 <EditText
-                    android:id="@+id/car_edit_licence_ed"
+                    android:id="@+id/car_detail_num_tx"
                     android:hint="车辆的牌照"
                     android:clickable="true"
                     android:focusable="false"
@@ -55,7 +54,6 @@
 
             <TableRow>
                 <TextView
-                    android:id="@+id/car_detail_length_tx"
                     style="@style/base_black_tx_style"
                     android:text="车长：" />
 
@@ -66,6 +64,7 @@
             </TableRow>
             <TableRow>
                 <EditText
+                    android:id="@+id/car_detail_length_tx"
                     android:hint="车辆的长度"
                     android:focusable="false"
                     android:onClick="onClick_ChangeLength"/>
@@ -135,18 +134,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
         <Button
-            style="@style/default_btn_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1"
-            android:onClick="onClick_Delete"
-            android:text="删除" />
-
-        <Button
+            android:id="@+id/car_detail_submit_bt"
             style="@style/default_btn_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -154,6 +143,6 @@
             android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:onClick="onClick_Submit"
-            android:text="确定" />
+            android:text="下一步" />
     </LinearLayout>
 </LinearLayout>

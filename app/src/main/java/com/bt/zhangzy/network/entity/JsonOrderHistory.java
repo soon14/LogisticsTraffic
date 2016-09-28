@@ -12,6 +12,15 @@ public class JsonOrderHistory extends BaseEntity {
     int id, orderId, role, roleId, status;
     Date createData, modifyData;
     String name, phoneNumber;
+    String carIds;
+
+    public String getCarIds() {
+        return carIds;
+    }
+
+    public void setCarIds(String carIds) {
+        this.carIds = carIds;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;

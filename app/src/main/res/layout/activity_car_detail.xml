@@ -17,6 +17,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/car_detail_pay_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -42,6 +43,8 @@
                 android:layout_margin="5dp"
                 android:background="@color/white"
                 android:gravity="center"
+                android:onClick="onClick_UnBind"
+                android:maxLines="1"
                 android:hint="该车未绑定司机"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp" />
@@ -172,6 +175,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
+            android:onClick="onClick_Delete"
             android:text="删除" />
 
         <Button
@@ -181,6 +185,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
-            android:text="确定" />
+            android:onClick="onClick_Change"
+            android:text="修改" />
     </LinearLayout>
 </LinearLayout>

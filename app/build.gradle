@@ -45,7 +45,9 @@ android {
         debug {
             buildConfigField "boolean", "APP_DEBUG", "true"
 //            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:8080"]
-            manifestPlaceholders = [APP_HOST_VALUE: "http://192.168.1.7:8080"]
+//            manifestPlaceholders = [APP_HOST_VALUE: "http://192.168.1.7:8080"]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://192.168.1.14:9080"]
+
 
             // 是否进行混淆
             minifyEnabled false

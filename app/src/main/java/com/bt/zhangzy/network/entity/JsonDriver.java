@@ -25,7 +25,7 @@ public class JsonDriver extends BaseEntity {
 
 
     //需要后期自己添加的数据,
-    String name, phone;
+    String name, phoneNumber;
     int ownCarCount;
     int selectCarNum;
 
@@ -81,12 +81,12 @@ public class JsonDriver extends BaseEntity {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public int getStatus() {
