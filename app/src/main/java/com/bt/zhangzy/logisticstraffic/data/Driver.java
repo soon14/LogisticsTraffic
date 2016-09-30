@@ -18,6 +18,7 @@ import java.util.List;
 public class Driver implements Parcelable {
 
     int id, userId, mototcadeDriverId;
+    int orderHistoryId;
     String licensePhotoUrl;//驾驶证照片URL
     String specialQualificationsPhotoUrl;//特殊资质图片URL
     String personLicensePhotoUrl;//本人手持驾驶证照片URL
@@ -40,6 +41,7 @@ public class Driver implements Parcelable {
     int selectCarNum;
 
     List<Car> listCar;
+    List<Car> selectCars;
 
     public Driver() {
 
@@ -55,8 +57,8 @@ public class Driver implements Parcelable {
         this.idCard = jsonDriver.getIdCard();
         this.name = jsonDriver.getName();
         this.phoneNumber = jsonDriver.getPhoneNumber();
-        this.ownCarCount = jsonDriver.getOwnCarCount();
-        this.selectCarNum = jsonDriver.getSelectCarNum();
+//        this.ownCarCount = jsonDriver.getOwnCarCount();
+//        this.selectCarNum = jsonDriver.getSelectCarNum();
 
     }
 
@@ -67,6 +69,31 @@ public class Driver implements Parcelable {
         this.name = jsonMotocardesDriverdriver.getName();
         this.phoneNumber = jsonMotocardesDriverdriver.getPhoneNumber();
 
+    }
+
+    public void copy(Driver d) {
+        this.id = d.id;
+        this.userId = d.userId;
+        this.mototcadeDriverId = d.mototcadeDriverId;
+        this.orderHistoryId = d.orderHistoryId;
+        this.licensePhotoUrl = d.licensePhotoUrl;
+        this.specialQualificationsPhotoUrl = d.specialQualificationsPhotoUrl;
+        this.personLicensePhotoUrl = d.personLicensePhotoUrl;
+        this.myWealth = d.myWealth;
+        this.star = d.star;
+        this.commentsCount = d.commentsCount;
+        this.orderCount = d.orderCount;
+        this.totalMileage = d.totalMileage;
+        this.status = d.status;
+        this.carId = d.carId;
+        this.drivingState = d.drivingState;
+        this.idCard = d.idCard;
+        this.name = d.name;
+        this.phoneNumber = d.phoneNumber;
+        this.ownCarCount = d.ownCarCount;
+        this.selectCarNum = d.selectCarNum;
+        this.listCar = d.listCar;
+        this.selectCars = d.selectCars;
     }
 
     public void setId(int id) {
@@ -94,6 +121,7 @@ public class Driver implements Parcelable {
             listCar = new ArrayList<Car>();
 
         listCar.add(car);
+        ownCarCount = listCar.size();
     }
 
     public void addAllCar(List<Car> list) {
@@ -101,6 +129,7 @@ public class Driver implements Parcelable {
             listCar = new ArrayList<Car>();
 
         listCar.addAll(list);
+        ownCarCount = listCar.size();
     }
 
     public int getOwnCarCount() {
@@ -111,8 +140,13 @@ public class Driver implements Parcelable {
         return selectCarNum;
     }
 
-    public void setOwnCarCount(int ownCarCount) {
-        this.ownCarCount = ownCarCount;
+    public List<Car> getSelectCars() {
+        return selectCars;
+    }
+
+    public void setSelectCars(List<Car> selectCars) {
+        this.selectCars = selectCars;
+        selectCarNum = selectCars == null ? 0 : selectCars.size();
     }
 
     public int getId() {
@@ -151,6 +185,22 @@ public class Driver implements Parcelable {
         return phoneNumber;
     }
 
+    public int getOrderHistoryId() {
+        return orderHistoryId;
+    }
+
+    public void setOrderHistoryId(int orderHistoryId) {
+        this.orderHistoryId = orderHistoryId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && o instanceof Driver) {
+            return this.id == ((Driver) o).id;
+        }
+        return super.equals(o);
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -161,6 +211,7 @@ public class Driver implements Parcelable {
         dest.writeInt(this.id);
         dest.writeInt(this.userId);
         dest.writeInt(this.mototcadeDriverId);
+        dest.writeInt(this.orderHistoryId);
         dest.writeString(this.licensePhotoUrl);
         dest.writeString(this.specialQualificationsPhotoUrl);
         dest.writeString(this.personLicensePhotoUrl);
@@ -178,12 +229,14 @@ public class Driver implements Parcelable {
         dest.writeInt(this.ownCarCount);
         dest.writeInt(this.selectCarNum);
         dest.writeTypedList(listCar);
+        dest.writeTypedList(selectCars);
     }
 
     protected Driver(Parcel in) {
         this.id = in.readInt();
         this.userId = in.readInt();
         this.mototcadeDriverId = in.readInt();
+        this.orderHistoryId = in.readInt();
         this.licensePhotoUrl = in.readString();
         this.specialQualificationsPhotoUrl = in.readString();
         this.personLicensePhotoUrl = in.readString();
@@ -201,6 +254,8 @@ public class Driver implements Parcelable {
         this.ownCarCount = in.readInt();
         this.selectCarNum = in.readInt();
         this.listCar = in.createTypedArrayList(Car.CREATOR);
+        this.selectCars = in.createTypedArrayList(Car.CREATOR);
+
     }
 
     public static final Creator<Driver> CREATOR = new Creator<Driver>() {

@@ -98,7 +98,7 @@ public class CarDetailActivity extends BaseActivity {
                     setTextView(R.id.car_detail_pay_msg, getString(R.string.car_detail_un_pay_msg));
                     break;
             }
-        else{
+        else {
 
         }
 
@@ -130,9 +130,14 @@ public class CarDetailActivity extends BaseActivity {
                     }
                     String json_str = data.getStringExtra(AppParams.CAR_DETAIL_PAGE_DRIVER_KEY);
                     Log.d(TAG, "选择需要绑定的司机-返回 ： " + json_str);
-                    JsonDriver jsonDriver = JsonDriver.ParseEntity(json_str, JsonDriver.class);
-//                    setBindView(jsonDriver);
-                    requestBindCarDriver(jsonDriver);
+                    final JsonDriver jsonDriver = JsonDriver.ParseEntity(json_str, JsonDriver.class);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setTextView(R.id.car_detail_bind_tx, jsonDriver.getName() + "  -  " + jsonDriver.getPhoneNumber());
+                        }
+                    });
+//                    requestBindCarDriver(jsonDriver);
                 }
             } else
                 super.onActivityResult(requestCode, resultCode, data);
@@ -354,10 +359,30 @@ public class CarDetailActivity extends BaseActivity {
      * @param view
      */
     public void onClick_Change(View view) {
-        setContentView(R.layout.activity_car_edit);
-        setPageName("修改车辆");
-        initView(car);
-        setTextView(R.id.car_detail_submit_bt, "保存");
+
+        switch (car.getStatus()) {
+            case COMMITED:
+            case CHECKED:
+                new CallPhoneDialog(this)
+                        .setInfoMessage(String.format(getString(R.string.service_tel_dialog), getString(R.string.app_phone)))
+                        .setPhoneNum(getString(R.string.app_phone))
+                        .show();
+                break;
+            case LOCK:
+                showToast("车辆已被冻结");
+                break;
+            case DELETE:
+                showToast("车辆已被删除");
+                break;
+            case UN_CHECKED:
+            case Empty:
+                setContentView(R.layout.activity_car_edit);
+                setPageName("修改车辆");
+                initView(car);
+                setTextView(R.id.car_detail_submit_bt, "保存");
+                break;
+        }
+
     }
 
     /**
@@ -388,6 +413,7 @@ public class CarDetailActivity extends BaseActivity {
      * @param view
      */
     public void onClick_Pay(View view) {
+
         Bundle bundle = new Bundle();
         bundle.putParcelable(AppParams.CAR_DETAIL_PAGE_CAR_KEY, car);
         startActivity(PayActivity.class, bundle);
@@ -431,6 +457,7 @@ public class CarDetailActivity extends BaseActivity {
                     //自动跳转到绑定司机
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(AppParams.CAR_DETAIL_PAGE_CAR_KEY, CarDetailActivity.this.car);
+                    bundle.putBoolean(AppParams.CAR_DETAIL_PAGE_ADD_KEY,true);//标记为添加车辆页面
                     startActivityForResult(DriverListActivity.class, bundle, AppParams.CAR_DETAIL_REQUEST_CODE);//添加车辆成功后 自动跳转到绑定司机页面
                 } else {
                     showToast("修改车辆信息成功");
@@ -451,34 +478,7 @@ public class CarDetailActivity extends BaseActivity {
     }
 
 
-    /**
-     * 绑定司机
-     *
-     * @param jsonDriver
-     */
-    private void requestBindCarDriver(final JsonDriver jsonDriver) {
 
-        RequestBindCarDriver params = new RequestBindCarDriver();
-        params.setDriverId(jsonDriver.getId());
-        params.setCarId(car.getId());
-
-        HttpHelper.getInstance().post(AppURL.PostBindCarDriver, params, new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        setTextView(R.id.car_detail_bind_tx, jsonDriver.getName() + "  -  " + jsonDriver.getPhoneNumber());
-                    }
-                });
-            }
-
-            @Override
-            public void onFailed(String str) {
-                showToast(str);
-            }
-        });
-    }
 
     private void requestUnBindCarDriver(int driverId) {
 

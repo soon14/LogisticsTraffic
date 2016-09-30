@@ -19,14 +19,15 @@ import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonMember;
+import com.bt.zhangzy.network.entity.JsonOrder;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseLogin;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 import com.zhangzy.baidusdk.LBSTraceSDK;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by ZhangZy on 2015/6/18.
@@ -107,15 +108,21 @@ public class UserFragment extends BaseHomeFragment {
         if (user.getJsonCar() == null)
             return;
 
-        JsonCar jsonCar = user.getJsonCar().get(0);
-        if (jsonCar != null) {
+        JsonCar jsonCar = user.getRunCar();
+        JsonOrder jsonOrder = user.getRunOrder();
+        if (jsonCar != null && jsonOrder != null) {
             Log.d(TAG, String.valueOf(jsonCar.getId()) + "number=" + jsonCar.getNumber());
             LBSTraceSDK.getInstance().addEntity(String.valueOf(jsonCar.getId()), jsonCar.getNumber());
             //获取订单列表
-            List<Integer> orderId_list = user.getOrderIdList();
+//            List<Integer> orderId_list = user.getOrderIdList();
+
+            ArrayList<Integer> orderId_list = new ArrayList<>();
+            orderId_list.add(jsonOrder.getId());
             LBSTraceSDK.getInstance().setOrderIds(orderId_list);
             LBSTraceSDK.getInstance().startTrace();
 
+        } else {
+            LBSTraceSDK.getInstance().stopTrace();
         }
     }
 
@@ -224,6 +231,9 @@ public class UserFragment extends BaseHomeFragment {
         }
     }
 
+    /**
+     * 刷新支付状态
+     */
     private void refreshPayStatus() {
         if (User.getInstance().isVIP()) {
             //加图标

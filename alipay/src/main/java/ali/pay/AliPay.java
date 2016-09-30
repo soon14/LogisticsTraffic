@@ -125,7 +125,7 @@ public class AliPay {
         this.callback = callback;
     }
 
-    public String payOther(Activity context, String msg, double amount, int userId, String ip) {
+    public String payOther(Activity context, String msg, double amount, int userId, String ip,int id) {
         //http://182.92.77.31:8080/pay/alipay_qr_submit?userId=164&subject=1&body=1&total_fee=1
         if (TextUtils.isEmpty(HOST)) {
             loadAppParams(context);
@@ -135,6 +135,7 @@ public class AliPay {
         params.put("body", msg);
         params.put("total_fee", String.valueOf(amount));
         params.put("userId", String.valueOf(userId));
+        params.put("carId",String.valueOf(id));
         params.put("from", TextUtils.isEmpty(ip) ? "192.168.1.1" : ip);
 
         return HttpHelper.toString(HOST + PAY_OTHER_URL, params);
@@ -152,7 +153,7 @@ public class AliPay {
 //        });
     }
 
-    public void payUnifiedOrder(Activity context, String msg, double amount, int userId, String ip) {
+    public void payUnifiedOrder(Activity context, String msg, double amount, int userId, String ip, int id) {
         if (TextUtils.isEmpty(HOST)) {
             loadAppParams(context);
         }
@@ -165,6 +166,7 @@ public class AliPay {
         params.put("body", msg);
         params.put("total_fee", String.valueOf(amount));
         params.put("userId", String.valueOf(userId));
+        params.put("carId",String.valueOf(id));
         params.put("from", TextUtils.isEmpty(ip) ? "192.168.1.1" : ip);
 
         HttpHelper.getInstance().get(HOST + PAY_URL, params, new JsonCallback() {

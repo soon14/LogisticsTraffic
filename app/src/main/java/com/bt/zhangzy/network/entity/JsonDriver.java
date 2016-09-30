@@ -26,28 +26,28 @@ public class JsonDriver extends BaseEntity {
 
     //需要后期自己添加的数据,
     String name, phoneNumber;
-    int ownCarCount;
-    int selectCarNum;
+//    int ownCarCount;
+//    int selectCarNum;
 
 
     public JsonDriver() {
     }
 
-    public int getOwnCarCount() {
-        return ownCarCount;
-    }
-
-    public void setOwnCarCount(int ownCarCount) {
-        this.ownCarCount = ownCarCount;
-    }
-
-    public int getSelectCarNum() {
-        return selectCarNum;
-    }
-
-    public void setSelectCarNum(int selectCarNum) {
-        this.selectCarNum = selectCarNum;
-    }
+//    public int getOwnCarCount() {
+//        return ownCarCount;
+//    }
+//
+//    public void setOwnCarCount(int ownCarCount) {
+//        this.ownCarCount = ownCarCount;
+//    }
+//
+//    public int getSelectCarNum() {
+//        return selectCarNum;
+//    }
+//
+//    public void setSelectCarNum(int selectCarNum) {
+//        this.selectCarNum = selectCarNum;
+//    }
 
     public int getCarId() {
         return carId;

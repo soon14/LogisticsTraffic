@@ -34,7 +34,7 @@ public class Car implements Parcelable {
     int payStatus;//车辆付费状态
     Date payDate;
     Date expireDate;
-    int runStatus;//运行状态
+    int runStatus = 1;//运行状态
     int orderId;//订单主键
     int pilotId;//驾驶员主键
 
@@ -179,6 +179,7 @@ public class Car implements Parcelable {
     public String getPayStatusName() {
         switch (getPayStatus()) {
             case NonPayment:
+            case Payment:
                 return "未支付";
             case PaymentReceived:
                 return "已支付";

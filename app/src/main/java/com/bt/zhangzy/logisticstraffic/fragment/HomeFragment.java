@@ -595,6 +595,9 @@ public class HomeFragment extends BaseHomeFragment {
 //                    getHomeActivity().showToast("没有新的数据");
 //                    listView.stopLoadMore();
                     listView.setLoadMoreSuccess();
+//                    adapter = null;
+//                    listView.setAdapter(null);
+
                     return;
                 }
 

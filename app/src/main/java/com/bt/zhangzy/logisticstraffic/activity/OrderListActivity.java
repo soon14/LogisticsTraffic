@@ -21,7 +21,6 @@ import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonOrder;
-import com.bt.zhangzy.network.entity.RequestFindByDriver;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,8 +47,6 @@ public class OrderListActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
-            requestMyOrder();
 
             if (isAutoRefreshList)
                 requestOrderList();
@@ -150,8 +147,6 @@ public class OrderListActivity extends BaseActivity {
         submittedList.clear();
         completedList.clear();
 
-        //保存交易中的订单id 便于位置上传；
-        ArrayList<Integer> order_id_list = new ArrayList<Integer>();
         //add new data
         for (JsonOrder order : list) {
             switch (OrderStatus.parseStatus(order.getStatus())) {
@@ -164,7 +159,6 @@ public class OrderListActivity extends BaseActivity {
                 case LoadingOrder:
                 case LoadingFinishOrder:
                     submittedList.add(order);
-                    order_id_list.add(order.getId());
                     break;
                 case FinishedOrder:
                 case DiscardOrder:
@@ -193,7 +187,6 @@ public class OrderListActivity extends BaseActivity {
         });
 
 
-        User.getInstance().setOrderIdList(order_id_list);
 //        viewPager.getAdapter().notifyDataSetChanged();
     }
 
@@ -268,23 +261,5 @@ public class OrderListActivity extends BaseActivity {
         });
     }
 
-    /**
-     * 请求正在运输中的订单
-     */
-    private void requestMyOrder() {
 
-        RequestFindByDriver params = new RequestFindByDriver();
-        params.setDriverId(User.getInstance().getDriverID());
-        HttpHelper.getInstance().post(AppURL.PostFindByDriver, params, new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-
-            }
-
-            @Override
-            public void onFailed(String str) {
-                showToast(str);
-            }
-        });
-    }
 }

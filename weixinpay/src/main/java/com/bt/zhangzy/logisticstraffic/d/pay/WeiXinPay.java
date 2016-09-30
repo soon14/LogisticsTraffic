@@ -96,7 +96,7 @@ public class WeiXinPay {
         }
     }
 
-    public void payOther(Activity context, String msg, int amount, int userId) {
+    public void payOther(Activity context, String msg, int amount, int userId, int id) {
         activity = context;
         showProgress();
         if (TextUtils.isEmpty(Host)) {
@@ -133,7 +133,7 @@ public class WeiXinPay {
         });
     }
 
-    public void payUnifiedOrder(Activity context, String msg, int amount, int userId) {
+    public void payUnifiedOrder(Activity context, String msg, int amount, int userId, int carId) {
         activity = context;
         showProgress();
         if (TextUtils.isEmpty(Host)) {

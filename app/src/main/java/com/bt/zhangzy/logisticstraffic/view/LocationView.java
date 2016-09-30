@@ -527,14 +527,20 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
 
     @Override
     public void callbackCityName(String province, String cityname, String latitude, String langitude) {
-        location = new Location();
+        Location location = new Location();
         location.setProvinceName(province);
         location.setCityName(cityname);
         location.setLatitude(latitude);
         location.setLongitude(langitude);
         Log.i(TAG, "定位信息：" + location);
+
+        this.location = findLocation(location);
+        this.location.setLatitude(latitude);
+        this.location.setLongitude(langitude);
+        Log.i(TAG, "转化 定位信息：" + this.location);
+
         //更新用户的定位信息
-        User.getInstance().setLocation(location);
+        User.getInstance().setLocation(this.location);
         if (locationNetworkTx != null) {
             if (TextUtils.isEmpty(cityname))
                 locationNetworkTx.setText("定位失败");
@@ -544,6 +550,41 @@ public class LocationView implements OnWheelChangedListener, BaiduSDK.LocationLi
         if (locationCallback != null) {
             locationCallback.networkLocation(location);
         }
+    }
+
+    /**
+     * 将sdk定位的城市信息 转换为 服务器的城市信息
+     *
+     * @param location
+     * @return
+     */
+    private Location findLocation(Location location) {
+        if (!TextUtils.isEmpty(location.getProvinceName())) {
+            JsonLocationProvince province;
+            for (int k = 0; k < cityList.size(); k++) {
+                province = cityList.get(k);
+                if (location.getProvinceName().startsWith(province.getProvince())) {
+                    for (int j = 0; j < province.getCity().size(); j++) {
+                        if (location.getCityName().startsWith(province.getCity().get(j).getCity())) {
+                            return new Location(province.getProvince(), province.getCity().get(j).getCity());
+                        }
+                    }
+                    break;
+                }
+            }
+        } else if (!TextUtils.isEmpty(location.getCityName())) {
+            //provinceName == null
+            JsonLocationProvince province;
+            for (int k = 0; k < cityList.size(); k++) {
+                province = cityList.get(k);
+                for (int j = 0; j < province.getCity().size(); j++) {
+                    if (location.getCityName().startsWith(province.getCity().get(j).getCity())) {
+                        return new Location(province.getProvince(), province.getCity().get(j).getCity());
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     public interface LocationCallback {

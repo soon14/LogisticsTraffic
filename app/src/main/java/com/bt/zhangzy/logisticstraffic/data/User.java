@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
+import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -17,7 +19,9 @@ import com.bt.zhangzy.network.entity.JsonMember;
 import com.bt.zhangzy.network.entity.JsonMotorcades;
 import com.bt.zhangzy.network.entity.JsonOrder;
 import com.bt.zhangzy.network.entity.JsonUser;
+import com.bt.zhangzy.network.entity.RequestFindByDriver;
 import com.bt.zhangzy.network.entity.ResponseFavorites;
+import com.bt.zhangzy.network.entity.ResponseFindByDriver;
 import com.bt.zhangzy.network.entity.ResponseLogin;
 import com.bt.zhangzy.network.entity.ResponseUserInfo;
 import com.zhangzy.base.http.BaseEntity;
@@ -55,7 +59,7 @@ public class User implements Serializable {
     private JsonUser jsonUser;
     private List<JsonMotorcades> motorcades;//车队列表
     private List<JsonCar> jsonCarList;//司机 所属的 车辆；
-    private ArrayList<Integer> orderIdList;
+    private ArrayList<Integer> orderIdList;//作废 2016年9月29日
     private List<JsonDriver> jsonDriverList;//司机列表 车主功能
     //支付状态
     private PayStatus payStatus;
@@ -65,10 +69,22 @@ public class User implements Serializable {
     private ArrayList<JsonLine> linesList = new ArrayList<JsonLine>();
     private JsonLine lastUseLine;
 
+    //运输中的订单
+    JsonOrder runOrder;
+    JsonCar runCar;
+
     public static User getInstance() {
         return instance;
     }
 
+
+    public JsonOrder getRunOrder() {
+        return runOrder;
+    }
+
+    public JsonCar getRunCar() {
+        return runCar;
+    }
 
     /**
      * 获取司机列表
@@ -622,6 +638,7 @@ public class User implements Serializable {
                         setJsonCar(cars);
                     }
                 }
+                requestMyRunOrder();
 //                user.setMotorcades(BaseEntity.ParseArray(json.getMotorcades(), JsonMotorcades.class));
                 break;
             case 2:
@@ -652,15 +669,16 @@ public class User implements Serializable {
 //        }
         user.setMotorcades(json.getMotorcades());
         user.setJsonFavorites(json.getFavorites());
-        if (json.getOrders() != null && !json.getOrders().isEmpty()) {
-            //保存交易中的订单id 便于位置上传；
-            ArrayList<Integer> order_id_list = new ArrayList<Integer>();
-            for (JsonOrder order : json.getOrders()) {
-                Log.i(TAG, "running order id=" + order.getId());
-                order_id_list.add(order.getId());
-            }
-            setOrderIdList(order_id_list);
-        }
+        //车主功能出来后  这里的交易中订单 就没用了
+//        if (json.getOrders() != null && !json.getOrders().isEmpty()) {
+//            //保存交易中的订单id 便于位置上传；
+//            ArrayList<Integer> order_id_list = new ArrayList<Integer>();
+//            for (JsonOrder order : json.getOrders()) {
+//                Log.i(TAG, "running order id=" + order.getId());
+//                order_id_list.add(order.getId());
+//            }
+//            setOrderIdList(order_id_list);
+//        }
 
         // 获取线路列表
         requestFreightLineList(null);
@@ -712,7 +730,22 @@ public class User implements Serializable {
                 return false;
             }
             if (!User.getInstance().isVIP()) {
-                activity.gotoPay();
+//                activity.gotoPay();
+                new ConfirmDialog(activity)
+                        .setMessage(activity.getString(R.string.dialog_ask_pay))
+                        .setHideCancelBt()
+                        .setListener(new ConfirmDialog.ConfirmDialogListener() {
+                            @Override
+                            public void onClick(boolean isConfirm) {
+
+                            }
+                        }).show();
+//                ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        startActivity(PayActivity.class);
+//                    }
+//                });
                 return false;
             }
         }
@@ -865,6 +898,28 @@ public class User implements Serializable {
             @Override
             public void onFailed(String str) {
 
+            }
+        });
+    }
+
+
+    /**
+     * 请求正在运输中的订单
+     */
+    public void requestMyRunOrder() {
+
+        RequestFindByDriver params = new RequestFindByDriver();
+        params.setDriverId((int) User.getInstance().getId());
+        HttpHelper.getInstance().post(AppURL.PostFindByDriver, params, new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                ResponseFindByDriver response = ResponseFindByDriver.ParseEntity(result, ResponseFindByDriver.class);
+                runOrder = response.getOrder();
+                runCar = response.getCar();
+            }
+
+            @Override
+            public void onFailed(String str) {
             }
         });
     }

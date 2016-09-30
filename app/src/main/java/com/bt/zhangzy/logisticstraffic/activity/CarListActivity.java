@@ -26,6 +26,7 @@ public class CarListActivity extends BaseActivity {
     private ViewPager viewPager;//页面适配器
     boolean isDriverSelectCarsMode;
     CarListFragment carListFragment;
+    ArrayList<Car> carArrayList;//查看订单相关车辆
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,12 @@ public class CarListActivity extends BaseActivity {
         }
 
         setPageName(isDriverSelectCarsMode ? "选择抢单车辆" : "我的车辆");
+
+        if (getIntent().hasExtra(AppParams.DRIVER_LOOK_ORDER_CARS)) {
+            carArrayList = getIntent().getParcelableArrayListExtra(AppParams.DRIVER_LOOK_ORDER_CARS);
+            setPageName("订单相关车辆" );
+        }
+
         if (!isDriverSelectCarsMode) {
             findViewById(R.id.car_list_all_check_bt).setVisibility(View.GONE);
         }
@@ -57,9 +64,10 @@ public class CarListActivity extends BaseActivity {
         // 车辆列表
         carListFragment = new CarListFragment();
         carListFragment.setCheckMode(isDriverSelectCarsMode);
+        carListFragment.setCarArrayList(carArrayList);
         fragments.add(carListFragment);
 
-        if (!isDriverSelectCarsMode) {
+        if (!isDriverSelectCarsMode && carArrayList==null) {
             //驾驶员列表数据设置
             DriverListFragment driverListFragment = new DriverListFragment();
             fragments.add(driverListFragment);

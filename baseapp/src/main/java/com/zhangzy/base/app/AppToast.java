@@ -61,9 +61,10 @@ public class AppToast {
     }
 
     private void showToastOnUI() {
+        if (context == null)
+            return;
         if (toast == null) {
             toast = Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT);
-
         }
 //        toast.setDuration(Toast.LENGTH_SHORT);
         toast.setText(toastMsg);

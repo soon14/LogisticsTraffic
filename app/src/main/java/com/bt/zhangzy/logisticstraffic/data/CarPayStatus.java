@@ -6,6 +6,7 @@ package com.bt.zhangzy.logisticstraffic.data;
  */
 public enum CarPayStatus {
     NonPayment,//未付款,
+    Payment,//支付中
     PaymentReceived,//已付款
     Overdue,//已过期
     Empty;

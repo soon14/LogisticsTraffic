@@ -1,6 +1,6 @@
 package com.bt.zhangzy.network.entity;
 
-import com.bt.zhangzy.logisticstraffic.data.People;
+import com.bt.zhangzy.logisticstraffic.data.Driver;
 import com.zhangzy.base.http.BaseEntity;
 
 import java.util.ArrayList;
@@ -41,9 +41,9 @@ public class RequestCallDriver extends BaseEntity {
         this.drivers = drivers;
     }
 
-    public void setDrivesFromPeople(List<People> selectedDrivers) {
+    public void setDrivesFromPeople(List<Driver> selectedDrivers) {
         List<JsonMotocardesDriver> drives = new ArrayList<>();
-        for (People people : selectedDrivers) {
+        for (Driver people : selectedDrivers) {
             drives.add(new JsonMotocardesDriver(people));
         }
         this.drivers = drives;

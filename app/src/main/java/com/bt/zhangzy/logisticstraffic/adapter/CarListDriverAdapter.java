@@ -36,12 +36,12 @@ public class CarListDriverAdapter extends BaseAdapter implements CompoundButton.
 
     @Override
     public int getCount() {
-        return list.size();
+        return list == null ? 0 : list.size();
     }
 
     @Override
     public JsonDriver getItem(int position) {
-        return list.get(position);
+        return list == null ? null : list.get(position);
     }
 
     @Override
@@ -138,6 +138,8 @@ public class CarListDriverAdapter extends BaseAdapter implements CompoundButton.
      * @param pilotId
      */
     public void setDefaultSelect(int pilotId) {
+        if (list == null)
+            return;
 
         JsonDriver driver;
         for (int k = 0; k < list.size(); k++) {

@@ -1,7 +1,10 @@
 package com.bt.zhangzy.network.entity;
 
-import com.bt.zhangzy.logisticstraffic.data.People;
+import com.bt.zhangzy.logisticstraffic.data.Car;
+import com.bt.zhangzy.logisticstraffic.data.Driver;
 import com.zhangzy.base.http.BaseEntity;
+
+import java.util.List;
 
 /**
  * Created by ZhangZy on 2016-1-25.
@@ -10,18 +13,42 @@ public class JsonMotocardesDriver extends BaseEntity {
     public JsonMotocardesDriver() {
     }
 
-    public JsonMotocardesDriver(People people) {
-        id = people.getId();
-        driverId = people.getDriverId();
-        motorcadeId = people.getMotorcadeId();
-        userId = people.getUserId();
-        name = people.getName();
-        phoneNumber = people.getPhoneNumber();
+    public JsonMotocardesDriver(Driver driver) {
+        id = driver.getId();
+        driverId = driver.getId();
+//        motorcadeId = driver.getMotorcadeId();
+        userId = driver.getUserId();
+        name = driver.getName();
+        phoneNumber = driver.getPhoneNumber();
+        carIds = paraseCarIds(driver.getSelectCars());
+
     }
     int id,userId;
     int motorcadeId;
     int driverId;
     String name, phoneNumber;
+    String carIds;
+
+    /**
+     * 将车辆列表解析为 car 的id的字符串
+     * @param carArrayList
+     * @return
+     */
+    private String paraseCarIds(List<Car> carArrayList) {
+        StringBuffer stringBuffer = new StringBuffer();
+        for (Car car : carArrayList) {
+            stringBuffer.append(car.getId());
+            stringBuffer.append(',');
+        }
+        return stringBuffer.substring(0, stringBuffer.length() - 1);
+    }
+    public String getCarIds() {
+        return carIds;
+    }
+
+    public void setCarIds(String carIds) {
+        this.carIds = carIds;
+    }
 
     public int getUserId() {
         return userId;

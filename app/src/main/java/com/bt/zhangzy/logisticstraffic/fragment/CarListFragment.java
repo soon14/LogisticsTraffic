@@ -16,6 +16,8 @@ import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Car;
+import com.bt.zhangzy.logisticstraffic.data.CarPayStatus;
+import com.bt.zhangzy.logisticstraffic.data.CarRunStatus;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonCar;
@@ -35,7 +37,7 @@ public class CarListFragment extends Fragment {
     private ListView listView;
     private CarListAdapter adapter;
     boolean isCheckMode;
-
+    ArrayList<Car> carArrayList;//查看订单相关车辆
 
     public CarListFragment() {
         super();
@@ -49,6 +51,10 @@ public class CarListFragment extends Fragment {
      */
     public void setCheckMode(boolean checkMode) {
         isCheckMode = checkMode;
+    }
+
+    public void setCarArrayList(ArrayList<Car> carArrayList) {
+        this.carArrayList = carArrayList;
     }
 
     @Override
@@ -83,24 +89,27 @@ public class CarListFragment extends Fragment {
     private void initListView(View view) {
         if (isCheckMode) {
             ViewUtils.setText(view, R.id.car_list_add_bt, "完成");
+        } else if (carArrayList != null) {
+            view.findViewById(R.id.car_list_add_bt).setVisibility(View.GONE);
         }
         listView = (ListView) view.findViewById(R.id.car_list_listView);
 //        listView.setAdapter(new OrderListAdapter(false));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (carArrayList == null)
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Car jsonCar = (Car) adapter.getItem(position);
-                if (jsonCar != null) {
-                    BaseActivity activity = (BaseActivity) getActivity();
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(AppParams.CAR_LIST_PAGE_CAR_KEY, jsonCar);
-                    activity.startActivity(CarDetailActivity.class, bundle);
+                    Car jsonCar = (Car) adapter.getItem(position);
+                    if (jsonCar != null) {
+                        BaseActivity activity = (BaseActivity) getActivity();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(AppParams.CAR_LIST_PAGE_CAR_KEY, jsonCar);
+                        activity.startActivity(CarDetailActivity.class, bundle);
+                    }
+
+
                 }
-
-
-            }
-        });
+            });
         if (adapter != null)
             listView.setAdapter(adapter);
         else
@@ -162,30 +171,64 @@ public class CarListFragment extends Fragment {
     /**
      * 设置全选
      */
-    public void setAllCheck(){
+    public void setAllCheck() {
         adapter.allCheck();
     }
 
 
     public void requestCarList() {
-        User.getInstance().requestCarInfo(new JsonCallback() {
-            @Override
-            public void onSuccess(String msg, String result) {
-                //车辆管理数据设置
-                List<JsonCar> jsonCar = User.getInstance().getJsonCar();
-                if (jsonCar != null) {
-                    CarListAdapter carListAdapter = CarListAdapter.Init(jsonCar);
-                    carListAdapter.setCheckMode(isCheckMode);
-                    setAdapter(carListAdapter);
+        if (carArrayList != null) {
+            CarListAdapter carListAdapter = new CarListAdapter(carArrayList);
+            carListAdapter.setLook(true);
+            setAdapter(carListAdapter);
+        } else
+            User.getInstance().requestCarInfo(new JsonCallback() {
+                @Override
+                public void onSuccess(String msg, String result) {
+                    //车辆管理数据设置
+                    List<JsonCar> jsonCar = User.getInstance().getJsonCar();
+                    if (jsonCar != null) {
+                        ArrayList<Car> list = parseJsonCar(jsonCar);
+                        if (list != null) {
+                            CarListAdapter carListAdapter = new CarListAdapter(list);
+                            carListAdapter.setCheckMode(isCheckMode);
+                            setAdapter(carListAdapter);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailed(String str) {
+
+                }
+            });
+
+    }
+
+    public ArrayList<Car> parseJsonCar(List<JsonCar> list) {
+//        this.list = list;
+        if (list != null) {
+            ArrayList<Car> ls = new ArrayList<>();
+            for (JsonCar jsonCar : list) {
+                //司机抢单 时 隐藏 非付费车辆
+                Car car = new Car(jsonCar);
+                if (isCheckMode) {
+                    //过滤车辆的状态
+                    if (car.getPayStatus() == CarPayStatus.PaymentReceived) {
+                        if (car.getRunStatus() == CarRunStatus.Leisure)
+                            //过滤掉没有驾驶员的
+                            if (car.getPilotId() > 0) {
+                                ls.add(car);
+                            }
+
+                    }
+                } else {
+                    ls.add(car);
                 }
             }
-
-            @Override
-            public void onFailed(String str) {
-
-            }
-        });
-
+            return ls;
+        }
+        return null;
     }
 
 }

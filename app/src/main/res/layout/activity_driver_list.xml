@@ -5,7 +5,27 @@
     android:orientation="vertical">
     <!-- 司机列表页面 -->
 
-    <include layout="@layout/page_top" />
+    <!--<include layout="@layout/page_top" />-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/page_top" />
+
+        <Button
+            android:id="@+id/car_list_jump_bt"
+            style="@style/default_btn_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick_Jump"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="跳过" />
+    </RelativeLayout>
+
 
     <ListView
         android:id="@+id/car_list_listView"
@@ -17,13 +37,35 @@
         android:dividerHeight="2px"
         android:listSelector="@drawable/list_item_selector">
         </ListView>
-    <Button
-        android:id="@+id/car_list_add_bt"
-        style="@style/home_button_style"
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="10dp"
-        android:onClick="onClick_Finish"
-        android:text="完成" />
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/car_list_add_bt"
+            style="@style/default_btn_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1"
+            android:onClick="onClick_Add"
+            android:text="添加驾驶员" />
+
+        <Button
+            android:id="@+id/car_list_finsh_bt"
+            style="@style/default_btn_style"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:onClick="onClick_Finish"
+            android:text="完成" />
+    </LinearLayout>
 </LinearLayout>

@@ -86,7 +86,14 @@ public final class AppParams {
     public static final String CAR_LIST_PAGE_SELECT_MODE = "CAR_LIST_PAGE_SELECT_MODE";
     public static final String CAR_DETAIL_PAGE_DRIVER_KEY = "CAR_DETAIL_PAGE_DRIVER_KEY";
     public static final String CAR_DETAIL_PAGE_CAR_KEY = "CAR_DETAIL_PAGE_CAR_KEY";
+    public static final String CAR_DETAIL_PAGE_ADD_KEY = "CAR_DETAIL_PAGE_ADD_KEY";
     public static final int CAR_DETAIL_REQUEST_CODE = 0x40;
+
+    /*订单中选择抢单车辆页面*/
+    public static final int ORDER_SERECT_DRIVER_CODE = 0x60;
+    public static final String ORDER_SELECT_DRIVER = "ORDER_SELECT_DRIVER";
+    public static final String ORDER_SELECT_CARS = "ORDER_SELECT_CARS";
+    public static final String ORDER_SELECT_MODE = "ORDER_SELECT_MODE";
 
     /* 车源跳转 */
     public static final String SOURCE_PAGE_CAR_KEY = "SOURCE_PAGE_CAR_KEY";
@@ -123,6 +130,7 @@ public final class AppParams {
     public static final int REQUEST_CODE_DRIVER_SELECT_CARS = 0x040;//车主选择抢单的的车辆
     public static final String DRIVER_SELECT_CARS_MODE = "DRIVER_SELECT_CARS_MODE";
     public static final String DRIVER_SELECT_CARS_LIST = "DRIVER_SELECT_CARS_LIST";
+    public static final String DRIVER_LOOK_ORDER_CARS = "DRIVER_LOOK_ORDER_CARS";
 
 
     /**
@@ -137,6 +145,7 @@ public final class AppParams {
     public static final String ORDER_DETAIL_KEY_TYPE = "ORDER_DETAIL_KEY_TYPE";
     public static final String ORDER_DETAIL_KEY_ORDER = "ORDER_DETAIL_KEY_ORDER";//跳转时传的 订单对象
     public static final String ORDER_CAN_ACCEPT = "ORDER_CAN_ACCEPT";//标记这个订单是否可抢
+    public static final String ORDER_DRIVER_LOOK = "ORDER_DRIVER_LOOK";//标记驾驶员 查看订单
 
     /**
      * product 在 bundle中的key值

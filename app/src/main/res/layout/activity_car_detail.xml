@@ -140,7 +140,7 @@
                     <TextView
                         style="@style/base_black_tx_style"
                         android:gravity="center"
-                        android:hint="上传车辆照片" />
+                        android:hint="车辆照片" />
 
                     <ImageView
                         android:id="@+id/car_detail_license_img"
@@ -152,7 +152,7 @@
                     <TextView
                         style="@style/base_black_tx_style"
                         android:gravity="center"
-                        android:hint="上传行驶证照片" />
+                        android:hint="行驶证照片" />
 
                 </TableLayout>
             </TableLayout>
@@ -176,6 +176,7 @@
             android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:onClick="onClick_Delete"
+            android:visibility="gone"
             android:text="删除" />
 
         <Button

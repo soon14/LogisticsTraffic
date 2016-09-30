@@ -16,8 +16,7 @@
         android:padding="10dp"
         android:stretchColumns="1">
 
-        <TableRow
-            android:background="@color/transparent">
+        <TableRow android:background="@color/transparent">
 
             <TextView
                 style="@style/tx_black_df_style"
@@ -30,8 +29,7 @@
                 android:hint="00000" />
         </TableRow>
 
-        <TableRow
-            android:background="@color/transparent">
+        <TableRow android:background="@color/transparent">
 
             <TextView
                 android:id="@+id/orderlist_item_enterprise_tx"
@@ -58,7 +56,8 @@
             <TextView
                 android:id="@+id/orderlist_item_driver_tx"
                 style="@style/tx_black_df_style"
-                android:hint="货运司机" />
+                android:hint="收货人"
+                android:maxLength="8" />
 
             <TextView
                 android:id="@+id/orderlist_item_driver_phone_tx"

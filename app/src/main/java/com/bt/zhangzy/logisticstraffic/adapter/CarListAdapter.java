@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Car;
-import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.tools.ViewUtils;
 
 import java.util.ArrayList;
@@ -27,21 +26,16 @@ public class CarListAdapter extends BaseAdapter implements CompoundButton.OnChec
     List<Car> list;
     boolean isCheckMode;
     ArrayList<Integer> checkList = new ArrayList<>();
+    boolean isLook;
 
     public CarListAdapter(List<Car> list) {
         this.list = list;
     }
 
-    public static CarListAdapter Init(List<JsonCar> list) {
-//        this.list = list;
-        if (list != null) {
-            ArrayList<Car> ls = new ArrayList<>();
-            for (JsonCar jsonCar : list) {
-                ls.add(new Car(jsonCar));
-            }
-            return new CarListAdapter(ls);
-        }
-        return null;
+
+
+    public void setLook(boolean look) {
+        isLook = look;
     }
 
     public void setCheckMode(boolean checkMode) {
@@ -78,8 +72,12 @@ public class CarListAdapter extends BaseAdapter implements CompoundButton.OnChec
             holder.carWeightTx = (TextView) convertView.findViewById(R.id.item_car_weight_tx);
             holder.carStatusTx = (TextView) convertView.findViewById(R.id.item_car_status_tx);
             holder.payStatusTx = (TextView) convertView.findViewById(R.id.item_car_pay_status_tx);
-            holder.driverNameTx = (TextView) convertView.findViewById(R.id.item_car_driver_name_tx);
-            holder.driverPhoneTx = (TextView) convertView.findViewById(R.id.item_car_driver_phone_tx);
+            if (isLook) {
+                holder.driverLy = convertView.findViewById(R.id.item_car_driver_ly);
+            } else {
+                holder.driverNameTx = (TextView) convertView.findViewById(R.id.item_car_driver_name_tx);
+                holder.driverPhoneTx = (TextView) convertView.findViewById(R.id.item_car_driver_phone_tx);
+            }
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.item_check_bt);
 
 
@@ -95,9 +93,12 @@ public class CarListAdapter extends BaseAdapter implements CompoundButton.OnChec
         ViewUtils.setText(holder.carWeightTx, car.getCapacity());
         ViewUtils.setText(holder.carStatusTx, car.getRunStatusName());
         ViewUtils.setText(holder.payStatusTx, car.getPayStatusName());
-
-        ViewUtils.setText(holder.driverNameTx, car.getName());
-        ViewUtils.setText(holder.driverPhoneTx, car.getPhoneNumber());
+        if (isLook) {
+            holder.driverLy.setVisibility(View.GONE);
+        } else {
+            ViewUtils.setText(holder.driverNameTx, car.getName());
+            ViewUtils.setText(holder.driverPhoneTx, car.getPhoneNumber());
+        }
 
 
         if (isCheckMode) {
@@ -167,6 +168,7 @@ public class CarListAdapter extends BaseAdapter implements CompoundButton.OnChec
         TextView carNumTx, carTypeTx, carLengthTx, carWeightTx, carStatusTx, payStatusTx;
         TextView driverNameTx, driverPhoneTx;
         CheckBox checkBox;
+        View driverLy;
 
     }
 

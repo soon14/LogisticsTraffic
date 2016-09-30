@@ -1,7 +1,5 @@
 package com.bt.zhangzy.logisticstraffic.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +17,7 @@ import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.logisticstraffic.view.LocationView;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
@@ -30,7 +29,6 @@ import com.bt.zhangzy.network.entity.JsonDriver;
 import com.bt.zhangzy.network.entity.JsonEnterprise;
 import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.ResponseLogin;
-import com.bt.zhangzy.tools.ContextTools;
 import com.bt.zhangzy.tools.Tools;
 import com.bt.zhangzy.tools.ViewUtils;
 import com.zhangzy.base.app.AppProgress;
@@ -197,7 +195,7 @@ public class RegisterActivity extends BaseActivity {
                 showToast("请上传证件照");
                 return;
             }
-
+            requestJsonDriver.setIdCard(idCardStr);
 //            jsonUser.setIdCardPhotoUrl();
         }
         //企业 和 信息部用户注册 信息判断
@@ -327,22 +325,18 @@ public class RegisterActivity extends BaseActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage(R.string.upload_verify_info).setNegativeButton("联系客服", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //to do 拨打客服电话
-                        ContextTools.CallPhone(context, getString(R.string.app_phone));
-                    }
-                }).setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                new ConfirmDialog(RegisterActivity.this)
+                        .setMessage(getString(R.string.register_success_info))
+                        .setConfirm("确认")
+                        .setHideCancelBt()
+                        .setListener(new ConfirmDialog.ConfirmDialogListener() {
+                            @Override
+                            public void onClick(boolean isConfirm) {
+                                startActivity(HomeActivity.class);
+                                finish();
+                            }
+                        }).show();
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(HomeActivity.class);
-                        finish();
-                    }
-                });
-                builder.create().show();
             }
         });
 

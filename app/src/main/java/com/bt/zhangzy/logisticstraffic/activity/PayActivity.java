@@ -37,8 +37,8 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
         setPageName("支付订单");
 
         //检测是否有车辆数据传入
-        if(getIntent().getExtras() != null ){
-            if(getIntent().hasExtra(AppParams.CAR_DETAIL_PAGE_CAR_KEY)){
+        if (getIntent().getExtras() != null) {
+            if (getIntent().hasExtra(AppParams.CAR_DETAIL_PAGE_CAR_KEY)) {
                 car = getIntent().getParcelableExtra(AppParams.CAR_DETAIL_PAGE_CAR_KEY);
             }
         }
@@ -46,7 +46,7 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
         payGroup = (RadioGroup) findViewById(R.id.pay_select_group);
         payMethodGroup = (RadioGroup) findViewById(R.id.pay_method_group);
         payGroup.setOnCheckedChangeListener(this);
-        payGroup.check(R.id.pay_select_3y);
+        payGroup.check(R.id.pay_select_1y);
         payMethodGroup.setOnCheckedChangeListener(this);
         payMethodGroup.check(R.id.pay_method_zhifubao);
         TextView textView = (TextView) findViewById(R.id.pay_select_2y);
@@ -86,14 +86,14 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
     }
 
     public void onClick_Pay(View view) {
-//        if (AppParams.DEBUG)
-//            payMoney = 1;
+        if (AppParams.DEBUG)
+            payMoney = 1;
         String message = "您需要支付费用：" + payMoney + "元";
 
         switch (payMethodGroup.getCheckedRadioButtonId()) {
             case R.id.pay_method_weixin:
                 //微信 计费单位是分  2016年4月5日：微信支付改成元为单位，和支付宝保持统一
-                WeiXinPay.getInstanse().payUnifiedOrder(this, message, (int) (payMoney /** 100*/), (int) User.getInstance().getId());
+                WeiXinPay.getInstanse().payUnifiedOrder(this, message, (int) (payMoney /** 100*/), (int) User.getInstance().getId(), car.getId());
                 WeiXinPay.getInstanse().setCallback(new WXPayResultCallback() {
                     @Override
                     public void paySuccess() {
@@ -108,7 +108,7 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
                 break;
             case R.id.pay_method_weixin_other:
 
-                WeiXinPay.getInstanse().payOther(this, message, (int) payMoney, (int) User.getInstance().getId());
+                WeiXinPay.getInstanse().payOther(this, message, (int) payMoney, (int) User.getInstance().getId(), car.getId());
                 WeiXinPay.getInstanse().setCallback(new WXPayResultCallback() {
                     @Override
                     public void paySuccess() {
@@ -123,7 +123,7 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
                 break;
             case R.id.pay_method_zhifubao:
 //                AliPayDemo.getInstance().pay(this);
-                AliPay.getInstance().payUnifiedOrder(this, message, payMoney, (int) User.getInstance().getId(), ContextTools.getLocalIpAddress());
+                AliPay.getInstance().payUnifiedOrder(this, message, payMoney, (int) User.getInstance().getId(), ContextTools.getLocalIpAddress(), car.getId());
                 AliPay.getInstance().setCallback(new AliPayResultCallback() {
                     @Override
                     public void paySuccess() {
@@ -142,7 +142,7 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
                 });
                 break;
             case R.id.pay_method_zhifubao_other:
-                String url = AliPay.getInstance().payOther(this, message, payMoney, (int) User.getInstance().getId(), ContextTools.getLocalIpAddress());
+                String url = AliPay.getInstance().payOther(this, message, payMoney, (int) User.getInstance().getId(), ContextTools.getLocalIpAddress(),car.getId());
                 gotoWebPage("支付宝扫码支付", url);
 //                AliPay.getInstance().setCallback(new AliPayResultCallback() {
 //                    @Override

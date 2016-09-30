@@ -29,6 +29,23 @@ public class DriverListAdapter extends BaseAdapter {
         this.isChooseMode = isChooseMode;
     }
 
+    /**
+     * 替换driver s数据
+     *
+     * @param driver
+     */
+    public void repalceDriver(Driver driver) {
+        if (driver != null) {
+            for (Driver d : list) {
+                if (d.getId() == driver.getId()) {
+                    d.copy(driver);
+                    break;
+                }
+            }
+            notifyDataSetChanged();
+        }
+    }
+
     @Override
     public int getCount() {
         return list == null ? 0 : list.size();

@@ -370,7 +370,7 @@ public class HomeActivity extends BaseActivity {
      */
     private void createView() {
         //TODO 浮窗音效 小汽车下单加入音效
-        if (!User.getInstance().isLogin() || User.getInstance().getUserType() == Type.EnterpriseType) {
+        if (!User.getInstance().isLogin() || User.getInstance().getUserType() != Type.CompanyInformationType) {
             Log.w(TAG, "用户 不符合浮窗创建条件");
             floatView = null;
             return;
@@ -397,6 +397,7 @@ public class HomeActivity extends BaseActivity {
 
     /**
      * 城市列表 按钮
+     *
      * @param view
      */
     public void onClick_CityList(View view) {
@@ -536,12 +537,32 @@ public class HomeActivity extends BaseActivity {
 
     /**
      * 我的车辆页面入口
+     *
      * @param view
      */
-    public void onClick_CarList(View view){
-        if(User.getInstance().getUserType() != Type.DriverType)
+    public void onClick_CarList(View view) {
+        if (User.getInstance().getUserType() != Type.DriverType)
             return;
         startActivity(CarListActivity.class);
+    }
+
+    /**
+     * 查看运输中的订单
+     *
+     * @param view
+     */
+    public void onClick_MyRunOrder(View view) {
+        //更新数据
+        User.getInstance().requestMyRunOrder();
+        if (User.getInstance().getRunOrder() == null) {
+            showToast("没有正在运输的订单");
+        } else {
+            Bundle bundle = new Bundle();
+//            bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE, OrderDetailMode.CompletedMode.ordinal());
+            bundle.putBoolean(AppParams.ORDER_DRIVER_LOOK,true);
+            bundle.putParcelable(AppParams.ORDER_DETAIL_KEY_ORDER, User.getInstance().getRunOrder());
+            startActivity(OrderDetailActivity.class, bundle);
+        }
     }
 
     /**
@@ -553,8 +574,11 @@ public class HomeActivity extends BaseActivity {
         if (User.getInstance().checkUserStatus(this)) {
             return;
         }
-//        startActivity(FleetActivity.class);
-        startActivity(MotorcadeActivity.class);
+        if (User.getInstance().getUserType() == Type.DriverType) {
+            startActivity(FleetActivity.class);
+        } else {
+            startActivity(MotorcadeActivity.class);
+        }
     }
 
     /**
@@ -664,4 +688,5 @@ public class HomeActivity extends BaseActivity {
             }
         });
     }
+
 }

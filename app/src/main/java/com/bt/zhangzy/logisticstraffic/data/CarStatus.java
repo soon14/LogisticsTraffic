@@ -1,6 +1,7 @@
 package com.bt.zhangzy.logisticstraffic.data;
 
 /**
+ * 车辆的审核状态
  * Created by ZhangZy on 2016-9-28.
  */
 public enum CarStatus {

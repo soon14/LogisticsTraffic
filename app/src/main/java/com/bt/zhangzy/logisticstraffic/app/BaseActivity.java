@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.activity.DetailCompany;
 import com.bt.zhangzy.logisticstraffic.activity.LoginActivity;
-import com.bt.zhangzy.logisticstraffic.activity.PayActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Product;
 import com.bt.zhangzy.logisticstraffic.data.User;
@@ -342,17 +341,7 @@ public class BaseActivity extends FragmentActivity {
         });
     }
 
-    /**
-     * 支付页面统一跳转
-     */
-    public void gotoPay() {
-        ConfirmDialog.showConfirmDialog(this, getString(R.string.dialog_ask_pay), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(PayActivity.class);
-            }
-        });
-    }
+
 
     public void showDialogCallPhone(String phoneNum, int companyId) {
         Log.d(TAG, ">>>showDialogCallPhone " + phoneNum);

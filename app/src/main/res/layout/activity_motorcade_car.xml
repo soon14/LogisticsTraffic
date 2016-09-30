@@ -32,21 +32,19 @@
             android:layout_toRightOf="@id/motorcade_car_driver_name_tx"
             android:text="@string/motorcade_driver_phone" />
 
-        <CheckBox
+
+        <Button
             android:id="@+id/motorcade_car_check_bt"
+            style="@style/default_btn_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@color/transparent"
-            android:button="@color/transparent"
-            android:checked="false"
-            android:drawablePadding="5dp"
-            android:drawableRight="@drawable/check_btn_selector"
-            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:onClick="onClick_AllCheck"
             android:paddingLeft="10dp"
-            android:paddingRight="20dp"
-            android:text="全选"
-            android:textSize="18sp" />
+            android:paddingRight="10dp"
+            android:text="全选" />
     </RelativeLayout>
 
     <ListView
@@ -57,7 +55,22 @@
         android:layout_weight="1"
         android:divider="@color/def_line"
         android:dividerHeight="2px"
-        android:listSelector="@drawable/white_orange_selector">
+        android:listSelector="@color/transparent">
 
     </ListView>
+
+
+    <Button
+        android:id="@+id/motorcade_finish_bt"
+        style="@style/home_button_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_weight="0"
+        android:onClick="onClick_FinishSelect"
+        android:padding="5dp"
+        android:text="确认" />
+
+
 </LinearLayout>

@@ -252,6 +252,7 @@
                 android:text="线路信息" />
 
             <RelativeLayout
+                android:id="@+id/order_detail_line"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
                 android:clickable="true"
