@@ -35,7 +35,7 @@ public class Car implements Parcelable {
     Date payDate;
     Date expireDate;
     int runStatus = 1;//运行状态
-    int orderId;//订单主键
+    int orderId = 0;//订单主键
     int pilotId;//驾驶员主键
 
     public Car() {

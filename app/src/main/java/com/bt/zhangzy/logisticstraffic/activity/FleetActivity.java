@@ -18,7 +18,6 @@ import com.bt.zhangzy.logisticstraffic.adapter.SourceCarListAdapter;
 import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
-import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
 import com.bt.zhangzy.logisticstraffic.data.People;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
@@ -261,7 +260,7 @@ public class FleetActivity extends BaseActivity {
 
 
     private void requestGetMotorcades(int motorcadeId) {
-        AppProgress.getInstance().showProgress(this, "正在获取车队列表...");
+//        AppProgress.getInstance().showProgress(this, "正在获取车队列表...");
         //获取车队信息
 
         HttpHelper.getInstance().get(AppURL.GetMotorcades, String.valueOf(motorcadeId), new JsonCallback() {
@@ -309,9 +308,14 @@ public class FleetActivity extends BaseActivity {
                         motorcade_name = json.getMotorcade().getName();
                         company = json.getCompany();
 
-                        ArrayList<String> list = new ArrayList<String>();
+                        ArrayList<People> list = new ArrayList<People>();
+                        People p;
                         for (JsonMotocardesDriver driver : motorcadeDrivers) {
-                            list.add(driver.getName());
+                            p = new People();
+                            p.setName(driver.getName());
+                            p.setPhoneNumber(driver.getPhoneNumber());
+                            p.setId(driver.getId());
+                            list.add(p);
                         }
 
                         final AppTextListAdapter adapter = new AppTextListAdapter(list);
@@ -437,22 +441,26 @@ public class FleetActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 //                    ArrayList<People> list = adapter.getList();
-                Iterator<People> iterator = adapter.getList().iterator();
-                String phoneNum = User.getInstance().getPhoneNum();
-                People people;
-                int id = -1;
-                while (iterator.hasNext()) {
-                    people = iterator.next();
-                    if (phoneNum.equals(people.getPhoneNumber())) {
-                        id = people.getId();
-                        iterator.remove();
-                        break;
+                if (listView.getAdapter() != null && listView.getAdapter() instanceof AppTextListAdapter) {
+                    AppTextListAdapter adp = (AppTextListAdapter) listView.getAdapter();
+                    Iterator<People> iterator = adp.getList().iterator();
+                    String phoneNum = User.getInstance().getPhoneNum();
+                    People people;
+                    int id = -1;
+                    while (iterator.hasNext()) {
+                        people = iterator.next();
+                        if (phoneNum.equals(people.getPhoneNumber())) {
+                            id = people.getId();
+                            iterator.remove();
+                            break;
+                        }
                     }
+                    if (id > 0)
+                        requestDelDriver(id);
+                    else
+                        showToast("您不在车队里");
                 }
-                if (id > 0)
-                    requestDelDriver(id);
-                else
-                    showToast("您不在车队里");
+
             }
         });
     }

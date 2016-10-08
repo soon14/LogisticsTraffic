@@ -95,6 +95,7 @@ public class CarDetailActivity extends BaseActivity {
                         viewById.setClickable(false);
                     break;
                 case NonPayment:
+                case Empty:
                     setTextView(R.id.car_detail_pay_msg, getString(R.string.car_detail_un_pay_msg));
                     break;
             }
@@ -457,7 +458,7 @@ public class CarDetailActivity extends BaseActivity {
                     //自动跳转到绑定司机
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(AppParams.CAR_DETAIL_PAGE_CAR_KEY, CarDetailActivity.this.car);
-                    bundle.putBoolean(AppParams.CAR_DETAIL_PAGE_ADD_KEY,true);//标记为添加车辆页面
+                    bundle.putBoolean(AppParams.CAR_DETAIL_PAGE_ADD_KEY, true);//标记为添加车辆页面
                     startActivityForResult(DriverListActivity.class, bundle, AppParams.CAR_DETAIL_REQUEST_CODE);//添加车辆成功后 自动跳转到绑定司机页面
                 } else {
                     showToast("修改车辆信息成功");
@@ -476,8 +477,6 @@ public class CarDetailActivity extends BaseActivity {
             HttpHelper.getInstance().post(AppURL.PostDrviersUpdateCar, car, jsonCallback);
         }
     }
-
-
 
 
     private void requestUnBindCarDriver(int driverId) {

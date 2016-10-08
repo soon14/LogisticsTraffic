@@ -31,7 +31,7 @@ public class JsonCar extends BaseEntity {
     Date payDate;
     Date expireDate;
     int runStatus;//运行状态
-    int orderId;//订单主键
+    int orderId = 0;//订单主键
     int pilotId;//驾驶员主键
 
 
