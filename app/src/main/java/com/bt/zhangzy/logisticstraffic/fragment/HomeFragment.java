@@ -128,6 +128,13 @@ public class HomeFragment extends BaseHomeFragment {
         }
     }
 
+    /**
+     * 用于外部调用数据刷新操作
+     */
+    public void refreshData(){
+        requestGetCompanyList();
+    }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -475,7 +482,7 @@ public class HomeFragment extends BaseHomeFragment {
 //        initSpreadViewPager(listHeadView);
 
 //        listView.refresh();
-//        AppProgress.getInstance().showProgress(getActivity(),"数据加载中...");
+        getHomeActivity().showProgressOnUI("数据加载中...");
         currentPageNum = 1;
         requestGetCompanyList();//初始化
 //        setListAdapter();
@@ -595,9 +602,7 @@ public class HomeFragment extends BaseHomeFragment {
 //                    getHomeActivity().showToast("没有新的数据");
 //                    listView.stopLoadMore();
                     listView.setLoadMoreSuccess();
-//                    adapter = null;
-//                    listView.setAdapter(null);
-
+                    listView.setAdapter(null);//为了显示出headView
                     return;
                 }
 
