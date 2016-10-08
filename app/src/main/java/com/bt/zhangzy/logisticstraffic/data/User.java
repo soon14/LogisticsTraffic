@@ -626,6 +626,7 @@ public class User implements Serializable {
         user.setPhoneNum(jsonUser.getPhoneNumber());
         user.setNickName(jsonUser.getNickname());
         user.userStatus = UserStatus.parse(jsonUser.getStatus());
+        user.isVIP = user.userStatus == UserStatus.PAID;
         user.setJsonUser(jsonUser);
         switch (jsonUser.getRole()) {
             case 1:
@@ -778,6 +779,7 @@ public class User implements Serializable {
                 user.setNickName(jsonUser.getNickname());
                 user.setHeadUrl(jsonUser.getPortraitUrl());
                 user.userStatus = UserStatus.parse(jsonUser.getStatus());
+                user.isVIP = user.userStatus == UserStatus.PAID;
                 user.setJsonUser(jsonUser);
                 switch (jsonUser.getRole()) {
                     case 1:

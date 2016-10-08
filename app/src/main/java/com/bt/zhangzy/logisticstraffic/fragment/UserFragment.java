@@ -1,8 +1,6 @@
 package com.bt.zhangzy.logisticstraffic.fragment;
 
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +11,7 @@ import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.data.UserStatus;
 import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
@@ -208,22 +207,22 @@ public class UserFragment extends BaseHomeFragment {
             //跟新用户审核状态
             User.getInstance().requestUserInfo();
             //更新用户的支付状态
-            if (User.getInstance().getUserType() == Type.DriverType) {
+            if (User.getInstance().getUserStatus() == UserStatus.PAID) {
                 //刷新用户的会员有效期 显示
                 refreshPayStatus();
-                User.getInstance().requestPayStatus(new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(Message msg) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                refreshPayStatus();
-                            }
-                        });
-                        return false;
-                    }
-                });
+//                User.getInstance().requestPayStatus(new Handler.Callback() {
+//                    @Override
+//                    public boolean handleMessage(Message msg) {
+//                        getActivity().runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//
+//                                refreshPayStatus();
+//                            }
+//                        });
+//                        return false;
+//                    }
+//                });
             } else {
                 findViewById(R.id.user_expire_date_tx).setVisibility(View.GONE);
             }
