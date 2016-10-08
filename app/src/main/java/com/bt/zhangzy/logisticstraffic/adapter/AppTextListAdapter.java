@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.d.R;
+import com.bt.zhangzy.logisticstraffic.data.People;
 
 import java.util.List;
 
@@ -15,9 +16,9 @@ import java.util.List;
  */
 public class AppTextListAdapter extends BaseAdapter{
 
-    private List<String> list = null;
+    private List<People> list = null;
 
-    public AppTextListAdapter(List<String> array) {
+    public AppTextListAdapter(List<People> array) {
         list = array;
     }
 
@@ -28,7 +29,7 @@ public class AppTextListAdapter extends BaseAdapter{
     }
 
     @Override
-    public String getItem(int position) {
+    public People getItem(int position) {
         return list.get(position);
     }
 
@@ -50,12 +51,16 @@ public class AppTextListAdapter extends BaseAdapter{
             holder = (Holder) convertView.getTag();
         }
         if (holder != null) {
-            String tx = list.get(position);
+            String tx = list.get(position).getName();
             holder.name.setText(tx);
         }
 
 
         return convertView;
+    }
+
+    public List<People> getList() {
+        return list;
     }
 
     class Holder {
