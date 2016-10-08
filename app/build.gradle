@@ -44,8 +44,11 @@ android {
     buildTypes {
         debug {
             buildConfigField "boolean", "APP_DEBUG", "true"
+
+            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8070"]
+//            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8080"]
 //            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:8080"]
-            manifestPlaceholders = [APP_HOST_VALUE: "http://192.168.1.7:8080"]
+//            manifestPlaceholders = [APP_HOST_VALUE: "http://192.168.1.7:8080"]
 //            manifestPlaceholders = [APP_HOST_VALUE: "http://192.168.1.14:9080"]
 
             //manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:80"]
@@ -60,7 +63,7 @@ android {
             //配置APP内的请求网关
             manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net"]
 //            //配置APP内的请求网关
-//            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:80"]
+//            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:80"]
             // 是否进行混淆
             minifyEnabled false
             // 移除无用的resource文件
@@ -94,49 +97,49 @@ android {
 
         company {
             applicationId 'com.bt.zhangzy.logisticstraffic'
-            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:80",APP_TYPE_VALUE: "company", JPUSH_APPKEY: "cba04bab06fa527b1113d749"]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:80",APP_TYPE_VALUE: "company", JPUSH_APPKEY: "cba04bab06fa527b1113d749"]
             signingConfig signingConfigs.yyt
         }
 
         driver {
             applicationId "com.bt.zhangzy.logisticstraffic.d"
-            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:80",APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:80",APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
             signingConfig signingConfigs.yyt
         }
 
         lvj_company {
             applicationId 'com.bt.zhangzy.logisticstraffic'
-            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:8070",APP_TYPE_VALUE: "company", JPUSH_APPKEY: "cba04bab06fa527b1113d749"]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8070",APP_TYPE_VALUE: "company", JPUSH_APPKEY: "cba04bab06fa527b1113d749"]
             signingConfig signingConfigs.yyt
         }
 
         lvj_driver {
             applicationId "com.bt.zhangzy.logisticstraffic.d"
-            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:8070",APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8070",APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
             signingConfig signingConfigs.yyt
         }
 
         driver_yaxin {
             applicationId "com.bt.zhangzy.logisticstraffic.d"
-            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:80",APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:80",APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
             signingConfig signingConfigs.yyt
         }
 
         driver_liyong {
             applicationId "com.bt.zhangzy.logisticstraffic.d"
-            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:80",APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:80",APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
             signingConfig signingConfigs.yyt
         }
 
         driver_yili {
             applicationId "com.bt.zhangzy.logisticstraffic.d"
-            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:80",APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:80",APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
             signingConfig signingConfigs.yyt
         }
 
         driver_daan {
             applicationId "com.bt.zhangzy.logisticstraffic.d"
-            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:80",APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:80",APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7"]
             signingConfig signingConfigs.yyt
         }
     }

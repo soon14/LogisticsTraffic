@@ -482,7 +482,7 @@ public class HomeFragment extends BaseHomeFragment {
 //        initSpreadViewPager(listHeadView);
 
 //        listView.refresh();
-        getHomeActivity().showProgressOnUI("数据加载中...");
+//        getHomeActivity().showProgressOnUI("数据加载中...");
         currentPageNum = 1;
         requestGetCompanyList();//初始化
 //        setListAdapter();
