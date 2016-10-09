@@ -1085,9 +1085,11 @@ public class OrderDetailActivity extends BaseActivity {
                     finish();
 
             } else {
-                if (currentOrderStatus == OrderStatus.AllocationOrder
-                        && allocationList != null) {
-                    showToast("请从已抢单司机列表中选择司机");
+                if (currentOrderStatus == OrderStatus.AllocationOrder) {
+                    if (allocationList != null)
+                        showToast("请从已抢单司机列表中选择司机");
+                    else
+                        showToast("请等待司机抢单");
                     // 如果已经从 抢单司机列表中选择了，则直接走callDriver接口进行通知；callDriver成功后会自动调用allocation
                 } else {
 //                  没有选择司机，或者没有可选的接单列表 弹出CALL车选项
@@ -1439,8 +1441,11 @@ public class OrderDetailActivity extends BaseActivity {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("下单成功" + msg);
-                requestSendToCompany(result);
                 Type userType = User.getInstance().getUserType();
+                if (userType == Type.EnterpriseType) {
+                    //如果是企业 给物流公司 发送推送
+                    requestSendToCompany(result);
+                }
                 if (userType == Type.CompanyInformationType || userType == Type.EnterpriseType) {
                     //物流公司 创建订单后 重新获取订单信息 ，并询问是否call车
                     requestOrder(result, true);
