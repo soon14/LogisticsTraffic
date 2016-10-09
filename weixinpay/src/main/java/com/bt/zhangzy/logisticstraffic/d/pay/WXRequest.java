@@ -12,6 +12,15 @@ public class WXRequest extends BaseEntity {
     from;//发送订单的手机的ip地址
     int userId;
     int amount;
+    int carId;
+
+    public int getCarId() {
+        return carId;
+    }
+
+    public void setCarId(int carId) {
+        this.carId = carId;
+    }
 
     public int getUserId() {
         return userId;

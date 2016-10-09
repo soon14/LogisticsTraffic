@@ -139,6 +139,9 @@ public class WeiXinPay {
         if (TextUtils.isEmpty(Host)) {
             loadAppParams(context);
         }
+//        微信测试只能支付一块
+        if (amount <= 0)
+            amount = 1;
 //        Log.d(TAG, "调用微信openWXApp:" + iwxapi.openWXApp());
 
         WXRequest params = new WXRequest();
@@ -146,6 +149,7 @@ public class WeiXinPay {
         params.setDetail(msg);
         params.setAmount(amount);
         params.setUserId(userId);
+        params.setCarId(carId);
         String localWifiIP = ContextTools.getLocalWifiIP(context);
         String localIpAddress = ContextTools.getLocalIpAddress();
         Log.d(TAG, "wifi IP=" + localWifiIP + " IP=" + localIpAddress);
