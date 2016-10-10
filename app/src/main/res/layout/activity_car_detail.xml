@@ -44,6 +44,7 @@
                 android:layout_margin="5dp"
                 android:background="@color/white"
                 android:gravity="center"
+                android:clickable="true"
                 android:onClick="onClick_UnBind"
                 android:maxLines="1"
                 android:hint="该车未绑定司机"
