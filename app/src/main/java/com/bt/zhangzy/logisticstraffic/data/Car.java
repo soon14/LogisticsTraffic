@@ -214,6 +214,10 @@ public class Car implements Parcelable {
         return pilotId;
     }
 
+    public void setPilotId(int pilotId) {
+        this.pilotId = pilotId;
+    }
+
     public String getUsualResidence() {
         return usualResidence;
     }

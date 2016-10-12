@@ -96,11 +96,11 @@ public class MotorcadeActivity extends BaseActivity {
 
 
     private void initCompany() {
-//        if (isSelectDriver || isShowLoadingDriver) {
-//            findViewById(R.id.motorcade_create_order_bt).setVisibility(View.GONE);
+        if (isSelectDriver || isShowLoadingDriver) {
+            findViewById(R.id.motorcade_create_order_bt).setVisibility(View.GONE);
 //            findViewById(R.id.motorcade_add_bt).setVisibility(View.GONE);
 //
-//        }
+        }
         if (User.getInstance().getUserType() == Type.CompanyInformationType) {
             findViewById(R.id.motorcade_create_order_bt).setVisibility(View.GONE);
         }
@@ -367,9 +367,9 @@ public class MotorcadeActivity extends BaseActivity {
                                     if (car.getPayStatus() == CarPayStatus.PaymentReceived) {
                                         if (car.getRunStatus() == CarRunStatus.Leisure)
                                             //过滤掉没有驾驶员的
-                                            if (car.getPilotId() > 0) {
-                                                driver.addCar(car);
-                                            }
+//                                            if (car.getPilotId() > 0) {
+                                            driver.addCar(car);
+//                                            }
                                     }
                                 }
                             }

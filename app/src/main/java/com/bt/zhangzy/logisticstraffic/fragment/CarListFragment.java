@@ -217,9 +217,9 @@ public class CarListFragment extends Fragment {
                     if (car.getPayStatus() == CarPayStatus.PaymentReceived) {
                         if (car.getRunStatus() == CarRunStatus.Leisure)
                             //过滤掉没有驾驶员的
-                            if (car.getPilotId() > 0) {
+//                            if (car.getPilotId() > 0) {
                                 ls.add(car);
-                            }
+//                            }
 
                     }
                 } else {

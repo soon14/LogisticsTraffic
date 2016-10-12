@@ -8,7 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.bt.zhangzy.jpush.ExampleUtil;
-import com.bt.zhangzy.logisticstraffic.activity.OrderListActivity;
+import com.bt.zhangzy.logisticstraffic.activity.HomeActivity;
 import com.bt.zhangzy.logisticstraffic.data.User;
 
 import org.json.JSONException;
@@ -58,9 +58,9 @@ public class MyReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
             //todo 处理通知
             //打开自定义的Activity
-//        	Intent i = new Intent(context, HomeActivity.class);
+        	Intent i = new Intent(context, HomeActivity.class);
             //跳转到订单列表页面
-            Intent i = new Intent(context, OrderListActivity.class);
+//            Intent i = new Intent(context, OrderListActivity.class);
 
             i.putExtras(bundle);
             //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

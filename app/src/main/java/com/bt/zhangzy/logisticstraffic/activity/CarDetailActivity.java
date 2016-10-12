@@ -132,6 +132,7 @@ public class CarDetailActivity extends BaseActivity {
                     String json_str = data.getStringExtra(AppParams.CAR_DETAIL_PAGE_DRIVER_KEY);
                     Log.d(TAG, "选择需要绑定的司机-返回 ： " + json_str);
                     final JsonDriver jsonDriver = JsonDriver.ParseEntity(json_str, JsonDriver.class);
+                    this.car.setPilotId(jsonDriver.getId());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -494,6 +495,7 @@ public class CarDetailActivity extends BaseActivity {
                     public void run() {
 
                         setTextView(R.id.car_detail_bind_tx, "");
+                        car.setPilotId(0);
                     }
                 });
             }
