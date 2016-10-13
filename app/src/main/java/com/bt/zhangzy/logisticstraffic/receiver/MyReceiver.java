@@ -28,6 +28,17 @@ import cn.jpush.android.api.JPushInterface;
 public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "JPush";
 
+
+    /*
+    10-11 15:12:30.805 D/JPush: [MyReceiver] onReceive - cn.jpush.android.intent.NOTIFICATION_RECEIVED, extras:
+                            key:cn.jpush.android.PUSH_ID, value:2643483959
+                            key:cn.jpush.android.ALERT, value:有新订单了，请查看订单列表。
+                            key:cn.jpush.android.NOTIFICATION_ID, value:189989398
+                            key:cn.jpush.android.NOTIFICATION_CONTENT_TITLE, value:易运通
+                            key:cn.jpush.android.MSG_ID, value:2643483959
+10-11 15:12:30.805 D/JPush: [MyReceiver] 接收到推送下来的通知
+10-11 15:12:30.805 D/JPush: [MyReceiver] 接收到推送下来的通知的ID: 189989398
+    * */
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
@@ -58,9 +69,10 @@ public class MyReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
             //todo 处理通知
             //打开自定义的Activity
-        	Intent i = new Intent(context, HomeActivity.class);
+            Intent i = new Intent(context, HomeActivity.class);
             //跳转到订单列表页面
 //            Intent i = new Intent(context, OrderListActivity.class);
+
 
             i.putExtras(bundle);
             //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

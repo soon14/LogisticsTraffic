@@ -83,7 +83,25 @@ public class HomeActivity extends BaseActivity {
 
         new UpgradeApp(this).checkApp();
 
-
+        //取通知中的内容
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            Bundle bundle = getIntent().getExtras();
+            String key = "cn.jpush.android.ALERT";
+            if (bundle.containsKey(key)) {
+                final String msg = bundle.getString(key);
+                if (!TextUtils.isEmpty(msg)) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            new ConfirmDialog(HomeActivity.this)
+                                    .setMessage(msg)
+                                    .setHideCancelBt()
+                                    .show();
+                        }
+                    });
+                }
+            }
+        }
     }
 
     @Override
@@ -566,7 +584,7 @@ public class HomeActivity extends BaseActivity {
         } else {
             Bundle bundle = new Bundle();
 //            bundle.putInt(AppParams.ORDER_DETAIL_KEY_TYPE, OrderDetailMode.CompletedMode.ordinal());
-            bundle.putBoolean(AppParams.ORDER_DRIVER_LOOK,true);
+            bundle.putBoolean(AppParams.ORDER_DRIVER_LOOK, true);
             bundle.putParcelable(AppParams.ORDER_DETAIL_KEY_ORDER, User.getInstance().getRunOrder());
             startActivity(OrderDetailActivity.class, bundle);
         }

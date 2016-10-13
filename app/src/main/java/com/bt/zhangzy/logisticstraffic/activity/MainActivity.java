@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity {
         getApp().loadAppParams();
         getApp().LoadAppData();
         if (AppParams.DEBUG) {
-//            findViewById(R.id.test_ly).setVisibility(View.GONE);
+            findViewById(R.id.test_ly).setVisibility(View.GONE);
         } else {
             findViewById(R.id.test_tag).setVisibility(View.GONE);
             findViewById(R.id.test_ly).setVisibility(View.GONE);
