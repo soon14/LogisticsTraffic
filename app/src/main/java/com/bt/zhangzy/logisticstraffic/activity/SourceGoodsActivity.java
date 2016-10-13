@@ -89,6 +89,8 @@ public class SourceGoodsActivity extends BaseActivity {
         params.put("role", String.valueOf(User.getInstance().getUserType().toRole()));
         params.put("roleId", String.valueOf(User.getInstance().getRoleId()));
 
+        params.put("ts", String.valueOf(System.currentTimeMillis()));
+
         HttpHelper.getInstance().get(AppURL.GetOrderAcceptList, params, new ResponseAcceptList());
         //公共货源
         params = new HashMap<>(params);
@@ -115,6 +117,7 @@ public class SourceGoodsActivity extends BaseActivity {
         params.put("status", "3");
         params.put("role", String.valueOf(User.getInstance().getUserType().toRole()));
         params.put("roleId", String.valueOf(User.getInstance().getRoleId()));
+        params.put("ts", String.valueOf(System.currentTimeMillis()));
         HttpHelper.getInstance().get(AppURL.GetOrderList, params, new JsonCallback() {
             @Override
             public void onSuccess(String msg, String result) {
