@@ -672,7 +672,7 @@ public class HomeActivity extends BaseActivity {
             String[] str = ContextTools.OnActivityRsultForContacts(this, data);
             if (str != null && str.length > 1 && !TextUtils.isEmpty(str[1])) {
                 //给拿到的电话发送短信
-                ContextTools.SendSMS(this, str[1], String.format(getString(R.string.app_recommend_sms), getString(R.string.app_name), AppURL.DOWNLOAD_APP.toString()));
+                ContextTools.SendSMS(this, str[1], String.format(getString(R.string.app_recommend_sms), getString(R.string.app_name), AppParams.APP_HOST + AppURL.DOWNLOAD_APP.toString()));
             }
 
         } else if (UploadImageHelper.getInstance().onActivityResult(this, requestCode, resultCode, data)) {
