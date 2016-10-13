@@ -18,6 +18,7 @@ import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Car;
 import com.bt.zhangzy.logisticstraffic.data.CarPayStatus;
 import com.bt.zhangzy.logisticstraffic.data.CarRunStatus;
+import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.entity.JsonCar;
@@ -94,7 +95,7 @@ public class CarListFragment extends Fragment {
         }
         listView = (ListView) view.findViewById(R.id.car_list_listView);
 //        listView.setAdapter(new OrderListAdapter(false));
-        if (carArrayList == null)
+        if (carArrayList == null|| User.getInstance().getUserType()== Type.DriverType)
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

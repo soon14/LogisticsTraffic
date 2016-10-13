@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Car;
+import com.bt.zhangzy.logisticstraffic.data.CarRunStatus;
 import com.bt.zhangzy.tools.ViewUtils;
 
 import java.util.ArrayList;
@@ -31,7 +32,6 @@ public class CarListAdapter extends BaseAdapter implements CompoundButton.OnChec
     public CarListAdapter(List<Car> list) {
         this.list = list;
     }
-
 
 
     public void setLook(boolean look) {
@@ -92,6 +92,11 @@ public class CarListAdapter extends BaseAdapter implements CompoundButton.OnChec
         ViewUtils.setText(holder.carLengthTx, car.getLength());
         ViewUtils.setText(holder.carWeightTx, car.getCapacity());
         ViewUtils.setText(holder.carStatusTx, car.getRunStatusName());
+        if (car.getRunStatus() == CarRunStatus.Busy)
+            holder.carStatusTx.setBackgroundResource(R.drawable.car_type_run_bg_shape);
+        else
+            holder.carStatusTx.setBackgroundResource(R.drawable.car_type_bg_shape);
+
         ViewUtils.setText(holder.payStatusTx, car.getPayStatusName());
         if (isLook) {
             holder.driverLy.setVisibility(View.GONE);

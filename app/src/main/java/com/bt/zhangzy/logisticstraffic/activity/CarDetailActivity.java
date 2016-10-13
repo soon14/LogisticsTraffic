@@ -13,6 +13,7 @@ import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Car;
+import com.bt.zhangzy.logisticstraffic.data.CarRunStatus;
 import com.bt.zhangzy.logisticstraffic.data.Location;
 import com.bt.zhangzy.logisticstraffic.data.User;
 import com.bt.zhangzy.logisticstraffic.view.CallPhoneDialog;
@@ -26,6 +27,7 @@ import com.bt.zhangzy.network.JsonCallback;
 import com.bt.zhangzy.network.UploadImageHelper;
 import com.bt.zhangzy.network.entity.JsonCar;
 import com.bt.zhangzy.network.entity.JsonDriver;
+import com.bt.zhangzy.network.entity.JsonUser;
 import com.bt.zhangzy.network.entity.RequestAddCar;
 import com.bt.zhangzy.network.entity.RequestBindCarDriver;
 import com.bt.zhangzy.tools.Tools;
@@ -109,8 +111,39 @@ public class CarDetailActivity extends BaseActivity {
 
         //绑定的驾驶员
         if (car.getPilotId() > 0)
-            setTextView(R.id.car_detail_bind_tx, car.getName() + " - " + car.getPhoneNumber());
+            if (TextUtils.isEmpty(car.getName()) || TextUtils.isEmpty(car.getPhoneNumber())) {
+                //只有id 没有名字和电话的情况
+                requestUserInfo(car.getPilotId());
+            } else {
+
+                setTextView(R.id.car_detail_bind_tx, car.getName() + " - " + car.getPhoneNumber());
+            }
 //        setBindView();
+    }
+
+    private void requestUserInfo(int pilotId) {
+        HttpHelper.getInstance().get(AppURL.GetUserInfo, String.valueOf(pilotId), new JsonCallback() {
+            @Override
+            public void onSuccess(String msg, String result) {
+                if (TextUtils.isEmpty(result)) {
+                    return;
+                }
+                JsonUser jsonUser = ParseJson_Object(result, JsonUser.class);
+                car.setName(jsonUser.getName());
+                car.setPhoneNumber(jsonUser.getPhoneNumber());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setTextView(R.id.car_detail_bind_tx, car.getName() + " - " + car.getPhoneNumber());
+                    }
+                });
+            }
+
+            @Override
+            public void onFailed(String str) {
+
+            }
+        });
     }
 
     @Override
@@ -323,6 +356,11 @@ public class CarDetailActivity extends BaseActivity {
      * @param view
      */
     public void onClick_Bind(View view) {
+        if (car.getRunStatus() == CarRunStatus.Busy && car.getPilotId() > 0) {
+//            运输中车辆无法绑定其他驾驶员驾驶员
+            showToast("车辆正在运输中");
+            return;
+        }
         Bundle bundle = new Bundle();
         bundle.putParcelable(AppParams.CAR_DETAIL_PAGE_CAR_KEY, car);
         startActivityForResult(DriverListActivity.class, bundle, AppParams.CAR_DETAIL_REQUEST_CODE);
@@ -334,6 +372,11 @@ public class CarDetailActivity extends BaseActivity {
      * @param view
      */
     public void onClick_UnBind(View view) {
+        if (car.getRunStatus() == CarRunStatus.Busy) {
+//            运输中车辆无法解绑驾驶员
+            showToast("车辆正在运输中");
+            return;
+        }
         if (car.getPilotId() > 0) {
             showUnBindDialog();
         } else {
