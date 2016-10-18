@@ -44,13 +44,19 @@ public class LinesDetailActivity extends BaseActivity {
                 jsonLine = new JsonLine();
                 jsonLine.setCreateDate(new Date());
                 jsonLine.setUserId((int) User.getInstance().getId());
-                String consignorCity = User.getInstance().getLocation().toText();
-                jsonLine.setConsignorCity(consignorCity);
+                if (User.getInstance().getLocation() != null) {
+                    String consignorCity = User.getInstance().getLocation().toText();
+                    jsonLine.setConsignorCity(consignorCity);
+                }
                 findViewById(R.id.line_detail_remove_bt).setVisibility(View.GONE);
 
             }
         }
         findViewById(R.id.line_detail_name).requestFocus();
+        if (AppParams.APP_LVJ) {
+            TextView tx = (TextView) findViewById(R.id.line_detail_name);
+            tx.setHint("客户名称");
+        }
         setTextView(R.id.line_list_submit, isFromOrder ? "保存并使用" : "保存");
         setTextView(R.id.line_detail_consignor_city, jsonLine.getConsignorCity());
         if (isEditMode) {
@@ -139,7 +145,7 @@ public class LinesDetailActivity extends BaseActivity {
         String consignorAddress = getStringFromTextView(R.id.line_detail_consignor_address);
         String receiverAddress = getStringFromTextView(R.id.line_detail_receiver_address);
 
-        if (Tools.isEmptyStrings(lineName,consignorName, consignorPhone, receiverName, receiverPhone, consignorAddress, receiverAddress)) {
+        if (Tools.isEmptyStrings(lineName, consignorName, consignorPhone, receiverName, receiverPhone, consignorAddress, receiverAddress)) {
             showToast("信息不全");
             return;
         }

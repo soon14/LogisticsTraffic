@@ -55,7 +55,7 @@ public class LogisticsTrafficApplication extends Application {
 //        loadAppParams();
 
         //JPush 推送
-        JPushInterface.setDebugMode(true);
+        JPushInterface.setDebugMode(AppParams.DEBUG);
         JPushInterface.init(getApplicationContext());
 
 
@@ -115,6 +115,8 @@ public class LogisticsTrafficApplication extends Application {
             String host = appInfo.metaData.getString("APP_Host");
             Log.i(TAG, "=====>请求地址：" + host);
             AppParams.APP_HOST = host;
+
+            AppParams.APP_LVJ = appInfo.metaData.getBoolean("APP_LVJ");
 
             // 将配置信息保存到本地
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

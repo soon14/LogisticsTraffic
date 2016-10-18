@@ -267,6 +267,11 @@
             android:name="APP_Host"
             android:value="${APP_HOST_VALUE}" />
 
+        <!-- 氯碱平台标记值 -->
+        <meta-data
+            android:name="APP_LVJ"
+            android:value="${APP_LVJ}" />
+
     </application>
 
 </manifest>

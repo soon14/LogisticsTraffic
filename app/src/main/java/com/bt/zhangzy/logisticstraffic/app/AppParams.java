@@ -77,11 +77,14 @@ public final class AppParams {
 
     public static String APP_HOST = "http://182.92.77.31";//默认值
 
+    /*氯碱标记值*/
+    public static Boolean APP_LVJ = false;
+
 
     /*=============activity跳转请求常量 =================*/
 
     /*车辆管理页面跳转 */
-    public static final String CAR_LIST_PAGE_CAR_KEY  = "CAR_LIST_PAGE_CAR_KEY";
+    public static final String CAR_LIST_PAGE_CAR_KEY = "CAR_LIST_PAGE_CAR_KEY";
     public static final String CAR_LIST_PAGE_DRIVER_KEY = "CAR_LIST_PAGE_DRIVER_KEY";
     public static final String CAR_LIST_PAGE_SELECT_MODE = "CAR_LIST_PAGE_SELECT_MODE";
     public static final String CAR_DETAIL_PAGE_DRIVER_KEY = "CAR_DETAIL_PAGE_DRIVER_KEY";

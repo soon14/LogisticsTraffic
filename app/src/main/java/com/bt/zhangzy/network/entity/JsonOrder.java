@@ -27,6 +27,8 @@ public class JsonOrder extends BaseEntity implements Parcelable, Comparable<Json
     //需求车型 需求车长
     String needCarType, needCarLength;
     String remark;//备注
+    //氯碱用的字段
+    String contract;//合同编号
     //运输报价
     int price;
     int enterpriseId;//企业ID
@@ -45,6 +47,14 @@ public class JsonOrder extends BaseEntity implements Parcelable, Comparable<Json
     String consignorName;//发货人名字
     String consignorPhone;//电话
     /*===============================*/
+
+    public String getContract() {
+        return contract;
+    }
+
+    public void setContract(String contract) {
+        this.contract = contract;
+    }
 
     public String getConsignorName() {
         return consignorName;
@@ -140,7 +150,7 @@ public class JsonOrder extends BaseEntity implements Parcelable, Comparable<Json
         return status;
     }
 
-    public OrderStatus getOrderStatus(){
+    public OrderStatus getOrderStatus() {
         return OrderStatus.parseStatus(status);
     }
 
@@ -271,7 +281,7 @@ public class JsonOrder extends BaseEntity implements Parcelable, Comparable<Json
     //地址简写
     public String getStartCitySimple() {
         String s = Tools.splitAddress(startCity, ",")[0];
-        return Tools.splitAddress(s,"·")[1];
+        return Tools.splitAddress(s, "·")[1];
     }
 
     //地址详细
@@ -290,7 +300,7 @@ public class JsonOrder extends BaseEntity implements Parcelable, Comparable<Json
     //地址简写
     public String getStopCitySimple() {
         String s = Tools.splitAddress(stopCity, ",")[0];
-        return Tools.splitAddress(s,"·")[1];
+        return Tools.splitAddress(s, "·")[1];
     }
 
     //地址详细

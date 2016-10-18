@@ -33,6 +33,7 @@
     <string name="order_submit_order_evaluate">评价</string>
     <string name="pay_two_info"><![CDATA[两年 216元 <font color=\'red\'>(九折)</font>]]></string>
     <string name="pay_three_info"><![CDATA[三年 288元 <font color=\'red\'>(八折)</font>]]></string>
+    <string name="pay_one_day_info">一天 20元</string>
     <string name="pay_one_info">一年 120元</string>
     <string name="user_expire_str">会员有效期至：%s</string>
     <string name="app_version_tx">版本：%s</string>

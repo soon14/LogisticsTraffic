@@ -49,10 +49,18 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
         payGroup.check(R.id.pay_select_1y);
         payMethodGroup.setOnCheckedChangeListener(this);
         payMethodGroup.check(R.id.pay_method_zhifubao);
-        TextView textView = (TextView) findViewById(R.id.pay_select_2y);
-        textView.setText(Html.fromHtml(getString(R.string.pay_two_info)));
-        textView = (TextView) findViewById(R.id.pay_select_3y);
-        textView.setText(Html.fromHtml(getString(R.string.pay_three_info)));
+
+        if (AppParams.APP_LVJ) {
+            setTextView(R.id.pay_select_1y, getString(R.string.pay_one_day_info));
+            findViewById(R.id.pay_select_2y).setVisibility(View.GONE);
+            findViewById(R.id.pay_select_3y).setVisibility(View.GONE);
+
+        } else {
+            TextView textView = (TextView) findViewById(R.id.pay_select_2y);
+            textView.setText(Html.fromHtml(getString(R.string.pay_two_info)));
+            textView = (TextView) findViewById(R.id.pay_select_3y);
+            textView.setText(Html.fromHtml(getString(R.string.pay_three_info)));
+        }
 
         if (!AppParams.DEBUG) {
             //微信支付 暂时屏蔽
@@ -65,7 +73,10 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
         if (group == payGroup) {
             switch (checkedId) {
                 case R.id.pay_select_1y:
-                    payMoney = 120;
+                    if (AppParams.APP_LVJ)
+                        payMoney = 20;
+                    else
+                        payMoney = 120;
                     break;
                 case R.id.pay_select_2y:
                     payMoney = 216;
@@ -142,7 +153,7 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
                 });
                 break;
             case R.id.pay_method_zhifubao_other:
-                String url = AliPay.getInstance().payOther(this, message, payMoney, (int) User.getInstance().getId(), ContextTools.getLocalIpAddress(),car.getId());
+                String url = AliPay.getInstance().payOther(this, message, payMoney, (int) User.getInstance().getId(), ContextTools.getLocalIpAddress(), car.getId());
                 gotoWebPage("支付宝扫码支付", url);
 //                AliPay.getInstance().setCallback(new AliPayResultCallback() {
 //                    @Override

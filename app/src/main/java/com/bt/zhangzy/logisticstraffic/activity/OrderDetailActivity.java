@@ -112,6 +112,9 @@ public class OrderDetailActivity extends BaseActivity {
 //        jsonOrder.setReceiverAddress(jsonLine.getReceiverAddress());
         jsonOrder.setConsignorName(jsonLine.getConsignorName());
         jsonOrder.setConsignorPhone(jsonLine.getConsignorPhone());
+        if (AppParams.APP_LVJ) {
+            jsonOrder.setRemark("客户:" + jsonLine.getLineName());
+        }
 //        jsonOrder.setcon
         //init view
         initLineView();
@@ -130,6 +133,10 @@ public class OrderDetailActivity extends BaseActivity {
             ViewUtils.setText(lineLy, R.id.line_item_receiver_name, jsonOrder.getReceiverName());
             ViewUtils.setText(lineLy, R.id.line_item_receiver_phone, jsonOrder.getReceiverPhone());
             ViewUtils.setText(lineLy, R.id.line_item_receiver_address, jsonOrder.getStopCity());
+            if (AppParams.APP_LVJ) {
+                //更新线路名称
+                setTextView(R.id.order_detail_remark_ed, jsonOrder.getRemark());
+            }
         }
     }
 
@@ -255,6 +262,9 @@ public class OrderDetailActivity extends BaseActivity {
         setTextView(R.id.order_detail_goods_weight_tx, jsonOrder.getGoodsWeight());
         setTextView(R.id.order_detail_volume_tx, jsonOrder.getGoodsVolume());
         setTextView(R.id.order_detail_remark_ed, jsonOrder.getRemark());
+        if (AppParams.APP_LVJ) {
+            setTextView(R.id.order_detail_no_ed, jsonOrder.getContract());//// T ODO: 2016-10-18  合同编号初始化
+        }
         if (jsonOrder.getDeliverDate() != null)
             setTextView(R.id.order_detail_start_date, Tools.toStringDate(jsonOrder.getDeliverDate()));
         if (jsonOrder.getDriverCount() > 0)
@@ -340,6 +350,10 @@ public class OrderDetailActivity extends BaseActivity {
 //            start_ed.setEnabled(false);
 //            stop_ed.setEnabled(false);
             remark_ed.setEnabled(false);
+            if (AppParams.APP_LVJ) {
+                //合同编号司机不能查看
+                findViewById(R.id.order_detail_no_ed).setEnabled(false);
+            }
         } else {
             TextWatcher watcher = new TextWatcher() {
                 @Override
@@ -364,6 +378,12 @@ public class OrderDetailActivity extends BaseActivity {
 
         //已抢司机列表 默认为不显示
         findViewById(R.id.order_detail_select_driver_ly).setVisibility(View.GONE);
+        if (!AppParams.APP_LVJ) {
+            //合同编号 非氯碱平台不显示
+            findViewById(R.id.order_detail_no_ly).setVisibility(View.GONE);
+            findViewById(R.id.order_detail_no_line).setVisibility(View.GONE);
+
+        }
 
         Type userType = User.getInstance().getUserType();
         if (userType == Type.EnterpriseType) {
@@ -900,6 +920,10 @@ public class OrderDetailActivity extends BaseActivity {
     //选择 司机 call车
     public void onClick_SelectDriverBtn(View view) {
         if (User.getInstance().getUserType() == Type.DriverType) {
+            if (driver==null || driver.getListCar() == null || driver.getListCar().isEmpty()) {
+                showToast("没有相关车辆");
+                return;
+            }
             //司机查看订单相关的车辆列表
             Bundle bundle = new Bundle();
             bundle.putBoolean(AppParams.DRIVER_SELECT_CARS_MODE, false);
@@ -987,6 +1011,10 @@ public class OrderDetailActivity extends BaseActivity {
                 //更新备注信息
                 String remark = getStringFromTextView(R.id.order_detail_remark_ed);
                 jsonOrder.setRemark(remark);
+                if (AppParams.APP_LVJ) {
+                    String no = getStringFromTextView(R.id.order_detail_no_ed);
+                    jsonOrder.setContract(no);
+                }
                 //企业 向 信息部下单
                 requestCreateOrder();
                 break;
