@@ -12,6 +12,7 @@ import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Type;
 import com.bt.zhangzy.logisticstraffic.data.User;
+import com.bt.zhangzy.logisticstraffic.view.ConfirmDialog;
 import com.bt.zhangzy.network.AppURL;
 import com.bt.zhangzy.network.HttpHelper;
 import com.bt.zhangzy.network.JsonCallback;
@@ -67,7 +68,7 @@ public class ForgetActivity extends BaseActivity {
             return;
         }
 
-        if (SMSCodeHelper.getInstance().checkVerificationCode(this,nameStr,input_code)) {
+        if (SMSCodeHelper.getInstance().checkVerificationCode(this, nameStr, input_code)) {
             request_Login(nameStr, input_code);
         } else {
             showToast("验证码错误");
@@ -126,10 +127,29 @@ public class ForgetActivity extends BaseActivity {
         //登录成功后保存一下信息；
         getApp().saveUser();
         getApp().setAliasAndTag();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showDialog();
+            }
+        });
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null)
-            startActivity(HomeActivity.class, bundle);
-        finish();
+    }
+
+    private void showDialog() {
+        new ConfirmDialog(this)
+                .setMessage("您的密码已经重置为6个1，请牢记并尽快修改密码")
+                .setHideCancelBt()
+                .setConfirm("进入")
+                .setConfirmListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Bundle bundle = getIntent().getExtras();
+                        startActivity(HomeActivity.class, bundle);
+                        finish();
+                    }
+                }).show();
+
     }
 }
