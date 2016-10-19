@@ -46,15 +46,12 @@ android {
             buildConfigField "boolean", "APP_DEBUG", "true"
 
 //            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8070"]
-//            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8080"]
-//            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:80"]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8080", APP_LVJ: true]
+//            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net"]
 //            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:8080"]
-            manifestPlaceholders = [APP_HOST_VALUE: "http://192.168.1.7:8080",APP_LVJ: true]
+//            manifestPlaceholders = [APP_HOST_VALUE: "http://192.168.1.7:8080",APP_LVJ: true]
 //            manifestPlaceholders = [APP_HOST_VALUE: "http://192.168.1.99:9080",APP_LVJ: true]
 //            manifestPlaceholders = [APP_HOST_VALUE: "http://test.wllm168.com"]
-
-
-
 
             //manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:80"]
 
@@ -112,13 +109,13 @@ android {
 
         lvj_company {
             applicationId 'com.bt.zhangzy.logisticstraffic'
-            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8070", APP_TYPE_VALUE: "company", JPUSH_APPKEY: "cba04bab06fa527b1113d749",APP_LVJ:true]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8070", APP_TYPE_VALUE: "company", JPUSH_APPKEY: "cba04bab06fa527b1113d749", APP_LVJ: true]
             signingConfig signingConfigs.yyt
         }
 
         lvj_driver {
             applicationId "com.bt.zhangzy.logisticstraffic.d"
-            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8070", APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7",APP_LVJ:true]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8070", APP_TYPE_VALUE: "driver", JPUSH_APPKEY: "1f2eb8decd962fdd2ccc76a7", APP_LVJ: true]
             signingConfig signingConfigs.yyt
         }
 

@@ -92,9 +92,14 @@ public class CarDetailActivity extends BaseActivity {
                 case PaymentReceived:
                     setTextView(R.id.car_detail_pay_msg, getString(R.string.car_detail_pay_msg, Tools.toStringDate(car.getExpireDate())));
 
-                    View viewById = findViewById(R.id.car_detail_pay_msg);
-                    if (viewById != null)
+                    TextView viewById = (TextView) findViewById(R.id.car_detail_pay_msg);
+                    if (viewById != null) {
                         viewById.setClickable(false);
+                        viewById.setTextSize(14);
+                    }
+                    break;
+                case Overdue:
+                    setTextView(R.id.car_detail_pay_msg, getString(R.string.car_detail_overdue_msg));
                     break;
                 case NonPayment:
                 case Empty:

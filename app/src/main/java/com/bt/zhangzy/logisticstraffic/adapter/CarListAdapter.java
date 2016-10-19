@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Car;
+import com.bt.zhangzy.logisticstraffic.data.CarPayStatus;
 import com.bt.zhangzy.logisticstraffic.data.CarRunStatus;
 import com.bt.zhangzy.tools.ViewUtils;
 
@@ -44,7 +45,7 @@ public class CarListAdapter extends BaseAdapter implements CompoundButton.OnChec
 
     @Override
     public int getCount() {
-        return list.size();
+        return list == null ? 0 : list.size();
     }
 
     @Override
@@ -98,6 +99,10 @@ public class CarListAdapter extends BaseAdapter implements CompoundButton.OnChec
             holder.carStatusTx.setBackgroundResource(R.drawable.car_type_bg_shape);
 
         ViewUtils.setText(holder.payStatusTx, car.getPayStatusName());
+        holder.payStatusTx.setBackgroundResource(car.getPayStatus() == CarPayStatus.PaymentReceived ? R.drawable.car_type_bg_shape : R.drawable.car_type_run_bg_shape);
+        if (car.getPayStatus() == CarPayStatus.PaymentReceived) {
+
+        }
         if (isLook) {
             holder.driverLy.setVisibility(View.GONE);
         } else {

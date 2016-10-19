@@ -67,5 +67,6 @@
 
     <string name="car_detail_pay_msg">会员有效期到：%s</string>
     <string name="car_detail_un_pay_msg">点击购买会员</string>
+    <string name="car_detail_overdue_msg">会员已过期，点击续费</string>
 
 </resources>

@@ -14,7 +14,6 @@ import com.bt.zhangzy.logisticstraffic.app.AppParams;
 import com.bt.zhangzy.logisticstraffic.app.BaseActivity;
 import com.bt.zhangzy.logisticstraffic.d.R;
 import com.bt.zhangzy.logisticstraffic.data.Car;
-import com.bt.zhangzy.logisticstraffic.data.CarPayStatus;
 import com.bt.zhangzy.logisticstraffic.data.CarRunStatus;
 import com.bt.zhangzy.logisticstraffic.data.Driver;
 import com.bt.zhangzy.logisticstraffic.data.OrderDetailMode;
@@ -364,7 +363,7 @@ public class MotorcadeActivity extends BaseActivity {
                                 if (driver.getId() == jsonCar.getDriverId()) {
                                     Car car = new Car(jsonCar);
                                     //过滤车辆的状态
-                                    if (car.getPayStatus() == CarPayStatus.PaymentReceived) {
+                                    if (car.isPay()) {
                                         if (car.getRunStatus() == CarRunStatus.Leisure)
                                             //过滤掉没有驾驶员的
 //                                            if (car.getPilotId() > 0) {

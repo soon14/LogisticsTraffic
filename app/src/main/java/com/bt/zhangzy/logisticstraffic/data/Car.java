@@ -184,6 +184,20 @@ public class Car implements Parcelable {
         return CarPayStatus.Parse(payStatus);
     }
 
+
+    /**
+     * 检测车辆是否到期
+     *
+     * @return
+     */
+    public boolean isPay() {
+        if (getPayStatus() == CarPayStatus.PaymentReceived) {
+            //计算时间
+            return this.expireDate == null ? false : this.expireDate.getTime() > System.currentTimeMillis();
+        } else
+            return false;
+    }
+
     public String getPayStatusName() {
         switch (getPayStatus()) {
             case NonPayment:

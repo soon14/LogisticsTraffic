@@ -26,6 +26,7 @@
             android:textColor="@color/orange"
             android:clickable="true"
             android:onClick="onClick_Pay"
+            android:textSize="26sp"
             android:padding="10dp" />
 
         <!-- body -->

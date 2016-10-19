@@ -237,9 +237,10 @@
                         android:background="@color/white"
                         android:clickable="true"
                         android:hint="合同编号信息"
-                        android:maxLines="4"
+                        android:maxLines="1"
                         android:minLines="1"
-                        android:singleLine="false"
+                        android:maxLength="30"
+                        android:singleLine="true"
                         android:text="" />
                 </TableRow>
 
