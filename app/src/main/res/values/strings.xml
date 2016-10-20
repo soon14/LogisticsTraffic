@@ -17,8 +17,10 @@
     <string name="upload_verify_info">您的信息已经上传到后台，需要3-5天进行信息审核，请耐心等待。谢谢使用易运通。</string>
     <string name="register_success_info">您的初始登录密码为注册手机号的后6位,请您牢记或及时修改!</string>
 
-    <string name="need_driver_size">还需要选择%d辆车</string>
-    <string name="need_driver_overtop_size">多选了%d辆车</string>
+    <string name="need_driver_size">请选择车辆</string>
+
+    <!--<string name="need_driver_size">还需要选择%d辆车</string>-->
+    <!--<string name="need_driver_overtop_size">多选了%d辆车</string>-->
 
     <string name="select_driver_failed">已经选够%d人</string>
     <string name="item_call_times_template">拨打%s次</string>

@@ -53,7 +53,7 @@ public class MotorcadeActivity extends BaseActivity {
     boolean isShowLoadingDriver = false;//显示司机的运输状态
     private ArrayList<ResponseAllocationDriver> selectDriverListFromOrder;// 待选司机列表
     private ArrayList<Driver> selectedDrivers;
-    private int needSelectDriverSize; //需要选择的司机数量
+//    private int needSelectDriverSize; //需要选择的司机数量
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class MotorcadeActivity extends BaseActivity {
                 if (bundle.getInt(AppParams.RESULT_CODE_KEY) == AppParams.RESULT_CODE_SELECT_DEVICES) {
                     isSelectDriver = true;
                     //需要选择的司机数量
-                    needSelectDriverSize = bundle.getInt(AppParams.SELECT_DEVICES_SIZE_KEY);
+//                    needSelectDriverSize = bundle.getInt(AppParams.SELECT_DEVICES_SIZE_KEY);
                     selectedDrivers = bundle.getParcelableArrayList(AppParams.SELECTED_DRIVERS_LIST);
                 } else if (bundle.getInt(AppParams.RESULT_CODE_KEY) == AppParams.RESULT_CODE_ACCEPT_DRIVERS) {
                     //展示司机 的 运输状态
@@ -252,22 +252,22 @@ public class MotorcadeActivity extends BaseActivity {
      */
     public void onClick_FinishSelect(View view) {
         if (selectedDrivers == null) {
-            showToast(getString(R.string.need_driver_size, needSelectDriverSize));
+            showToast(getString(R.string.need_driver_size/*, needSelectDriverSize*/));
             return;
         }
-        int select_size = 0;
-        for (Driver driver : selectedDrivers) {
-            select_size += driver.getSelectCarNum();
-        }
-        if (select_size != needSelectDriverSize) {
-            int tmp = needSelectDriverSize - select_size;
-            if (tmp > 0)
-                showToast(getString(R.string.need_driver_size, tmp));
-            else
-                showToast(getString(R.string.need_driver_overtop_size, -tmp));
-
-            return;
-        }
+//        int select_size = 0;
+//        for (Driver driver : selectedDrivers) {
+//            select_size += driver.getSelectCarNum();
+//        }
+//        if (select_size != needSelectDriverSize) {
+//            int tmp = needSelectDriverSize - select_size;
+//            if (tmp > 0)
+//                showToast(getString(R.string.need_driver_size, tmp));
+//            else
+//                showToast(getString(R.string.need_driver_overtop_size, -tmp));
+//
+//            return;
+//        }
         Intent intent = new Intent();
         intent.putParcelableArrayListExtra(AppParams.SELECTED_DRIVERS_LIST, selectedDrivers);
 //                    intent.putExtra(Constant.RESULT_CODE_KEY,people);

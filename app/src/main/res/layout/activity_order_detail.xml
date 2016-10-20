@@ -7,13 +7,35 @@
     android:orientation="vertical"
     tools:context=".activity.OrderDetailActivity">
 
-    <include layout="@layout/page_top" />
+    <!--<include layout="@layout/page_top" />-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/page_top" />
+        <!-- 选择 车队司机 -->
+        <ImageButton
+            android:id="@+id/order_detail_location_driver_bt"
+            style="@style/tx_black_df_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:background="@color/transparent"
+            android:onClick="onClick_LocationDriverBtn"
+            android:paddingLeft="20dp"
+            android:paddingRight="25dp"
+            android:src="@drawable/location_bt_selector" />
+
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="5dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:paddingBottom="5dp">
 
         <TableLayout
             android:layout_width="match_parent"
@@ -141,7 +163,9 @@
                         android:onClick="onClick_ChangeType" />
 
                 </TableRow>
+
                 <View style="@style/line_style_horizontal" />
+
                 <TableRow
                     android:layout_marginBottom="3dp"
                     android:layout_marginTop="3dp">
@@ -187,33 +211,34 @@
                         android:text="方" />
                 </TableRow>
 
-                <View style="@style/line_style_horizontal" />
+                <!-- 作废车辆数字段 @zhangzy 2016年10月20日 -->
+                <!--<View style="@style/line_style_horizontal" />-->
 
-                <TableRow>
+                <!--<TableRow>-->
 
-                    <TextView
-                        style="@style/tx_order_style"
-                        android:gravity="right"
-                        android:text="需要车数：" />
+                <!--<TextView-->
+                <!--style="@style/tx_order_style"-->
+                <!--android:gravity="right"-->
+                <!--android:text="需要车数：" />-->
 
-                    <TextView
-                        android:id="@+id/order_detail_driver_size_ed"
-                        style="@style/tx_order_style"
-                        android:background="@color/transparent"
-                        android:hint="需要的车辆总数"
-                        android:inputType="number"
-                        android:maxLength="2"
-                        android:onClick="onClick_InputDriverCount" />
-                    <!-- 选择 车队司机 -->
-                    <ImageButton
-                        android:id="@+id/order_detail_location_driver_bt"
-                        style="@style/tx_order_style"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="15dp"
-                        android:background="@color/transparent"
-                        android:onClick="onClick_LocationDriverBtn"
-                        android:src="@drawable/add_devices" />
-                </TableRow>
+                <!--<TextView-->
+                <!--android:id="@+id/order_detail_driver_size_ed"-->
+                <!--style="@style/tx_order_style"-->
+                <!--android:background="@color/transparent"-->
+                <!--android:hint="需要的车辆总数"-->
+                <!--android:inputType="number"-->
+                <!--android:maxLength="2"-->
+                <!--android:onClick="onClick_InputDriverCount" />-->
+                <!--&lt;!&ndash; 选择 车队司机 &ndash;&gt;-->
+                <!--<ImageButton-->
+                <!--android:id="@+id/order_detail_location_driver_bt"-->
+                <!--style="@style/tx_order_style"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginRight="15dp"-->
+                <!--android:background="@color/transparent"-->
+                <!--android:onClick="onClick_LocationDriverBtn"-->
+                <!--android:src="@drawable/location_bt_selector" />-->
+                <!--</TableRow>-->
 
                 <View
                     android:id="@+id/order_detail_no_line"
@@ -237,9 +262,9 @@
                         android:background="@color/white"
                         android:clickable="true"
                         android:hint="合同编号信息"
+                        android:maxLength="30"
                         android:maxLines="1"
                         android:minLines="1"
-                        android:maxLength="30"
                         android:singleLine="true"
                         android:text="" />
                 </TableRow>
@@ -304,16 +329,16 @@
             <Button
                 android:id="@+id/order_detail_select_driver_bt"
                 style="@style/order_button_style"
-                android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:onClick="onClick_SelectDriverBtn"
                 android:text="选择司机" />
             <!-- to do 交易中的 司机列表-->
             <Button
                 android:id="@+id/order_detail_drivers_list_bt"
                 style="@style/order_button_style"
-                android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:onClick="onClick_DriverList"
                 android:text="司机列表" />
 

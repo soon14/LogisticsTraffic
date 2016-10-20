@@ -121,14 +121,14 @@ public class JsonOrder extends BaseEntity implements Parcelable, Comparable<Json
     };
 
     /*==================================*/
-
-    public int getDriverCount() {
-        return driverCount;
-    }
-
-    public void setDriverCount(int driverCount) {
-        this.driverCount = driverCount;
-    }
+    //作废车辆数 @zhangzy 2016年10月20日
+//    public int getDriverCount() {
+//        return driverCount;
+//    }
+//
+//    public void setDriverCount(int driverCount) {
+//        this.driverCount = driverCount;
+//    }
 
     public int getId() {
         return id;

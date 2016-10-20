@@ -46,10 +46,10 @@ android {
             buildConfigField "boolean", "APP_DEBUG", "true"
 
 //            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8070"]
-            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8080", APP_LVJ: true]
+//            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net:8080", APP_LVJ: true]
 //            manifestPlaceholders = [APP_HOST_VALUE: "http://www.yyt56.net"]
 //            manifestPlaceholders = [APP_HOST_VALUE: "http://182.92.77.31:8080"]
-//            manifestPlaceholders = [APP_HOST_VALUE: "http://192.168.1.7:8080",APP_LVJ: true]
+            manifestPlaceholders = [APP_HOST_VALUE: "http://192.168.1.7:8080",APP_LVJ: true]
 //            manifestPlaceholders = [APP_HOST_VALUE: "http://192.168.1.99:9080",APP_LVJ: true]
 //            manifestPlaceholders = [APP_HOST_VALUE: "http://test.wllm168.com"]
 

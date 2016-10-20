@@ -176,7 +176,7 @@ public class OrderDetailActivity extends BaseActivity {
 //        Location loc = user.getLocation();
 //        if (loc != null && !TextUtils.isEmpty(loc.getCityName()))
 //            jsonOrder.setStartCity(loc.toText());
-        jsonOrder.setDriverCount(1);
+//        jsonOrder.setDriverCount(1);
         jsonOrder.setStatus(OrderStatus.TempOrder);
         jsonOrder.setDeliverDate(new Date());
         if (user.getUserType() == Type.CompanyInformationType) {
@@ -267,8 +267,8 @@ public class OrderDetailActivity extends BaseActivity {
         }
         if (jsonOrder.getDeliverDate() != null)
             setTextView(R.id.order_detail_start_date, Tools.toStringDate(jsonOrder.getDeliverDate()));
-        if (jsonOrder.getDriverCount() > 0)
-            setTextView(R.id.order_detail_driver_size_ed, String.valueOf(jsonOrder.getDriverCount()));
+//        if (jsonOrder.getDriverCount() > 0)
+//            setTextView(R.id.order_detail_driver_size_ed, String.valueOf(jsonOrder.getDriverCount()));
 //        setTextView(R.id.order_detail_volume_tx,jsonOrder.getGoodsVolume());
 
         //线路初始化
@@ -518,7 +518,7 @@ public class OrderDetailActivity extends BaseActivity {
                 if (jsonOrder != null && jsonOrder.getCompanyId() != 0) {
                     findViewById(R.id.order_detail_select_driver_bt).setVisibility(View.GONE);
                     //给物流公司下单时 不能选择用车数量
-                    findViewById(R.id.order_detail_driver_size_ed).setEnabled(false);
+//                    findViewById(R.id.order_detail_driver_size_ed).setEnabled(false);
                 }
                 break;
             case UntreatedMode://未提交订单
@@ -806,26 +806,26 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
 
-    public void onClick_InputDriverCount(View view) {
-        if (cannotEditStatus())
-            return;
-        new InputDialog(this)
-                .setInputType(InputType.TYPE_CLASS_NUMBER)
-                .setEditHintString("请输入需要的司机数量")
-                .setInputLength(2)
-                .setCallback(new InputDialog.Callback() {
-                    @Override
-                    public void inputCallback(String string) {
-                        if (string != null && string.length() < 3) {
-                            updateJsonOrder = true;
-                            setTextView(R.id.order_detail_driver_size_ed, string);
-                            jsonOrder.setDriverCount(Integer.valueOf(string));
-                        } else {
-                            showToast("司机数量错误！");
-                        }
-                    }
-                }).show();
-    }
+//    public void onClick_InputDriverCount(View view) {
+//        if (cannotEditStatus())
+//            return;
+//        new InputDialog(this)
+//                .setInputType(InputType.TYPE_CLASS_NUMBER)
+//                .setEditHintString("请输入需要的司机数量")
+//                .setInputLength(2)
+//                .setCallback(new InputDialog.Callback() {
+//                    @Override
+//                    public void inputCallback(String string) {
+//                        if (string != null && string.length() < 3) {
+//                            updateJsonOrder = true;
+//                            setTextView(R.id.order_detail_driver_size_ed, string);
+//                            jsonOrder.setDriverCount(Integer.valueOf(string));
+//                        } else {
+//                            showToast("司机数量错误！");
+//                        }
+//                    }
+//                }).show();
+//    }
 
     /**
      * 体积
@@ -874,13 +874,13 @@ public class OrderDetailActivity extends BaseActivity {
     /**
      * 车队页面跳转
      *
-     * @param needDriverNum
+//     * @param needDriverNum
      * @param list          待选司机列表；如果是从车队选择填null
      */
-    private void gotoSelectDriver(int needDriverNum, ArrayList<ResponseAllocationDriver> list) {
+    private void gotoSelectDriver(/*int needDriverNum,*/ ArrayList<ResponseAllocationDriver> list) {
         Bundle bundle = new Bundle();
         bundle.putInt(AppParams.RESULT_CODE_KEY, AppParams.RESULT_CODE_SELECT_DEVICES);
-        bundle.putInt(AppParams.SELECT_DEVICES_SIZE_KEY, needDriverNum);
+//        bundle.putInt(AppParams.SELECT_DEVICES_SIZE_KEY, needDriverNum);
         if (list != null && !list.isEmpty())
             bundle.putStringArrayList(AppParams.SELECT_DRIVES_LIST_KEY, BaseEntity.ParseArrayToString(list));
         if (selectedDrivers != null && !selectedDrivers.isEmpty())
@@ -940,17 +940,17 @@ public class OrderDetailActivity extends BaseActivity {
             //to do 订单分配中 这里需要请求 抢单成功的司机列表
 //            showToast("订单分配中 这里需要请求 抢单成功的司机列表");
             if (allocationList != null && !allocationList.isEmpty())
-                gotoSelectDriver(jsonOrder.getDriverCount(), allocationList);
+                gotoSelectDriver(/*jsonOrder.getDriverCount(),*/ allocationList);
             else
                 showToast("还没接单的司机！");
             return;
         } else {
-            int needDriverNum = getNeedDriverNum();
-            if (needDriverNum < 0) {
-                showToast("请先填写车辆数");
-                return;
-            }
-            gotoSelectDriver(needDriverNum, null);
+//            int needDriverNum = getNeedDriverNum();
+//            if (needDriverNum < 0) {
+//                showToast("请先填写车辆数");
+//                return;
+//            }
+            gotoSelectDriver(/*needDriverNum,*/ null);
         }
     }
 
@@ -1088,11 +1088,11 @@ public class OrderDetailActivity extends BaseActivity {
 
     //提交订单 --物流公司
     private void submitOrder_Company() {
-        TextView need_driver_size = (TextView) findViewById(R.id.order_detail_driver_size_ed);
-        if (TextUtils.isEmpty(need_driver_size.getText())) {
-            showToast("司机数量未填写");
-            return;
-        }
+//        TextView need_driver_size = (TextView) findViewById(R.id.order_detail_driver_size_ed);
+//        if (TextUtils.isEmpty(need_driver_size.getText())) {
+//            showToast("司机数量未填写");
+//            return;
+//        }
 
         if (updateJsonOrder) {
             //先修改订单内容
@@ -1552,13 +1552,13 @@ public class OrderDetailActivity extends BaseActivity {
         });
     }
 
-    private int getNeedDriverNum() {
-        String num_str = getStringFromTextView(R.id.order_detail_driver_size_ed);
-        if (TextUtils.isEmpty(num_str)) {
-            return -1;
-        }
-        return Integer.valueOf(num_str);
-    }
+//    private int getNeedDriverNum() {
+//        String num_str = getStringFromTextView(R.id.order_detail_driver_size_ed);
+//        if (TextUtils.isEmpty(num_str)) {
+//            return -1;
+//        }
+//        return Integer.valueOf(num_str);
+//    }
 
 
     private void requestUploadLocation() {
