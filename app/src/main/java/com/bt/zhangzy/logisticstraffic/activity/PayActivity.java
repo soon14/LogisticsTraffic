@@ -51,11 +51,10 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
         payMethodGroup.check(R.id.pay_method_zhifubao);
 
         if (AppParams.APP_LVJ) {
-            setTextView(R.id.pay_select_1y, getString(R.string.pay_one_day_info));
-            findViewById(R.id.pay_select_2y).setVisibility(View.GONE);
-            findViewById(R.id.pay_select_3y).setVisibility(View.GONE);
+            setTextView(R.id.pay_select_1d, getString(R.string.pay_one_day_info));
 
         } else {
+            findViewById(R.id.pay_select_1d).setVisibility(View.GONE);
             TextView textView = (TextView) findViewById(R.id.pay_select_2y);
             textView.setText(Html.fromHtml(getString(R.string.pay_two_info)));
             textView = (TextView) findViewById(R.id.pay_select_3y);
@@ -72,11 +71,11 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (group == payGroup) {
             switch (checkedId) {
+                case R.id.pay_select_1d:
+                    payMoney = 20;
+                    break;
                 case R.id.pay_select_1y:
-                    if (AppParams.APP_LVJ)
-                        payMoney = 20;
-                    else
-                        payMoney = 120;
+                    payMoney = 120;
                     break;
                 case R.id.pay_select_2y:
                     payMoney = 216;

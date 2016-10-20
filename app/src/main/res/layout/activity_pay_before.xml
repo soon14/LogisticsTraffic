@@ -21,6 +21,15 @@
         android:layout_marginRight="10dp">
 
         <RadioButton
+            android:id="@+id/pay_select_1d"
+            style="@style/black_tx_style_12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableRight="@android:drawable/btn_radio"
+            android:paddingLeft="10dp"
+            android:text="@string/pay_one_day_info" />
+        <RadioButton
             android:id="@+id/pay_select_1y"
             style="@style/black_tx_style_12sp"
             android:layout_width="match_parent"
