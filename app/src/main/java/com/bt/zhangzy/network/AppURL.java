@@ -51,6 +51,7 @@ http://182.92.77.31:8080/img/phone/softan.png
      * 意见反馈页面
      */
     APP_FEEDBACK("/iphoneaudit/Feedback.html"),
+    APP_FEEDBACK_FOR_LJ("/iphoneaudit/Feedbacklj.html"),
 
 
     /*=============支付 接口=======================*/

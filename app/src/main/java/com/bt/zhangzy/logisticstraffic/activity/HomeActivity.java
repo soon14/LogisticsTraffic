@@ -662,7 +662,11 @@ public class HomeActivity extends BaseActivity {
     public void onClick_Feedback(View view) {
         Bundle bundle = new Bundle();
         bundle.putString(AppParams.WEB_PAGE_NAME, "意见反馈");
-        bundle.putString(AppParams.WEB_PAGE_URL, AppURL.APP_FEEDBACK.toString());
+        if(AppParams.APP_LVJ){
+            bundle.putString(AppParams.WEB_PAGE_URL, AppURL.APP_FEEDBACK_FOR_LJ.toString());
+        }else {
+            bundle.putString(AppParams.WEB_PAGE_URL, AppURL.APP_FEEDBACK.toString());
+        }
         startActivity(WebViewActivity.class, bundle);
     }
 
