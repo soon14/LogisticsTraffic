@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -63,7 +64,13 @@ public class MyReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
-            Toast.makeText(context, "接收到推送下来的通知的ID: " + notifactionId, Toast.LENGTH_LONG).show();
+            String key = "cn.jpush.android.ALERT";
+            if (bundle.containsKey(key)) {
+                String msg = bundle.getString(key);
+                if (!TextUtils.isEmpty(msg)) {
+                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+                }
+            }
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
