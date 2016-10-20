@@ -873,9 +873,10 @@ public class OrderDetailActivity extends BaseActivity {
 
     /**
      * 车队页面跳转
+     * <p/>
+     * //     * @param needDriverNum
      *
-//     * @param needDriverNum
-     * @param list          待选司机列表；如果是从车队选择填null
+     * @param list 待选司机列表；如果是从车队选择填null
      */
     private void gotoSelectDriver(/*int needDriverNum,*/ ArrayList<ResponseAllocationDriver> list) {
         Bundle bundle = new Bundle();
@@ -920,7 +921,7 @@ public class OrderDetailActivity extends BaseActivity {
     //选择 司机 call车
     public void onClick_SelectDriverBtn(View view) {
         if (User.getInstance().getUserType() == Type.DriverType) {
-            if (driver==null || driver.getListCar() == null || driver.getListCar().isEmpty()) {
+            if (driver == null || driver.getListCar() == null || driver.getListCar().isEmpty()) {
                 showToast("没有相关车辆");
                 return;
             }
@@ -1381,12 +1382,12 @@ public class OrderDetailActivity extends BaseActivity {
             @Override
             public void onSuccess(String msg, String result) {
                 showToast("CALL车成功");
-                List<JsonOrderHistory> list_order = ParseJson_Array(result, JsonOrderHistory.class);
+              /*  List<JsonOrderHistory> list_order = ParseJson_Array(result, JsonOrderHistory.class);
 //                ArrayList<Integer> list = new ArrayList<Integer>();
 //                for (JsonOrderHistory json : list_order) {
 //                    list.add(json.getId());
 //                }
-                requestAllocation(list_order);
+                requestAllocation(list_order);*/
                 finish();
             }
 
