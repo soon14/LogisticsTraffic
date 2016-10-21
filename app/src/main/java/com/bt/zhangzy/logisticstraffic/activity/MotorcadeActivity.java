@@ -303,7 +303,7 @@ public class MotorcadeActivity extends BaseActivity {
                 }
 
                 dialog.cancel();
-                requestAddDriver(phone.getText().toString());
+                requestAddDriver(phone.getText().toString().trim());
             }
 
 
