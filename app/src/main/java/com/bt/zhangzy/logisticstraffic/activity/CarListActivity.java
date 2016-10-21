@@ -42,7 +42,7 @@ public class CarListActivity extends BaseActivity {
 
         if (getIntent().hasExtra(AppParams.DRIVER_LOOK_ORDER_CARS)) {
             carArrayList = getIntent().getParcelableArrayListExtra(AppParams.DRIVER_LOOK_ORDER_CARS);
-            setPageName("订单相关车辆" );
+            setPageName("订单相关车辆");
         }
 
         if (!isDriverSelectCarsMode) {
@@ -67,7 +67,7 @@ public class CarListActivity extends BaseActivity {
         carListFragment.setCarArrayList(carArrayList);
         fragments.add(carListFragment);
 
-        if (!isDriverSelectCarsMode && carArrayList==null) {
+        if (!isDriverSelectCarsMode && carArrayList == null) {
             //驾驶员列表数据设置
             DriverListFragment driverListFragment = new DriverListFragment();
             fragments.add(driverListFragment);
@@ -178,7 +178,8 @@ public class CarListActivity extends BaseActivity {
      * @param view
      */
     public void onClick_AllCheck(View view) {
-        carListFragment.setAllCheck();
+        if (carListFragment != null)
+            carListFragment.setAllCheck();
     }
 
     /**

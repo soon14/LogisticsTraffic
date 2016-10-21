@@ -95,7 +95,7 @@ public class CarListFragment extends Fragment {
         }
         listView = (ListView) view.findViewById(R.id.car_list_listView);
 //        listView.setAdapter(new OrderListAdapter(false));
-        if (carArrayList == null|| User.getInstance().getUserType()== Type.DriverType)
+        if (carArrayList == null || User.getInstance().getUserType() == Type.DriverType)
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -173,7 +173,8 @@ public class CarListFragment extends Fragment {
      * 设置全选
      */
     public void setAllCheck() {
-        adapter.allCheck();
+        if (adapter != null)
+            adapter.allCheck();
     }
 
 
@@ -219,7 +220,7 @@ public class CarListFragment extends Fragment {
                         if (car.getRunStatus() == CarRunStatus.Leisure)
                             //过滤掉没有驾驶员的
 //                            if (car.getPilotId() > 0) {
-                                ls.add(car);
+                            ls.add(car);
 //                            }
 
                     }
