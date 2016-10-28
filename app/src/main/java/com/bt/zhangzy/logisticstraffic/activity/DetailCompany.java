@@ -147,10 +147,13 @@ public class DetailCompany extends BaseActivity {
         Location location = User.getInstance().getLocation();
         final JsonCompany jsonCompany = this.jsonCompany.getCompany();
         if (location != null && jsonCompany != null) {
-            float latitude = Float.valueOf(location.getLatitude());
-            float longitude = Float.valueOf(location.getLongitude());
-            if (jsonCompany.getLatitude() != 0 && jsonCompany.getLongitude() != 0)
-                distance = Tools.ComputeDistance(latitude, longitude, jsonCompany.getLatitude(), jsonCompany.getLongitude());
+            if (location.getLatitude() != null && location.getLongitude() != null) {
+                float latitude = Float.valueOf(location.getLatitude());
+                float longitude = Float.valueOf(location.getLongitude());
+                if (jsonCompany.getLatitude() != 0 && jsonCompany.getLongitude() != 0)
+                    distance = Tools.ComputeDistance(latitude, longitude, jsonCompany.getLatitude(), jsonCompany.getLongitude());
+
+            }
         }
         runOnUiThread(new Runnable() {
             @Override
