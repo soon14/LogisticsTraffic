@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
+    tools:context="com.bt.zhangzy.logisticstraffic.activity.MainActivity">
 
      <Button
          android:id="@+id/test_tag"

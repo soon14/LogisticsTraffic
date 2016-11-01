@@ -68,7 +68,7 @@ public class LogisticsTrafficApplication extends Application {
         ImageHelper.getInstance().init(this);
 
         //Bugly 初始化；
-        BuglySDK.getInstance().init(this,AppParams.DEBUG);
+        BuglySDK.getInstance().init(this,false);
 
         //先放在这里，后期如果数据加载时间过长 可以考虑放到别的位置！或者增加异步线程
 //        LoadAppData();
@@ -85,7 +85,6 @@ public class LogisticsTrafficApplication extends Application {
             LBSTraceSDK.getInstance().initApplication(this);
         }
     }
-
 
 
     public String getVersionName() {

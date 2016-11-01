@@ -5,6 +5,7 @@ import android.content.Context;
 import com.tencent.bugly.crashreport.CrashReport;
 
 /**
+ * 方法封装
  * Created by ZhangZy on 2016-8-6.
  */
 public class BuglySDK {

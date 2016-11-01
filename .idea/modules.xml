@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LogisticsTraffic.iml" filepath="$PROJECT_DIR$/LogisticsTraffic.iml" />
-      <module fileurl="file://$PROJECT_DIR$/LogisticsTraffic-master.iml" filepath="$PROJECT_DIR$/LogisticsTraffic-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/alipay/alipay.iml" filepath="$PROJECT_DIR$/alipay/alipay.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/baidusdk/baidusdk.iml" filepath="$PROJECT_DIR$/baidusdk/baidusdk.iml" />
