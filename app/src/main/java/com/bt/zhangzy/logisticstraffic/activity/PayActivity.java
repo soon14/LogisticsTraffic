@@ -96,8 +96,8 @@ public class PayActivity extends BaseActivity implements RadioGroup.OnCheckedCha
     }
 
     public void onClick_Pay(View view) {
-        if (AppParams.DEBUG)
-            payMoney = 0.01;
+//        if (AppParams.DEBUG)
+//            payMoney = 0.01;
         String message = "您需要支付费用：" + payMoney + "元";
 
         switch (payMethodGroup.getCheckedRadioButtonId()) {
